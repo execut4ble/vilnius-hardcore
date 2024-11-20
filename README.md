@@ -1,3 +1,7 @@
+# Venue Events app
+
+Simple events agenda app for a DIY music venue. Mostly as a means to learn Svelte, SvelteKit and TypeScript, but maybe it'll end up being used at some place, sometime.
+
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
