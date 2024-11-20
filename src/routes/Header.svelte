@@ -9,9 +9,9 @@
 </script>
 
 <header>
-  <span class="welcome figlet"><pre>{welcomeTitle}</pre></span>
+  <figlet><pre>{welcomeTitle}</pre></figlet>
   <div class="description">
-    <span class="dim">{description}</span><span class="cursor">&nbsp;</span>
+    <span>{description}</span><span class="cursor">&nbsp;</span>
   </div>
 </header>
 
@@ -23,9 +23,11 @@
     align-items: center;
   }
 
-  .welcome.figlet pre {
+  figlet pre {
     color: #0f0;
     background-color: rgba(0, 0, 0, 0);
+    margin-bottom: 0;
+    font-weight: 800;
   }
 
   .description {
