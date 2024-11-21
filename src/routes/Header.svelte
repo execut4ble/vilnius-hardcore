@@ -43,8 +43,26 @@
     -moz-animation: blink 2s linear 0s infinite;
     -ms-animation: blink 2s linear 0s infinite;
     -o-animation: blink 2s linear 0s infinite;
+    animation: blink 2s linear 0s infinite;
   }
 
+  @keyframes blink {
+    0% {
+      background: #0a0;
+    }
+    47% {
+      background: #090;
+    }
+    50% {
+      background: #000;
+    }
+    97% {
+      background: #000;
+    }
+    100% {
+      background: #090;
+    }
+  }
   @-webkit-keyframes blink {
     0% {
       background: #0a0;
