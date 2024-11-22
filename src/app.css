@@ -106,6 +106,12 @@ strong {
   color: var(--color-text-2);
 }
 
+a:hover strong {
+  background: #0f0;
+  color: #111;
+  text-decoration: none;
+}
+
 .dim {
   color: var(--color-text-3);
 }

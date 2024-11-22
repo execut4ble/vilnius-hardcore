@@ -65,10 +65,9 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     text-decoration: none;
-    transition: color 0.2s linear;
   }
 
-  a:hover {
-    color: var(--color-theme-1);
+  nav a:hover {
+    color: #111;
   }
 </style>

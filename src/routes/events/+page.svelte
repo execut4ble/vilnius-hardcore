@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types";
+  import Event from "./Event.svelte";
 
   let { data }: { data: PageData } = $props();
 </script>
@@ -14,10 +15,14 @@
   <ul class="eventList">
     {#each data.events as event}
       <li>
-        <h2><strong>{event.title}</strong></h2>
-        {event.date}
-        <p>{event.description}</p>
+        <Event {...event} />
       </li>
     {/each}
   </ul>
 </section>
+
+<style>
+  ul.eventList li {
+    list-style: none;
+  }
+</style>
