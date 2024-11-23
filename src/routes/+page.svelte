@@ -1,5 +1,8 @@
 <script lang="ts">
-  import Counter from "./Counter.svelte";
+  import Event from "./events/Event.svelte";
+  import type { PageData } from "./$types";
+
+  let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
@@ -8,18 +11,28 @@
 </svelte:head>
 
 <section>
-  <h2>
-    <strong>Current events</strong>
+  <h2 class="upcoming">
+    <strong>Upcoming events</strong>
   </h2>
-  <Counter />
+
+  {#if data.events.length === 0}
+    <p>We have no upcoming events right now! Check back later!</p>
+  {/if}
+  <ul class="eventList">
+    {#each data.events as event}
+      <li>
+        <Event {...event} />
+      </li>
+    {/each}
+  </ul>
 </section>
 
 <style>
-  section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 0.6;
+  h2.upcoming {
+    text-align: center;
+  }
+
+  ul.eventList li {
+    list-style: none;
   }
 </style>
