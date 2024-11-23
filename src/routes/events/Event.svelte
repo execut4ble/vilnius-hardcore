@@ -1,10 +1,7 @@
 <script lang="ts">
-  const event: {
-    date: Date;
-    title: String;
-    slug: String;
-    description: String;
-  } = $props();
+  import type { VenueEvent } from "$lib/types";
+
+  const event: VenueEvent = $props();
 
   const date: Date = new Date(event.date);
 

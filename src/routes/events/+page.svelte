@@ -1,8 +1,19 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import Event from "./Event.svelte";
+  import type { VenueEvent } from "$lib/types";
 
   let { data }: { data: PageData } = $props();
+
+  const events: Array<VenueEvent> = $state(data.events as Array<VenueEvent>);
+
+  const upcomingEvents: Array<VenueEvent> = $derived(
+    events.filter((event) => event.date > new Date())
+  );
+
+  const pastEvents: Array<VenueEvent> = $derived(
+    events.filter((event) => event.date < new Date()).reverse()
+  );
 </script>
 
 <svelte:head>
@@ -12,8 +23,18 @@
 
 <section>
   <h1>Events</h1>
+  <h2><strong>Upcoming events</strong></h2>
   <ul class="eventList">
-    {#each data.events as event}
+    {#each upcomingEvents as event}
+      <li>
+        <Event {...event} />
+      </li>
+    {/each}
+  </ul>
+
+  <h2><strong>Past events</strong></h2>
+  <ul class="eventList">
+    {#each pastEvents as event}
       <li>
         <Event {...event} />
       </li>
