@@ -13,5 +13,5 @@
 </svelte:head>
 
 <section>
-  <Event {...event} />
+  <Event {...event} detailed={true} />
 </section>

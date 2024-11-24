@@ -27,7 +27,7 @@
   <ul class="eventList">
     {#each upcomingEvents as event}
       <li>
-        <Event {...event} />
+        <Event {...event} detailed={false} />
       </li>
     {/each}
   </ul>
@@ -36,7 +36,7 @@
   <ul class="eventList">
     {#each pastEvents as event}
       <li>
-        <Event {...event} />
+        <Event {...event} detailed={false} />
       </li>
     {/each}
   </ul>

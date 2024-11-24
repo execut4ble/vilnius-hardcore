@@ -3,4 +3,6 @@ export type VenueEvent = {
     title: string;
     slug: string;
     description: string;
+    detailed: boolean;
+    image: string;
 };

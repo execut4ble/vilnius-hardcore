@@ -11,37 +11,47 @@
 </script>
 
 <div class="event">
-  <div class="date">
-    <div class="month">
-      {month}
+  {#if event.detailed && event.image}
+    <img src={event.image} alt={event.title} />
+  {/if}
+  <div class="eventRow">
+    <div class="date">
+      <div class="month">
+        {month}
+      </div>
+      <div class="day">
+        <strong>{day}</strong>
+      </div>
+      <div class="year">
+        {year}
+      </div>
     </div>
-    <div class="day">
-      <strong>{day}</strong>
+    <div class="eventInfo">
+      <div class="title">
+        <h2>
+          <a href="/events/{event.slug}"><strong>{event.title}</strong></a>
+        </h2>
+        <p>{date.toUTCString()}</p>
+      </div>
+      <div class="eventBody">
+        {event.description}
+      </div>
     </div>
-    <div class="year">
-      {year}
-    </div>
-  </div>
-  <div class="eventInfo">
-    <div class="title">
-      <h2><a href="/events/{event.slug}"><strong>{event.title}</strong></a></h2>
-      <p>{date.toUTCString()}</p>
-    </div>
-    <div class="eventBody">
-      {event.description}
-    </div>
+    {#if !event.detailed && event.image}
+      <img class="preview" src={event.image} alt={event.title} />
+    {/if}
   </div>
 </div>
 
 <style>
-  div.event {
+  div.eventRow {
     display: flex;
     flex-direction: row;
     gap: 1em;
     margin-bottom: 2em;
   }
 
-  div.event .date {
+  div.eventRow .date {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -51,12 +61,27 @@
     margin: 1em;
   }
 
-  div.event .date .day {
+  div.eventRow .date .day {
     font-size: 20pt;
   }
 
-  div.event .date .month {
+  div.eventRow .date .month {
     text-transform: uppercase;
+  }
+
+  div.event img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  div.event img.preview {
+    width: 12em;
+    border-radius: 10px;
+    height: fit-content;
+  }
+
+  div.eventInfo {
+    flex-grow: 1;
   }
 
   .eventBody {

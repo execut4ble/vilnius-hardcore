@@ -21,7 +21,7 @@
   <ul class="eventList">
     {#each data.events as event}
       <li>
-        <Event {...event} />
+        <Event {...event} detailed={false} />
       </li>
     {/each}
   </ul>
