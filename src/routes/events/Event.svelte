@@ -1,18 +1,28 @@
 <script lang="ts">
   import type { VenueEvent } from "$lib/types";
+  import Fa from "svelte-fa";
+  import { faPenToSquare, faSave } from "@fortawesome/free-solid-svg-icons";
+  import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
 
   const event: VenueEvent = $props();
 
   const date: Date = new Date(event.date);
-
   const year: Number = date.getUTCFullYear();
   const month: String = date.toLocaleString("en-us", { month: "short" });
   const day: Number = date.getUTCDate();
+
+  let title = $state(event.title);
+  let isEditing = $state(false);
+
+  function handleToggleEdit(value: boolean) {
+    isEditing = value;
+  }
 </script>
 
 <div class="event">
   {#if event.detailed && event.image}
-    <img src={event.image} alt={event.title} />
+    <img src={event.image} alt={title} />
   {/if}
   <div class="eventRow">
     <div class="date">
@@ -28,9 +38,38 @@
     </div>
     <div class="eventInfo">
       <div class="title">
-        <h2>
-          <a href="/events/{event.slug}"><strong>{event.title}</strong></a>
-        </h2>
+        {#if event.detailed && isEditing}
+          <form
+            method="POST"
+            action="?/update_title"
+            autocomplete="off"
+            use:enhance={({ formElement, formData, action, cancel }) => {
+              return async ({ result }) => {
+                // Update slug param on the client
+                const newSlug = result.data[0].slug; // TODO: Fix types
+                goto(newSlug, { noScroll: true });
+                isEditing = false;
+              };
+            }}
+          >
+            <input name="title" bind:value={title} />
+            {#if event.detailed && isEditing}
+              <br />
+              <button type="submit" class="post action"
+                ><Fa icon={faSave} /> save</button
+              >
+            {/if}
+          </form>
+        {:else}
+          <h2>
+            <a href="/events/{event.slug}"><strong>{title}</strong></a>
+          </h2>
+          {#if event.detailed}
+            <button class="post action" onclick={() => handleToggleEdit(true)}
+              ><Fa icon={faPenToSquare} /> edit</button
+            >
+          {/if}
+        {/if}
         <p>{date.toUTCString()}</p>
       </div>
       <div class="eventBody">
@@ -38,7 +77,7 @@
       </div>
     </div>
     {#if !event.detailed && event.image}
-      <img class="preview" src={event.image} alt={event.title} />
+      <img class="preview" src={event.image} alt={title} />
     {/if}
   </div>
 </div>
@@ -86,5 +125,15 @@
 
   .eventBody {
     white-space: pre-line;
+  }
+
+  div.eventInfo .title form input {
+    margin-top: 0.83em;
+    margin-bottom: 0.5em;
+    background-color: #222;
+    border: none;
+    color: #0c0;
+    font-weight: 400;
+    font-size: 1rem;
   }
 </style>

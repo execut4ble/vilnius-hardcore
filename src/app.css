@@ -115,3 +115,10 @@ a:hover strong {
 .dim {
   color: var(--color-text-3);
 }
+
+button.post.action {
+  border: none;
+  background-color: rgba(0, 0 ,0 ,0);
+  color: var(--color-text);
+  cursor: pointer;
+}
