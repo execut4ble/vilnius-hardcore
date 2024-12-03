@@ -8,9 +8,10 @@ export const load = (async ({ params, locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    update_title: async({ params, locals, request }) => {
+    update_event: async({ params, locals, request }) => {
     const { sql } = locals;
     const data = await request.formData();
-    const slug = await sql`update events set title = ${data.get('title')} where slug = ${params.slug} returning slug`
+    const slug = await sql`update events set title = ${data.get('title')}, description = ${data.get('description')} where slug = ${params.slug} returning slug`
     return slug
-}} satisfies Actions
+},
+} satisfies Actions

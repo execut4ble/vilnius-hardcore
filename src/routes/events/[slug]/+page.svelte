@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-  <title>{event.title}</title>
+  <title>{event ? event.title : "Vilnius Hardcore"}</title>
   <meta name="description" content="Vilnius Hardcore" />
 </svelte:head>
 

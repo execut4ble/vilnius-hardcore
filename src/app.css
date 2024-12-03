@@ -52,6 +52,12 @@ h2 {
   font-size: 1rem;
 }
 
+hr {
+  color: var(--color-text-3);
+  margin-left: 0px;
+  width: 15rem;
+}
+
 pre {
   font-size: 16px;
   font-family: var(--font-mono);
