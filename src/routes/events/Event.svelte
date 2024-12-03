@@ -4,20 +4,51 @@
   import { faPenToSquare, faSave } from "@fortawesome/free-solid-svg-icons";
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
 
   const event: VenueEvent = $props();
+
+  let slug = $page.params.slug;
 
   const date: Date = new Date(event.date);
   const year: Number = date.getUTCFullYear();
   const month: String = date.toLocaleString("en-us", { month: "short" });
   const day: Number = date.getUTCDate();
 
-  let title = $state(event.title ? event.title : "");
+  let title = $state(event.title);
   let description = $state(event.description);
   let isEditing = $state(false);
 
   function handleToggleEdit(value: boolean) {
     isEditing = value;
+  }
+
+  function updateEvent({ formData }: { formData: FormData }) {
+    // Check if title was updated, then append it
+    if (title !== event.title) {
+      formData.append("title", title);
+    }
+    // Check if description was updated, then append it
+    if (description !== event.description) {
+      formData.append("description", description);
+    }
+
+    isEditing = false;
+
+    return async ({ result }) => {
+      if (result.type === "success" && result.data) {
+        const newSlug = result.data[0].slug;
+        // Only go to new slug if our title has changed
+        if (slug !== newSlug) {
+          console.log("Redirecting to", newSlug);
+          slug = newSlug;
+          goto(newSlug, { noScroll: true });
+        }
+      } else if (result.type === "error") {
+        // Handle errors if necessary
+        console.error("Form submission failed:", result.status);
+      }
+    };
   }
 </script>
 
@@ -44,17 +75,7 @@
             method="POST"
             action="?/update_event"
             autocomplete="off"
-            use:enhance={({ formData }) => {
-              // Also include description
-              // TODO: date
-              formData.append("description", description ? description : "");
-              isEditing = false;
-              return async ({ result }) => {
-                // Update slug param on the client
-                const newSlug = result.data[0].slug; // TODO: Fix types
-                goto(newSlug, { noScroll: true });
-              };
-            }}
+            use:enhance={updateEvent}
           >
             <input name="title" bind:value={title} required />
             {#if event.detailed && isEditing}
@@ -85,10 +106,7 @@
             method="POST"
             action="?/update_event"
             autocomplete="off"
-            use:enhance={({ formData }) => {
-              formData.append("title", title);
-              isEditing = false;
-            }}
+            use:enhance={updateEvent}
           >
             <textarea
               name="description"

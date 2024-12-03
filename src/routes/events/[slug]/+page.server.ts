@@ -10,8 +10,10 @@ export const load = (async ({ params, locals }) => {
 export const actions = {
     update_event: async({ params, locals, request }) => {
     const { sql } = locals;
-    const data = await request.formData();
-    const slug = await sql`update events set title = ${data.get('title')}, description = ${data.get('description')} where slug = ${params.slug} returning slug`
-    return slug
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData.entries());
+    const columns = Object.keys(data);
+    const event = await sql`update events set ${sql(data, columns)} where slug = ${params.slug} returning events.*`
+    return event
 },
 } satisfies Actions
