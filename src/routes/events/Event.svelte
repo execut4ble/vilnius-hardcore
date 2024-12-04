@@ -1,38 +1,36 @@
 <script lang="ts">
   import type { VenueEvent } from "$lib/types";
   import Fa from "svelte-fa";
-  import { faPenToSquare, faSave } from "@fortawesome/free-solid-svg-icons";
+  import {
+    faPenToSquare,
+    faSave,
+    faXmark,
+  } from "@fortawesome/free-solid-svg-icons";
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
 
   const event: VenueEvent = $props();
 
-  let slug = $page.params.slug;
+  let slug: string = $page.params.slug;
 
-  const date: Date = new Date(event.date);
-  const year: Number = date.getUTCFullYear();
-  const month: String = date.toLocaleString("en-us", { month: "short" });
-  const day: Number = date.getUTCDate();
+  let title: string = $state(event.title);
+  let description: string = $state(event.description);
+  let isEditing: boolean = $state(false);
 
-  let title = $state(event.title);
-  let description = $state(event.description);
-  let isEditing = $state(false);
+  let date: string = $state(new Date(event.date).toLocaleString("lt-LT"));
+  const year: number = $derived(new Date(date).getFullYear());
+  const month: string = $derived(
+    new Date(date).toLocaleString("en-us", { month: "short" })
+  );
+  const day: number = $derived(new Date(date).getDate());
 
-  function handleToggleEdit(value: boolean) {
+  function handleToggleEdit(value: boolean): void {
     isEditing = value;
   }
 
   function updateEvent({ formData }: { formData: FormData }) {
-    // Check if title was updated, then append it
-    if (title !== event.title) {
-      formData.append("title", title);
-    }
-    // Check if description was updated, then append it
-    if (description !== event.description) {
-      formData.append("description", description);
-    }
-
+    formData.set("date", date);
     isEditing = false;
 
     return async ({ result }) => {
@@ -70,22 +68,7 @@
     </div>
     <div class="eventInfo">
       <div class="title">
-        {#if event.detailed && isEditing}
-          <form
-            method="POST"
-            action="?/update_event"
-            autocomplete="off"
-            use:enhance={updateEvent}
-          >
-            <input name="title" bind:value={title} required />
-            {#if event.detailed && isEditing}
-              <br />
-              <button type="submit" class="post action"
-                ><Fa icon={faSave} /> save</button
-              >
-            {/if}
-          </form>
-        {:else}
+        {#if !isEditing}
           <h2>
             <a href="/events/{event.slug}"
               ><strong>{title ? title : ""}</strong></a
@@ -96,34 +79,56 @@
               ><Fa icon={faPenToSquare} /> edit</button
             >
           {/if}
-        {/if}
-        <p class="date">{date.toUTCString()}</p>
-      </div>
-      <hr class="dim" />
-      <div class="eventBody">
-        {#if event.detailed && isEditing}
+          <p class="date">
+            {new Date(date).toLocaleTimeString("lt-LT", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+          <hr class="dim" />
+          <div class="eventBody">
+            <p class="description">
+              {description}
+            </p>
+          </div>
+        {:else}
           <form
             method="POST"
             action="?/update_event"
             autocomplete="off"
             use:enhance={updateEvent}
           >
+            <label for="title">Title</label>
+            <input id="title" name="title" bind:value={title} required />
+            <label for="date">Date</label>
+            <input
+              id="date"
+              type="datetime-local"
+              name="date"
+              bind:value={date}
+              required
+            />
+            <hr class="dim" />
+            <label id="description" for="description">Description</label>
             <textarea
               name="description"
               bind:value={description}
               spellcheck="false"
             ></textarea>
-            {#if event.detailed && isEditing}
-              <br />
-              <button type="submit" class="post action"
-                ><Fa icon={faSave} /> save</button
-              >
-            {/if}
+            <br />
+            <button type="submit" class="post action"
+              ><Fa icon={faSave} /> save</button
+            >
+            <button
+              type="button"
+              class="post action"
+              onclick={() => handleToggleEdit(false)}
+              ><Fa icon={faXmark} /> cancel</button
+            >
           </form>
-        {:else}
-          <p class="description">
-            {description}
-          </p>
         {/if}
       </div>
     </div>
@@ -194,7 +199,7 @@
     outline: none;
   }
 
-  div.eventBody form textarea {
+  form textarea {
     margin-top: 0.83em;
     margin-bottom: 0.5em;
     background-color: #1c1c1c;
@@ -207,12 +212,16 @@
     height: 15rem;
   }
 
-  div.eventBody form textarea:focus {
+  form textarea:focus {
     border: 1px solid #0c0;
     outline: none;
   }
 
   div.eventRow p.date {
     margin-bottom: 0;
+  }
+
+  label {
+    display: block;
   }
 </style>

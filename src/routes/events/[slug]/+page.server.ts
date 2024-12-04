@@ -12,6 +12,7 @@ export const actions = {
     const { sql } = locals;
     const formData = await request.formData();
     const data = Object.fromEntries(formData.entries());
+    console.log(formData);
     const columns = Object.keys(data);
     const event = await sql`update events set ${sql(data, columns)} where slug = ${params.slug} returning events.*`
     return event
