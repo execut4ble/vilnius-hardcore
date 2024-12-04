@@ -99,7 +99,7 @@
         {/if}
         <p class="date">{date.toUTCString()}</p>
       </div>
-      <hr />
+      <hr class="dim" />
       <div class="eventBody">
         {#if event.detailed && isEditing}
           <form

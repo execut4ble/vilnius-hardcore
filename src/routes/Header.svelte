@@ -24,7 +24,7 @@
   }
 
   figlet pre {
-    color: #0f0;
+    color: var(--color-text-2);
     background-color: rgba(0, 0, 0, 0);
     margin-bottom: 0;
     font-weight: 800;
@@ -48,10 +48,10 @@
 
   @keyframes blink {
     0% {
-      background: #0a0;
+      background: var(--color-text);
     }
     47% {
-      background: #090;
+      background: var(--color-text-2);
     }
     50% {
       background: #000;
@@ -60,15 +60,15 @@
       background: #000;
     }
     100% {
-      background: #090;
+      background: var(--color-text-2);
     }
   }
   @-webkit-keyframes blink {
     0% {
-      background: #0a0;
+      background: var(--color-text);
     }
     47% {
-      background: #090;
+      background: var(--color-text-2);
     }
     50% {
       background: #000;
@@ -77,16 +77,16 @@
       background: #000;
     }
     100% {
-      background: #090;
+      background: var(--color-text-2);
     }
   }
 
   @-moz-keyframes blink {
     0% {
-      background: #0a0;
+      background: var(--color-text);
     }
     47% {
-      background: #090;
+      background: var(--color-text-2);
     }
     50% {
       background: #000;
@@ -95,16 +95,16 @@
       background: #000;
     }
     100% {
-      background: #090;
+      background: var(--color-text-2);
     }
   }
 
   @-ms-keyframes blink {
     0% {
-      background: #0a0;
+      background: var(--color-text);
     }
     47% {
-      background: #090;
+      background: var(--color-text-2);
     }
     50% {
       background: #000;
@@ -113,16 +113,16 @@
       background: #000;
     }
     100% {
-      background: #090;
+      background: var(--color-text-2);
     }
   }
 
   @-o-keyframes blink {
     0% {
-      background: #0a0;
+      background: var(--color-text);
     }
     47% {
-      background: #090;
+      background: var(--color-text-2);
     }
     50% {
       background: #000;
@@ -131,7 +131,7 @@
       background: #000;
     }
     100% {
-      background: #090;
+      background: var(--color-text-2);
     }
   }
 </style>

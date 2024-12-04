@@ -4,9 +4,7 @@
 :root {
   --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
   --font-mono: "Fira Mono", "Courier Prime", monospace;
-  --color-bg-0: #111;
-  --color-theme-1: #090;
-  --color-theme-2: #0f0;
+  --color-bg: #111;
   --color-text: #090;
   --color-text-2: #0f0;
   --color-text-3: #050;
@@ -33,12 +31,12 @@ p {
 }
 
 a {
-  color: var(--color-theme-1);
+  color: var(--color-text-2);
   text-decoration: none;
 }
 
 a:hover {
-  background: #0f0;
+  background: var(--color-text-2);
   color: #111;
   text-decoration: none;
 }
@@ -53,7 +51,6 @@ h2 {
 }
 
 hr {
-  color: var(--color-text-3);
   margin-left: 0px;
   width: 15rem;
 }
@@ -113,7 +110,7 @@ strong {
 }
 
 a:hover strong {
-  background: #0f0;
+  background: var(--color-text-2);
   color: #111;
   text-decoration: none;
 }

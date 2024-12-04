@@ -51,7 +51,7 @@
     left: calc(0% - var(--size));
     rotate: -90deg;
     border: var(--size) solid transparent;
-    border-top: var(--size) solid var(--color-theme-1);
+    border-top: var(--size) solid var(--color-text);
   }
 
   nav a {
