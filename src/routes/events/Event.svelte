@@ -188,14 +188,14 @@
     margin-bottom: 0.5em;
     background-color: #1c1c1c;
     border: none;
-    color: #0c0;
+    color: var(--color-text-2);
     font-weight: 400;
     font-size: 1rem;
     padding: 12px 10px;
   }
 
   div.eventInfo .title form input:focus {
-    border: 1px solid #0c0;
+    border: 1px solid var(--color-text-2);
     outline: none;
   }
 
@@ -204,7 +204,7 @@
     margin-bottom: 0.5em;
     background-color: #1c1c1c;
     border: none;
-    color: #0c0;
+    color: var(--color-text-2);
     font-weight: 400;
     font-size: 1rem;
     padding: 12px 10px;
@@ -213,7 +213,7 @@
   }
 
   form textarea:focus {
-    border: 1px solid #0c0;
+    border: 1px solid var(--color-text-2);
     outline: none;
   }
 

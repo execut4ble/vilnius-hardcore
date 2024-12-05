@@ -54,10 +54,10 @@
       background: var(--color-text-2);
     }
     50% {
-      background: #000;
+      background: #111;
     }
     97% {
-      background: #000;
+      background: #111;
     }
     100% {
       background: var(--color-text-2);
@@ -71,10 +71,10 @@
       background: var(--color-text-2);
     }
     50% {
-      background: #000;
+      background: #111;
     }
     97% {
-      background: #000;
+      background: #111;
     }
     100% {
       background: var(--color-text-2);
@@ -89,10 +89,10 @@
       background: var(--color-text-2);
     }
     50% {
-      background: #000;
+      background: #111;
     }
     97% {
-      background: #000;
+      background: #111;
     }
     100% {
       background: var(--color-text-2);
@@ -107,10 +107,10 @@
       background: var(--color-text-2);
     }
     50% {
-      background: #000;
+      background: #111;
     }
     97% {
-      background: #000;
+      background: #111;
     }
     100% {
       background: var(--color-text-2);
@@ -125,10 +125,10 @@
       background: var(--color-text-2);
     }
     50% {
-      background: #000;
+      background: #111;
     }
     97% {
-      background: #000;
+      background: #111;
     }
     100% {
       background: var(--color-text-2);

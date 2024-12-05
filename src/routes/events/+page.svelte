@@ -43,6 +43,10 @@
 </section>
 
 <style>
+  ul.eventList {
+    padding-left: 0;
+  }
+
   ul.eventList li {
     list-style: none;
   }
