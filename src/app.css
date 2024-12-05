@@ -70,7 +70,7 @@ pre {
 section {
   display: flex;
   max-width: 48rem;
-  flex: 0.8;
+  flex: 0.9;
   flex-direction: column;
   justify-content: center;
   align-content: center;

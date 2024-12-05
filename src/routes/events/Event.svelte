@@ -12,10 +12,9 @@
 
   const event: VenueEvent = $props();
 
-  let slug: string = $page.params.slug;
-
   let title: string = $state(event.title);
   let description: string = $state(event.description);
+  let slug: string = $state(event.slug);
   let isEditing: boolean = $state(false);
 
   let date: string = $state(new Date(event.date).toLocaleString("lt-LT"));
@@ -30,18 +29,23 @@
   }
 
   function updateEvent({ formData }: { formData: FormData }) {
-    formData.set("date", date);
+    formData.set("slug", slug);
     isEditing = false;
 
     return async ({ result }) => {
       if (result.type === "success" && result.data) {
         const newSlug = result.data[0].slug;
         // Only go to new slug if our title has changed
-        if (slug !== newSlug) {
+        // and we're in the detail events page
+        if (
+          slug !== newSlug &&
+          $page.route.id &&
+          $page.route.id.includes("[slug]")
+        ) {
           console.log("Redirecting to", newSlug);
-          slug = newSlug;
           goto(newSlug, { noScroll: true });
         }
+        slug = newSlug;
       } else if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
@@ -70,11 +74,9 @@
       <div class="title">
         {#if !isEditing}
           <h2>
-            <a href="/events/{event.slug}"
-              ><strong>{title ? title : ""}</strong></a
-            >
+            <a href="/events/{slug}"><strong>{title ? title : ""}</strong></a>
           </h2>
-          {#if event.detailed}
+          {#if $page.url.pathname !== "/"}
             <button class="post action" onclick={() => handleToggleEdit(true)}
               ><Fa icon={faPenToSquare} /> edit</button
             >

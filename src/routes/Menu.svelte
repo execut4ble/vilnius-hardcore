@@ -20,6 +20,7 @@
   nav {
     display: flex;
     justify-content: center;
+    margin-left: 5em;
   }
 
   ul {

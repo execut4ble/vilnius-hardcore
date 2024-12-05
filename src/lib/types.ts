@@ -6,3 +6,5 @@ export type VenueEvent = {
     detailed: boolean;
     image: string;
 };
+
+export type EventArray = Array<VenueEvent>;

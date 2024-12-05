@@ -4,8 +4,12 @@
 
   figlet.parseFont("Graffiti", graffiti);
 
-  const welcomeTitle = $state(figlet.textSync("hardcore.lt", "Graffiti"));
-  const description = $state("Ska funk rasta punk scene, vilnius, lithuania");
+  const welcomeTitle: string = $state(
+    figlet.textSync("hardcore.lt", "Graffiti")
+  );
+  const description: string = $state(
+    "Ska funk rasta punk scene, vilnius, lithuania"
+  );
 </script>
 
 <header>
