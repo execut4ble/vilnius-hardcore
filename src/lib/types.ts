@@ -1,5 +1,5 @@
 export type VenueEvent = {
-    date: Date;
+    date: string;
     title: string;
     slug: string;
     description: string;

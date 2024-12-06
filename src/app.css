@@ -125,3 +125,46 @@ button.post.action {
   color: var(--color-text);
   cursor: pointer;
 }
+
+label {
+  display: block;
+  margin-top: 1em;
+}
+
+form {
+  margin-bottom: 2em;
+}
+
+form input {
+  margin-top: 0.83em;
+  margin-bottom: 0.5em;
+  background-color: #1c1c1c;
+  border: none;
+  color: var(--color-text-2);
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 12px 10px;
+}
+
+form input:focus {
+  border: 1px solid var(--color-text-2);
+  outline: none;
+}
+
+form textarea {
+  margin-top: 0.83em;
+  margin-bottom: 0.5em;
+  background-color: #1c1c1c;
+  border: none;
+  color: var(--color-text-2);
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 12px 10px;
+  width: 70%;
+  height: 15rem;
+}
+
+form textarea:focus {
+  border: 1px solid var(--color-text-2);
+  outline: none;
+}
