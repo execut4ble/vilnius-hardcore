@@ -81,6 +81,7 @@ input,
 button {
   font-size: inherit;
   font-family: inherit;
+  color: var(--color-text);
 }
 
 button:focus:not(:focus-visible) {
@@ -105,7 +106,8 @@ button:focus:not(:focus-visible) {
   white-space: nowrap;
 }
 
-strong {
+strong,
+button:hover {
   color: var(--color-text-2);
 }
 
@@ -122,7 +124,6 @@ a:hover strong {
 button.post.action {
   border: none;
   background-color: rgba(0, 0, 0, 0);
-  color: var(--color-text);
   cursor: pointer;
 }
 
