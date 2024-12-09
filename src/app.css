@@ -1,5 +1,5 @@
-@import '@fontsource/courier-prime';
-@import '@fontsource/fira-mono';
+@import "@fontsource/courier-prime";
+@import "@fontsource/fira-mono";
 
 :root {
   --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
@@ -121,7 +121,7 @@ a:hover strong {
 
 button.post.action {
   border: none;
-  background-color: rgba(0, 0 ,0 ,0);
+  background-color: rgba(0, 0, 0, 0);
   color: var(--color-text);
   cursor: pointer;
 }
@@ -131,7 +131,7 @@ label {
   margin-top: 1em;
 }
 
-form {
+form.newEvent {
   margin-bottom: 2em;
 }
 

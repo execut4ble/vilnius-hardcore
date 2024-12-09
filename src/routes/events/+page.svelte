@@ -11,11 +11,11 @@
   let events: Array<VenueEvent> = $state(data.events);
 
   const upcomingEvents: Array<VenueEvent> = $derived(
-    events.filter((event) => new Date(event.date) > new Date())
+    events.filter((event) => new Date(event.date) > new Date()),
   );
 
   const pastEvents: Array<VenueEvent> = $derived(
-    events.filter((event) => new Date(event.date) < new Date()).reverse()
+    events.filter((event) => new Date(event.date) < new Date()).reverse(),
   );
 
   let entryMode = $state(false);
@@ -49,6 +49,7 @@
   {:else}
     <h2><strong>Add new event</strong></h2>
     <form
+      class="newEvent"
       method="POST"
       action="?/create_event"
       autocomplete="off"
