@@ -10,15 +10,24 @@
 
   let events: Array<VenueEvent> = $state(data.events);
 
-  const upcomingEvents: Array<VenueEvent> = $derived(
-    events.filter((event) => new Date(event.date) > new Date()),
+  let upcomingEvents: Array<VenueEvent> = $derived(
+    events
+      .filter((event) => new Date(event.date) > new Date())
+      .toSorted(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      ),
   );
 
-  const pastEvents: Array<VenueEvent> = $derived(
-    events.filter((event) => new Date(event.date) < new Date()).reverse(),
+  let pastEvents: Array<VenueEvent> = $derived(
+    events
+      .filter((event) => new Date(event.date) < new Date())
+      .toSorted(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      )
+      .reverse(),
   );
 
-  let entryMode = $state(false);
+  let entryMode: boolean = $state(false);
 
   function createEvent({ formData }: { formData: FormData }) {
     entryMode = false;
@@ -26,7 +35,6 @@
     return async ({ result }) => {
       if (result.type === "success" && result.data) {
         events.push(result.data.events[0]);
-        // TODO: Make it appear sorted
       } else if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
@@ -75,7 +83,7 @@
   {/if}
   <h2><strong>Upcoming events</strong></h2>
   <ul class="eventList">
-    {#each upcomingEvents as event}
+    {#each upcomingEvents as event (event.slug)}
       <li>
         <Event {...event} detailed={false} />
       </li>
@@ -84,7 +92,7 @@
 
   <h2><strong>Past events</strong></h2>
   <ul class="eventList">
-    {#each pastEvents as event}
+    {#each pastEvents as event (event.slug)}
       <li>
         <Event {...event} detailed={false} />
       </li>

@@ -52,7 +52,7 @@
     };
   }
 
-  function removeEvent({ formData }: { formData: FormData }) {
+  function removeEvent() {
     return async ({ result }) => {
       if (result.type === "success" && result.data) {
         if (event.detailed) {
@@ -62,7 +62,7 @@
         }
       } else if (result.type === "error") {
         // Handle errors if necessary
-        console.error("Form submission failed:", result.status);
+        console.error("Delete failed:", result.status);
       }
     };
   }

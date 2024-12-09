@@ -19,7 +19,7 @@
     <p>We have no upcoming events right now! Check back later!</p>
   {/if}
   <ul class="eventList">
-    {#each data.events as event}
+    {#each data.events as event (event.slug)}
       <li>
         <Event {...event} detailed={false} />
       </li>
