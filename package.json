@@ -8,7 +8,11 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "db:start": "docker compose up",
+    "db:push": "drizzle-kit push",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "devDependencies": {
     "@fontsource/fira-mono": "^5.1.0",
@@ -18,7 +22,9 @@
     "@sveltejs/vite-plugin-svelte": "^5.0.1",
     "@types/figlet": "^1.7.0",
     "@types/node": "^22.10.1",
+    "drizzle-kit": "^0.22.0",
     "figlet": "^1.8.0",
+    "mdsvex": "^0.11.2",
     "prettier": "^3.4.2",
     "prettier-plugin-svelte": "^3.3.2",
     "svelte": "^5.9.1",
@@ -29,8 +35,12 @@
   "dependencies": {
     "@fontsource/courier-prime": "^5.1.0",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
+    "@node-rs/argon2": "^1.1.0",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
     "dotenv": "^16.4.7",
-    "postgres": "^3.4.5",
+    "drizzle-orm": "^0.33.0",
+    "postgres": "^3.4.4",
     "svelte-fa": "^4.0.3"
   }
 }
