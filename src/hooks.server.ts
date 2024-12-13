@@ -1,10 +1,8 @@
 import { sequence } from "@sveltejs/kit/hooks";
 import * as auth from "$lib/server/auth.js";
 import type { Handle } from "@sveltejs/kit";
-import { sql } from "$lib/db";
 
 const originalHandle: Handle = async ({ event, resolve }) => {
-  event.locals.sql = sql;
   const response = await resolve(event);
   return response;
 };

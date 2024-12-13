@@ -1,35 +1,34 @@
-import type { EventArray } from "$lib/types";
+import type { EventsArray } from "$lib/types";
 import type { PageServerLoad, Actions } from "./$types";
+import { db } from "$lib/server/db";
+import { eq } from "drizzle-orm";
+import * as table from "$lib/server/db/schema";
 
-export const load = (async ({
-  params,
-  locals,
-}): Promise<{ event: EventArray }> => {
-  const { sql } = locals;
-
-  const event: EventArray =
-    await sql`select * from events where slug = ${params.slug}`;
+export const load = (async ({ params }): Promise<{ event: EventsArray }> => {
+  const event: EventsArray = await db
+    .select()
+    .from(table.event)
+    .where(eq(table.event.slug, params.slug));
   return { event };
 }) satisfies PageServerLoad;
 
 export const actions = {
-  update_event: async ({ params, locals, request }): Promise<EventArray> => {
-    const { sql } = locals;
-    const formData = await request.formData();
+  update_event: async ({ params, request }): Promise<EventsArray> => {
+    const formData: FormData = await request.formData();
     const data = Object.fromEntries(formData.entries());
-    const columns = Object.keys(data);
-    const event =
-      await sql`update events set ${sql(data, columns)} where slug = ${params.slug} returning events.*`;
+    const event: EventsArray = await db
+      .update(table.event)
+      .set(data)
+      .where(eq(table.event.slug, params.slug))
+      .returning();
     return event;
   },
-  remove_event: async ({
-    locals,
-    request,
-  }): Promise<{ events: EventArray }> => {
-    const { sql } = locals;
-    const formData = await request.formData();
-    const events: EventArray =
-      await sql`delete from events where slug = ${formData.get("slug")}`;
+  remove_event: async ({ request }): Promise<{ events: EventsArray }> => {
+    const formData: FormData = await request.formData();
+    const slug: FormDataEntryValue | null = formData.get("slug");
+    const events: EventsArray = await db
+      .delete(table.event)
+      .where(eq(table.event.slug, slug as string));
     return { events };
   },
 } satisfies Actions;

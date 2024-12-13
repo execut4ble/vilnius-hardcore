@@ -17,11 +17,12 @@
 
   {#if data.events.length === 0}
     <p>We have no upcoming events right now! Check back later!</p>
+    <p>Or check out our <a href="/events">past events</a></p>
   {/if}
   <ul class="eventList">
     {#each data.events as event (event.slug)}
       <li>
-        <Event {...event} detailed={false} />
+        <Event {...event} />
       </li>
     {/each}
   </ul>

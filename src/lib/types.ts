@@ -1,10 +1,16 @@
-export type VenueEvent = {
-  date: string;
-  title: string;
-  slug: string;
-  description: string;
-  detailed: boolean;
-  image: string;
+export type EventObject = {
+  id: number;
+  date: Date | string;
+  title: string | null;
+  slug: string | null;
+  description: string | null;
+  image: string | null;
 };
 
-export type EventArray = Array<VenueEvent>;
+export type EventsArray = Array<EventObject>;
+
+export type EventComponent = EventObject & {
+  events?: EventsArray | undefined;
+} & {
+  detailed?: boolean;
+};

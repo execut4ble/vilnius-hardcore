@@ -19,9 +19,9 @@ export const session = pgTable("session", {
 });
 
 export const event = pgTable("event", {
-  id: text("id").primaryKey(),
+  id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  date: timestamp("date", { withTimezone: true }).notNull(),
+  date: timestamp("date", { withTimezone: false, mode: "string" }).notNull(),
   description: text("description"),
   slug: text("slug"),
   image: text("image"),
@@ -30,3 +30,5 @@ export const event = pgTable("event", {
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
+
+export type Event = typeof event.$inferSelect;

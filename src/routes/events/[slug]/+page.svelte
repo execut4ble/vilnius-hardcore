@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import type { VenueEvent } from "$lib/types";
+  import type { EventObject } from "$lib/types";
   import Event from "../Event.svelte";
 
   let { data }: { data: PageData } = $props();
-  const event: VenueEvent = $state(data.event[0] as VenueEvent);
+  const event: EventObject = $state(data.event[0] as EventObject);
 </script>
 
 <svelte:head>

@@ -1,16 +1,16 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import Event from "./Event.svelte";
-  import type { VenueEvent } from "$lib/types";
+  import type { EventObject } from "$lib/types";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
 
   let { data }: { data: PageData } = $props();
 
-  let events: Array<VenueEvent> = $state(data.events);
+  let events: Array<EventObject> = $state(data.events);
 
-  let upcomingEvents: Array<VenueEvent> = $derived(
+  let upcomingEvents: Array<EventObject> = $derived(
     events
       .filter((event) => new Date(event.date) > new Date())
       .toSorted(
@@ -18,7 +18,7 @@
       ),
   );
 
-  let pastEvents: Array<VenueEvent> = $derived(
+  let pastEvents: Array<EventObject> = $derived(
     events
       .filter((event) => new Date(event.date) < new Date())
       .toSorted(
@@ -29,7 +29,7 @@
 
   let entryMode: boolean = $state(false);
 
-  function createEvent({ formData }: { formData: FormData }) {
+  function createEvent() {
     entryMode = false;
 
     return async ({ result }) => {
@@ -85,8 +85,10 @@
   <ul class="eventList">
     {#each upcomingEvents as event (event.slug)}
       <li>
-        <Event {...event} detailed={false} />
+        <Event {...event} bind:events />
       </li>
+    {:else}
+      <p>We have no upcoming events right now! Check back later!</p>
     {/each}
   </ul>
 
@@ -94,8 +96,10 @@
   <ul class="eventList">
     {#each pastEvents as event (event.slug)}
       <li>
-        <Event {...event} detailed={false} />
+        <Event {...event} bind:events />
       </li>
+    {:else}
+      <p>No past events found.</p>
     {/each}
   </ul>
 </section>
