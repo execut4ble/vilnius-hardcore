@@ -95,7 +95,7 @@
           <h2>
             <a href="/events/{slug}"><strong>{title ? title : ""}</strong></a>
           </h2>
-          {#if $page.url.pathname !== "/"}
+          {#if $page.url.pathname !== "/" && $page.data.user}
             <form
               method="POST"
               action="?/remove_event"

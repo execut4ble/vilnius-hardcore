@@ -1,57 +1,27 @@
-import { hash, verify } from "@node-rs/argon2";
+import { hash } from "@node-rs/argon2";
 import { encodeBase32LowerCase } from "@oslojs/encoding";
-import { fail, redirect } from "@sveltejs/kit";
-import { eq } from "drizzle-orm";
 import * as auth from "$lib/server/auth";
+import { fail, redirect } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
-import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async (event) => {
-  if (event.locals.user) {
-    return redirect(302, "/demo/lucia");
+  if (!event.locals.user) {
+    return redirect(302, "/crew/login");
   }
-  return {};
+  return { user: event.locals.user };
 };
 
 export const actions: Actions = {
-  login: async (event) => {
-    const formData = await event.request.formData();
-    const username = formData.get("username");
-    const password = formData.get("password");
-
-    if (!validateUsername(username)) {
-      return fail(400, { message: "Invalid username" });
+  logout: async (event) => {
+    if (!event.locals.session) {
+      return fail(401);
     }
-    if (!validatePassword(password)) {
-      return fail(400, { message: "Invalid password" });
-    }
+    await auth.invalidateSession(event.locals.session.id);
+    auth.deleteSessionTokenCookie(event);
 
-    const results = await db
-      .select()
-      .from(table.user)
-      .where(eq(table.user.username, username));
-
-    const existingUser = results.at(0);
-    if (!existingUser) {
-      return fail(400, { message: "Incorrect username or password" });
-    }
-
-    const validPassword = await verify(existingUser.passwordHash, password, {
-      memoryCost: 19456,
-      timeCost: 2,
-      outputLen: 32,
-      parallelism: 1,
-    });
-    if (!validPassword) {
-      return fail(400, { message: "Incorrect username or password" });
-    }
-
-    const sessionToken = auth.generateSessionToken();
-    const session = await auth.createSession(sessionToken, existingUser.id);
-    auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
-
-    return redirect(302, "/demo/lucia");
+    return redirect(302, "/crew/login");
   },
   register: async (event) => {
     const formData = await event.request.formData();
@@ -78,14 +48,13 @@ export const actions: Actions = {
       await db
         .insert(table.user)
         .values({ id: userId, username, passwordHash });
-
-      const sessionToken = auth.generateSessionToken();
-      const session = await auth.createSession(sessionToken, userId);
-      auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
     } catch (e) {
       return fail(500, { message: "An error has occurred" });
     }
-    return redirect(302, "/demo/lucia");
+    return {
+      success: true,
+      message: "Successfully registered " + username + "!",
+    };
   },
 };
 

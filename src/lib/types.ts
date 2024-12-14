@@ -1,3 +1,5 @@
+import type { PageData } from "../routes/$types";
+
 export type EventObject = {
   id: number;
   date: Date | string;
@@ -13,4 +15,9 @@ export type EventComponent = EventObject & {
   events?: EventsArray | undefined;
 } & {
   detailed?: boolean;
+};
+
+export type MenuData = {
+  user: { id: string; username: string } | null;
+  events?: EventsArray; // Optional
 };

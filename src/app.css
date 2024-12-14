@@ -23,10 +23,8 @@ body {
 h1,
 h2,
 p {
+  margin-top: 0;
   font-weight: 400;
-}
-
-p {
   line-height: 1.5;
 }
 
@@ -66,6 +64,10 @@ pre {
   color: var(--color-text-2);
 }
 
+pre.inline {
+  display: inline;
+}
+
 .text-column,
 section {
   display: flex;
@@ -77,11 +79,26 @@ section {
   margin: 0 5em 0 5em;
 }
 
-input,
-button {
+input {
   font-size: inherit;
   font-family: inherit;
   color: var(--color-text);
+}
+
+button {
+  font-size: inherit;
+  font-family: inherit;
+  color: var(--color-text-2);
+  text-decoration: none;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--color-text-2);
+  color: #111;
+  text-decoration: none;
 }
 
 button:focus:not(:focus-visible) {
@@ -107,7 +124,7 @@ button:focus:not(:focus-visible) {
 }
 
 strong,
-button:hover {
+button.post.action:hover {
   color: var(--color-text-2);
 }
 
@@ -122,6 +139,7 @@ a:hover strong {
 }
 
 button.post.action {
+  color: var(--color-text-1);
   border: none;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
@@ -132,7 +150,7 @@ label {
   margin-top: 1em;
 }
 
-form.newEvent {
+form {
   margin-bottom: 2em;
 }
 

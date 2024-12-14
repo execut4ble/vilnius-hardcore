@@ -2,8 +2,10 @@
   import Header from "./Header.svelte";
   import Menu from "./Menu.svelte";
   import "../app.css";
+  import type { Snippet } from "svelte";
+  import type { MenuData } from "$lib/types";
 
-  let { children } = $props();
+  let { data, children }: { data: MenuData; children: Snippet } = $props();
 </script>
 
 <div class="app">
@@ -11,7 +13,7 @@
   <main>
     <row>
       {@render children()}
-      <Menu />
+      <Menu {data} />
     </row>
   </main>
 
