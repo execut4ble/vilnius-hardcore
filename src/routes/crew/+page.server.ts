@@ -28,6 +28,9 @@ export const actions: Actions = {
     const username = formData.get("username");
     const password = formData.get("password");
 
+    if (!event.locals.session) {
+      return fail(401);
+    }
     if (!validateUsername(username)) {
       return fail(400, { message: "Invalid username" });
     }
