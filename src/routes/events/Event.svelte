@@ -8,7 +8,7 @@
   } from "@fortawesome/free-solid-svg-icons";
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
   import { base } from "$app/paths";
 
@@ -47,8 +47,8 @@
         // and we're in the detail events page
         if (
           slug !== newSlug &&
-          $page.route.id &&
-          $page.route.id.includes("[slug]")
+          page.route.id &&
+          page.route.id.includes("[slug]")
         ) {
           console.log("Redirecting to", newSlug);
           goto(newSlug, { noScroll: true });
@@ -125,7 +125,7 @@
           <h2>
             <a href="/events/{slug}"><strong>{title ? title : ""}</strong></a>
           </h2>
-          {#if $page.url.pathname !== "/" && $page.data.user}
+          {#if page.url.pathname !== "/" && page.data.user}
             <form
               method="POST"
               action="?/remove_event"

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import type { MenuData } from "$lib/types";
   let { data }: { data: MenuData } = $props();
 </script>
@@ -13,13 +13,13 @@
 
   <nav>
     <ul>
-      <li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
+      <li aria-current={page.url.pathname === "/" ? "page" : undefined}>
         <a href="/">Home</a>
       </li>
-      <li aria-current={$page.url.pathname === "/about" ? "page" : undefined}>
+      <li aria-current={page.url.pathname === "/about" ? "page" : undefined}>
         <a href="/about">About</a>
       </li>
-      <li aria-current={$page.url.pathname === "/events" ? "page" : undefined}>
+      <li aria-current={page.url.pathname === "/events" ? "page" : undefined}>
         <a href="/events">Events</a>
       </li>
     </ul>

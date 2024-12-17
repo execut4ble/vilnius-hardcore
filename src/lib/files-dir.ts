@@ -6,9 +6,13 @@ import { pipeline } from "node:stream/promises";
 
 export const FILES_DIR = "./static/public/uploads";
 
-export const uploadImageAction = async ({ request }) => {
+export const uploadImageAction = async ({ locals, request }) => {
   const data: FormData = await request.formData();
   const file: FormDataEntryValue | null = data.get("file") as File;
+
+  if (!locals.session) {
+    return fail(401);
+  }
 
   if (file instanceof File === false || file.size === 0) {
     return fail(400);

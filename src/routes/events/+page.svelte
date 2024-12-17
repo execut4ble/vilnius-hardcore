@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ActionData, PageData } from "./$types";
+  import type { PageData } from "./$types";
   import Event from "./Event.svelte";
   import type { EventObject } from "$lib/types";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";

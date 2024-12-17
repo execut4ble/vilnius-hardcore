@@ -5,6 +5,7 @@ import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { uploadImageAction } from "$lib/files-dir";
+import { fail } from "@sveltejs/kit";
 
 export const load = (async (): Promise<{ events: EventsArray }> => {
   const events: EventsArray = await db
@@ -15,7 +16,10 @@ export const load = (async (): Promise<{ events: EventsArray }> => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-  update_event: async ({ request }): Promise<EventsArray> => {
+  update_event: async ({ locals, request }) => {
+    if (!locals.session) {
+      return fail(401);
+    }
     const formData: FormData = await request.formData();
     const data: Object = Object.fromEntries(formData.entries());
     const slug: FormDataEntryValue | null = formData.get("slug");
@@ -26,7 +30,10 @@ export const actions = {
       .returning();
     return event;
   },
-  create_event: async ({ request }): Promise<{ events: EventsArray }> => {
+  create_event: async ({ locals, request }) => {
+    if (!locals.session) {
+      return fail(401);
+    }
     const formData: FormData = await request.formData();
     const data: Object = Object.fromEntries(formData.entries());
     const events: EventsArray = await db
@@ -35,7 +42,10 @@ export const actions = {
       .returning();
     return { events };
   },
-  remove_event: async ({ request }): Promise<{ events: EventsArray }> => {
+  remove_event: async ({ locals, request }) => {
+    if (!locals.session) {
+      return fail(401);
+    }
     const formData: FormData = await request.formData();
     const slug: FormDataEntryValue | null = formData.get("slug");
     const events: EventsArray = await db
