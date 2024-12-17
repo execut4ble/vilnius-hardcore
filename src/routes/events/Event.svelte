@@ -11,6 +11,7 @@
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
   import { base } from "$app/paths";
+  import Markdown from "svelte-exmarkdown";
 
   let {
     detailed = false,
@@ -20,6 +21,7 @@
 
   let title = $state(event.title);
   let description = $state(event.description);
+  let md = $derived(description);
   let slug = $state(event.slug);
   let isEditing: boolean = $state(false);
   let is_image_uploading: boolean = $state(false);
@@ -164,9 +166,11 @@
           </p>
           <hr class="dim" />
           <div class="eventBody">
-            <p class="description">
-              {description}
-            </p>
+            <div class="description">
+              {#if md}
+                <Markdown {md} />
+              {/if}
+            </div>
           </div>
         {:else}
           <form
