@@ -71,8 +71,8 @@ pre.inline {
 .text-column,
 section {
   display: flex;
-  max-width: 48rem;
-  flex: 0.9;
+  max-width: 40rem;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-content: center;
@@ -186,4 +186,19 @@ form textarea {
 form textarea:focus {
   border: 1px solid var(--color-text-2);
   outline: none;
+}
+
+form input[type="file"] {
+  display: none;
+}
+
+form label[for="file"] {
+  border: 2px dashed var(--color-text);
+  padding: 1.5em;
+  margin-bottom: 1em;
+}
+
+form label[for="file"]:hover {
+  border: 2px dashed var(--color-text-2);
+  color: var(--color-text-2);
 }

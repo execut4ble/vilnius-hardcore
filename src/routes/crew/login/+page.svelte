@@ -5,8 +5,6 @@
   let { data, form }: { data: PageServerData; form: ActionData } = $props();
 
   const canRegister: boolean | undefined = $state(data.registrationAllowed);
-
-  console.log(canRegister);
 </script>
 
 <svelte:head>

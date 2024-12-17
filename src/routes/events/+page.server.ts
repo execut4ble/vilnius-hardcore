@@ -1,9 +1,10 @@
-import type { EventsArray, EventObject } from "$lib/types";
+import type { EventsArray } from "$lib/types";
 import { asc } from "drizzle-orm";
 import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
+import { uploadImageAction } from "$lib/files-dir";
 
 export const load = (async (): Promise<{ events: EventsArray }> => {
   const events: EventsArray = await db
@@ -42,4 +43,5 @@ export const actions = {
       .where(eq(table.event.slug, slug as string));
     return { events };
   },
+  upload_image: uploadImageAction,
 } satisfies Actions;

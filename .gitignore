@@ -22,3 +22,6 @@ vite.config.ts.timestamp-*
 
 # Postgres
 docker-compose.yml
+
+# Uploads
+/static/public/uploads
