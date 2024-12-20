@@ -24,10 +24,6 @@ export const uploadImageAction = async ({ locals, request }) => {
 
   const file_path = path.normalize(path.join(FILES_DIR, file.name));
 
-  if (fs.existsSync(file_path)) {
-    return fail(400);
-  }
-
   const nodejs_wstream = fs.createWriteStream(file_path);
   // Convert Web `ReadableStream` to a Node.js `Readable` stream
   const web_rstream = file.stream();

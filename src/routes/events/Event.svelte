@@ -12,6 +12,7 @@
   import type { EventComponent } from "$lib/types";
   import { base } from "$app/paths";
   import Markdown from "svelte-exmarkdown";
+  import ImageUploadForm from "./ImageUploadForm.svelte";
 
   let {
     detailed = false,
@@ -24,11 +25,9 @@
   let md = $derived(description);
   let slug = $state(event.slug);
   let isEditing: boolean = $state(false);
-  let is_image_uploading: boolean = $state(false);
   let originalImage: string | null = $state(event.image);
   let imageFilename: string | null = $state(event.image);
   let selectedImage: string | null | undefined = $state();
-  let fileUploadError: string | null | undefined = $state();
 
   let confirmDelete: boolean = $state(false);
   let date: string = $state(new Date(event.date).toLocaleString("lt-LT"));
@@ -78,24 +77,6 @@
       } else if (result.type === "error") {
         // Handle errors if necessary
         console.error("Delete failed:", result.status);
-      }
-    };
-  }
-
-  function uploadImage() {
-    is_image_uploading = true;
-
-    return async ({ formData, update, result }) => {
-      if (result.type === "success") {
-        const fileObj: File = Object.fromEntries(formData).file as File;
-        update().then(() => {
-          imageFilename = fileObj.name;
-          is_image_uploading = false;
-        });
-      }
-      if (result.type === "failure") {
-        is_image_uploading = false;
-        fileUploadError = result.data.message;
       }
     };
   }
@@ -221,48 +202,7 @@
     </div>
     <div>
       {#if isEditing}
-        <form
-          method="POST"
-          action="?/upload_image"
-          enctype="multipart/form-data"
-          use:enhance={uploadImage}
-        >
-          <div>
-            <label for="file"
-              >{selectedImage
-                ? selectedImage
-                : imageFilename
-                  ? imageFilename
-                  : "Select an image"}</label
-            >
-            <input
-              type="file"
-              name="file"
-              id="file"
-              accept="image/png, image/jpeg, image/webp"
-              required
-              onchange={(event: any) => {
-                const fileName: string = event.target.files
-                  ? event.target.files[0].name
-                  : "";
-                selectedImage = fileName;
-              }}
-            />
-          </div>
-          {#if selectedImage}
-            <button class="post action" disabled={is_image_uploading}>
-              {#if is_image_uploading}
-                Uploading...
-              {:else}
-                Upload
-              {/if}
-            </button>
-          {/if}
-          {#if fileUploadError}
-            <br /><br />
-            <p style="color: red">{fileUploadError}</p>
-          {/if}
-        </form>
+        <ImageUploadForm bind:selectedImage bind:imageFilename {slug} />
       {/if}
       {#if !detailed && imageFilename}
         <enhanced:img
