@@ -5,11 +5,12 @@
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
+  import ImageUploadForm from "./ImageUploadForm.svelte";
+  import { base } from "$app/paths";
 
   let { data }: { data: PageData } = $props();
 
   let events: Array<EventObject> = $state(data.events);
-
   let upcomingEvents: Array<EventObject> = $derived(
     events
       .filter((event) => new Date(event.date) > new Date())
@@ -17,7 +18,6 @@
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       ),
   );
-
   let pastEvents: Array<EventObject> = $derived(
     events
       .filter((event) => new Date(event.date) < new Date())
@@ -28,6 +28,8 @@
   );
 
   let entryMode: boolean = $state(false);
+  let imageFilename: string | undefined = $state();
+  let selectedImage: string | undefined = $state();
 
   function createEvent() {
     entryMode = false;
@@ -59,31 +61,52 @@
       >
     {:else}
       <h2><strong>Add new event</strong></h2>
-      <form
-        class="newEvent"
-        method="POST"
-        action="?/create_event"
-        autocomplete="off"
-        use:enhance={createEvent}
-      >
-        <label for="title">Title</label>
-        <input id="title" name="title" required />
-        <label for="date">Date</label>
-        <input id="date" type="datetime-local" name="date" required />
-        <hr class="dim" />
-        <label id="description" for="description">Description</label>
-        <textarea name="description" spellcheck="false"></textarea>
-        <br />
-        <button type="submit" class="post action"
-          ><Fa icon={faSave} /> save</button
+      <div class="formRow">
+        <form
+          class="newEvent"
+          method="POST"
+          action="?/create_event"
+          autocomplete="off"
+          use:enhance={createEvent}
         >
-        <button
-          type="button"
-          class="post action"
-          onclick={() => (entryMode = false)}
-          ><Fa icon={faXmark} /> cancel</button
-        >
-      </form>
+          <label for="title">Title</label>
+          <input id="title" name="title" required />
+          <label for="date">Date</label>
+          <input id="date" type="datetime-local" name="date" required />
+          <input
+            type="hidden"
+            id="image"
+            name="image"
+            bind:value={imageFilename}
+          />
+          <hr class="dim" />
+          <label id="description" for="description">Description</label>
+          <textarea name="description" spellcheck="false"></textarea>
+          <br />
+          <button type="submit" class="post action"
+            ><Fa icon={faSave} /> save</button
+          >
+          <button
+            type="button"
+            class="post action"
+            onclick={() => (entryMode = false)}
+            ><Fa icon={faXmark} /> cancel</button
+          >
+        </form>
+        <div>
+          <ImageUploadForm bind:selectedImage bind:imageFilename />
+
+          {#if imageFilename}
+            <div>
+              <enhanced:img
+                class="previewImg"
+                src={imageFilename ? `${base}/images/${imageFilename}` : ""}
+                alt="New event image"
+              />
+            </div>
+          {/if}
+        </div>
+      </div>
     {/if}
   {/if}
   <h2><strong>Upcoming events</strong></h2>
@@ -116,5 +139,17 @@
 
   ul.eventList li {
     list-style: none;
+  }
+
+  div.formRow {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+  }
+
+  div .previewImg {
+    width: 12em;
+    border-radius: 10px;
+    height: fit-content;
   }
 </style>

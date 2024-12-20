@@ -4,10 +4,11 @@
   let {
     selectedImage = $bindable(),
     imageFilename = $bindable(),
-    slug,
+    slug = null,
   } = $props();
   let is_image_uploading: boolean = $state(false);
   let fileUploadError: string | null | undefined = $state();
+  let uploaded: boolean = $state(false);
 
   function uploadImage() {
     is_image_uploading = true;
@@ -18,6 +19,7 @@
         update().then(() => {
           imageFilename = fileObj.name;
           is_image_uploading = false;
+          uploaded = true;
         });
       }
       if (result.type === "failure") {
@@ -35,7 +37,7 @@
   use:enhance={uploadImage}
 >
   <div>
-    <label class="imageUpload" for={slug}
+    <label class="imageUpload" for={slug ? slug : "file"}
       >{selectedImage
         ? selectedImage
         : imageFilename
@@ -46,7 +48,7 @@
       type="file"
       name="file"
       class="imageUpload"
-      id={slug}
+      id={slug ? slug : "file"}
       accept="image/png, image/jpeg, image/webp"
       required
       onchange={(event: any) => {
@@ -54,10 +56,12 @@
           ? event.target.files[0].name
           : "";
         selectedImage = fileName;
+        uploaded = false;
+        fileUploadError = "";
       }}
     />
   </div>
-  {#if selectedImage}
+  {#if selectedImage && !uploaded}
     <button class="post action" disabled={is_image_uploading}>
       {#if is_image_uploading}
         Uploading...

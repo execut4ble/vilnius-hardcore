@@ -11,11 +11,11 @@ export const uploadImageAction = async ({ locals, request }) => {
   const file: FormDataEntryValue | null = data.get("file") as File;
 
   if (!locals.session) {
-    return fail(401);
+    return fail(401, { message: "Unauthorized" });
   }
 
   if (file instanceof File === false || file.size === 0) {
-    return fail(400);
+    return fail(400, { message: "Bad request" });
   }
 
   if (!file.type.includes("image")) {
@@ -24,12 +24,18 @@ export const uploadImageAction = async ({ locals, request }) => {
 
   const file_path = path.normalize(path.join(FILES_DIR, file.name));
 
+  if (fs.existsSync(file_path)) {
+    return fail(400, {
+      message: "File name already exists!",
+    });
+  }
+
   const nodejs_wstream = fs.createWriteStream(file_path);
   // Convert Web `ReadableStream` to a Node.js `Readable` stream
   const web_rstream = file.stream();
   const nodejs_rstream = Readable.fromWeb(web_rstream as any);
   // Write file to disk and wait for it to finish
   await pipeline(nodejs_rstream, nodejs_wstream).catch(() => {
-    return fail(500);
+    return fail(500, { message: "An internal error occurred!" });
   });
 };
