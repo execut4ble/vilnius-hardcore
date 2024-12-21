@@ -101,7 +101,7 @@
               <enhanced:img
                 class="previewImg"
                 src={imageFilename ? `${base}/images/${imageFilename}` : ""}
-                alt="New event image"
+                alt="New event"
               />
             </div>
           {/if}

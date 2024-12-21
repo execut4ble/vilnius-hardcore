@@ -41,9 +41,15 @@ a:hover {
 h1 {
   font-size: 2rem;
   text-align: center;
+  margin: 0.5em 0 0.5em 0;
 }
 
 h2 {
+  font-size: 1.25rem;
+  margin-top: 0;
+}
+
+h3 {
   font-size: 1rem;
 }
 
@@ -173,4 +179,9 @@ form textarea {
 form textarea:focus {
   border: 1px solid var(--color-text-2);
   outline: none;
+}
+
+ul {
+  list-style: square;
+  padding-left: 1.5em;
 }

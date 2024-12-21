@@ -230,7 +230,7 @@
     align-items: center;
     gap: 0.5em;
     max-width: 2.5em;
-    margin: 1em;
+    margin: 0.5em 1em 0.5em 1em;
   }
 
   div.eventRow .date .day {
@@ -244,6 +244,7 @@
   div.event .img {
     width: 100%;
     border-radius: 10px;
+    margin-bottom: 1em;
   }
 
   div.event .previewImg {
@@ -262,5 +263,17 @@
 
   div.eventRow p.date {
     margin-bottom: 0;
+  }
+
+  div.title h2 {
+    margin-bottom: 0.25em;
+  }
+
+  div.title form {
+    margin-bottom: 0;
+  }
+
+  div.eventBody .description {
+    line-height: 8pt;
   }
 </style>
