@@ -1,15 +1,16 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import Event from "./Event.svelte";
-  import type { EventObject } from "$lib/types";
+  import type { EventObject, EventsArray } from "$lib/types";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
   import ImageUploadForm from "./ImageUploadForm.svelte";
   import { base } from "$app/paths";
+  import { page } from "$app/state";
+  import { preloadData, replaceState } from "$app/navigation";
 
   let { data }: { data: PageData } = $props();
-
   let events: Array<EventObject> = $state(data.events);
   let upcomingEvents: Array<EventObject> = $derived(
     events
@@ -30,6 +31,8 @@
   let entryMode: boolean = $state(false);
   let imageFilename: string | undefined = $state();
   let selectedImage: string | undefined = $state();
+  let displayedEvents: number | null = $derived(events.length);
+  let totalEvents: number | null = $state(data.meta[0].totalEvents);
 
   function createEvent() {
     entryMode = false;
@@ -37,11 +40,24 @@
     return async ({ result }) => {
       if (result.type === "success" && result.data) {
         events.push(result.data.events[0]);
+        if (totalEvents) {
+          totalEvents += 1;
+        }
       } else if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
     };
+  }
+
+  async function loadMore() {
+    const newUrl = new URL(page.url);
+    const newPage = (Number(pastEvents.length) + 5).toString();
+    newUrl.searchParams.set("limit", newPage);
+    replaceState(newUrl, "");
+    await preloadData(newUrl.toString()).then((result: Record<string, any>) => {
+      events = result.data.events as EventsArray;
+    });
   }
 </script>
 
@@ -130,6 +146,12 @@
       <p>No past events found.</p>
     {/each}
   </ul>
+
+  {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
+    <button class="post action" onclick={loadMore}>show more</button>
+  {/if}
+
+  <div class="itemCount">Showing {displayedEvents} out of {totalEvents}</div>
 </section>
 
 <style>
@@ -151,5 +173,12 @@
     width: 12em;
     border-radius: 10px;
     height: fit-content;
+  }
+
+  div.itemCount {
+    margin: 2em;
+    display: flex;
+    justify-content: center;
+    color: var(--color-text-3);
   }
 </style>

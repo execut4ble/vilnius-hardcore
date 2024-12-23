@@ -272,8 +272,4 @@
   div.title form {
     margin-bottom: 0;
   }
-
-  div.eventBody .description {
-    line-height: 8pt;
-  }
 </style>
