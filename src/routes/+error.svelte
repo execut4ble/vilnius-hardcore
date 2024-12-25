@@ -7,7 +7,7 @@
 </svelte:head>
 
 <section>
-  <h1>{page.status} {page.error.message}</h1>
+  <h1>{page.status} {page.error ? page.error.message : "Unknown error"}</h1>
 
   {#if page.status === 404}
     <h2>The requested page was not found.</h2>
