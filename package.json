@@ -19,7 +19,6 @@
     "@neoconfetti/svelte": "^2.2.1",
     "@sveltejs/adapter-auto": "^3.3.1",
     "@sveltejs/adapter-node": "^5.2.11",
-    "@sveltejs/enhanced-img": "^0.4.4",
     "@sveltejs/kit": "^2.12.1",
     "@sveltejs/vite-plugin-svelte": "^5.0.2",
     "@types/figlet": "^1.7.0",
