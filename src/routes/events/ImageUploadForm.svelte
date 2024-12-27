@@ -60,6 +60,7 @@
         fileUploadError = "";
       }}
     />
+    <input type="hidden" name="slug" value={slug} />
   </div>
   {#if selectedImage && !uploaded}
     <button class="post action" disabled={is_image_uploading}>
@@ -68,6 +69,18 @@
       {:else}
         Upload
       {/if}
+    </button>
+  {/if}
+  {#if imageFilename}
+    <button
+      name="file"
+      class="post action"
+      onclick={() => {
+        imageFilename = "";
+        selectedImage = "";
+      }}
+    >
+      Clear image
     </button>
   {/if}
   {#if fileUploadError}

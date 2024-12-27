@@ -3,6 +3,9 @@ import path from "node:path";
 import { Readable } from "node:stream";
 import fs from "node:fs";
 import { pipeline } from "node:stream/promises";
+import { db } from "./server/db";
+import * as table from "$lib/server/db/schema";
+import { and, eq, ne } from "drizzle-orm";
 
 export const FILES_DIR = "./static/public/uploads";
 
@@ -23,10 +26,19 @@ export const uploadImageAction = async ({ locals, request }) => {
   }
 
   const file_path = path.normalize(path.join(FILES_DIR, file.name));
-
-  if (fs.existsSync(file_path)) {
+  const slug = data.get("slug");
+  const existingFiles = await db
+    .select()
+    .from(table.event)
+    .where(
+      and(
+        eq(table.event.image, file.name),
+        ne(table.event.slug, slug as string),
+      ),
+    );
+  if (existingFiles.length > 0) {
     return fail(400, {
-      message: "File name already exists!",
+      message: "File name already in use!",
     });
   }
 

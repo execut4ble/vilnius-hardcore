@@ -36,6 +36,8 @@
 
   function createEvent() {
     entryMode = false;
+    imageFilename = "";
+    selectedImage = "";
 
     return async ({ result }) => {
       if (result.type === "success" && result.data) {
