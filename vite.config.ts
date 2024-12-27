@@ -1,9 +1,10 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
+import { enhancedImages } from "@sveltejs/enhanced-img";
 
 export default defineConfig({
   server: {
     port: 5137,
   },
-  plugins: [sveltekit()],
+  plugins: [enhancedImages(), sveltekit()],
 });
