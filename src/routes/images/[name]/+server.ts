@@ -30,9 +30,16 @@ export async function GET({ params, request }) {
     "Last-Modified": stats.mtime.toUTCString(),
   };
 
-  const nodejs_rstream = fs.createReadStream(file_path) as unknown as BodyInit;
+  const nodejs_rstream = fs.createReadStream(file_path);
 
-  return new Response(nodejs_rstream as any, { headers } as any);
+  // @ts-ignore
+  const web_rstream = Readable.toWeb(nodejs_rstream, {
+    // See: https://github.com/nodejs/node/issues/46347#issuecomment-1416310527
+    strategy: new CountQueuingStrategy({ highWaterMark: 100 }),
+  }) as unknown as BodyInit;
+
+  // @ts-ignore
+  return new Response(web_rstream, { headers });
 }
 
 const mimes = {
