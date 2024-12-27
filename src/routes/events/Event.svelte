@@ -84,7 +84,7 @@
 
 <div class="event">
   {#if detailed && imageFilename}
-    <enhanced:img
+    <img
       class="img"
       src={imageFilename ? `${base}/images/${imageFilename}` : ""}
       alt={title}
@@ -205,7 +205,7 @@
         <ImageUploadForm bind:selectedImage bind:imageFilename {slug} />
       {/if}
       {#if !detailed && imageFilename}
-        <enhanced:img
+        <img
           class="previewImg"
           src={imageFilename ? `${base}/images/${imageFilename}` : ""}
           alt={title}
