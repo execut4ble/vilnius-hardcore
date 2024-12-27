@@ -30,11 +30,9 @@ export async function GET({ params, request }) {
     "Last-Modified": stats.mtime.toUTCString(),
   };
 
-  const nodejs_rstream = fs.createReadStream(file_path);
+  const nodejs_rstream = fs.createReadStream(file_path) as unknown as BodyInit;
 
-  const web_rstream = Readable.toWeb(nodejs_rstream);
-
-  return new Response(web_rstream as any, { headers } as any);
+  return new Response(nodejs_rstream as any, { headers } as any);
 }
 
 const mimes = {
