@@ -1,19 +1,18 @@
 <script lang="ts">
-  import figlet from "figlet";
-  import graffiti from "figlet/importable-fonts/Graffiti.js";
-
-  figlet.parseFont("Graffiti", graffiti);
-
-  const welcomeTitle: string = $state(
-    figlet.textSync("hardcore.lt", "Graffiti"),
-  );
   const description: string = $state(
     "Ska funk rasta punk scene, vilnius, lithuania",
   );
 </script>
 
 <header>
-  <figlet><pre>{welcomeTitle}</pre></figlet>
+  <figlet
+    ><pre>    .__                     .___                            .__   __   
+    |  |__ _____ _______  __| _/____  ___________   ____    |  |_/  |_ 
+    |  |  \\__  \\_  __ \/ __ |/ ___\/  _ \_  __ \_/ __ \   |  |\   __\
+    |   Y  \/ __ \|  | \/ /_/ \  \__(  &lt_&gt )  | \/\  ___/   |  |_|  |  
+    |___|  (____  /__|  \____ |\___  &lt____/|__|    \___  &gt /\____/__|  
+         \/     \/           \/    \/                  \/  \/</pre></figlet
+  >
   <div class="description">
     <span>{description}</span><span class="cursor">&nbsp;</span>
   </div>
@@ -28,6 +27,7 @@
   }
 
   figlet pre {
+    margin-top: 0;
     color: var(--color-text-2);
     background-color: rgba(0, 0, 0, 0);
     margin-bottom: 0;
