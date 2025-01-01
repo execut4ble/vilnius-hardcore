@@ -12,16 +12,20 @@
 
   let { data }: { data: PageData } = $props();
   let events: Array<EventObject> = $state(data.events);
+  let today: Date = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize to midnight
+
   let upcomingEvents: Array<EventObject> = $derived(
     events
-      .filter((event) => new Date(event.date) > new Date())
+      .filter((event) => new Date(event.date) >= today)
       .toSorted(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       ),
   );
+
   let pastEvents: Array<EventObject> = $derived(
     events
-      .filter((event) => new Date(event.date) < new Date())
+      .filter((event) => new Date(event.date) < today)
       .toSorted(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       )
