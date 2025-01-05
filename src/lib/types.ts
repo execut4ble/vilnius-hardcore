@@ -1,5 +1,3 @@
-import type { PageData } from "../routes/$types";
-
 export type EventObject = {
   id: number;
   date: Date | string;
@@ -9,7 +7,16 @@ export type EventObject = {
   image: string | null;
 };
 
+export type CommentObject = {
+  id: number;
+  date: Date | string;
+  author: string;
+  content: string | null;
+};
+
 export type EventsArray = Array<EventObject>;
+
+export type CommentsArray = Array<CommentObject>;
 
 export type EventComponent = EventObject & {
   events?: EventsArray | undefined;
