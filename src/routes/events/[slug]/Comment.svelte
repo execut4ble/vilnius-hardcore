@@ -19,10 +19,10 @@
   }
 
   div.comment .heading {
-    margin-bottom: 0.6em;
+    margin-bottom: 1em;
   }
 
   div.comment .content {
-    margin-left: 1em;
+    margin-left: 0.5em;
   }
 </style>

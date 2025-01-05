@@ -63,6 +63,10 @@ export const actions = {
     formData.set("date", date.toISOString());
     formData.set("eventId", eventId[0].id.toString());
     const data: Object = Object.fromEntries(formData.entries());
-    await db.insert(table.comment).values(data as any);
+    const comment = await db
+      .insert(table.comment)
+      .values(data as any)
+      .returning();
+    return { comment };
   },
 } satisfies Actions;

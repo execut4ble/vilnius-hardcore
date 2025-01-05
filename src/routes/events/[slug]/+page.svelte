@@ -10,6 +10,21 @@
   let { data }: { data: PageData } = $props();
   let event: EventObject = $state(data.event[0] as EventObject);
   let comments: CommentsArray = $state(data.comments as CommentsArray);
+  let commentAuthor: string = $state("");
+  let commentContent: string = $state("");
+
+  function addComment() {
+    return async ({ result }) => {
+      if (result.type === "success" && result.data) {
+        commentAuthor = "";
+        commentContent = "";
+        comments.push(result.data.comment[0]);
+      } else if (result.type === "error") {
+        // Handle errors if necessary
+        console.error("Form submission failed:", result.status);
+      }
+    };
+  }
 </script>
 
 <svelte:head>
@@ -36,12 +51,23 @@
     method="POST"
     action="?/add_comment"
     autocomplete="off"
-    use:enhance
+    use:enhance={addComment}
   >
     <label for="author">Name</label>
-    <input id="author" name="author" required />
+    <input
+      id="author"
+      name="author"
+      required
+      bind:value={commentAuthor}
+      maxlength="30"
+    />
     <label id="content" for="content">Comment</label>
-    <textarea name="content" spellcheck="false" required maxlength="250"
+    <textarea
+      name="content"
+      spellcheck="false"
+      required
+      maxlength="250"
+      bind:value={commentContent}
     ></textarea>
     <br />
     <button type="submit" class="post action"

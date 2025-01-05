@@ -39,12 +39,11 @@
   let totalEvents: number | null = $state(data.meta[0].totalEvents);
 
   function createEvent() {
-    entryMode = false;
-    imageFilename = "";
-    selectedImage = "";
-
     return async ({ result }) => {
       if (result.type === "success" && result.data) {
+        entryMode = false;
+        imageFilename = "";
+        selectedImage = "";
         events.push(result.data.events[0]);
         if (totalEvents) {
           totalEvents += 1;

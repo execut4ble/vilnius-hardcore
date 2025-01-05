@@ -39,10 +39,10 @@
 
   function updateEvent({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
-    isEditing = false;
 
     return async ({ result }) => {
       if (result.type === "success" && result.data) {
+        isEditing = false;
         const newSlug = result.data[0].slug;
         // Only go to new slug if our title has changed
         // and we're in the detail events page
