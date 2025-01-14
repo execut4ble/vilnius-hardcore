@@ -37,7 +37,7 @@
 
   <strong><h2>Comments</h2></strong>
 
-  <div class="comments">
+  <div class="comments" id="comments">
     {#each comments as comment (comment.id)}
       <Comment {...comment} />
     {:else}

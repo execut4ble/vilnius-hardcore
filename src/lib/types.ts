@@ -5,6 +5,7 @@ export type EventObject = {
   slug: string | null;
   description: string | null;
   image: string | null;
+  comments?: number | null;
 };
 
 export type CommentObject = {

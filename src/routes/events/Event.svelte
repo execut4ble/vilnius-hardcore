@@ -28,6 +28,7 @@
   let originalImage: string | null = $state(event.image);
   let imageFilename: string | null = $state(event.image);
   let selectedImage: string | null | undefined = $state();
+  let comments: number | null | undefined = $derived(event.comments);
 
   let confirmDelete: boolean = $state(false);
   let date: string = $state(new Date(event.date).toLocaleString("lt-LT"));
@@ -136,15 +137,22 @@
               {/if}
             </form>
           {/if}
-          <p class="date">
-            {new Date(date).toLocaleTimeString("lt-LT", {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
+          <div class="meta">
+            <p class="date">
+              {new Date(date).toLocaleTimeString("lt-LT", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+            {#if !detailed && comments && comments > 0}
+              <p class="comments">
+                <a href="/events/{slug}#comments">{comments} comments</a>
+              </p>
+            {/if}
+          </div>
           <hr class="dim" />
           <div class="eventBody">
             <div class="description">
@@ -261,8 +269,9 @@
     white-space: pre-line;
   }
 
-  div.eventRow p.date {
+  div.eventRow p {
     margin-bottom: 0;
+    margin-top: 0;
   }
 
   div.title h2 {
@@ -270,6 +279,12 @@
   }
 
   div.title form {
-    margin-bottom: 0;
+    margin-bottom: 0.5em;
+  }
+
+  div.meta {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5em;
   }
 </style>
