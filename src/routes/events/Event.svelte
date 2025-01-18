@@ -14,24 +14,17 @@
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "./ImageUploadForm.svelte";
 
-  let {
-    detailed = false,
-    events = $bindable(),
-    ...event
-  }: EventComponent = $props();
+  let { detailed = false, ...event }: EventComponent = $props();
 
-  let title = $state(event.title);
-  let description = $state(event.description);
-  let md = $derived(description);
+  let md = $derived(event.description);
   let slug = $state(event.slug);
   let isEditing: boolean = $state(false);
-  let originalImage: string | null = $state(event.image);
   let imageFilename: string | null = $state(event.image);
   let selectedImage: string | null | undefined = $state();
   let comments: number | null | undefined = $derived(event.comments);
 
   let confirmDelete: boolean = $state(false);
-  let date: string = $state(new Date(event.date).toLocaleString("lt-LT"));
+  let date: string = $derived(new Date(event.date).toLocaleString("lt-LT"));
   const year: number = $derived(new Date(date).getFullYear());
   const month: string = $derived(
     new Date(date).toLocaleString("en-us", { month: "short" }),
@@ -41,24 +34,26 @@
   function updateEvent({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
 
-    return async ({ result }) => {
-      if (result.type === "success" && result.data) {
+    return async ({ update, result }) => {
+      await update().then(() => {
         isEditing = false;
-        const newSlug = result.data[0].slug;
-        // Only go to new slug if our title has changed
-        // and we're in the detail events page
-        if (
-          slug !== newSlug &&
-          page.route.id &&
-          page.route.id.includes("[slug]")
-        ) {
-          console.log("Redirecting to", newSlug);
-          goto(newSlug, { noScroll: true });
+        if (result.type === "success" && result.data) {
+          const newSlug = result.data[0].slug;
+          // Only go to new slug if our title has changed
+          // and we're in the detail events page
+          if (
+            slug !== newSlug &&
+            page.route.id &&
+            page.route.id.includes("[slug]")
+          ) {
+            console.log("Redirecting to", newSlug);
+            goto(newSlug, { noScroll: true });
+          }
+          slug = newSlug;
         }
-        slug = newSlug;
-        originalImage = imageFilename;
-        selectedImage = null;
-      } else if (result.type === "error") {
+      });
+
+      if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
@@ -66,16 +61,13 @@
   }
 
   function removeEvent() {
-    return async ({ result }) => {
-      if (result.type === "success" && result.data) {
+    return async ({ update, result }) => {
+      await update().then(() => {
         if (detailed) {
           goto("/events", { noScroll: true });
-        } else {
-          if (events) {
-            events = events.filter((item) => item.slug !== slug);
-          }
         }
-      } else if (result.type === "error") {
+      });
+      if (result.type === "error") {
         // Handle errors if necessary
         console.error("Delete failed:", result.status);
       }
@@ -84,11 +76,11 @@
 </script>
 
 <div class="event">
-  {#if detailed && imageFilename}
+  {#if detailed && event.image}
     <img
       class="img"
-      src={imageFilename ? `${base}/public/uploads/${imageFilename}` : ""}
-      alt={title}
+      src={event.image ? `${base}/public/uploads/${event.image}` : ""}
+      alt={event.title}
     />
   {/if}
   <div class="eventRow">
@@ -107,7 +99,9 @@
       <div class="title">
         {#if !isEditing}
           <h2>
-            <a href="/events/{slug}"><strong>{title ? title : ""}</strong></a>
+            <a href="/events/{slug}"
+              ><strong>{event.title ? event.title : ""}</strong></a
+            >
           </h2>
           {#if page.url.pathname !== "/" && page.data.user}
             <form
@@ -169,26 +163,26 @@
             use:enhance={updateEvent}
           >
             <label for="title">Title</label>
-            <input id="title" name="title" bind:value={title} required />
+            <input id="title" name="title" value={event.title} required />
             <label for="date">Date</label>
             <input
               id="date"
               type="datetime-local"
               name="date"
-              bind:value={date}
+              value={date}
               required
             />
             <input
               type="hidden"
               id="image"
               name="image"
-              bind:value={imageFilename}
+              value={imageFilename}
             />
             <hr class="dim" />
             <label id="description" for="description">Description</label>
             <textarea
               name="description"
-              bind:value={description}
+              value={event.description}
               spellcheck="false"
             ></textarea>
             <br />
@@ -199,7 +193,6 @@
               type="button"
               class="post action"
               onclick={() => {
-                imageFilename = originalImage;
                 isEditing = false;
                 selectedImage = null;
               }}><Fa icon={faXmark} /> cancel</button
@@ -210,13 +203,17 @@
     </div>
     <div>
       {#if isEditing}
-        <ImageUploadForm bind:selectedImage bind:imageFilename {slug} />
+        <ImageUploadForm
+          bind:selectedImage
+          bind:displayImage={imageFilename}
+          {slug}
+        />
       {/if}
-      {#if !detailed && imageFilename}
+      {#if !detailed && event.image}
         <img
           class="previewImg"
-          src={imageFilename ? `${base}/public/uploads/${imageFilename}` : ""}
-          alt={title}
+          src={event.image ? `${base}/public/uploads/${event.image}` : ""}
+          alt={event.title}
         />
       {/if}
     </div>

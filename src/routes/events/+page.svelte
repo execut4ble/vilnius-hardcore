@@ -8,10 +8,10 @@
   import ImageUploadForm from "./ImageUploadForm.svelte";
   import { base } from "$app/paths";
   import { page } from "$app/state";
-  import { preloadData, replaceState } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   let { data }: { data: PageData } = $props();
-  let events: Array<EventObject> = $state(data.events);
+  let events: Array<EventObject> = $derived(data.events);
   let today: Date = new Date();
   today.setHours(0, 0, 0, 0); // Normalize to midnight
 
@@ -33,22 +33,16 @@
   );
 
   let entryMode: boolean = $state(false);
-  let imageFilename: string | undefined = $state();
+  let displayImage: string | undefined = $state();
   let selectedImage: string | undefined = $state();
   let displayedEvents: number | null = $derived(events.length);
-  let totalEvents: number | null = $state(data.meta[0].totalEvents);
+  let totalEvents: number | null = $derived(data.meta[0].totalEvents);
 
   function createEvent() {
-    return async ({ result }) => {
-      if (result.type === "success" && result.data) {
-        entryMode = false;
-        imageFilename = "";
-        selectedImage = "";
-        events.push(result.data.events[0]);
-        if (totalEvents) {
-          totalEvents += 1;
-        }
-      } else if (result.type === "error") {
+    return async ({ update, result }) => {
+      await update().then((entryMode = false));
+
+      if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
@@ -59,10 +53,7 @@
     const newUrl = new URL(page.url);
     const newPage = (Number(pastEvents.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
-    replaceState(newUrl, "");
-    await preloadData(newUrl.toString()).then((result: Record<string, any>) => {
-      events = result.data.events as EventsArray;
-    });
+    goto(newUrl, { noScroll: true });
   }
 </script>
 
@@ -98,7 +89,7 @@
             type="hidden"
             id="image"
             name="image"
-            bind:value={imageFilename}
+            bind:value={displayImage}
           />
           <hr class="dim" />
           <label id="description" for="description">Description</label>
@@ -115,14 +106,14 @@
           >
         </form>
         <div>
-          <ImageUploadForm bind:selectedImage bind:imageFilename />
+          <ImageUploadForm bind:selectedImage bind:displayImage />
 
-          {#if imageFilename}
+          {#if displayImage}
             <div>
               <img
                 class="previewImg"
-                src={imageFilename
-                  ? `${base}/public/uploads/${imageFilename}`
+                src={displayImage
+                  ? `${base}/public/uploads/${displayImage}`
                   : ""}
                 alt="New event"
               />
@@ -136,7 +127,7 @@
   <ul class="eventList">
     {#each upcomingEvents as event (event.slug)}
       <li>
-        <Event {...event} bind:events />
+        <Event {...event} />
       </li>
     {:else}
       <p>We have no upcoming events right now! Check back later!</p>
@@ -147,7 +138,7 @@
   <ul class="eventList">
     {#each pastEvents as event (event.slug)}
       <li>
-        <Event {...event} bind:events />
+        <Event {...event} />
       </li>
     {:else}
       <p>No past events found.</p>

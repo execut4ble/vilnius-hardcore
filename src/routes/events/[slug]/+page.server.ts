@@ -34,12 +34,10 @@ export const actions = {
     }
     const formData: FormData = await request.formData();
     const data = Object.fromEntries(formData.entries());
-    const event: EventsArray = await db
+    await db
       .update(table.event)
       .set(data)
-      .where(eq(table.event.slug, params.slug))
-      .returning();
-    return event;
+      .where(eq(table.event.slug, params.slug));
   },
   remove_event: async ({ locals, request }) => {
     if (!locals.session) {
@@ -47,10 +45,7 @@ export const actions = {
     }
     const formData: FormData = await request.formData();
     const slug: FormDataEntryValue | null = formData.get("slug");
-    const events: EventsArray = await db
-      .delete(table.event)
-      .where(eq(table.event.slug, slug as string));
-    return { events };
+    await db.delete(table.event).where(eq(table.event.slug, slug as string));
   },
   upload_image: uploadImageAction,
   add_comment: async ({ request, params }) => {
@@ -63,10 +58,7 @@ export const actions = {
     formData.set("date", date.toISOString());
     formData.set("eventId", eventId[0].id.toString());
     const data: Object = Object.fromEntries(formData.entries());
-    const comment = await db
-      .insert(table.comment)
-      .values(data as any)
-      .returning();
-    return { comment };
+
+    await db.insert(table.comment).values(data as any);
   },
 } satisfies Actions;
