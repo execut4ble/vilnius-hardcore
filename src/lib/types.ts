@@ -25,7 +25,20 @@ export type EventComponent = EventObject & {
   detailed?: boolean;
 };
 
-export type MenuData = {
-  user: { id: string; username: string } | null;
-  events?: EventsArray; // Optional
+export type LayoutData = {
+  user: UserInfoData;
+  recentComments: RecentCommentsData;
 };
+
+export type UserInfoData = {
+  id: string;
+  username: string;
+} | null;
+
+export type RecentCommentsData = Array<{
+  id: number;
+  author: string;
+  date: Date;
+  event_name: string;
+  event_slug: string;
+}>;

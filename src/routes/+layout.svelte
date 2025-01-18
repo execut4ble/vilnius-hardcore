@@ -3,9 +3,13 @@
   import Menu from "./Menu.svelte";
   import "../app.css";
   import type { Snippet } from "svelte";
-  import type { MenuData } from "$lib/types";
+  import type { LayoutData } from "$lib/types";
+  import RecentComments from "./RecentComments.svelte";
+  import UserInfo from "./UserInfo.svelte";
 
-  let { data, children }: { data: MenuData; children: Snippet } = $props();
+  let { data, children }: { data: LayoutData; children: Snippet } = $props();
+  let user = $state(data.user);
+  let recentComments = $state(data.recentComments);
 </script>
 
 <div class="app">
@@ -13,7 +17,11 @@
   <main>
     <row>
       {@render children()}
-      <Menu {data} />
+      <div class="sidebar">
+        <UserInfo {user} />
+        <Menu />
+        <RecentComments {recentComments} />
+      </div>
     </row>
   </main>
 
