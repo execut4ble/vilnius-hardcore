@@ -27,37 +27,35 @@
   <meta name="description" content="Vilnius Hardcore" />
 </svelte:head>
 
-<section>
-  <Event {...event} detailed={true} />
-  <strong><h2>Comments</h2></strong>
+<Event {...event} detailed={true} />
+<strong><h2>Comments</h2></strong>
 
-  <div class="comments" id="comments">
-    {#each comments as comment (comment.id)}
-      <Comment {...comment} />
-    {:else}
-      <div>No comments found. Write something!</div>
-    {/each}
-  </div>
-  <hr class="dim" />
-  <strong><h3>Add a comment</h3></strong>
-  <form
-    class="comment"
-    method="POST"
-    action="?/add_comment"
-    autocomplete="off"
-    use:enhance={addComment}
+<div class="comments" id="comments">
+  {#each comments as comment (comment.id)}
+    <Comment {...comment} />
+  {:else}
+    <div>No comments found. Write something!</div>
+  {/each}
+</div>
+<hr class="dim" />
+<strong><h3>Add a comment</h3></strong>
+<form
+  class="comment"
+  method="POST"
+  action="?/add_comment"
+  autocomplete="off"
+  use:enhance={addComment}
+>
+  <label for="author">Name</label>
+  <input id="author" name="author" required maxlength="30" />
+  <label id="content" for="content">Comment</label>
+  <textarea name="content" spellcheck="false" required maxlength="250"
+  ></textarea>
+  <br />
+  <button type="submit" class="post action"
+    ><Fa icon={faCommentDots} /> post</button
   >
-    <label for="author">Name</label>
-    <input id="author" name="author" required maxlength="30" />
-    <label id="content" for="content">Comment</label>
-    <textarea name="content" spellcheck="false" required maxlength="250"
-    ></textarea>
-    <br />
-    <button type="submit" class="post action"
-      ><Fa icon={faCommentDots} /> post</button
-    >
-  </form>
-</section>
+</form>
 
 <style>
   div.comments div {

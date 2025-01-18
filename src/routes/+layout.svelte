@@ -16,7 +16,9 @@
   <Header />
   <main>
     <row>
-      {@render children()}
+      <section>
+        {@render children()}
+      </section>
       <div class="sidebar">
         <UserInfo {user} />
         <Menu />

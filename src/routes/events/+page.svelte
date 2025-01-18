@@ -62,95 +62,89 @@
   <meta name="description" content="Vilnius Hardcore" />
 </svelte:head>
 
-<section>
-  <h1>Events</h1>
-  {#if data.user}
-    {#if !entryMode}
-      <button
-        type="button"
-        class="post action"
-        onclick={() => (entryMode = true)}><Fa icon={faAdd} /> add new</button
+<h1>Events</h1>
+{#if data.user}
+  {#if !entryMode}
+    <button type="button" class="post action" onclick={() => (entryMode = true)}
+      ><Fa icon={faAdd} /> add new</button
+    >
+  {:else}
+    <h2><strong>Add new event</strong></h2>
+    <div class="formRow">
+      <form
+        class="newEvent"
+        method="POST"
+        action="?/create_event"
+        autocomplete="off"
+        use:enhance={createEvent}
       >
-    {:else}
-      <h2><strong>Add new event</strong></h2>
-      <div class="formRow">
-        <form
-          class="newEvent"
-          method="POST"
-          action="?/create_event"
-          autocomplete="off"
-          use:enhance={createEvent}
+        <label for="title">Title</label>
+        <input id="title" name="title" required />
+        <label for="date">Date</label>
+        <input id="date" type="datetime-local" name="date" required />
+        <input
+          type="hidden"
+          id="image"
+          name="image"
+          bind:value={displayImage}
+        />
+        <hr class="dim" />
+        <label id="description" for="description">Description</label>
+        <textarea name="description" spellcheck="false"></textarea>
+        <br />
+        <button type="submit" class="post action"
+          ><Fa icon={faSave} /> save</button
         >
-          <label for="title">Title</label>
-          <input id="title" name="title" required />
-          <label for="date">Date</label>
-          <input id="date" type="datetime-local" name="date" required />
-          <input
-            type="hidden"
-            id="image"
-            name="image"
-            bind:value={displayImage}
-          />
-          <hr class="dim" />
-          <label id="description" for="description">Description</label>
-          <textarea name="description" spellcheck="false"></textarea>
-          <br />
-          <button type="submit" class="post action"
-            ><Fa icon={faSave} /> save</button
-          >
-          <button
-            type="button"
-            class="post action"
-            onclick={() => (entryMode = false)}
-            ><Fa icon={faXmark} /> cancel</button
-          >
-        </form>
-        <div>
-          <ImageUploadForm bind:selectedImage bind:displayImage />
+        <button
+          type="button"
+          class="post action"
+          onclick={() => (entryMode = false)}
+          ><Fa icon={faXmark} /> cancel</button
+        >
+      </form>
+      <div>
+        <ImageUploadForm bind:selectedImage bind:displayImage />
 
-          {#if displayImage}
-            <div>
-              <img
-                class="previewImg"
-                src={displayImage
-                  ? `${base}/public/uploads/${displayImage}`
-                  : ""}
-                alt="New event"
-              />
-            </div>
-          {/if}
-        </div>
+        {#if displayImage}
+          <div>
+            <img
+              class="previewImg"
+              src={displayImage ? `${base}/public/uploads/${displayImage}` : ""}
+              alt="New event"
+            />
+          </div>
+        {/if}
       </div>
-    {/if}
+    </div>
   {/if}
-  <h2><strong>Upcoming events</strong></h2>
-  <ul class="eventList">
-    {#each upcomingEvents as event (event.slug)}
-      <li>
-        <Event {...event} />
-      </li>
-    {:else}
-      <p>We have no upcoming events right now! Check back later!</p>
-    {/each}
-  </ul>
+{/if}
+<h2><strong>Upcoming events</strong></h2>
+<ul class="eventList">
+  {#each upcomingEvents as event (event.slug)}
+    <li>
+      <Event {...event} />
+    </li>
+  {:else}
+    <p>We have no upcoming events right now! Check back later!</p>
+  {/each}
+</ul>
 
-  <h2><strong>Past events</strong></h2>
-  <ul class="eventList">
-    {#each pastEvents as event (event.slug)}
-      <li>
-        <Event {...event} />
-      </li>
-    {:else}
-      <p>No past events found.</p>
-    {/each}
-  </ul>
+<h2><strong>Past events</strong></h2>
+<ul class="eventList">
+  {#each pastEvents as event (event.slug)}
+    <li>
+      <Event {...event} />
+    </li>
+  {:else}
+    <p>No past events found.</p>
+  {/each}
+</ul>
 
-  {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
-    <button class="post action" onclick={loadMore}>show more</button>
-  {/if}
+{#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
+  <button class="post action" onclick={loadMore}>show more</button>
+{/if}
 
-  <div class="itemCount">Showing {displayedEvents} out of {totalEvents}</div>
-</section>
+<div class="itemCount">Showing {displayedEvents} out of {totalEvents}</div>
 
 <style>
   ul.eventList {

@@ -73,7 +73,6 @@ pre.inline {
   display: inline;
 }
 
-.text-column,
 section {
   display: flex;
   max-width: 40rem;
@@ -82,6 +81,7 @@ section {
   justify-content: center;
   align-content: center;
   margin: 0 5em 0 5em;
+  min-width: 500px;
 }
 
 input {
