@@ -8,8 +8,8 @@
   import UserInfo from "./UserInfo.svelte";
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props();
-  let user = $state(data.user);
-  let recentComments = $state(data.recentComments);
+  let user = $derived(data.user);
+  let recentComments = $derived(data.recentComments);
 </script>
 
 <div class="app">
@@ -43,9 +43,6 @@
   }
 
   main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     padding: 1rem;
     width: 100%;
     max-width: 64rem;
@@ -53,10 +50,27 @@
     box-sizing: border-box;
     margin: 50px auto;
     font-size: 14px;
-    font-weight: bold;
     line-height: 16px;
 
     -webkit-font-smoothing: antialiased;
+  }
+
+  section {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-content: center;
+    margin: 0 5em 0 5em;
+    min-width: 500px;
+  }
+
+  sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    align-items: center;
+    margin-top: 2em;
+    width: 25em;
   }
 
   row {
@@ -80,14 +94,5 @@
     footer {
       padding: 12px 0;
     }
-  }
-
-  sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-    align-items: center;
-    margin-top: 2em;
-    width: 20em;
   }
 </style>

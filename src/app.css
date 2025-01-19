@@ -73,17 +73,6 @@ pre.inline {
   display: inline;
 }
 
-section {
-  display: flex;
-  max-width: 40rem;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  margin: 0 5em 0 5em;
-  min-width: 500px;
-}
-
 input {
   font-size: inherit;
   font-family: inherit;
