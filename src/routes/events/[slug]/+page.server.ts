@@ -4,7 +4,7 @@ import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { uploadImageAction } from "$lib/files-dir";
-import { fail } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
 
 export const load = (async ({
   params,
@@ -13,6 +13,10 @@ export const load = (async ({
     .select()
     .from(table.event)
     .where(eq(table.event.slug, params.slug));
+
+  if (event.length === 0) {
+    error(404, "Not Found");
+  }
 
   const comments = await db
     .select({
