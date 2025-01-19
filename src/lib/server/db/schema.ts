@@ -30,7 +30,7 @@ export const event = pgTable("event", {
 export const comment = pgTable("comment", {
   id: serial("id").primaryKey(),
   eventId: integer("event_id")
-    .references(() => event.id)
+    .references(() => event.id, { onDelete: "cascade" })
     .notNull(),
   author: text("author").notNull(),
   date: timestamp("date", { withTimezone: true, mode: "string" }).notNull(),
