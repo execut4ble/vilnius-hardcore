@@ -62,11 +62,11 @@
 
   function removeEvent() {
     return async ({ update, result }) => {
-      await update().then(() => {
-        if (detailed) {
-          goto("/events", { noScroll: true });
-        }
-      });
+      if (detailed) {
+        goto("/events", { noScroll: true });
+      } else {
+        await update();
+      }
       if (result.type === "error") {
         // Handle errors if necessary
         console.error("Delete failed:", result.status);
