@@ -21,7 +21,7 @@
   let isEditing: boolean = $state(false);
   let imageFilename: string | null = $state(event.image);
   let selectedImage: string | null | undefined = $state();
-  let comments: number | null | undefined = $derived(event.comments);
+  let commentCount: number | null | undefined = $derived(event.comments);
 
   let confirmDelete: boolean = $state(false);
   let date: string = $derived(new Date(event.date).toLocaleString("lt-LT"));
@@ -141,9 +141,16 @@
                 minute: "2-digit",
               })}
             </p>
-            {#if !detailed && comments && comments > 0}
+            {#if !detailed && commentCount && commentCount > 0}
               <p class="comments">
-                <a href="/events/{slug}#comments">{comments} comments</a>
+                <a href="/events/{slug}#comments"
+                  >{commentCount}
+                  {#if commentCount < 2}
+                    comment
+                  {:else}
+                    comments
+                  {/if}
+                </a>
               </p>
             {/if}
           </div>
