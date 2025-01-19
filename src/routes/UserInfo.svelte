@@ -8,9 +8,3 @@
     Logged in as <a href="/crew">{user.username}</a>
   {/if}
 </div>
-
-<style>
-  div.userInfo {
-    margin-bottom: 2em;
-  }
-</style>

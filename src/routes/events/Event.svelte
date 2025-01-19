@@ -247,9 +247,10 @@
   }
 
   div.event .img {
-    width: 100%;
+    max-width: 100%;
     border-radius: 10px;
     margin-bottom: 1em;
+    max-height: 65vh;
   }
 
   div.event .previewImg {

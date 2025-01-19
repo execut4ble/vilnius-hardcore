@@ -28,9 +28,9 @@
 </svelte:head>
 
 <Event {...event} detailed={true} />
-<strong><h2>Comments</h2></strong>
+<strong><h2 id="comments">Comments</h2></strong>
 
-<div class="comments" id="comments">
+<div class="comments">
   {#each comments as comment (comment.id)}
     <Comment {...comment} />
   {:else}

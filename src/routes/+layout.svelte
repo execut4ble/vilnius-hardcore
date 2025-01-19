@@ -19,11 +19,11 @@
       <section>
         {@render children()}
       </section>
-      <div class="sidebar">
+      <sidebar>
         <UserInfo {user} />
         <Menu />
         <RecentComments {recentComments} />
-      </div>
+      </sidebar>
     </row>
   </main>
 
@@ -80,5 +80,14 @@
     footer {
       padding: 12px 0;
     }
+  }
+
+  sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    align-items: center;
+    margin-top: 2em;
+    width: 20em;
   }
 </style>

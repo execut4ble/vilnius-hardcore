@@ -19,16 +19,6 @@
 </div>
 
 <style>
-  div.menu {
-    margin-top: 2em;
-    width: 10em;
-  }
-
-  nav {
-    display: flex;
-    justify-content: center;
-  }
-
   ul {
     position: relative;
     padding: 0;
@@ -62,9 +52,7 @@
   }
 
   nav a {
-    display: flex;
     height: 100%;
-    align-items: center;
     padding: 0 0.5rem;
     color: var(--color-text);
     font-weight: 700;
