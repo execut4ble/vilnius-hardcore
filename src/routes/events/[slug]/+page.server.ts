@@ -65,4 +65,14 @@ export const actions = {
 
     await db.insert(table.comment).values(data as any);
   },
+  remove_comment: async ({ request, locals }) => {
+    if (!locals.session) {
+      return fail(401);
+    }
+    const formData: FormData = await request.formData();
+    const commentId: FormDataEntryValue | null = formData.get("id");
+    await db
+      .delete(table.comment)
+      .where(eq(table.comment.id, commentId as any));
+  },
 } satisfies Actions;
