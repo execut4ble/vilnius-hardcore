@@ -1,16 +1,8 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import type { MenuData } from "$lib/types";
-  let { data }: { data: MenuData } = $props();
 </script>
 
 <div class="menu">
-  <div class="userInfo">
-    {#if data.user}
-      Logged in as <a href="/crew">{data.user.username}</a>
-    {/if}
-  </div>
-
   <nav>
     <ul>
       <li aria-current={page.url.pathname === "/" ? "page" : undefined}>
@@ -27,19 +19,6 @@
 </div>
 
 <style>
-  div.menu {
-    margin-top: 2em;
-    width: 10em;
-  }
-  div.userInfo {
-    margin-bottom: 2em;
-  }
-
-  nav {
-    display: flex;
-    justify-content: center;
-  }
-
   ul {
     position: relative;
     padding: 0;
@@ -73,9 +52,7 @@
   }
 
   nav a {
-    display: flex;
     height: 100%;
-    align-items: center;
     padding: 0 0.5rem;
     color: var(--color-text);
     font-weight: 700;

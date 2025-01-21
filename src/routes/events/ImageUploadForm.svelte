@@ -3,7 +3,7 @@
 
   let {
     selectedImage = $bindable(),
-    imageFilename = $bindable(),
+    displayImage = $bindable(),
     slug = null,
   } = $props();
   let is_image_uploading: boolean = $state(false);
@@ -17,7 +17,7 @@
       if (result.type === "success") {
         const fileObj: File = Object.fromEntries(formData).file as File;
         update().then(() => {
-          imageFilename = fileObj.name;
+          displayImage = fileObj.name;
           is_image_uploading = false;
           uploaded = true;
         });
@@ -40,8 +40,8 @@
     <label class="imageUpload" for={slug ? slug : "file"}
       >{selectedImage
         ? selectedImage
-        : imageFilename
-          ? imageFilename
+        : displayImage
+          ? displayImage
           : "Select an image"}</label
     >
     <input
@@ -71,12 +71,12 @@
       {/if}
     </button>
   {/if}
-  {#if imageFilename}
+  {#if displayImage}
     <button
       name="file"
       class="post action"
       onclick={() => {
-        imageFilename = "";
+        displayImage = "";
         selectedImage = "";
       }}
     >

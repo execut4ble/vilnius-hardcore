@@ -27,8 +27,20 @@ export const event = pgTable("event", {
   image: text("image"),
 });
 
+export const comment = pgTable("comment", {
+  id: serial("id").primaryKey(),
+  eventId: integer("event_id")
+    .references(() => event.id, { onDelete: "cascade" })
+    .notNull(),
+  author: text("author").notNull(),
+  date: timestamp("date", { withTimezone: true, mode: "string" }).notNull(),
+  content: text("content").notNull(),
+});
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
 
 export type Event = typeof event.$inferSelect;
+
+export type Comment = typeof comment.$inferSelect;

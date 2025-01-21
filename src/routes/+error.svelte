@@ -6,24 +6,22 @@
   <title>Hardcore</title>
 </svelte:head>
 
-<section>
-  <h1>{page.status} {page.error ? page.error.message : "Unknown error"}</h1>
+<h1>{page.status} {page.error ? page.error.message : "Unknown error"}</h1>
 
-  {#if page.status === 404}
-    <h2>The requested page was not found.</h2>
+{#if page.status === 404}
+  <h2>The requested page was not found.</h2>
 
-    <p><a href="/">Go home</a>.</p>
-  {/if}
+  <p><a href="/">Go home</a>.</p>
+{/if}
 
-  {#if page.status === 403}
-    <h2>You're not supposed to be here. Forget about all this.</h2>
+{#if page.status === 403}
+  <h2>You're not supposed to be here. Forget about all this.</h2>
 
-    <p><a href={page.url.pathname}>Try again</a> or <a href="/">go home</a>.</p>
-  {/if}
+  <p><a href={page.url.pathname}>Try again</a> or <a href="/">go home</a>.</p>
+{/if}
 
-  {#if page.status === 500}
-    <h2>An internal error occurred.</h2>
+{#if page.status === 500}
+  <h2>An internal error occurred.</h2>
 
-    <p><a href={page.url.pathname}>Try again</a> or <a href="/">go home</a>.</p>
-  {/if}
-</section>
+  <p><a href={page.url.pathname}>Try again</a> or <a href="/">go home</a>.</p>
+{/if}

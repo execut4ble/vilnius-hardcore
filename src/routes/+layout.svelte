@@ -3,17 +3,27 @@
   import Menu from "./Menu.svelte";
   import "../app.css";
   import type { Snippet } from "svelte";
-  import type { MenuData } from "$lib/types";
+  import type { LayoutData } from "$lib/types";
+  import RecentComments from "./RecentComments.svelte";
+  import UserInfo from "./UserInfo.svelte";
 
-  let { data, children }: { data: MenuData; children: Snippet } = $props();
+  let { data, children }: { data: LayoutData; children: Snippet } = $props();
+  let user = $derived(data.user);
+  let recentComments = $derived(data.recentComments);
 </script>
 
 <div class="app">
   <Header />
   <main>
     <row>
-      {@render children()}
-      <Menu {data} />
+      <section>
+        {@render children()}
+      </section>
+      <sidebar>
+        <UserInfo {user} />
+        <Menu />
+        <RecentComments {recentComments} />
+      </sidebar>
     </row>
   </main>
 
@@ -33,9 +43,6 @@
   }
 
   main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     padding: 1rem;
     width: 100%;
     max-width: 64rem;
@@ -43,10 +50,27 @@
     box-sizing: border-box;
     margin: 50px auto;
     font-size: 14px;
-    font-weight: bold;
     line-height: 16px;
 
     -webkit-font-smoothing: antialiased;
+  }
+
+  section {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-content: center;
+    margin: 0 5em 0 5em;
+    min-width: 500px;
+  }
+
+  sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    align-items: center;
+    margin-top: 2em;
+    width: 25em;
   }
 
   row {
