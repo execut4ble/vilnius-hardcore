@@ -5,6 +5,7 @@
   let { data, form }: { data: PageServerData; form: ActionData } = $props();
 
   let displayRegisterForm: boolean = $state(false);
+  let displayChangePasswordForm: boolean = $state(false);
 </script>
 
 <svelte:head>
@@ -21,6 +22,37 @@
   <button>Sign out</button>
 </form>
 
+{#if displayChangePasswordForm}
+  <br /><br />
+  <h2>Change your password</h2>
+  <form method="post" action="?/change_password" use:enhance>
+    <label for="password">Current password</label>
+    <input type="password" name="password" />
+    <label for="newPassword">New password</label>
+    <input type="password" name="newPass" />
+    <label for="newPassRepeat">Confirm new password</label>
+    <input type="password" name="newPassRepeat" />
+    <br />
+    <button>Submit</button>
+    <button type="button" onclick={() => (displayChangePasswordForm = false)}
+      >Cancel</button
+    >
+  </form>
+  {#if form?.msg}
+    <div class="errorMsg">
+      <strong>
+        {form?.msg ?? ""}
+      </strong>
+    </div>
+  {/if}
+{:else}
+  <div>
+    <button type="button" onclick={() => (displayChangePasswordForm = true)}
+      >Change your password</button
+    >
+  </div>
+{/if}
+
 {#if displayRegisterForm}
   <br /><br />
   <h2>Register new user</h2>
@@ -35,7 +67,13 @@
       >Cancel</button
     >
   </form>
-  {form?.message ?? ""}
+  {#if form?.message}
+    <div class="errorMsg">
+      <strong>
+        {form?.message ?? ""}
+      </strong>
+    </div>
+  {/if}
 {:else}
   <div>
     <button type="button" onclick={() => (displayRegisterForm = true)}
@@ -46,6 +84,14 @@
 
 <style>
   div.userInfo {
+    margin-bottom: 2em;
+  }
+
+  div button {
+    margin-bottom: 2em;
+  }
+
+  div.errorMsg {
     margin-bottom: 2em;
   }
 </style>
