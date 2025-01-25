@@ -42,4 +42,12 @@
     font-size: 0.8em;
     font-weight: 200;
   }
+
+  li.comment a {
+    color: var(--color-text-2);
+  }
+
+  li.comment a:hover {
+    color: var(--color-text);
+  }
 </style>

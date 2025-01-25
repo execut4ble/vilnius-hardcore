@@ -5,9 +5,9 @@
   --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
   --font-mono: "Fira Mono", "Courier Prime", monospace;
   --color-bg: #111;
-  --color-text: #090;
-  --color-text-2: #0f0;
-  --color-text-3: #050;
+  --color-text: #ffff80;
+  --color-text-2: #af1a1a;
+  --color-text-3: #315563;
   --column-width: 42rem;
   --column-margin-top: 4rem;
   font-family: var(--font-body);
@@ -28,13 +28,13 @@ p {
 }
 
 a {
-  color: var(--color-text-2);
+  color: var(--color-text);
   text-decoration: none;
 }
 
 a:hover {
   background: var(--color-text-2);
-  color: #111;
+  color: var(--color-text);
   text-decoration: none;
 }
 
@@ -112,7 +112,7 @@ button.post.action:hover {
 
 a:hover strong {
   background: var(--color-text-2);
-  color: #111;
+  color: var(--color-text);
   text-decoration: none;
 }
 
@@ -121,7 +121,7 @@ a:hover strong {
 }
 
 button.post.action {
-  color: var(--color-text-1);
+  color: var(--color-text);
   border: none;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
@@ -141,7 +141,7 @@ form input {
   margin-bottom: 0.5em;
   background-color: #1c1c1c;
   border: 1px solid rgba(0, 0, 0, 0);
-  color: var(--color-text-2);
+  color: var(--color-text);
   font-weight: 400;
   font-size: 1rem;
   padding: 12px 10px;
@@ -157,7 +157,7 @@ form textarea {
   margin-bottom: 0.5em;
   background-color: #1c1c1c;
   border: 1px solid rgba(0, 0, 0, 0);
-  color: var(--color-text-2);
+  color: var(--color-text);
   font-weight: 400;
   font-size: 1rem;
   padding: 12px 10px;
