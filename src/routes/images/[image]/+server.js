@@ -6,6 +6,10 @@ import { FILES_DIR } from "$lib/files-dir";
 export function GET({ params }) {
   const filePath = path.normalize(path.join(FILES_DIR, params.image));
 
+  if (!fs.existsSync(filePath)) {
+    return new Response("File not found", { status: 404 });
+  }
+
   try {
     const fileStream = fs.createReadStream(filePath);
 
@@ -25,7 +29,7 @@ export function GET({ params }) {
       },
     });
   } catch (error) {
-    return new Response("File not found", { status: 404 });
+    return new Response("An error has occurred", { status: 500 });
   }
 }
 
