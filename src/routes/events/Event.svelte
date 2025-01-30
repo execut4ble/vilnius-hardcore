@@ -79,7 +79,7 @@
   {#if detailed && event.image}
     <img
       class="img"
-      src={event.image ? `${base}/public/uploads/${event.image}` : ""}
+      src={event.image ? `${base}/images/${event.image}` : ""}
       alt={event.title}
     />
   {/if}
@@ -219,7 +219,7 @@
       {#if !detailed && event.image}
         <img
           class="previewImg"
-          src={event.image ? `${base}/public/uploads/${event.image}` : ""}
+          src={event.image ? `${base}/images/${event.image}` : ""}
           alt={event.title}
         />
       {/if}
