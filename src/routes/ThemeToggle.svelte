@@ -1,4 +1,7 @@
 <script>
+  import { faPaintRoller, faTerminal } from "@fortawesome/free-solid-svg-icons";
+  import Fa from "svelte-fa";
+
   let hackerMode = false;
   function toggle() {
     hackerMode = !hackerMode;
@@ -8,9 +11,9 @@
 
 <button on:click={toggle}>
   {#if hackerMode}
-    Go normal
+    <Fa icon={faPaintRoller} />
   {:else}
-    Go 1337
+    <Fa icon={faTerminal} />
   {/if}
 </button>
 
