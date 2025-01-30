@@ -6,6 +6,7 @@
   import type { LayoutData } from "$lib/types";
   import RecentComments from "./RecentComments.svelte";
   import UserInfo from "./UserInfo.svelte";
+  import ThemeToggle from "./ThemeToggle.svelte";
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props();
   let user = $derived(data.user);
@@ -23,6 +24,7 @@
         <UserInfo {user} />
         <Menu />
         <RecentComments {recentComments} />
+        <ThemeToggle />
       </sidebar>
     </row>
   </main>
@@ -36,6 +38,26 @@
 </div>
 
 <style>
+  :global(body) {
+    --color-text: #ffff80;
+    --color-text-2: #af1a1a;
+    --color-text-3: #315563;
+    --link-color: var(--color-text);
+    --link-hover-color: var(--color-text);
+    --form-border-color: var(--color-text-2);
+    --form-text-color: var(--color-text);
+  }
+
+  :global(body.hacker) {
+    --color-text: #090;
+    --color-text-2: #0f0;
+    --color-text-3: #050;
+    --link-color: var(--color-text-2);
+    --link-hover-color: #111;
+    --form-border-color: var(--color-text-2);
+    --form-text-color: var(--color-text-2);
+  }
+
   .app {
     display: flex;
     flex-direction: column;
