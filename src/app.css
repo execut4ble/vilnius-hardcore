@@ -5,9 +5,6 @@
   --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
   --font-mono: "Fira Mono", "Courier Prime", monospace;
   --color-bg: #111;
-  --color-text: #090;
-  --color-text-2: #0f0;
-  --color-text-3: #050;
   --column-width: 42rem;
   --column-margin-top: 4rem;
   font-family: var(--font-body);
@@ -15,6 +12,7 @@
 }
 
 body {
+  color: var(--color-text);
   min-height: 100vh;
   margin: 0;
   background: #111;
@@ -28,13 +26,13 @@ p {
 }
 
 a {
-  color: var(--color-text-2);
+  color: var(--link-color);
   text-decoration: none;
 }
 
 a:hover {
   background: var(--color-text-2);
-  color: #111;
+  color: var(--link-hover-color);
   text-decoration: none;
 }
 
@@ -112,7 +110,7 @@ button.post.action:hover {
 
 a:hover strong {
   background: var(--color-text-2);
-  color: #111;
+  color: var(--link-hover-color);
   text-decoration: none;
 }
 
@@ -121,7 +119,7 @@ a:hover strong {
 }
 
 button.post.action {
-  color: var(--color-text-1);
+  color: var(--color-text);
   border: none;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
@@ -141,14 +139,14 @@ form input {
   margin-bottom: 0.5em;
   background-color: #1c1c1c;
   border: 1px solid rgba(0, 0, 0, 0);
-  color: var(--color-text-2);
+  color: var(--form-text-color);
   font-weight: 400;
   font-size: 1rem;
   padding: 12px 10px;
 }
 
 form input:focus {
-  border: 1px solid var(--color-text-2);
+  border: 1px solid var(--form-border-color);
   outline: none;
 }
 
@@ -157,7 +155,7 @@ form textarea {
   margin-bottom: 0.5em;
   background-color: #1c1c1c;
   border: 1px solid rgba(0, 0, 0, 0);
-  color: var(--color-text-2);
+  color: var(--form-text-color);
   font-weight: 400;
   font-size: 1rem;
   padding: 12px 10px;
@@ -166,7 +164,7 @@ form textarea {
 }
 
 form textarea:focus {
-  border: 1px solid var(--color-text-2);
+  border: 1px solid var(--form-border-color);
   outline: none;
 }
 

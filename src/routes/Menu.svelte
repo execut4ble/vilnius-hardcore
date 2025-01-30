@@ -63,6 +63,6 @@
   }
 
   nav a:hover {
-    color: #111;
+    color: --var(--link-hover-color);
   }
 </style>

@@ -32,6 +32,7 @@
     background-color: rgba(0, 0, 0, 0);
     margin-bottom: 0;
     font-weight: 800;
+    box-shadow: none;
   }
 
   .description {
