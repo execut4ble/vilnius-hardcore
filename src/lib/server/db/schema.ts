@@ -29,7 +29,7 @@ export const event = pgTable("event", {
 
 export const post = pgTable("post", {
   id: serial("id").primaryKey(),
-  author: integer("user_id").references(() => user.id, {
+  author: text("user_id").references(() => user.id, {
     onDelete: "set null",
   }),
   title: text("title").notNull(),
