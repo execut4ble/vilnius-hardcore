@@ -6,30 +6,37 @@ import { FILES_DIR } from "$lib/files-dir";
 export function GET({ params }) {
   const filePath = path.normalize(path.join(FILES_DIR, params.image));
 
-  if (!fs.existsSync(filePath)) {
-    return new Response("File not found", { status: 404 });
-  }
-
   try {
     const fileStream = fs.createReadStream(filePath);
 
-    // Convert the Node.js stream into a Web ReadableStream
-    const readableStream = new ReadableStream({
-      start(controller) {
-        fileStream.on("data", (chunk) => controller.enqueue(chunk));
-        fileStream.on("end", () => controller.close());
-        fileStream.on("error", (err) => controller.error(err));
-      },
-    });
+    return new Response(
+      new ReadableStream({
+        start(controller) {
+          fileStream.on("data", (chunk) => {
+            if (!controller.desiredSize) return; // Prevent enqueuing when closed
+            controller.enqueue(chunk);
+          });
 
-    return new Response(readableStream, {
-      headers: {
-        "Content-Type": getContentType(filePath),
-        "Cache-Control": "public, max-age=86400", // Enables caching
+          fileStream.on("end", () => {
+            if (!controller.desiredSize) return; // Ensure it doesn’t close twice
+            controller.close();
+          });
+
+          fileStream.on("error", (err) => {
+            if (!controller.desiredSize) return; // Prevent duplicate errors
+            controller.error(err);
+          });
+        },
+      }),
+      {
+        headers: {
+          "Content-Type": getContentType(filePath),
+          "Cache-Control": "public, max-age=86400",
+        },
       },
-    });
+    );
   } catch (error) {
-    return new Response("An error has occurred", { status: 500 });
+    return new Response("File not found", { status: 404 });
   }
 }
 

@@ -1,21 +1,22 @@
 <script>
   import { faPaintRoller, faTerminal } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
-
-  let hackerMode = false;
-  function toggle() {
-    hackerMode = !hackerMode;
-    window.document.body.classList.toggle("hacker");
-  }
+  import { appearance } from "@friendofsvelte/toggle";
+  import { scale } from "svelte/transition";
+  import TrackAppearance from "$lib/TrackAppearance.svelte";
 </script>
 
-<button on:click={toggle}>
-  {#if hackerMode}
-    <Fa icon={faPaintRoller} />
-  {:else}
-    <Fa icon={faTerminal} />
-  {/if}
-</button>
-
-<style>
-</style>
+<TrackAppearance />
+{#if appearance.dark !== null}
+  <button
+    class:isDarkMode={appearance.dark}
+    in:scale
+    onclick={() => (appearance.dark = !appearance.dark)}
+  >
+    {#if appearance.dark}
+      <Fa icon={faPaintRoller} />
+    {:else}
+      <Fa icon={faTerminal} />
+    {/if}
+  </button>
+{:else}{/if}

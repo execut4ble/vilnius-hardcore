@@ -1,6 +1,7 @@
-import { sequence } from "@sveltejs/kit/hooks";
 import * as auth from "$lib/server/auth.js";
 import type { Handle } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
+import { handleAppearance } from "@friendofsvelte/toggle";
 
 const handleAuth: Handle = async ({ event, resolve }) => {
   const sessionToken = event.cookies.get(auth.sessionCookieName);
@@ -23,4 +24,4 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-export const handle = handleAuth;
+export const handle = sequence(handleAuth, handleAppearance);

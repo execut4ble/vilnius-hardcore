@@ -38,7 +38,7 @@
 </div>
 
 <style>
-  :global(body) {
+  :global(html) {
     --color-text: #ffff80;
     --color-text-2: #af1a1a;
     --color-text-3: #315563;
@@ -48,7 +48,7 @@
     --form-text-color: var(--color-text);
   }
 
-  :global(body.hacker) {
+  :global(html.dark) {
     --color-text: #090;
     --color-text-2: #0f0;
     --color-text-3: #050;
