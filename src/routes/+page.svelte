@@ -1,14 +1,31 @@
 <script lang="ts">
   import Event from "./events/Event.svelte";
   import type { PageData } from "./$types";
+  import Post from "./blog/Post.svelte";
 
   let { data }: { data: PageData } = $props();
+  let post = $derived(data.recentPost[0]);
 </script>
 
 <svelte:head>
   <title>Hardcore</title>
   <meta name="description" content="Vilnius Hardcore" />
 </svelte:head>
+
+{#if data.recentPost}
+  <h2 class="blog">
+    <strong>Recent news</strong>
+  </h2>
+
+  <ul class="recent">
+    <li>
+      <Post {...post} isPreview={true} />
+      {#if post.body.length > 500}
+        <div class="more"><a href="/blog/{post.slug}">read more...</a></div>
+      {/if}
+    </li>
+  </ul>
+{/if}
 
 <h2 class="upcoming">
   <strong>Upcoming events</strong>
@@ -27,6 +44,10 @@
 </ul>
 
 <style>
+  h2.blog {
+    text-align: center;
+  }
+
   h2.upcoming {
     text-align: center;
   }
@@ -36,6 +57,10 @@
   }
 
   ul.eventList li {
+    list-style: none;
+  }
+
+  ul.recent {
     list-style: none;
   }
 </style>
