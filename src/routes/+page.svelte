@@ -12,14 +12,14 @@
   <meta name="description" content="Vilnius Hardcore" />
 </svelte:head>
 
-{#if data.recentPost}
+{#if post}
   <h2 class="blog">
     <strong>Recent news</strong>
   </h2>
 
   <ul class="recent">
     <li>
-      <Post {...post} isPreview={true} />
+      <Post {...post} preview={true} />
       {#if post.body.length > 500}
         <div class="more"><a href="/blog/{post.slug}">read more...</a></div>
       {/if}

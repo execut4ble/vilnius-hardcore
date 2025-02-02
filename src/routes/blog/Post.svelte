@@ -11,7 +11,7 @@
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
 
-  let { isPreview = false, ...post } = $props();
+  let { preview = false, showTitle = true, ...post } = $props();
 
   let isEditing: boolean = $state(false);
   let title = $derived(post.title);
@@ -19,7 +19,7 @@
   let date = $derived(new Date(post.date).toLocaleString("lt-LT"));
   let author = $derived(post.authorName);
   let body = $derived(post.body);
-  let previewBody = $derived(body.substr(0, 500) + "\u2026");
+  let previewBody = $derived(body ? body.substr(0, 500) + "\u2026" : "");
   let confirmDelete: boolean = $state(false);
 
   function updatePost({ formData }: { formData: FormData }) {
@@ -68,7 +68,9 @@
 
 <div class="post">
   {#if !isEditing}
-    <h2><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
+    {#if showTitle}
+      <h2><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
+    {/if}
     {#if page.url.pathname !== "/" && page.data.user}
       <form method="POST" action="?/remove_post" use:enhance={removePost}>
         <input type="hidden" name="slug" value={slug} />
@@ -95,7 +97,7 @@
     {/if}
     <div class="meta">Posted by {author ? author : "anonymous"} | {date}</div>
     <div class="content">
-      {#if isPreview && body.length > 500}
+      {#if body && preview && body.length > 500}
         <Markdown md={previewBody} />
       {:else}
         <Markdown md={body} />

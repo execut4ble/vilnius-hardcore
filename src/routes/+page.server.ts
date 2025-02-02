@@ -26,7 +26,7 @@ export const load = (async (): Promise<{ events: EventsArray; recentPost }> => {
       body: table.post.body,
       slug: table.post.slug,
       image: table.post.image,
-      authorName: table.user.username, // Selecting author's username
+      authorName: table.user.username,
     })
     .from(table.post)
     .leftJoin(table.user, eq(table.user.id, table.post.author))
