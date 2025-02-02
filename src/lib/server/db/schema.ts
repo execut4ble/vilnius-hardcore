@@ -33,8 +33,10 @@ export const post = pgTable("post", {
     onDelete: "set null",
   }),
   title: text("title").notNull(),
-  date: timestamp("date", { withTimezone: false, mode: "string" }).notNull(),
-  body: text("body"),
+  date: timestamp("date", { withTimezone: false, mode: "string" })
+    .notNull()
+    .defaultNow(),
+  body: text("body").notNull(),
   slug: text("slug"),
   image: text("image"),
 });
