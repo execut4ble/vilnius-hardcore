@@ -75,7 +75,7 @@
   }
 </script>
 
-<div class="event">
+<event>
   {#if detailed && event.image}
     <img
       class="img"
@@ -225,7 +225,7 @@
       {/if}
     </div>
   </div>
-</div>
+</event>
 
 <style>
   div.eventRow {
@@ -253,14 +253,14 @@
     text-transform: uppercase;
   }
 
-  div.event .img {
+  event .img {
     max-width: 100%;
     border-radius: 10px;
     margin-bottom: 1em;
     max-height: 65vh;
   }
 
-  div.event .previewImg {
+  event .previewImg {
     width: 12em;
     border-radius: 10px;
     height: fit-content;

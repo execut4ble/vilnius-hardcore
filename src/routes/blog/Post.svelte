@@ -66,7 +66,7 @@
   }
 </script>
 
-<div class="post">
+<post>
   {#if !isEditing}
     {#if showTitle}
       <h2><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
@@ -133,7 +133,7 @@
       >
     </form>
   {/if}
-</div>
+</post>
 
 <style>
   div.content {

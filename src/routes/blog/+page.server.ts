@@ -46,7 +46,6 @@ export const actions = {
     const userId = locals.user?.id;
     formData.set("author", userId as string);
     const data: Object = Object.fromEntries(formData.entries());
-    console.log(data);
     await db.insert(table.post).values(data as any);
   },
   remove_post: async ({ locals, request }) => {
