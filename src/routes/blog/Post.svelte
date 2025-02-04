@@ -26,23 +26,14 @@
     formData.set("slug", slug as string);
 
     return async ({ update, result }) => {
-      await update().then(() => {
+      if (result.data && result.data[0].slug) {
+        goto(result.data[0].slug, { noScroll: true });
         isEditing = false;
-        if (result.type === "success" && result.data) {
-          const newSlug = result.data[0].slug;
-          // Only go to new slug if our title has changed
-          // and we're in the detail events page
-          if (
-            slug !== newSlug &&
-            page.route.id &&
-            page.route.id.includes("[slug]")
-          ) {
-            console.log("Redirecting to", newSlug);
-            goto(newSlug, { noScroll: true });
-          }
-          slug = newSlug;
-        }
-      });
+      } else {
+        await update().then(() => {
+          isEditing = false;
+        });
+      }
 
       if (result.type === "error") {
         // Handle errors if necessary

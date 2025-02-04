@@ -33,10 +33,12 @@ export const actions = {
     }
     const formData: FormData = await request.formData();
     const data = Object.fromEntries(formData.entries());
-    await db
+    const post = await db
       .update(table.post)
       .set(data)
-      .where(eq(table.post.slug, params.slug));
+      .where(eq(table.post.slug, params.slug))
+      .returning();
+    return post;
   },
   remove_post: async ({ locals, request }) => {
     if (!locals.session) {
