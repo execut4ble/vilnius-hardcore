@@ -86,137 +86,139 @@
         {year}
       </div>
     </div>
-    <div class="eventInfo">
-      <div class="title">
-        {#if !isEditing}
-          <h2>
-            {#if detailed}
-              <strong>{event.title ? event.title : ""}</strong>
-            {:else}
-              <a href="/events/{slug}"
-                ><strong>{event.title ? event.title : ""}</strong></a
-              >{/if}
-          </h2>
-          {#if page.url.pathname !== "/" && page.data.user}
+    <div class="eventDetails">
+      <div class="eventInfo">
+        <div class="title">
+          {#if !isEditing}
+            <h2>
+              {#if detailed}
+                <strong>{event.title ? event.title : ""}</strong>
+              {:else}
+                <a href="/events/{slug}"
+                  ><strong>{event.title ? event.title : ""}</strong></a
+                >{/if}
+            </h2>
+            {#if page.url.pathname !== "/" && page.data.user}
+              <form
+                method="POST"
+                action="?/remove_event"
+                use:enhance={removeEvent}
+              >
+                <input type="hidden" name="slug" value={slug} />
+                <button class="post action" onclick={() => (isEditing = true)}
+                  ><Fa icon={faPenToSquare} /> edit</button
+                >
+                <button
+                  type="button"
+                  class="post action"
+                  onclick={() => (confirmDelete = true)}
+                >
+                  <Fa icon={faTrash} /> delete</button
+                >
+                {#if confirmDelete}<br /><br />
+                  <strong>for real?</strong>
+                  <button
+                    class="post action"
+                    type="button"
+                    onclick={() => (confirmDelete = false)}>no!</button
+                  >
+                  <button class="post action" type="submit">yes!</button>
+                {/if}
+              </form>
+            {/if}
+            <div class="meta">
+              <p class="date">
+                {new Date(date).toLocaleTimeString("lt-LT", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+              {#if !detailed && commentCount && commentCount > 0}
+                <p class="comments">
+                  <a href="/events/{slug}#comments"
+                    >{commentCount}
+                    {#if commentCount < 2}
+                      comment
+                    {:else}
+                      comments
+                    {/if}
+                  </a>
+                </p>
+              {/if}
+            </div>
+            <hr class="dim" />
+            <div class="eventBody">
+              <div class="description">
+                {#if md}
+                  <Markdown {md} />
+                {/if}
+              </div>
+            </div>
+          {:else}
             <form
               method="POST"
-              action="?/remove_event"
-              use:enhance={removeEvent}
+              action="?/update_event"
+              autocomplete="off"
+              use:enhance={updateEvent}
             >
-              <input type="hidden" name="slug" value={slug} />
-              <button class="post action" onclick={() => (isEditing = true)}
-                ><Fa icon={faPenToSquare} /> edit</button
+              <label for="title">Title</label>
+              <input id="title" name="title" value={event.title} required />
+              <label for="date">Date</label>
+              <input
+                id="date"
+                type="datetime-local"
+                name="date"
+                value={date}
+                required
+              />
+              <input
+                type="hidden"
+                id="image"
+                name="image"
+                value={imageFilename}
+              />
+              <hr class="dim" />
+              <label id="description" for="description">Description</label>
+              <textarea
+                name="description"
+                value={event.description}
+                spellcheck="false"
+              ></textarea>
+              <br />
+              <button type="submit" class="post action"
+                ><Fa icon={faSave} /> save</button
               >
               <button
                 type="button"
                 class="post action"
-                onclick={() => (confirmDelete = true)}
+                onclick={() => {
+                  isEditing = false;
+                  selectedImage = null;
+                }}><Fa icon={faXmark} /> cancel</button
               >
-                <Fa icon={faTrash} /> delete</button
-              >
-              {#if confirmDelete}<br /><br />
-                <strong>for real?</strong>
-                <button
-                  class="post action"
-                  type="button"
-                  onclick={() => (confirmDelete = false)}>no!</button
-                >
-                <button class="post action" type="submit">yes!</button>
-              {/if}
             </form>
           {/if}
-          <div class="meta">
-            <p class="date">
-              {new Date(date).toLocaleTimeString("lt-LT", {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
-            {#if !detailed && commentCount && commentCount > 0}
-              <p class="comments">
-                <a href="/events/{slug}#comments"
-                  >{commentCount}
-                  {#if commentCount < 2}
-                    comment
-                  {:else}
-                    comments
-                  {/if}
-                </a>
-              </p>
-            {/if}
-          </div>
-          <hr class="dim" />
-          <div class="eventBody">
-            <div class="description">
-              {#if md}
-                <Markdown {md} />
-              {/if}
-            </div>
-          </div>
-        {:else}
-          <form
-            method="POST"
-            action="?/update_event"
-            autocomplete="off"
-            use:enhance={updateEvent}
-          >
-            <label for="title">Title</label>
-            <input id="title" name="title" value={event.title} required />
-            <label for="date">Date</label>
-            <input
-              id="date"
-              type="datetime-local"
-              name="date"
-              value={date}
-              required
-            />
-            <input
-              type="hidden"
-              id="image"
-              name="image"
-              value={imageFilename}
-            />
-            <hr class="dim" />
-            <label id="description" for="description">Description</label>
-            <textarea
-              name="description"
-              value={event.description}
-              spellcheck="false"
-            ></textarea>
-            <br />
-            <button type="submit" class="post action"
-              ><Fa icon={faSave} /> save</button
-            >
-            <button
-              type="button"
-              class="post action"
-              onclick={() => {
-                isEditing = false;
-                selectedImage = null;
-              }}><Fa icon={faXmark} /> cancel</button
-            >
-          </form>
+        </div>
+      </div>
+      <div>
+        {#if isEditing}
+          <ImageUploadForm
+            bind:selectedImage
+            bind:displayImage={imageFilename}
+            {slug}
+          />
+        {/if}
+        {#if !detailed && event.image}
+          <img
+            class="previewImg"
+            src={event.image ? `${base}/images/${event.image}` : ""}
+            alt={event.title}
+          />
         {/if}
       </div>
-    </div>
-    <div>
-      {#if isEditing}
-        <ImageUploadForm
-          bind:selectedImage
-          bind:displayImage={imageFilename}
-          {slug}
-        />
-      {/if}
-      {#if !detailed && event.image}
-        <img
-          class="previewImg"
-          src={event.image ? `${base}/images/${event.image}` : ""}
-          alt={event.title}
-        />
-      {/if}
     </div>
   </div>
 </event>
@@ -227,6 +229,21 @@
     flex-direction: row;
     gap: 1em;
     margin-bottom: 2em;
+  }
+
+  @media screen and (max-width: 530px) {
+    div.eventDetails {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+
+  @media screen and (min-width: 530px) {
+    div.eventDetails {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+    }
   }
 
   div.eventRow div.date {
