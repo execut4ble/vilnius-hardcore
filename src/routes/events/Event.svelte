@@ -38,6 +38,7 @@
       if (result.data && result.data[0].slug) {
         goto(result.data[0].slug, { noScroll: true });
         isEditing = false;
+        slug = result.data[0].slug;
       } else {
         await update().then(() => {
           isEditing = false;

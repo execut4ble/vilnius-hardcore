@@ -26,9 +26,10 @@
     formData.set("slug", slug as string);
 
     return async ({ update, result }) => {
-      if (result.data && result.data[0].slug) {
+      if (result.data && result.data[0].slug !== slug) {
         goto(result.data[0].slug, { noScroll: true });
         isEditing = false;
+        slug = result.data[0].slug;
       } else {
         await update().then(() => {
           isEditing = false;
