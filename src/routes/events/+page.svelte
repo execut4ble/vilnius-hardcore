@@ -9,6 +9,7 @@
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
+  import ItemCount from "../ItemCount.svelte";
 
   let { data }: { data: PageData } = $props();
   let events: Array<EventObject> = $derived(data.events);
@@ -144,7 +145,7 @@
   <button class="post action" onclick={loadMore}>show more</button>
 {/if}
 
-<div class="itemCount">Showing {displayedEvents} out of {totalEvents}</div>
+<ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
 
 <style>
   ul.eventList {
@@ -165,12 +166,5 @@
     width: 12em;
     border-radius: 10px;
     height: fit-content;
-  }
-
-  div.itemCount {
-    margin: 2em;
-    display: flex;
-    justify-content: center;
-    color: var(--color-text-3);
   }
 </style>

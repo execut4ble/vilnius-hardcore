@@ -27,6 +27,20 @@ export const event = pgTable("event", {
   image: text("image"),
 });
 
+export const post = pgTable("post", {
+  id: serial("id").primaryKey(),
+  author: text("user_id").references(() => user.id, {
+    onDelete: "set null",
+  }),
+  title: text("title").notNull(),
+  date: timestamp("date", { withTimezone: false, mode: "string" })
+    .notNull()
+    .defaultNow(),
+  body: text("body").notNull(),
+  slug: text("slug"),
+  image: text("image"),
+});
+
 export const comment = pgTable("comment", {
   id: serial("id").primaryKey(),
   eventId: integer("event_id")
@@ -44,3 +58,5 @@ export type User = typeof user.$inferSelect;
 export type Event = typeof event.$inferSelect;
 
 export type Comment = typeof comment.$inferSelect;
+
+export type Post = typeof post.$inferSelect;

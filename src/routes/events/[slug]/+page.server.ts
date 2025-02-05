@@ -38,10 +38,12 @@ export const actions = {
     }
     const formData: FormData = await request.formData();
     const data = Object.fromEntries(formData.entries());
-    await db
+    const event = await db
       .update(table.event)
       .set(data)
-      .where(eq(table.event.slug, params.slug));
+      .where(eq(table.event.slug, params.slug))
+      .returning();
+    return event;
   },
   remove_event: async ({ locals, request }) => {
     if (!locals.session) {
