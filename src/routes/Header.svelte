@@ -139,4 +139,16 @@
       background: var(--color-text-2);
     }
   }
+
+  @media screen and (max-width: 850px) {
+    figlet pre {
+      font-size: 1.85vw;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    header .description {
+      font-size: 3vw;
+    }
+  }
 </style>

@@ -17,12 +17,18 @@
   <Header />
   <main>
     <row>
+      <mobile>
+        <UserInfo {user} />
+        <Menu />
+      </mobile>
       <section>
         {@render children()}
       </section>
       <sidebar>
-        <UserInfo {user} />
-        <Menu />
+        <div class="navigation">
+          <UserInfo {user} />
+          <Menu />
+        </div>
         <RecentComments {recentComments} />
         <ThemeToggle />
       </sidebar>
@@ -95,6 +101,12 @@
     width: 25em;
   }
 
+  sidebar .navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
+
   row {
     display: flex;
     flex-direction: row;
@@ -115,6 +127,49 @@
   @media (min-width: 480px) {
     footer {
       padding: 12px 0;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    section {
+      margin-left: 1em;
+      margin-right: 1em;
+      width: fit-content;
+    }
+  }
+
+  @media screen and (min-width: 720px) {
+    mobile {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    section {
+      display: flex;
+      margin-left: 1em;
+      min-width: 0px;
+    }
+
+    main row {
+      flex-direction: column;
+    }
+
+    mobile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2em;
+      margin-bottom: 3em;
+    }
+
+    sidebar {
+      width: 100%;
+      align-items: center;
+    }
+
+    sidebar .navigation {
+      display: none;
     }
   }
 </style>
