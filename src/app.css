@@ -4,7 +4,7 @@
 :root {
   --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
   --font-mono: "Fira Mono", "Courier Prime", monospace;
-  --color-bg: #111;
+  --color-bg: #070709;
   --column-width: 42rem;
   --column-margin-top: 4rem;
   font-family: var(--font-body);
@@ -15,7 +15,7 @@ body {
   color: var(--color-text);
   min-height: 100vh;
   margin: 0;
-  background: #111;
+  background: var(--color-bg);
 }
 
 h1,
@@ -59,7 +59,7 @@ hr {
 pre {
   font-size: 16px;
   font-family: var(--font-mono);
-  background-color: rgba(10, 10, 10, 0.45);
+  background-color: rgba(20, 20, 20, 0.45);
   border-radius: 3px;
   box-shadow: 2px 2px 6px rgba(20, 20, 20, 0.25);
   padding: 0.5em;
@@ -89,7 +89,7 @@ button {
 
 button:hover {
   background: var(--color-text-2);
-  color: #111;
+  color: var(--color-bg);
   text-decoration: none;
 }
 
@@ -115,6 +115,11 @@ a:hover strong {
 }
 
 .dim {
+  color: var(--color-text-3);
+}
+
+hr.dim {
+  border-color: var(--color-text-3);
   color: var(--color-text-3);
 }
 

@@ -1,6 +1,7 @@
 <script lang="ts">
+  import Logo from "$lib/images/logo.gif?enhanced";
   const description: string = $state(
-    "Ska funk rasta punk scene, vilnius, lithuania",
+    "Ska funk rasta punk scene, Vilnius, Lithuania",
   );
 </script>
 
@@ -16,9 +17,28 @@
   <div class="description">
     <span>{description}</span><span class="cursor">&nbsp;</span>
   </div>
+  <enhanced:img src={Logo} alt={description} />
 </header>
 
 <style>
+  :global(html.dark) {
+    figlet,
+    header .description {
+      display: inherit;
+    }
+
+    header img {
+      display: none;
+    }
+  }
+
+  :global(html) {
+    figlet,
+    header .description {
+      display: none;
+    }
+  }
+
   header {
     display: flex;
     flex-direction: column;
@@ -41,7 +61,7 @@
 
   .cursor {
     display: inline-block;
-    background: #111;
+    background: var(--color-bg);
     margin-left: 1px;
 
     -webkit-animation: blink 2s linear 0s infinite;
@@ -53,87 +73,16 @@
 
   @keyframes blink {
     0% {
-      background: var(--color-text);
+      background: var(--color-text-2);
     }
     47% {
       background: var(--color-text-2);
     }
     50% {
-      background: #111;
+      background: var(--color-bg);
     }
     97% {
-      background: #111;
-    }
-    100% {
-      background: var(--color-text-2);
-    }
-  }
-  @-webkit-keyframes blink {
-    0% {
-      background: var(--color-text);
-    }
-    47% {
-      background: var(--color-text-2);
-    }
-    50% {
-      background: #111;
-    }
-    97% {
-      background: #111;
-    }
-    100% {
-      background: var(--color-text-2);
-    }
-  }
-
-  @-moz-keyframes blink {
-    0% {
-      background: var(--color-text);
-    }
-    47% {
-      background: var(--color-text-2);
-    }
-    50% {
-      background: #111;
-    }
-    97% {
-      background: #111;
-    }
-    100% {
-      background: var(--color-text-2);
-    }
-  }
-
-  @-ms-keyframes blink {
-    0% {
-      background: var(--color-text);
-    }
-    47% {
-      background: var(--color-text-2);
-    }
-    50% {
-      background: #111;
-    }
-    97% {
-      background: #111;
-    }
-    100% {
-      background: var(--color-text-2);
-    }
-  }
-
-  @-o-keyframes blink {
-    0% {
-      background: var(--color-text);
-    }
-    47% {
-      background: var(--color-text-2);
-    }
-    50% {
-      background: #111;
-    }
-    97% {
-      background: #111;
+      background: var(--color-bg);
     }
     100% {
       background: var(--color-text-2);

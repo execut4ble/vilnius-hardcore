@@ -7,6 +7,7 @@
   import RecentComments from "./RecentComments.svelte";
   import UserInfo from "./UserInfo.svelte";
   import ThemeToggle from "./ThemeToggle.svelte";
+  import Footer from "./Footer.svelte";
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props();
   let user = $derived(data.user);
@@ -34,13 +35,7 @@
       </sidebar>
     </row>
   </main>
-
-  <footer>
-    <p>
-      powered by <strong>chebrytė</strong> and
-      <a href="https://svelte.dev/docs/kit">SvelteKit</a>
-    </p>
-  </footer>
+  <Footer />
 </div>
 
 <style>
@@ -59,7 +54,7 @@
     --color-text-2: #0f0;
     --color-text-3: #050;
     --link-color: var(--color-text-2);
-    --link-hover-color: #111;
+    --link-hover-color: var(--color-bg);
     --form-border-color: var(--color-text-2);
     --form-text-color: var(--color-text-2);
   }
@@ -110,24 +105,6 @@
   row {
     display: flex;
     flex-direction: row;
-  }
-
-  footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-  }
-
-  footer a {
-    font-weight: bold;
-  }
-
-  @media (min-width: 480px) {
-    footer {
-      padding: 12px 0;
-    }
   }
 
   @media screen and (max-width: 850px) {
