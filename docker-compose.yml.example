@@ -11,3 +11,4 @@ services:
       POSTGRES_EXTENSIONS: unaccent
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./post-init.sql:/docker-entrypoint-initdb.d/post-init.sql
