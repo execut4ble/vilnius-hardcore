@@ -134,7 +134,7 @@
     section {
       margin-left: 1em;
       margin-right: 1em;
-      width: fit-content;
+      width: auto;
     }
   }
 
@@ -148,7 +148,7 @@
     section {
       display: flex;
       margin-left: 1em;
-      min-width: 0px;
+      min-width: auto;
     }
 
     main row {
