@@ -14,8 +14,20 @@
       <li aria-current={page.url.pathname === "/events" ? "page" : undefined}>
         <a href="/events">Events</a>
       </li>
+      <li>
+        <a href="https://mp3.hardcore.lt/1120/">Live @ xi20</a>
+      </li>
+      <li>
+        <a href="https://music.ver.lt">Music</a>
+      </li>
       <li aria-current={page.url.pathname === "/blog" ? "page" : undefined}>
         <a href="/blog">Blog</a>
+      </li>
+      <li>
+        <a href="https://oldschool.hardcore.lt">Old version</a>
+      </li>
+      <li aria-current={page.url.pathname === "/contacts" ? "page" : undefined}>
+        <a href="/contacts">Contacts</a>
       </li>
     </ul>
   </nav>
@@ -26,7 +38,6 @@
     position: relative;
     padding: 0;
     margin: 0;
-    height: 3em;
     display: flex;
     flex-direction: column;
     justify-content: center;
