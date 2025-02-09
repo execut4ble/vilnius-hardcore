@@ -95,6 +95,13 @@
     }
   }
 
+  @media screen and (max-width: 500px) {
+    header img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
   @media screen and (max-width: 450px) {
     header .description {
       font-size: 3vw;
