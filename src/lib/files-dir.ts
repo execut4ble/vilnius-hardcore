@@ -13,6 +13,10 @@ export const uploadImageAction = async ({ locals, request }) => {
   const data: FormData = await request.formData();
   const file: FormDataEntryValue | null = data.get("file") as File;
 
+  if (!fs.existsSync(FILES_DIR)) {
+    fs.mkdirSync(FILES_DIR, { recursive: true });
+  }
+
   if (!locals.session) {
     return fail(401, { message: "Unauthorized" });
   }

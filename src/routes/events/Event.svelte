@@ -19,7 +19,7 @@
   let md = $derived(event.description);
   let slug = $state(event.slug);
   let isEditing: boolean = $state(false);
-  let imageFilename: string | null = $state(event.image);
+  let imageFilename: string | null = $derived(event.image);
   let selectedImage: string | null | undefined = $state();
   let commentCount: number | null | undefined = $derived(event.comments);
 
@@ -35,7 +35,7 @@
     formData.set("slug", slug as string);
 
     return async ({ update, result }) => {
-      if (result.data && result.data[0].slug) {
+      if (result.data && result.data[0].slug !== slug) {
         goto(result.data[0].slug, { noScroll: true });
         isEditing = false;
         slug = result.data[0].slug;
@@ -179,7 +179,7 @@
                 type="hidden"
                 id="image"
                 name="image"
-                value={imageFilename}
+                value={selectedImage ? selectedImage : imageFilename}
               />
               <hr class="dim" />
               <label id="description" for="description">Description</label>
@@ -208,7 +208,7 @@
         {#if isEditing}
           <ImageUploadForm
             bind:selectedImage
-            bind:displayImage={imageFilename}
+            displayImage={imageFilename}
             {slug}
           />
         {/if}
