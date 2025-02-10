@@ -3,7 +3,7 @@
   import Fa from "svelte-fa";
   import { appearance } from "@friendofsvelte/toggle";
   import { scale } from "svelte/transition";
-  import TrackAppearance from "$lib/TrackAppearance.svelte";
+  import { TrackAppearance } from "$lib/components";
 </script>
 
 <TrackAppearance />

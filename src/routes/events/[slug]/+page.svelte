@@ -1,11 +1,10 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import type { CommentsArray, EventObject } from "$lib/types";
-  import Event from "../Event.svelte";
   import { enhance } from "$app/forms";
   import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
-  import Comment from "./Comment.svelte";
+  import { Event, Comment } from "$lib/components";
 
   let { data }: { data: PageData } = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);

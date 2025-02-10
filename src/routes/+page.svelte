@@ -1,7 +1,6 @@
 <script lang="ts">
-  import Event from "./events/Event.svelte";
   import type { PageData } from "./$types";
-  import Post from "./blog/Post.svelte";
+  import { Event, Post } from "$lib/components";
 
   let { data }: { data: PageData } = $props();
   let post = $derived(data.recentPost[0]);

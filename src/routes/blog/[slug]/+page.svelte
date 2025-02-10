@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import Post from "../Post.svelte";
+  import { Post } from "$lib/components";
 
   let { data }: { data: PageData } = $props();
   let post = $derived(data.post[0]);

@@ -1,12 +1,11 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import Post from "./Post.svelte";
+  import { Post, ItemCount } from "$lib/components";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
-  import ItemCount from "../ItemCount.svelte";
 
   let { data }: { data: PageData } = $props();
   let posts = $derived(data.posts);

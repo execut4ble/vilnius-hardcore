@@ -1,15 +1,14 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import Event from "./Event.svelte";
-  import type { EventObject, EventsArray } from "$lib/types";
+  import type { EventObject } from "$lib/types";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
-  import ImageUploadForm from "./ImageUploadForm.svelte";
+  import { Event, ImageUploadForm } from "$lib/components";
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
-  import ItemCount from "../ItemCount.svelte";
+  import ItemCount from "$lib/components/common/ItemCount.svelte";
 
   let { data }: { data: PageData } = $props();
   let events: Array<EventObject> = $derived(data.events);

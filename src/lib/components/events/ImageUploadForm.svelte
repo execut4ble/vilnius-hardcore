@@ -34,6 +34,7 @@
   method="POST"
   action="?/upload_image"
   enctype="multipart/form-data"
+  class="imageUpload"
   use:enhance={uploadImage}
 >
   <div>
@@ -47,7 +48,6 @@
     <input
       type="file"
       name="file"
-      class="imageUpload"
       id={slug ? slug : "file"}
       accept="image/png, image/jpeg, image/webp"
       required
@@ -90,17 +90,25 @@
 </form>
 
 <style>
-  form input.imageUpload {
+  form.imageUpload {
+    width: 12em;
+  }
+
+  form.imageUpload label {
+    word-wrap: break-word;
+  }
+
+  form.imageUpload input {
     display: none;
   }
 
-  form label.imageUpload {
+  form.imageUpload label {
     border: 2px dashed var(--color-text);
     padding: 1.5em;
     margin-bottom: 1em;
   }
 
-  form label.imageUpload:hover {
+  form.imageUpload label:hover {
     border: 2px dashed var(--color-text-2);
     color: var(--color-text-2);
   }

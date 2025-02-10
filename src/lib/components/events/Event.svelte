@@ -12,7 +12,7 @@
   import type { EventComponent } from "$lib/types";
   import { base } from "$app/paths";
   import Markdown from "svelte-exmarkdown";
-  import ImageUploadForm from "./ImageUploadForm.svelte";
+  import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
 
   let { detailed = false, ...event }: EventComponent = $props();
 

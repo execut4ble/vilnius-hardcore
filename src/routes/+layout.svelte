@@ -1,13 +1,15 @@
 <script lang="ts">
-  import Header from "./Header.svelte";
-  import Menu from "./Menu.svelte";
   import "../app.css";
   import type { Snippet } from "svelte";
   import type { LayoutData } from "$lib/types";
-  import RecentComments from "./RecentComments.svelte";
-  import UserInfo from "./UserInfo.svelte";
-  import ThemeToggle from "./ThemeToggle.svelte";
-  import Footer from "./Footer.svelte";
+  import {
+    Header,
+    Footer,
+    Menu,
+    RecentComments,
+    UserInfo,
+    ThemeToggle,
+  } from "$lib/components";
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props();
   let user = $derived(data.user);
