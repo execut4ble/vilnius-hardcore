@@ -4,7 +4,5 @@
 </script>
 
 <div class="userInfo">
-  {#if user}
-    Logged in as <a href="/crew">{user.username}</a>
-  {/if}
+  Logged in as <a href="/crew">{user?.username}</a>
 </div>

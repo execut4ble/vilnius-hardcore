@@ -21,7 +21,9 @@
   <main>
     <row>
       <mobile>
-        <UserInfo {user} />
+        {#if user}
+          <UserInfo {user} />
+        {/if}
         <Menu />
       </mobile>
       <section>
@@ -29,7 +31,9 @@
       </section>
       <sidebar>
         <div class="navigation">
-          <UserInfo {user} />
+          {#if user}
+            <UserInfo {user} />
+          {/if}
           <Menu />
         </div>
         <RecentComments {recentComments} />
@@ -128,6 +132,11 @@
       display: flex;
       margin-left: 1em;
       min-width: auto;
+      margin-bottom: 3em;
+    }
+
+    main {
+      margin-top: 1em;
     }
 
     main row {

@@ -22,6 +22,7 @@
     justify-content: center;
     align-items: center;
     padding: 12px;
+    font-size: 10pt;
   }
 
   footer a {
