@@ -275,7 +275,6 @@
   event .previewImg {
     width: 12em;
     border-radius: 10px;
-    height: fit-content;
   }
 
   div.eventInfo {
