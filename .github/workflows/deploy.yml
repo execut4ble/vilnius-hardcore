@@ -29,5 +29,5 @@ jobs:
       - name: Restart PM2 app
         if: success()
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pm2 restart vilnius-hardcore"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pm2 restart vilnius-hardcore -s"
           echo "App restarted successfully"
