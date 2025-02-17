@@ -18,12 +18,12 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          ssh ${{ secrets.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git pull origin main"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git pull origin main"
           echo "Successfully pulled repo"
 
       - name: Build
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && npm run build"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && npm run build"
           echo "Build completed"
 
       - name: Restart PM2 app
