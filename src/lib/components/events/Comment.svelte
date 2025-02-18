@@ -1,10 +1,11 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
+  import type { CommentComponent } from "$lib/types";
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
 
-  let { ...comment } = $props();
+  let { ...comment }: CommentComponent = $props();
   let date: Date = $derived(new Date(comment.date));
   let confirmDelete: boolean = $state(false);
 </script>

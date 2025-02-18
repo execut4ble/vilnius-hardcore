@@ -12,4 +12,4 @@
 </svelte:head>
 
 <h1>{post.title}</h1>
-<Post {...post} showTitle={false} />
+<Post {...post} />

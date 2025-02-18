@@ -15,14 +15,36 @@ export type CommentObject = {
   content: string | null;
 };
 
+export type PostObject = {
+  id: number;
+  authorName: string;
+  title: string;
+  date: Date | string;
+  body: string;
+  slug: string;
+  image: string | null;
+};
+
 export type EventsArray = Array<EventObject>;
 
 export type CommentsArray = Array<CommentObject>;
+
+export type PostsArray = Array<PostObject>;
 
 export type EventComponent = EventObject & {
   events?: EventsArray | undefined;
 } & {
   detailed?: boolean;
+};
+
+export type CommentComponent = CommentObject & {
+  comments?: CommentsArray | undefined;
+};
+
+export type PostComponent = PostObject & {
+  posts?: PostsArray | undefined;
+} & {
+  preview?: boolean;
 };
 
 export type LayoutData = {

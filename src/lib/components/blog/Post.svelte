@@ -2,6 +2,7 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
+  import type { PostComponent } from "$lib/types";
   import {
     faPenToSquare,
     faSave,
@@ -11,15 +12,17 @@
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
 
-  let { preview = false, showTitle = true, ...post } = $props();
+  let { preview = false, ...post }: PostComponent = $props();
 
   let isEditing: boolean = $state(false);
-  let title = $derived(post.title);
-  let slug = $state(post.slug);
-  let date = $derived(new Date(post.date).toLocaleString("lt-LT"));
-  let author = $derived(post.authorName);
-  let body = $derived(post.body);
-  let previewBody = $derived(body ? body.substr(0, 500) + "\u2026" : "");
+  let title: string = $derived(post.title);
+  let slug: string = $state(post.slug);
+  let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
+  let author: string = $derived(post.authorName);
+  let body: string = $derived(post.body);
+  let previewBody: string = $derived(
+    body ? body.substring(0, 500) + "\u2026" : "",
+  );
   let confirmDelete: boolean = $state(false);
 
   function updatePost({ formData }: { formData: FormData }) {
@@ -45,7 +48,7 @@
 
   function removePost() {
     return async ({ update, result }) => {
-      if (page.params === slug) {
+      if (page.params.slug === slug) {
         goto("/blog", { noScroll: true });
       } else {
         await update();
@@ -60,7 +63,7 @@
 
 <post>
   {#if !isEditing}
-    {#if showTitle}
+    {#if page.params.slug !== slug}
       <h2><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
     {/if}
     {#if page.url.pathname !== "/" && page.data.user}
