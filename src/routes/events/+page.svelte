@@ -18,17 +18,13 @@
   let upcomingEvents: Array<EventObject> = $derived(
     events
       .filter((event) => new Date(event.date) >= today)
-      .toSorted(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      ),
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
   );
 
   let pastEvents: Array<EventObject> = $derived(
     events
       .filter((event) => new Date(event.date) < today)
-      .toSorted(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      )
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .reverse(),
   );
 
