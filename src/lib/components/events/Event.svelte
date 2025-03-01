@@ -303,4 +303,8 @@
     flex-direction: row;
     gap: 1.5em;
   }
+
+  event form textarea {
+    max-width: 20em;
+  }
 </style>

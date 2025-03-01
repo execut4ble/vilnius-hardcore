@@ -162,4 +162,8 @@
     border-radius: 10px;
     height: fit-content;
   }
+
+  form textarea[name="description"] {
+    max-width: 25em;
+  }
 </style>
