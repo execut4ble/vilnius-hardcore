@@ -13,6 +13,9 @@
   let entryMode: boolean = $state(false);
   let displayedPosts: number | null = $derived(posts.length);
   let totalPosts: number | null = $derived(data.meta[0].totalPosts);
+  let newPostTitle: string = $state("");
+  let newPostBody: string = $state("");
+  let confirmCancel: boolean = $state(false);
 
   function createPost() {
     return async ({ update, result }) => {
@@ -55,9 +58,14 @@
         use:enhance={createPost}
       >
         <label for="title">Title</label>
-        <input id="title" name="title" required />
+        <input id="title" name="title" bind:value={newPostTitle} required />
         <label id="body" for="body">Post body</label>
-        <textarea name="body" spellcheck="false" required></textarea>
+        <textarea
+          name="body"
+          spellcheck="false"
+          bind:value={newPostBody}
+          required
+        ></textarea>
         <br />
         <button type="submit" class="post action"
           ><Fa icon={faSave} /> save</button
@@ -65,9 +73,32 @@
         <button
           type="button"
           class="post action"
-          onclick={() => (entryMode = false)}
-          ><Fa icon={faXmark} /> cancel</button
+          onclick={() => {
+            if (!newPostTitle && !newPostBody) {
+              entryMode = false;
+              confirmCancel = false;
+            } else {
+              confirmCancel = true;
+            }
+          }}><Fa icon={faXmark} /> cancel</button
         >
+        {#if confirmCancel}<br /><br />
+          <strong>really cancel?</strong>
+          <button
+            class="post action"
+            type="button"
+            onclick={() => (confirmCancel = false)}>no!</button
+          >
+          <button
+            class="post action"
+            onclick={() => {
+              entryMode = false;
+              newPostTitle = "";
+              newPostBody = "";
+              confirmCancel = false;
+            }}>yes!</button
+          >
+        {/if}
       </form>
     </div>
   {/if}
