@@ -5,6 +5,29 @@ import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { uploadImageAction } from "$lib/files-dir";
 import { error, fail } from "@sveltejs/kit";
+import * as z from "zod";
+import validator from "validator";
+
+const commentSchema = z.object({
+  author: z
+    .string({ required_error: "Name is required" })
+    .min(1, { message: "Name is required" })
+    .max(30, { message: "Name must be less than 30 characters" })
+    .trim()
+    .refine((value) => !validator.isEmpty(value), {
+      message: "Name can't be empty",
+    }),
+  content: z
+    .string({ required_error: "Comment can't be empty" })
+    .min(1, { message: "Comment can't be empty" })
+    .max(250, { message: "Comment must be less than 250 characters" })
+    .trim()
+    .refine((value) => !validator.isEmpty(value), {
+      message: "Comment can't be empty",
+    }),
+  date: z.coerce.date(),
+  eventId: z.string().trim(),
+});
 
 export const load = (async ({
   params,
@@ -64,9 +87,17 @@ export const actions = {
     formData.set("date", date.toISOString());
     formData.set("eventId", eventId[0].id.toString());
     const data: Object = Object.fromEntries(formData.entries());
-
-    await db.insert(table.comment).values(data as any);
+    try {
+      const comment = commentSchema.parse(data);
+      await db.insert(table.comment).values(comment as any);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const { fieldErrors: errors } = err.flatten();
+        return fail(400, { errors });
+      }
+    }
   },
+
   remove_comment: async ({ request, locals }) => {
     if (!locals.session) {
       return fail(401);

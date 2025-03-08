@@ -47,7 +47,7 @@ export const comment = pgTable("comment", {
     .references(() => event.id, { onDelete: "cascade" })
     .notNull(),
   author: text("author").notNull(),
-  date: timestamp("date", { withTimezone: true, mode: "string" }).notNull(),
+  date: timestamp("date", { withTimezone: true }).notNull(),
   content: text("content").notNull(),
 });
 

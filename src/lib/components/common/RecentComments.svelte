@@ -35,6 +35,7 @@
   }
 
   li.comment .content {
+    word-break: break-word;
     margin-bottom: 0.2em;
   }
 

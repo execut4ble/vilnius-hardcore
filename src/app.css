@@ -196,3 +196,12 @@ event div.description p {
   margin-bottom: 0;
   margin-top: 0;
 }
+
+div.errorMsg {
+  margin-bottom: 2em;
+}
+
+div.fieldError {
+  color: var(--color-text-2);
+  margin-bottom: 1em;
+}

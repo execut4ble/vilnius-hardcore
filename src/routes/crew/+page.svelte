@@ -90,8 +90,4 @@
   div button {
     margin-bottom: 2em;
   }
-
-  div.errorMsg {
-    margin-bottom: 2em;
-  }
 </style>
