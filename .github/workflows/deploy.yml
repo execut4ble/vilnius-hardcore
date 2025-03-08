@@ -3,7 +3,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,6 +20,11 @@ jobs:
           ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git pull origin main"
           echo "Successfully pulled repo"
+
+      - name: Install npm packages
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && npm install"
+          echo "npm install completed"
 
       - name: Build
         run: |
