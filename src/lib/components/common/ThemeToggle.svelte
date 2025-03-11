@@ -19,4 +19,4 @@
       <Fa icon={faTerminal} />
     {/if}
   </button>
-{:else}{/if}
+{/if}
