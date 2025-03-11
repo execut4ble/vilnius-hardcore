@@ -6,28 +6,7 @@ import * as table from "$lib/server/db/schema";
 import { uploadImageAction } from "$lib/files-dir";
 import { error, fail } from "@sveltejs/kit";
 import * as z from "zod";
-import validator from "validator";
-
-const commentSchema = z.object({
-  author: z
-    .string({ required_error: "Name is required" })
-    .min(1, { message: "Name is required" })
-    .max(30, { message: "Name must be less than 30 characters" })
-    .trim()
-    .refine((value) => !validator.isEmpty(value), {
-      message: "Name can't be empty",
-    }),
-  content: z
-    .string({ required_error: "Comment can't be empty" })
-    .min(1, { message: "Comment can't be empty" })
-    .max(250, { message: "Comment must be less than 250 characters" })
-    .trim()
-    .refine((value) => !validator.isEmpty(value), {
-      message: "Comment can't be empty",
-    }),
-  date: z.coerce.date(),
-  eventId: z.string().trim(),
-});
+import { commentInsertSchema } from "$lib/server/db/validations";
 
 export const load = (async ({
   params,
@@ -54,6 +33,13 @@ export const load = (async ({
   return { event, comments };
 }) satisfies PageServerLoad;
 
+const queryEventId = async (slug: string): Promise<number | undefined> => {
+  const queryResult: table.Event | undefined = await db.query.event.findFirst({
+    where: eq(table.event.slug, slug),
+  });
+  return queryResult?.id;
+};
+
 export const actions = {
   update_event: async ({ locals, params, request }) => {
     if (!locals.session) {
@@ -78,18 +64,15 @@ export const actions = {
   },
   upload_image: uploadImageAction,
   add_comment: async ({ request, params }) => {
-    const eventId = await db
-      .select({ id: table.event.id })
-      .from(table.event)
-      .where(eq(table.event.slug, params.slug));
+    const eventId: number | undefined = await queryEventId(params.slug);
     const date: Date = new Date();
     const formData: FormData = await request.formData();
-    formData.set("date", date.toISOString());
-    formData.set("eventId", eventId[0].id.toString());
+    formData.append("date", date.toISOString());
+    formData.append("eventId", eventId?.toString() as string);
     const data: Object = Object.fromEntries(formData.entries());
     try {
-      const comment = commentSchema.parse(data);
-      await db.insert(table.comment).values(comment as any);
+      const comment = commentInsertSchema.parse(data);
+      await db.insert(table.comment).values(comment);
     } catch (err) {
       if (err instanceof z.ZodError) {
         const { fieldErrors: errors } = err.flatten();

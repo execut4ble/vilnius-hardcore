@@ -44,6 +44,7 @@
     "@oslojs/encoding": "^1.1.0",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.40.0",
+    "drizzle-zod": "^0.7.0",
     "javascript-time-ago": "^2.5.11",
     "postgres": "^3.4.5",
     "svelte-exmarkdown": "^4.0.3",
