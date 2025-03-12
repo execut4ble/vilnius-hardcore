@@ -4,6 +4,8 @@ import { count } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { fail } from "@sveltejs/kit";
+import { postInsertSchema } from "$lib/server/db/validations";
+import { z } from "zod";
 
 export const load = (async ({ url }): Promise<{ posts; meta }> => {
   let limit = Number(url.searchParams.get("limit")) || 5;
@@ -44,9 +46,17 @@ export const actions = {
     }
     const formData: FormData = await request.formData();
     const userId = locals.user?.id;
-    formData.set("author", userId as string);
+    formData.append("author", userId as string);
     const data: Object = Object.fromEntries(formData.entries());
-    await db.insert(table.post).values(data as any);
+    try {
+      const post = postInsertSchema.parse(data);
+      await db.insert(table.post).values(post);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const { fieldErrors: errors } = err.flatten();
+        return fail(400, { errors });
+      }
+    }
   },
   remove_post: async ({ locals, request }) => {
     if (!locals.session) {

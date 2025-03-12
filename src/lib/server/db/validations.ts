@@ -1,7 +1,6 @@
 import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
 import validator from "validator";
-import { comment } from "./schema";
+import { comment, post } from "./schema";
 
 export const commentInsertSchema = createInsertSchema(comment, {
   author: (schema) =>
@@ -20,6 +19,21 @@ export const commentInsertSchema = createInsertSchema(comment, {
       .refine((value) => !validator.isEmpty(value), {
         message: "Comment can't be empty",
       }),
-  eventId: z.coerce.number(),
-  date: z.coerce.date(),
+});
+
+export const postInsertSchema = createInsertSchema(post, {
+  title: (schema) =>
+    schema
+      .min(1, { message: "Post title is required" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Post title can't be empty",
+      }),
+  body: (schema) =>
+    schema
+      .min(1, { message: "Post body can't be empty" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Post body can't be empty",
+      }),
 });

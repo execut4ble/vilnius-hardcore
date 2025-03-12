@@ -68,9 +68,7 @@ export const actions = {
   upload_image: uploadImageAction,
   add_comment: async ({ request, params }) => {
     const eventId: number | undefined = await queryEventId(params.slug);
-    const date: Date = new Date();
     const formData: FormData = await request.formData();
-    formData.append("date", date.toISOString());
     formData.append("eventId", eventId?.toString() as string);
     const data: Object = Object.fromEntries(formData.entries());
     try {
