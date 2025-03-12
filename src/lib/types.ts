@@ -1,47 +1,22 @@
-export type EventObject = {
-  id: number;
-  date: Date | string;
-  title: string | null;
-  slug: string | null;
-  description: string | null;
-  image: string | null;
-  comments?: number | null;
-};
+import type { Comment, Event, Post } from "./server/db/schema";
 
-export type CommentObject = {
-  id: number;
-  date: Date | string;
-  author: string;
-  content: string | null;
-};
+export type EventsArray = Array<Event>;
 
-export type PostObject = {
-  id: number;
-  authorName: string;
-  title: string;
-  date: Date | string;
-  body: string;
-  slug: string;
-  image: string | null;
-};
+export type CommentsArray = Array<Comment>;
 
-export type EventsArray = Array<EventObject>;
+export type PostsArray = Array<Post>;
 
-export type CommentsArray = Array<CommentObject>;
-
-export type PostsArray = Array<PostObject>;
-
-export type EventComponent = EventObject & {
+export type EventComponent = Event & {
   events?: EventsArray | undefined;
 } & {
   detailed?: boolean;
 };
 
-export type CommentComponent = CommentObject & {
+export type CommentComponent = Comment & {
   comments?: CommentsArray | undefined;
 };
 
-export type PostComponent = PostObject & {
+export type PostComponent = Post & {
   posts?: PostsArray | undefined;
 } & {
   preview?: boolean;

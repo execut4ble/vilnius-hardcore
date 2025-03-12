@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ActionData, PageData } from "./$types";
-  import type { CommentsArray, EventObject } from "$lib/types";
+  import type { CommentsArray } from "$lib/types";
+  import type { Event as EventObject } from "$lib/server/db/schema";
   import { enhance } from "$app/forms";
   import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";

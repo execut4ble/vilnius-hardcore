@@ -1,4 +1,4 @@
-import type { CommentsArray, EventsArray } from "$lib/types";
+import type { EventsArray } from "$lib/types";
 import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
@@ -10,7 +10,10 @@ import { commentInsertSchema } from "$lib/server/db/validations";
 
 export const load = (async ({
   params,
-}): Promise<{ event: EventsArray; comments: CommentsArray }> => {
+}): Promise<{
+  event: EventsArray;
+  comments: Array<Omit<table.Comment, "eventId">>;
+}> => {
   const event: EventsArray = await db
     .select()
     .from(table.event)
