@@ -16,7 +16,7 @@
 
   let isEditing: boolean = $state(false);
   let title: string = $derived(post.title);
-  let slug: string = $state(post.slug);
+  let slug: string | null = $state(post.slug);
   let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
   let author: string = $derived(post.authorName);
   let body: string = $derived(post.body);

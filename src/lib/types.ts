@@ -8,6 +8,7 @@ export type PostsArray = Array<Post>;
 
 export type EventComponent = Event & {
   events?: EventsArray | undefined;
+  comments?: number | null | undefined;
 } & {
   detailed?: boolean;
 };
@@ -18,6 +19,7 @@ export type CommentComponent = Comment & {
 
 export type PostComponent = Post & {
   posts?: PostsArray | undefined;
+  authorName: string;
 } & {
   preview?: boolean;
 };
