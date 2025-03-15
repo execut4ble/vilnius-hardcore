@@ -15,7 +15,6 @@
     return async ({ update, result }) => {
       await update();
       if (result.type === "error") {
-        // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
     };

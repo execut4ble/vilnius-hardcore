@@ -24,7 +24,6 @@
         entryMode = false;
       }
       if (result.type === "error") {
-        // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
     };
@@ -111,7 +110,7 @@
 <ul class="postList">
   {#each data.posts as post (post.slug)}
     <li>
-      <Post {...post} />
+      <Post {...post} {form} />
     </li>
     <hr class="long" />
   {:else}

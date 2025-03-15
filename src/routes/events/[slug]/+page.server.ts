@@ -3,7 +3,7 @@ import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
-import { uploadImageAction } from "$lib/files-dir";
+import { uploadImageAction } from "$lib/formActions/fileUpload";
 import { error, fail } from "@sveltejs/kit";
 import * as z from "zod";
 import { commentInsertSchema } from "$lib/server/db/validations";

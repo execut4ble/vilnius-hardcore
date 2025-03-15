@@ -1,8 +1,9 @@
-import type { PageServerLoad, Actions } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
-import { error, fail } from "@sveltejs/kit";
+import { error } from "@sveltejs/kit";
+import { postActions } from "$lib/formActions/postActions";
 
 export const load = (async ({ params }): Promise<{ post }> => {
   const post = await db
@@ -26,26 +27,4 @@ export const load = (async ({ params }): Promise<{ post }> => {
   return { post };
 }) satisfies PageServerLoad;
 
-export const actions = {
-  update_post: async ({ locals, params, request }) => {
-    if (!locals.session) {
-      return fail(401);
-    }
-    const formData: FormData = await request.formData();
-    const data = Object.fromEntries(formData.entries());
-    const post = await db
-      .update(table.post)
-      .set(data)
-      .where(eq(table.post.slug, params.slug))
-      .returning();
-    return post;
-  },
-  remove_post: async ({ locals, request }) => {
-    if (!locals.session) {
-      return fail(401);
-    }
-    const formData: FormData = await request.formData();
-    const slug: FormDataEntryValue | null = formData.get("slug");
-    await db.delete(table.post).where(eq(table.post.slug, slug as string));
-  },
-} satisfies Actions;
+export const actions = postActions satisfies Actions;

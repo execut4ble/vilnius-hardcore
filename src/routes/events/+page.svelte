@@ -43,7 +43,6 @@
       await update().then((entryMode = false));
 
       if (result.type === "error") {
-        // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
     };

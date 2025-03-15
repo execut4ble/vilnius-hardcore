@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { FILES_DIR } from "$lib/files-dir";
+import { FILES_DIR } from "$lib/formActions/fileUpload";
 
 // Use the Web Streams API for better compatibility with Fetch API responses
 export function GET({ params }) {
