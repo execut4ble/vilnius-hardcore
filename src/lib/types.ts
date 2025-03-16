@@ -35,10 +35,12 @@ export type UserInfoData = {
   username: string;
 } | null;
 
-export type RecentCommentsData = Array<{
+export type RecentComment = {
   id: number;
   author: string;
   date: Date;
   event_name: string;
   event_slug: string;
-}>;
+};
+
+export type RecentCommentsData = Array<RecentComment>;

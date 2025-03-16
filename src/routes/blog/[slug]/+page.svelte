@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { ActionData, PageData } from "./$types";
+  import type { PageProps } from "./$types";
   import { Post } from "$lib/components";
 
-  let { data, form }: { data: PageData; form: ActionData } = $props();
+  let { data, form }: PageProps = $props();
   let post = $derived(data.post[0]);
 </script>
 

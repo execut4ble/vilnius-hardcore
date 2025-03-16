@@ -1,9 +1,10 @@
 import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
 import type { LayoutServerLoad } from "./$types";
+import type { RecentCommentsData } from "$lib/types";
 
 export const load: LayoutServerLoad = async (event) => {
-  const recentComments = await db.execute(sql`
+  const recentComments: RecentCommentsData = await db.execute(sql`
     SELECT 
       c.id AS id,
       c.author AS author,

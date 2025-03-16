@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { PageData } from "./$types";
+  import type { PageProps } from "./$types";
   import type { Event as EventObject } from "$lib/server/db/schema";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
@@ -10,7 +10,7 @@
   import { goto } from "$app/navigation";
   import ItemCount from "$lib/components/common/ItemCount.svelte";
 
-  let { data }: { data: PageData } = $props();
+  let { data }: PageProps = $props();
   let events: Array<EventObject> = $derived(data.events);
   let today: Date = new Date();
   today.setHours(0, 0, 0, 0); // Normalize to midnight

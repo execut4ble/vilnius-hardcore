@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { ActionData, PageData } from "./$types";
   import { Post, ItemCount } from "$lib/components";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
+  import type { PageProps } from "./$types";
 
-  let { data, form }: { data: PageData; form: ActionData } = $props();
+  let { data, form }: PageProps = $props();
   let posts = $derived(data.posts);
 
   let entryMode: boolean = $state(false);
