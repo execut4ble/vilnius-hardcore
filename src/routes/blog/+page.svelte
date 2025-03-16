@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { PageData } from "./$types";
   import { Post, ItemCount } from "$lib/components";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
+  import type { PageProps } from "./$types";
 
-  let { data }: { data: PageData } = $props();
+  let { data, form }: PageProps = $props();
   let posts = $derived(data.posts);
 
   let entryMode: boolean = $state(false);
@@ -19,10 +19,11 @@
 
   function createPost() {
     return async ({ update, result }) => {
-      await update().then((entryMode = false));
-
+      await update();
+      if (result.type === "success") {
+        entryMode = false;
+      }
       if (result.type === "error") {
-        // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
     };
@@ -59,6 +60,7 @@
       >
         <label for="title">Title</label>
         <input id="title" name="title" bind:value={newPostTitle} required />
+        <div class="fieldError">{form?.errors?.title ?? ""}</div>
         <label id="body" for="body">Post body</label>
         <textarea
           name="body"
@@ -66,6 +68,7 @@
           bind:value={newPostBody}
           required
         ></textarea>
+        <div class="fieldError">{form?.errors?.body ?? ""}</div>
         <br />
         <button type="submit" class="post action"
           ><Fa icon={faSave} /> save</button
@@ -107,7 +110,7 @@
 <ul class="postList">
   {#each data.posts as post (post.slug)}
     <li>
-      <Post {...post} />
+      <Post {...post} {form} />
     </li>
     <hr class="long" />
   {:else}

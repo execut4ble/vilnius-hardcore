@@ -3,7 +3,7 @@ import path from "node:path";
 import { Readable } from "node:stream";
 import fs from "node:fs";
 import { pipeline } from "node:stream/promises";
-import { db } from "./server/db";
+import { db } from "../server/db";
 import * as table from "$lib/server/db/schema";
 import { and, eq, ne } from "drizzle-orm";
 

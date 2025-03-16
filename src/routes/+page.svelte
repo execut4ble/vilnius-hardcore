@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { PageData } from "./$types";
+  import type { PageProps } from "./$types";
   import { Event, Post } from "$lib/components";
 
-  let { data }: { data: PageData } = $props();
+  let { data }: PageProps = $props();
   let post = $derived(data.recentPost[0]);
 </script>
 

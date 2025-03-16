@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ActionData, PageData } from "./$types";
+  import type { PageProps } from "./$types";
   import type { CommentsArray } from "$lib/types";
   import type { Event as EventObject } from "$lib/server/db/schema";
   import { enhance } from "$app/forms";
@@ -7,7 +7,7 @@
   import Fa from "svelte-fa";
   import { Event, Comment } from "$lib/components";
 
-  let { data, form }: { data: PageData; form: ActionData } = $props();
+  let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);
   let comments: CommentsArray = $derived(data.comments as CommentsArray);
 
@@ -15,7 +15,6 @@
     return async ({ update, result }) => {
       await update();
       if (result.type === "error") {
-        // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
     };

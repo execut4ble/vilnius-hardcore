@@ -1,3 +1,4 @@
+import type { ActionData } from "../routes/blog/$types";
 import type { Comment, Event, Post } from "./server/db/schema";
 
 export type EventsArray = Array<Event>;
@@ -22,7 +23,7 @@ export type PostComponent = Post & {
   authorName: string;
 } & {
   preview?: boolean;
-};
+} & { form: ActionData };
 
 export type LayoutData = {
   user: UserInfoData;
@@ -34,10 +35,12 @@ export type UserInfoData = {
   username: string;
 } | null;
 
-export type RecentCommentsData = Array<{
+export type RecentComment = {
   id: number;
   author: string;
   date: Date;
   event_name: string;
   event_slug: string;
-}>;
+};
+
+export type RecentCommentsData = Array<RecentComment>;

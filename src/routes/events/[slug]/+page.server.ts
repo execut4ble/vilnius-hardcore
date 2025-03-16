@@ -3,7 +3,7 @@ import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
-import { uploadImageAction } from "$lib/files-dir";
+import { uploadImageAction } from "$lib/formActions/fileUpload";
 import { error, fail } from "@sveltejs/kit";
 import * as z from "zod";
 import { commentInsertSchema } from "$lib/server/db/validations";
@@ -68,9 +68,7 @@ export const actions = {
   upload_image: uploadImageAction,
   add_comment: async ({ request, params }) => {
     const eventId: number | undefined = await queryEventId(params.slug);
-    const date: Date = new Date();
     const formData: FormData = await request.formData();
-    formData.append("date", date.toISOString());
     formData.append("eventId", eventId?.toString() as string);
     const data: Object = Object.fromEntries(formData.entries());
     try {

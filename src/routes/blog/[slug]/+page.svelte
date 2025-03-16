@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { PageData } from "./$types";
+  import type { PageProps } from "./$types";
   import { Post } from "$lib/components";
 
-  let { data }: { data: PageData } = $props();
+  let { data, form }: PageProps = $props();
   let post = $derived(data.post[0]);
 </script>
 
@@ -12,4 +12,4 @@
 </svelte:head>
 
 <h1>{post.title}</h1>
-<Post {...post} />
+<Post {...post} {form} />

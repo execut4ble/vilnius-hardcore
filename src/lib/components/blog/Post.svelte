@@ -12,7 +12,7 @@
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
 
-  let { preview = false, ...post }: PostComponent = $props();
+  let { preview = false, form, ...post }: PostComponent = $props();
 
   let isEditing: boolean = $state(false);
   let title: string = $derived(post.title);
@@ -29,18 +29,23 @@
     formData.set("slug", slug as string);
 
     return async ({ update, result }) => {
-      if (result.data && result.data[0].slug !== slug) {
-        goto(result.data[0].slug, { noScroll: true });
-        isEditing = false;
-        slug = result.data[0].slug;
-      } else {
-        await update().then(() => {
+      if (result.type === "success") {
+        if (page.params.slug && result?.data[0]?.slug !== slug) {
+          goto(result.data[0].slug, { noScroll: true });
           isEditing = false;
-        });
+          slug = result.data[0].slug;
+        } else {
+          await update().then(() => {
+            isEditing = false;
+          });
+        }
+      }
+
+      if (result.type === "failure") {
+        await update(); // Update to throw form errors
       }
 
       if (result.type === "error") {
-        // Handle errors if necessary
         console.error("Form submission failed:", result.status);
       }
     };
@@ -54,7 +59,6 @@
         await update();
       }
       if (result.type === "error") {
-        // Handle errors if necessary
         console.error("Delete failed:", result.status);
       }
     };
@@ -107,6 +111,7 @@
     >
       <label for="title">Title</label>
       <input id="title" name="title" value={post.title} required />
+      <div class="fieldError">{form?.errors?.title ?? ""}</div>
       <label id="body" for="body">Post body</label>
       <textarea
         class="body"
@@ -115,6 +120,7 @@
         spellcheck="false"
         required
       ></textarea>
+      <div class="fieldError">{form?.errors?.body ?? ""}</div>
       <br />
       <button type="submit" class="post action"
         ><Fa icon={faSave} /> save</button

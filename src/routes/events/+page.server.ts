@@ -4,7 +4,7 @@ import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
-import { uploadImageAction } from "$lib/files-dir";
+import { uploadImageAction } from "$lib/formActions/fileUpload";
 import { fail } from "@sveltejs/kit";
 
 export const load = (async ({

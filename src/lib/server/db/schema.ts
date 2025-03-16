@@ -33,9 +33,7 @@ export const post = pgTable("post", {
     onDelete: "set null",
   }),
   title: text("title").notNull(),
-  date: timestamp("date", { withTimezone: true, mode: "string" })
-    .notNull()
-    .defaultNow(),
+  date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
   body: text("body").notNull(),
   slug: text("slug"),
   image: text("image"),
@@ -47,7 +45,7 @@ export const comment = pgTable("comment", {
     .references(() => event.id, { onDelete: "cascade" })
     .notNull(),
   author: text("author").notNull(),
-  date: timestamp("date", { withTimezone: true }).notNull(),
+  date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
   content: text("content").notNull(),
 });
 

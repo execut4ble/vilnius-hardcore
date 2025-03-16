@@ -1,7 +1,5 @@
 <script lang="ts">
   import "../app.css";
-  import type { Snippet } from "svelte";
-  import type { LayoutData } from "$lib/types";
   import {
     Header,
     Footer,
@@ -10,10 +8,12 @@
     UserInfo,
     ThemeToggle,
   } from "$lib/components";
+  import type { LayoutProps } from "./$types";
+  import type { RecentCommentsData, UserInfoData } from "$lib/types";
 
-  let { data, children }: { data: LayoutData; children: Snippet } = $props();
-  let user = $derived(data.user);
-  let recentComments = $derived(data.recentComments);
+  let { data, children }: LayoutProps = $props();
+  let user: UserInfoData = $derived(data.user);
+  let recentComments: RecentCommentsData = $derived(data.recentComments);
 </script>
 
 <div class="app">
