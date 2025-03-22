@@ -13,7 +13,7 @@ export type EventComponent = Event & {
   comments?: number | null | undefined;
 } & {
   detailed?: boolean;
-} & { form: EventActionData };
+} & { form?: EventActionData };
 
 export type CommentComponent = Comment & {
   comments?: CommentsArray | undefined;
@@ -24,7 +24,7 @@ export type PostComponent = Post & {
   authorName: string;
 } & {
   preview?: boolean;
-} & { form: BlogActionData };
+} & { form?: BlogActionData };
 
 export type LayoutData = {
   user: UserInfoData;

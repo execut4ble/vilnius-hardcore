@@ -4,7 +4,7 @@
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
-  import { Event, ImageUploadForm } from "$lib/components";
+  import { Event, FieldError, ImageUploadForm } from "$lib/components";
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
@@ -81,7 +81,7 @@
       >
         <label for="title">Title</label>
         <input id="title" name="title" bind:value={newEventTitle} required />
-        <div class="fieldError">{form?.errors?.title ?? ""}</div>
+        <FieldError errors={form?.errors?.title} />
         <label for="date">Date</label>
         <input
           id="date"
@@ -90,7 +90,7 @@
           bind:value={newEventDate}
           required
         />
-        <div class="fieldError">{form?.errors?.date ?? ""}</div>
+        <FieldError errors={form?.errors?.date} />
         <input
           type="hidden"
           id="image"

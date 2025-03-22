@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Post, ItemCount } from "$lib/components";
+  import { Post, ItemCount, FieldError } from "$lib/components";
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
@@ -60,7 +60,7 @@
       >
         <label for="title">Title</label>
         <input id="title" name="title" bind:value={newPostTitle} required />
-        <div class="fieldError">{form?.errors?.title ?? ""}</div>
+        <FieldError errors={form?.errors?.title} />
         <label id="body" for="body">Post body</label>
         <textarea
           name="body"
@@ -68,7 +68,7 @@
           bind:value={newPostBody}
           required
         ></textarea>
-        <div class="fieldError">{form?.errors?.body ?? ""}</div>
+        <FieldError errors={form?.errors?.body} />
         <br />
         <button type="submit" class="post action"
           ><Fa icon={faSave} /> save</button

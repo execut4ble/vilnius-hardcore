@@ -10,3 +10,4 @@ export { default as RecentComments } from "$lib/components/common/RecentComments
 export { default as ThemeToggle } from "$lib/components/common/ThemeToggle.svelte";
 export { default as TrackAppearance } from "$lib/components/common/TrackAppearance.svelte";
 export { default as UserInfo } from "$lib/components/common/UserInfo.svelte";
+export { default as FieldError } from "$lib/components/common/FieldError.svelte";

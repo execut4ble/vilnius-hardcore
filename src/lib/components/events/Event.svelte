@@ -13,6 +13,7 @@
   import { base } from "$app/paths";
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
+  import { FieldError } from "$lib/components";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -35,14 +36,20 @@
     formData.set("slug", slug as string);
 
     return async ({ update, result }) => {
-      if (result.data && result.data[0].slug !== slug) {
-        goto(result.data[0].slug, { noScroll: true });
-        isEditing = false;
-        slug = result.data[0].slug;
-      } else {
-        await update().then(() => {
+      if (result.type === "success") {
+        if (page.params.slug && result?.data[0]?.slug !== slug) {
+          goto(result.data[0].slug, { noScroll: true });
           isEditing = false;
-        });
+          slug = result.data[0].slug;
+        } else {
+          await update().then(() => {
+            isEditing = false;
+          });
+        }
+      }
+
+      if (result.type === "failure") {
+        await update(); // Update to throw form errors
       }
 
       if (result.type === "error") {
@@ -167,7 +174,7 @@
             >
               <label for="title">Title</label>
               <input id="title" name="title" value={event.title} required />
-              <div class="fieldError">{form?.errors?.title ?? ""}</div>
+              <FieldError errors={form?.errors?.title} />
               <label for="date">Date</label>
               <input
                 id="date"
@@ -176,7 +183,7 @@
                 value={date}
                 required
               />
-              <div class="fieldError">{form?.errors?.date ?? ""}</div>
+              <FieldError errors={form?.errors?.date} />
               <input
                 type="hidden"
                 id="image"
