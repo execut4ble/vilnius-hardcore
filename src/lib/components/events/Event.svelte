@@ -14,7 +14,7 @@
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
 
-  let { detailed = false, ...event }: EventComponent = $props();
+  let { detailed = false, form, ...event }: EventComponent = $props();
 
   let md = $derived(event.description);
   let slug = $state(event.slug);
@@ -167,6 +167,7 @@
             >
               <label for="title">Title</label>
               <input id="title" name="title" value={event.title} required />
+              <div class="fieldError">{form?.errors?.title ?? ""}</div>
               <label for="date">Date</label>
               <input
                 id="date"
@@ -175,6 +176,7 @@
                 value={date}
                 required
               />
+              <div class="fieldError">{form?.errors?.date ?? ""}</div>
               <input
                 type="hidden"
                 id="image"

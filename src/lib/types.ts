@@ -1,4 +1,5 @@
-import type { ActionData } from "../routes/blog/$types";
+import type { ActionData as BlogActionData } from "../routes/blog/$types";
+import type { ActionData as EventActionData } from "../routes/events/$types";
 import type { Comment, Event, Post } from "./server/db/schema";
 
 export type EventsArray = Array<Event>;
@@ -12,7 +13,7 @@ export type EventComponent = Event & {
   comments?: number | null | undefined;
 } & {
   detailed?: boolean;
-};
+} & { form: EventActionData };
 
 export type CommentComponent = Comment & {
   comments?: CommentsArray | undefined;
@@ -23,7 +24,7 @@ export type PostComponent = Post & {
   authorName: string;
 } & {
   preview?: boolean;
-} & { form: ActionData };
+} & { form: BlogActionData };
 
 export type LayoutData = {
   user: UserInfoData;

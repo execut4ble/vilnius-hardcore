@@ -1,6 +1,6 @@
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import validator from "validator";
-import { comment, post } from "./schema";
+import { comment, event, post } from "./schema";
 import { z } from "zod";
 
 export const commentInsertSchema = createInsertSchema(comment, {
@@ -54,5 +54,39 @@ export const postUpdateSchema = createUpdateSchema(post, {
       .trim()
       .refine((value) => !validator.isEmpty(value), {
         message: "Post body can't be empty",
+      }),
+});
+
+export const eventInsertSchema = createInsertSchema(event, {
+  title: (schema) =>
+    schema
+      .min(1, { message: "Event title is required" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Event title can't be empty",
+      }),
+  date: (schema) =>
+    schema
+      .min(1, { message: "Event date can't be empty" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Event date can't be empty",
+      }),
+});
+
+export const eventUpdateSchema = createUpdateSchema(event, {
+  title: (schema) =>
+    schema
+      .min(1, { message: "Event title is required" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Event title can't be empty",
+      }),
+  date: (schema) =>
+    schema
+      .min(1, { message: "Event date can't be empty" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Event date can't be empty",
       }),
 });
