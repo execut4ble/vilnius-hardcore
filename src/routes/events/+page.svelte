@@ -4,13 +4,13 @@
   import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
-  import { Event, ImageUploadForm } from "$lib/components";
+  import { Event, FieldError, ImageUploadForm } from "$lib/components";
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import ItemCount from "$lib/components/common/ItemCount.svelte";
 
-  let { data }: PageProps = $props();
+  let { data, form }: PageProps = $props();
   let events: Array<EventObject> = $derived(data.events);
   let today: Date = new Date();
   today.setHours(0, 0, 0, 0); // Normalize to midnight
@@ -40,8 +40,10 @@
 
   function createEvent() {
     return async ({ update, result }) => {
-      await update().then((entryMode = false));
-
+      await update();
+      if (result.type === "success") {
+        entryMode = false;
+      }
       if (result.type === "error") {
         console.error("Form submission failed:", result.status);
       }
@@ -79,6 +81,7 @@
       >
         <label for="title">Title</label>
         <input id="title" name="title" bind:value={newEventTitle} required />
+        <FieldError errors={form?.errors?.title} />
         <label for="date">Date</label>
         <input
           id="date"
@@ -87,6 +90,7 @@
           bind:value={newEventDate}
           required
         />
+        <FieldError errors={form?.errors?.date} />
         <input
           type="hidden"
           id="image"
@@ -155,7 +159,7 @@
 <ul class="eventList">
   {#each upcomingEvents as event (event.slug)}
     <li>
-      <Event {...event} />
+      <Event {...event} {form} />
     </li>
   {:else}
     <p>We have no upcoming events right now! Check back later!</p>
@@ -166,7 +170,7 @@
 <ul class="eventList">
   {#each pastEvents as event (event.slug)}
     <li>
-      <Event {...event} />
+      <Event {...event} {form} />
     </li>
   {:else}
     <p>No past events found.</p>

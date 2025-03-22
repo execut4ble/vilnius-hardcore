@@ -2,6 +2,7 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
+  import { FieldError } from "$lib/components";
   import type { PostComponent } from "$lib/types";
   import {
     faPenToSquare,
@@ -111,7 +112,7 @@
     >
       <label for="title">Title</label>
       <input id="title" name="title" value={post.title} required />
-      <div class="fieldError">{form?.errors?.title ?? ""}</div>
+      <FieldError errors={form?.errors?.title} />
       <label id="body" for="body">Post body</label>
       <textarea
         class="body"
@@ -120,7 +121,7 @@
         spellcheck="false"
         required
       ></textarea>
-      <div class="fieldError">{form?.errors?.body ?? ""}</div>
+      <FieldError errors={form?.errors?.body} />
       <br />
       <button type="submit" class="post action"
         ><Fa icon={faSave} /> save</button

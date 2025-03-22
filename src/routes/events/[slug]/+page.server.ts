@@ -3,10 +3,10 @@ import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
-import { uploadImageAction } from "$lib/formActions/fileUpload";
 import { error, fail } from "@sveltejs/kit";
 import * as z from "zod";
 import { commentInsertSchema } from "$lib/server/db/validations";
+import { eventActions } from "$lib/formActions/eventActions";
 
 export const load = (async ({
   params,
@@ -44,28 +44,7 @@ const queryEventId = async (slug: string): Promise<number | undefined> => {
 };
 
 export const actions = {
-  update_event: async ({ locals, params, request }) => {
-    if (!locals.session) {
-      return fail(401);
-    }
-    const formData: FormData = await request.formData();
-    const data = Object.fromEntries(formData.entries());
-    const event = await db
-      .update(table.event)
-      .set(data)
-      .where(eq(table.event.slug, params.slug))
-      .returning();
-    return event;
-  },
-  remove_event: async ({ locals, request }) => {
-    if (!locals.session) {
-      return fail(401);
-    }
-    const formData: FormData = await request.formData();
-    const slug: FormDataEntryValue | null = formData.get("slug");
-    await db.delete(table.event).where(eq(table.event.slug, slug as string));
-  },
-  upload_image: uploadImageAction,
+  ...eventActions,
   add_comment: async ({ request, params }) => {
     const eventId: number | undefined = await queryEventId(params.slug);
     const formData: FormData = await request.formData();

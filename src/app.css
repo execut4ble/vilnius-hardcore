@@ -202,8 +202,3 @@ event div.description p {
 div.errorMsg {
   margin-bottom: 2em;
 }
-
-div.fieldError {
-  color: var(--color-text-2);
-  margin-bottom: 1em;
-}

@@ -5,7 +5,7 @@
   import { enhance } from "$app/forms";
   import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
-  import { Event, Comment } from "$lib/components";
+  import { Event, Comment, FieldError } from "$lib/components";
 
   let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);
@@ -26,7 +26,7 @@
   <meta name="description" content="Vilnius Hardcore" />
 </svelte:head>
 
-<Event {...event} detailed={true} />
+<Event {...event} {form} detailed={true} />
 <strong><h2 id="comments">Comments</h2></strong>
 
 <div class="comments">
@@ -47,11 +47,11 @@
 >
   <label for="author">Name</label>
   <input id="author" name="author" required maxlength="30" />
-  <div class="fieldError">{form?.errors?.author ?? ""}</div>
+  <FieldError errors={form?.errors?.author} />
   <label id="content" for="content">Comment</label>
   <textarea name="content" spellcheck="false" required maxlength="250"
   ></textarea>
-  <div class="fieldError">{form?.errors?.content ?? ""}</div>
+  <FieldError errors={form?.errors?.content} />
   <br />
   <button type="submit" class="post action"
     ><Fa icon={faCommentDots} /> post</button

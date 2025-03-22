@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { uploadImageAction } from "$lib/formActions/fileUpload";
 import { fail } from "@sveltejs/kit";
+import { eventActions } from "$lib/formActions/eventActions";
 
 export const load = (async ({
   url,
@@ -34,34 +35,4 @@ export const load = (async ({
   return { events, meta };
 }) satisfies PageServerLoad;
 
-export const actions = {
-  update_event: async ({ locals, request }) => {
-    if (!locals.session) {
-      return fail(401);
-    }
-    const formData: FormData = await request.formData();
-    const data: Object = Object.fromEntries(formData.entries());
-    const slug: FormDataEntryValue | null = formData.get("slug");
-    await db
-      .update(table.event)
-      .set(data)
-      .where(eq(table.event.slug, slug as string));
-  },
-  create_event: async ({ locals, request }) => {
-    if (!locals.session) {
-      return fail(401);
-    }
-    const formData: FormData = await request.formData();
-    const data: Object = Object.fromEntries(formData.entries());
-    await db.insert(table.event).values(data as any);
-  },
-  remove_event: async ({ locals, request }) => {
-    if (!locals.session) {
-      return fail(401);
-    }
-    const formData: FormData = await request.formData();
-    const slug: FormDataEntryValue | null = formData.get("slug");
-    await db.delete(table.event).where(eq(table.event.slug, slug as string));
-  },
-  upload_image: uploadImageAction,
-} satisfies Actions;
+export const actions = eventActions satisfies Actions;
