@@ -1,7 +1,7 @@
 import type { EventsArray } from "$lib/types";
 import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { error, fail } from "@sveltejs/kit";
 import * as z from "zod";
@@ -32,7 +32,8 @@ export const load = (async ({
     })
     .from(table.comment)
     .innerJoin(table.event, eq(table.comment.eventId, table.event.id))
-    .where(eq(table.event.slug, params.slug));
+    .where(eq(table.event.slug, params.slug))
+    .orderBy(asc(table.comment.date));
   return { event, comments };
 }) satisfies PageServerLoad;
 
