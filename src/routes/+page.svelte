@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-  <title>Hardcore</title>
+  <title>Vilnius Hardcore</title>
   <meta name="description" content="Vilnius Hardcore" />
 </svelte:head>
 
