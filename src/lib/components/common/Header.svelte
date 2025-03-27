@@ -6,18 +6,20 @@
 </script>
 
 <header>
-  <figlet
-    ><pre>    .__                     .___                            .__   __   
+  <a href="/" aria-label="Vilnius Hardcore">
+    <figlet
+      ><pre>    .__                     .___                            .__   __   
     |  |__ _____ _______  __| _/____  ___________   ____    |  |_/  |_ 
     |  |  \\__  \\_  __ \/ __ |/ ___\/  _ \_  __ \_/ __ \   |  |\   __\
     |   Y  \/ __ \|  | \/ /_/ \  \__(  &lt_&gt )  | \/\  ___/   |  |_|  |  
     |___|  (____  /__|  \____ |\___  &lt____/|__|    \___  &gt /\____/__|  
          \/     \/           \/    \/                  \/  \/</pre></figlet
+    >
+    <div class="description">
+      <span>{description}</span><span class="cursor">&nbsp;</span>
+    </div>
+    <enhanced:img src={Logo} alt={description} /></a
   >
-  <div class="description">
-    <span>{description}</span><span class="cursor">&nbsp;</span>
-  </div>
-  <enhanced:img src={Logo} alt={description} />
 </header>
 
 <style>
@@ -26,7 +28,6 @@
     header .description {
       display: inherit;
     }
-
     header img {
       display: none;
     }
@@ -41,9 +42,19 @@
 
   header {
     display: flex;
-    flex-direction: column;
     justify-content: center;
+  }
+
+  header a {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
+  }
+
+  header a:hover {
+    background: none;
+    color: var(--color-text-2);
   }
 
   figlet pre {
