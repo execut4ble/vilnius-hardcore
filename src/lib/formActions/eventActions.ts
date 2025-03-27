@@ -15,7 +15,7 @@ export const eventActions = {
       return fail(401);
     }
     const formData: FormData = await request.formData();
-    const data: Object = Object.fromEntries(formData.entries());
+    const data: object = Object.fromEntries(formData.entries());
     const slug: FormDataEntryValue | null = formData.get("slug");
     try {
       const event = eventUpdateSchema.parse(data);
@@ -37,7 +37,7 @@ export const eventActions = {
       return fail(401);
     }
     const formData: FormData = await request.formData();
-    const data: Object = Object.fromEntries(formData.entries());
+    const data: object = Object.fromEntries(formData.entries());
     try {
       const event = eventInsertSchema.parse(data);
       await db.insert(table.event).values(event);

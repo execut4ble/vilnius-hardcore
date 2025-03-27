@@ -50,7 +50,7 @@ export const actions = {
     const eventId: number | undefined = await queryEventId(params.slug);
     const formData: FormData = await request.formData();
     formData.append("eventId", eventId?.toString() as string);
-    const data: Object = Object.fromEntries(formData.entries());
+    const data: object = Object.fromEntries(formData.entries());
     try {
       const comment = commentInsertSchema.parse(data);
       await db.insert(table.comment).values(comment);

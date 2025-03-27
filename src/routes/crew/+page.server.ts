@@ -87,6 +87,7 @@ export const actions: Actions = {
       await auth.invalidateSession(event.locals.session.id);
       auth.deleteSessionTokenCookie(event);
     } catch (e) {
+      console.error(e);
       return fail(500, { message: "An error has occurred" });
     }
     return redirect(302, "/crew/login");
@@ -120,6 +121,7 @@ export const actions: Actions = {
         .insert(table.user)
         .values({ id: userId, username, passwordHash });
     } catch (e) {
+      console.error(e);
       return fail(500, { message: "An error has occurred" });
     }
     return {

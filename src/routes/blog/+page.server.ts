@@ -6,7 +6,7 @@ import { eq, desc } from "drizzle-orm";
 import { postActions } from "$lib/formActions/postActions";
 
 export const load = (async ({ url }): Promise<{ posts; meta }> => {
-  let limit = Number(url.searchParams.get("limit")) || 5;
+  const limit = Number(url.searchParams.get("limit")) || 5;
   const posts = await db
     .select({
       id: table.post.id,
@@ -21,7 +21,7 @@ export const load = (async ({ url }): Promise<{ posts; meta }> => {
     .leftJoin(table.user, eq(table.user.id, table.post.author))
     .orderBy(desc(table.post.date))
     .limit(limit);
-  let meta = await db.select({ totalPosts: count() }).from(table.post);
+  const meta = await db.select({ totalPosts: count() }).from(table.post);
   return { posts, meta };
 }) satisfies PageServerLoad;
 
