@@ -37,6 +37,11 @@ a:hover {
   text-decoration: none;
 }
 
+p a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 h1 {
   font-size: 2rem;
   text-align: center;

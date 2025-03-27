@@ -27,5 +27,6 @@
 
   footer a {
     font-weight: bold;
+    text-decoration: none;
   }
 </style>

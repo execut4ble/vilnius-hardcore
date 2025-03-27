@@ -297,6 +297,9 @@
   div.eventRow p {
     margin-bottom: 0;
     margin-top: 0;
+    a {
+      text-decoration: none;
+    }
   }
 
   div.title h2 {
