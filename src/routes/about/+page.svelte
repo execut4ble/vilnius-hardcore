@@ -10,7 +10,7 @@
 </ul>
 
 <h2>Vilnius</h2>
-<p>"The" DIY underground venue is <strong>XI20</strong>. From punk to vanguard jazz, hardcore to noise.</p>
+<p>"The" DIY underground venue is <strong><a href="https://oldschool.hardcore.lt/xi20/xi20.html">XI20</a></strong>. From punk to vanguard jazz, hardcore to noise.</p>
 <p>If you want to play at XI20 with your band please contact: <strong>1120 (A) hardcore.lt</strong></p>
 <p>Travellers are also welcome: as locals how to find the place or if you are desperate as for directions at <strong>tourist (A) hardcore.lt</strong></p>
 <p>For cleaner artsier vibes check out <a href="https://instagram.com/retrito.smarsas">RETRITO SMARSAS</a></p>
