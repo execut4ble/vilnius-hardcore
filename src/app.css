@@ -31,6 +31,10 @@ a {
   text-decoration: none;
 }
 
+a:has(> strong) {
+  color: var(--color-text-2);
+}
+
 a:hover {
   background: var(--color-text-2);
   color: var(--link-hover-color);
@@ -110,7 +114,11 @@ button:focus:not(:focus-visible) {
   }
 }
 
-strong,
+strong {
+  color: var(--color-text-2);
+  font-weight: 700;
+}
+
 button.post.action:hover {
   color: var(--color-text-2);
 }
