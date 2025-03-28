@@ -70,6 +70,6 @@ export const actions = {
     const commentId: FormDataEntryValue | null = formData.get("id");
     await db
       .delete(table.comment)
-      .where(eq(table.comment.id, commentId as any));
+      .where(eq(table.comment.id, commentId as unknown as number));
   },
 } satisfies Actions;

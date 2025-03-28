@@ -51,11 +51,13 @@
       id={slug ? slug : "file"}
       accept="image/png, image/jpeg, image/webp"
       required
-      onchange={(event: any) => {
-        const fileName: string = event.target.files
-          ? event.target.files[0].name
-          : "";
-        selectedImage = fileName;
+      onchange={(event) => {
+        if (event.target instanceof HTMLInputElement) {
+          const fileName: string = event.target.files
+            ? event.target.files[0].name
+            : "";
+          selectedImage = fileName;
+        }
         uploaded = false;
         fileUploadError = "";
       }}
