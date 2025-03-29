@@ -1,6 +1,7 @@
 import { fail } from "@sveltejs/kit";
 import path from "node:path";
 import { Readable } from "node:stream";
+import type { ReadableStream } from "node:stream/web";
 import fs from "node:fs";
 import { pipeline } from "node:stream/promises";
 import { db } from "../server/db";
@@ -49,7 +50,9 @@ export const uploadImageAction = async ({ locals, request }) => {
   const nodejs_wstream = fs.createWriteStream(file_path);
   // Convert Web `ReadableStream` to a Node.js `Readable` stream
   const web_rstream = file.stream();
-  const nodejs_rstream = Readable.fromWeb(web_rstream as any);
+  const nodejs_rstream = Readable.fromWeb(
+    web_rstream as ReadableStream<Uint8Array>,
+  );
   // Write file to disk and wait for it to finish
   await pipeline(nodejs_rstream, nodejs_wstream).catch(() => {
     return fail(500, { message: "An internal error occurred!" });

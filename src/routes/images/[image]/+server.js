@@ -36,6 +36,7 @@ export function GET({ params }) {
       },
     );
   } catch (error) {
+    console.error(error);
     return new Response("File not found", { status: 404 });
   }
 }

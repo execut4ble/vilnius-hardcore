@@ -9,6 +9,7 @@
   let is_image_uploading: boolean = $state(false);
   let fileUploadError: string | null | undefined = $state();
   let uploaded: boolean = $state(false);
+  let selectedImageToSave = $state();
 
   function uploadImage() {
     is_image_uploading = true;
@@ -20,6 +21,8 @@
           displayImage = fileObj.name;
           is_image_uploading = false;
           uploaded = true;
+          selectedImage = fileObj.name;
+          selectedImageToSave = null;
         });
       }
       if (result.type === "failure") {
@@ -39,8 +42,8 @@
 >
   <div>
     <label class="imageUpload" for={slug ? slug : "file"}
-      >{selectedImage
-        ? selectedImage
+      >{selectedImageToSave
+        ? selectedImageToSave
         : displayImage
           ? displayImage
           : "Select an image"}</label
@@ -51,18 +54,20 @@
       id={slug ? slug : "file"}
       accept="image/png, image/jpeg, image/webp"
       required
-      onchange={(event: any) => {
-        const fileName: string = event.target.files
-          ? event.target.files[0].name
-          : "";
-        selectedImage = fileName;
+      onchange={(event) => {
+        if (event.target instanceof HTMLInputElement) {
+          const fileName: string = event.target.files
+            ? event.target.files[0].name
+            : "";
+          selectedImageToSave = fileName;
+        }
         uploaded = false;
         fileUploadError = "";
       }}
     />
     <input type="hidden" name="slug" value={slug} />
   </div>
-  {#if selectedImage && !uploaded}
+  {#if selectedImageToSave && !uploaded}
     <button class="post action" disabled={is_image_uploading}>
       {#if is_image_uploading}
         Uploading...
@@ -78,6 +83,7 @@
       onclick={() => {
         displayImage = "";
         selectedImage = "";
+        selectedImageToSave = "";
       }}
     >
       Clear image

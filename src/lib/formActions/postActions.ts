@@ -11,7 +11,7 @@ export const postActions = {
       return fail(401);
     }
     const formData: FormData = await request.formData();
-    const data: Object = Object.fromEntries(formData.entries());
+    const data: object = Object.fromEntries(formData.entries());
     const slug: FormDataEntryValue | null = formData.get("slug");
     try {
       const post = postUpdateSchema.parse(data);
@@ -35,7 +35,7 @@ export const postActions = {
     const formData: FormData = await request.formData();
     const userId = locals.user?.id;
     formData.append("author", userId as string);
-    const data: Object = Object.fromEntries(formData.entries());
+    const data: object = Object.fromEntries(formData.entries());
     try {
       const post = postInsertSchema.parse(data);
       await db.insert(table.post).values(post);
