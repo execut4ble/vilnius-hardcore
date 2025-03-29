@@ -188,7 +188,9 @@
                 type="hidden"
                 id="image"
                 name="image"
-                value={selectedImage ? selectedImage : imageFilename}
+                value={selectedImage !== undefined
+                  ? selectedImage
+                  : imageFilename}
               />
               <hr class="dim" />
               <label id="description" for="description">Description</label>
