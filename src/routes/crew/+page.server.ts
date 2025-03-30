@@ -1,12 +1,16 @@
 import { verify } from "@node-rs/argon2";
 import { hash } from "@node-rs/argon2";
-import { encodeBase32LowerCase } from "@oslojs/encoding";
 import * as auth from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
+import {
+  generateUserId,
+  validatePassword,
+  validateUsername,
+} from "$lib/server/user";
 
 export const load: PageServerLoad = async (event) => {
   if (!event.locals.user) {
@@ -130,27 +134,3 @@ export const actions: Actions = {
     };
   },
 };
-
-function generateUserId() {
-  // ID with 120 bits of entropy, or about the same as UUID v4.
-  const bytes = crypto.getRandomValues(new Uint8Array(15));
-  const id = encodeBase32LowerCase(bytes);
-  return id;
-}
-
-function validateUsername(username: unknown): username is string {
-  return (
-    typeof username === "string" &&
-    username.length >= 3 &&
-    username.length <= 31 &&
-    /^[a-z0-9_-]+$/.test(username)
-  );
-}
-
-function validatePassword(password: unknown): password is string {
-  return (
-    typeof password === "string" &&
-    password.length >= 6 &&
-    password.length <= 255
-  );
-}

@@ -1,12 +1,16 @@
 import { verify } from "@node-rs/argon2";
 import { fail, redirect } from "@sveltejs/kit";
-import { encodeBase32LowerCase } from "@oslojs/encoding";
 import { count, eq } from "drizzle-orm";
 import * as auth from "$lib/server/auth";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import type { Actions, PageServerLoad } from "./$types";
 import { hash } from "@node-rs/argon2";
+import {
+  generateUserId,
+  validatePassword,
+  validateUsername,
+} from "$lib/server/user";
 
 export const load: PageServerLoad = async (event) => {
   if ((await getUserCount()) === 0) {
@@ -63,7 +67,7 @@ export const actions: Actions = {
     const password = formData.get("password");
 
     if ((await getUserCount()) > 0) {
-      return fail(403, { message: "Action forbidden" });
+      return fail(403, { message: "A user already exists" });
     }
     if (!validateUsername(username)) {
       return fail(400, { message: "Invalid username" });
@@ -96,30 +100,6 @@ export const actions: Actions = {
     return redirect(302, "/crew");
   },
 };
-
-function generateUserId() {
-  // ID with 120 bits of entropy, or about the same as UUID v4.
-  const bytes = crypto.getRandomValues(new Uint8Array(15));
-  const id = encodeBase32LowerCase(bytes);
-  return id;
-}
-
-function validateUsername(username: unknown): username is string {
-  return (
-    typeof username === "string" &&
-    username.length >= 2 &&
-    username.length <= 31 &&
-    /^[a-z0-9@_-]+$/.test(username)
-  );
-}
-
-function validatePassword(password: unknown): password is string {
-  return (
-    typeof password === "string" &&
-    password.length >= 6 &&
-    password.length <= 255
-  );
-}
 
 async function getUserCount() {
   const userCount: Array<{ count: number }> = await db
