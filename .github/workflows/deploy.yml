@@ -28,7 +28,7 @@ jobs:
 
       - name: Update database schema
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && npm run db:push --force"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && npm run db:push -- --force"
           echo "Database schema updated"
 
       - name: Build
