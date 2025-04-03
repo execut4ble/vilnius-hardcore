@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { RecentCommentsData } from "$lib/types";
-  import { relativeTime } from "svelte-relative-time";
+  import { getRelativeTimeString } from "$lib/relativeTime";
   let { recentComments }: { recentComments: RecentCommentsData } = $props();
 </script>
 
@@ -15,10 +15,9 @@
             >{comment.event_name}</a
           >
         </div>
-        <div
-          class="font-size-small"
-          use:relativeTime={{ date: new Date(comment.date) }}
-        ></div>
+        <div class="font-size-small">
+          {getRelativeTimeString(new Date(comment.date), "en")}
+        </div>
       </li>
     {:else}
       <div>No comments found.</div>
