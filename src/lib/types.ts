@@ -39,7 +39,7 @@ export type UserInfoData = {
 export type RecentComment = {
   id: number;
   author: string;
-  date: Date;
+  date: Date | number;
   event_name: string;
   event_slug: string;
 };

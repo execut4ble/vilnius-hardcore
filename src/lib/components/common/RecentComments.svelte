@@ -16,7 +16,7 @@
           >
         </div>
         <div class="font-size-small">
-          {getRelativeTimeString(new Date(comment.date), "en")}
+          {getRelativeTimeString(comment.date, "en")}
         </div>
       </li>
     {:else}
