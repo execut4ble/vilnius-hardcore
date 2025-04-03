@@ -1,10 +1,6 @@
 <script lang="ts">
   import type { RecentCommentsData } from "$lib/types";
-  import TimeAgo from "javascript-time-ago";
-  import en from "javascript-time-ago/locale/en";
-  TimeAgo.setDefaultLocale(en.locale);
-  TimeAgo.addLocale(en);
-  const timeAgo = new TimeAgo("en-US");
+  import { relativeTime } from "svelte-relative-time";
   let { recentComments }: { recentComments: RecentCommentsData } = $props();
 </script>
 
@@ -19,9 +15,10 @@
             >{comment.event_name}</a
           >
         </div>
-        <div class="timeAgo">
-          {timeAgo.format(new Date(comment.date))}
-        </div>
+        <div
+          class="font-size-small"
+          use:relativeTime={{ date: new Date(comment.date) }}
+        ></div>
       </li>
     {:else}
       <div>No comments found.</div>
@@ -37,11 +34,6 @@
   li.comment .content {
     word-break: break-word;
     margin-bottom: 0.2em;
-  }
-
-  div.timeAgo {
-    font-size: 0.8em;
-    font-weight: 200;
   }
 
   li.comment a {
