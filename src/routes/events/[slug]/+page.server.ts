@@ -7,6 +7,7 @@ import { error, fail } from "@sveltejs/kit";
 import * as z from "zod";
 import { commentInsertSchema } from "$lib/server/db/validations";
 import { eventActions } from "$lib/formActions/eventActions";
+import { toISOStringWithTimezone } from "$lib/dateFormat";
 
 export const load = (async ({
   params,
@@ -35,8 +36,9 @@ export const load = (async ({
     .where(eq(table.event.slug, params.slug))
     .orderBy(asc(table.comment.date));
 
+  // Convert date to ISO-8601 string
   for (let i in event) {
-    event[i].date = new Date(event[i].date).toISOString();
+    event[i].date = toISOStringWithTimezone(new Date(event[i].date));
   }
   return { event, comments };
 }) satisfies PageServerLoad;

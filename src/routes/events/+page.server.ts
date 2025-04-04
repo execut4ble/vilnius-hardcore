@@ -4,6 +4,7 @@ import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eventActions } from "$lib/formActions/eventActions";
+import { toISOStringWithTimezone } from "$lib/dateFormat";
 
 export const load = (async ({
   url,
@@ -32,7 +33,7 @@ export const load = (async ({
 
   // Convert dates to ISO-8601 format
   for (let i in events) {
-    events[i].date = new Date(events[i].date).toISOString();
+    events[i].date = toISOStringWithTimezone(new Date(events[i].date));
   }
 
   return { events, meta };
