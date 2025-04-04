@@ -16,7 +16,6 @@ export const load: LayoutServerLoad = async (event) => {
     ORDER BY c.date DESC
     LIMIT 5;`);
 
-  // Convert date to ISO-8601 format
   // Convert dates to ISO-8601 format
   for (let i in recentComments) {
     recentComments[i].date = new Date(recentComments[i].date)
