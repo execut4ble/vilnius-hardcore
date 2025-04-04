@@ -2,7 +2,6 @@ import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
 import type { LayoutServerLoad } from "./$types";
 import type { RecentCommentsData } from "$lib/types";
-import { toISOStringWithTimezone } from "$lib/dateFormat";
 
 export const load: LayoutServerLoad = async (event) => {
   let recentComments: RecentCommentsData = await db.execute(sql`
@@ -18,10 +17,11 @@ export const load: LayoutServerLoad = async (event) => {
     LIMIT 5;`);
 
   // Convert date to ISO-8601 format
+  // Convert dates to ISO-8601 format
   for (let i in recentComments) {
-    recentComments[i].date = toISOStringWithTimezone(
-      new Date(recentComments[i].date),
-    );
+    recentComments[i].date = new Date(recentComments[i].date)
+      .toLocaleString("lt")
+      .replace(" ", "T");
   }
 
   return { user: event.locals.user, recentComments };

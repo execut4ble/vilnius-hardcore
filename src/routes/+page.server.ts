@@ -4,7 +4,6 @@ import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
-import { toISOStringWithTimezone } from "$lib/dateFormat";
 
 export const load = (async (): Promise<{ events: EventsArray; recentPost }> => {
   const events: EventsArray = await db.execute(sql`
@@ -36,7 +35,9 @@ export const load = (async (): Promise<{ events: EventsArray; recentPost }> => {
 
   // Convert dates to ISO-8601 format
   for (let i in events) {
-    events[i].date = toISOStringWithTimezone(new Date(events[i].date));
+    events[i].date = new Date(events[i].date)
+      .toLocaleString("lt")
+      .replace(" ", "T");
   }
 
   return { events, recentPost };
