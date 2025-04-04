@@ -16,11 +16,9 @@ export const load: LayoutServerLoad = async (event) => {
     ORDER BY c.date DESC
     LIMIT 5;`);
 
-  // Convert dates to ISO-8601 format
+  // Convert dates to ISO-8601 format (with timezone)
   for (let i in recentComments) {
-    recentComments[i].date = new Date(recentComments[i].date)
-      .toLocaleString("lt")
-      .replace(" ", "T");
+    recentComments[i].date = new Date(recentComments[i].date).toISOString();
   }
 
   return { user: event.locals.user, recentComments };
