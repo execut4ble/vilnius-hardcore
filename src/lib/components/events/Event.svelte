@@ -25,12 +25,20 @@
   let commentCount: number | null | undefined = $derived(event.comments);
 
   let confirmDelete: boolean = $state(false);
-  let date: string = $derived(new Date(event.date).toLocaleString("lt-LT"));
-  const year: number = $derived(new Date(date).getFullYear());
-  const month: string = $derived(
-    new Date(date).toLocaleString("en-us", { month: "short" }),
+  let date: string = $derived(
+    new Date(event.date).toLocaleString("lt-LT", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
   );
-  const day: number = $derived(new Date(date).getDate());
+  const year: number = $derived(new Date(event.date).getFullYear());
+  const month: string = $derived(
+    new Date(event.date).toLocaleString("en-us", { month: "short" }),
+  );
+  const day: number = $derived(new Date(event.date).getDate());
 
   function updateEvent({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
@@ -136,13 +144,7 @@
             {/if}
             <div class="meta">
               <p class="date">
-                {new Date(date).toLocaleTimeString("lt-LT", {
-                  year: "numeric",
-                  month: "numeric",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+                {date}
               </p>
               {#if !detailed && commentCount && commentCount > 0}
                 <p class="comments">

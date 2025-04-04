@@ -34,6 +34,10 @@ export const load = (async ({
     .innerJoin(table.event, eq(table.comment.eventId, table.event.id))
     .where(eq(table.event.slug, params.slug))
     .orderBy(asc(table.comment.date));
+
+  for (let i in event) {
+    event[i].date = new Date(event[i].date).toISOString();
+  }
   return { event, comments };
 }) satisfies PageServerLoad;
 

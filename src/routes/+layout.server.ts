@@ -16,12 +16,9 @@ export const load: LayoutServerLoad = async (event) => {
     ORDER BY c.date DESC
     LIMIT 5;`);
 
-  // Convert date to UNIX timestamp with milliseconds
-  // This enables support for old Safari versions (below 16)
+  // Convert date to ISO-8601 format
   for (let i in recentComments) {
-    recentComments[i].date = Math.floor(
-      new Date(recentComments[i].date).getTime(),
-    );
+    recentComments[i].date = new Date(recentComments[i].date).toISOString();
   }
 
   return { user: event.locals.user, recentComments };
