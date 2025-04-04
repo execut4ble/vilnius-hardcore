@@ -215,3 +215,8 @@ event div.description p {
 div.errorMsg {
   margin-bottom: 2em;
 }
+
+.font-size-small {
+  font-size: 0.8em;
+  font-weight: 200;
+}

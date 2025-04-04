@@ -27,7 +27,7 @@
         <Menu />
       </mobile>
       <section>
-        {@render children()}
+        {@render children?.()}
       </section>
       <sidebar>
         <div class="navigation">

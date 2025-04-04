@@ -32,5 +32,13 @@ export const load = (async (): Promise<{ events: EventsArray; recentPost }> => {
     .leftJoin(table.user, eq(table.user.id, table.post.author))
     .orderBy(desc(table.post.date))
     .limit(1);
+
+  // Convert dates to ISO-8601 format
+  for (let i in events) {
+    events[i].date = new Date(events[i].date)
+      .toLocaleString("lt")
+      .replace(" ", "T");
+  }
+
   return { events, recentPost };
 }) satisfies PageServerLoad;

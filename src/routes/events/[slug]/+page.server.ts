@@ -34,6 +34,14 @@ export const load = (async ({
     .innerJoin(table.event, eq(table.comment.eventId, table.event.id))
     .where(eq(table.event.slug, params.slug))
     .orderBy(asc(table.comment.date));
+
+  // Convert date to ISO-8601 string
+  for (let i in event) {
+    event[i].date = new Date(event[i].date)
+      .toLocaleString("lt")
+      .replace(" ", "T");
+  }
+
   return { event, comments };
 }) satisfies PageServerLoad;
 

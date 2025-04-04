@@ -4,7 +4,7 @@ import type { LayoutServerLoad } from "./$types";
 import type { RecentCommentsData } from "$lib/types";
 
 export const load: LayoutServerLoad = async (event) => {
-  const recentComments: RecentCommentsData = await db.execute(sql`
+  let recentComments: RecentCommentsData = await db.execute(sql`
     SELECT 
       c.id AS id,
       c.author AS author,
@@ -15,5 +15,13 @@ export const load: LayoutServerLoad = async (event) => {
     JOIN event e ON c.event_id = e.id
     ORDER BY c.date DESC
     LIMIT 5;`);
+
+  // Convert dates to ISO-8601 format
+  for (let i in recentComments) {
+    recentComments[i].date = new Date(recentComments[i].date)
+      .toLocaleString("lt")
+      .replace(" ", "T");
+  }
+
   return { user: event.locals.user, recentComments };
 };

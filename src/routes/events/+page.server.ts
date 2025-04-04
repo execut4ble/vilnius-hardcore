@@ -29,6 +29,14 @@ export const load = (async ({
               ON e.id = c.event_id
   ORDER  BY e.date;`);
   const meta = await db.select({ totalEvents: count() }).from(table.event);
+
+  // Convert dates to ISO-8601 format
+  for (let i in events) {
+    events[i].date = new Date(events[i].date)
+      .toLocaleString("lt")
+      .replace(" ", "T");
+  }
+
   return { events, meta };
 }) satisfies PageServerLoad;
 

@@ -23,21 +23,18 @@
 </header>
 
 <style>
-  :global(html.dark) {
-    figlet,
-    header .description {
-      display: inherit;
-    }
-    header img {
-      display: none;
-    }
+  :global(html.dark) figlet,
+  :global(html.dark) header .description {
+    display: inherit;
   }
 
-  :global(html) {
-    figlet,
-    header .description {
-      display: none;
-    }
+  :global(html.dark) header img {
+    display: none;
+  }
+
+  :global(html) figlet,
+  :global(html) header .description {
+    display: none;
   }
 
   header {
