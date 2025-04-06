@@ -52,6 +52,9 @@
   <textarea name="content" spellcheck="false" required maxlength="250"
   ></textarea>
   <FieldError errors={form?.errors?.content} />
+  <label for="acab">Are you a cop? Enter the ACAB digits</label>
+  <input id="acab" name="acab" required maxlength="4" />
+  <FieldError errors={form?.errors?.acab} />
   <br />
   <button type="submit" class="post action"
     ><Fa icon={faCommentDots} /> post</button

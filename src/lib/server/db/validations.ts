@@ -21,6 +21,10 @@ export const commentInsertSchema = createInsertSchema(comment, {
         message: "Comment can't be empty",
       }),
   eventId: z.coerce.number(),
+}).extend({
+  acab: z.literal("1312", {
+    errorMap: () => ({ message: "Incorrect!" }),
+  }),
 });
 
 export const postInsertSchema = createInsertSchema(post, {
