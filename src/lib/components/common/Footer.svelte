@@ -11,6 +11,11 @@
     <a href="https://github.com/execut4ble/vilnius-hardcore"
       ><strong>chebrytė</strong></a
     >
+
+    {#if __COMMIT_HASH__}
+      |
+      {__COMMIT_HASH__}
+    {/if}
   </p>
   <img src={NowItFuckingCuts} alt="nowitfuckingcuts" />
 </footer>
