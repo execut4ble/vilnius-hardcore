@@ -76,6 +76,7 @@ export const eventInsertSchema = createInsertSchema(event, {
       .refine((value) => !validator.isEmpty(value), {
         message: "Event date can't be empty",
       }),
+  is_visible: z.coerce.boolean(),
 });
 
 export const eventUpdateSchema = createUpdateSchema(event, {
@@ -93,4 +94,5 @@ export const eventUpdateSchema = createUpdateSchema(event, {
       .refine((value) => !validator.isEmpty(value), {
         message: "Event date can't be empty",
       }),
+  is_visible: z.coerce.boolean(),
 });

@@ -10,6 +10,7 @@ import { eventActions } from "$lib/formActions/eventActions";
 
 export const load = (async ({
   params,
+  locals,
 }): Promise<{
   event: EventsArray;
   comments: Array<Omit<table.Comment, "eventId">>;
@@ -19,7 +20,7 @@ export const load = (async ({
     .from(table.event)
     .where(eq(table.event.slug, params.slug));
 
-  if (event.length === 0) {
+  if (event.length === 0 || (!locals.user && !event[0]?.is_visible)) {
     error(404, "Not Found");
   }
 

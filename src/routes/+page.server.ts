@@ -5,7 +5,13 @@ import { sql } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
 
-export const load = (async (): Promise<{ events: EventsArray; recentPost }> => {
+export const load = (async (
+  event,
+): Promise<{ events: EventsArray; recentPost }> => {
+  const visibilityClause = event.locals.user
+    ? sql``
+    : sql`AND is_visible = TRUE`;
+
   const events: EventsArray = await db.execute(sql`
     SELECT e.*,
        COALESCE(c.comments, 0) AS comments
@@ -16,6 +22,7 @@ export const load = (async (): Promise<{ events: EventsArray; recentPost }> => {
                   GROUP  BY event_id) c
               ON e.id = c.event_id
     WHERE  e.date >= CURRENT_DATE
+    ${visibilityClause}
     ORDER  BY e.date ASC;`);
 
   const recentPost = await db

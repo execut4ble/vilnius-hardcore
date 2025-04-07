@@ -5,6 +5,7 @@
     faSave,
     faXmark,
     faTrash,
+    faEyeSlash,
   } from "@fortawesome/free-solid-svg-icons";
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
@@ -23,6 +24,7 @@
   let imageFilename: string | null = $derived(event.image);
   let selectedImage: string | null | undefined = $state();
   let commentCount: number | null | undefined = $derived(event.comments);
+  let isVisible: boolean = $derived(event.is_visible);
 
   let confirmDelete: boolean = $state(false);
   let date: string = $derived(
@@ -42,6 +44,7 @@
 
   function updateEvent({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
+    console.log(formData);
 
     return async ({ update, result }) => {
       if (result.type === "success") {
@@ -104,6 +107,11 @@
     </div>
     <div class="eventDetails">
       <div class="eventInfo">
+        {#if !isVisible}
+          <div class="font-size-small dim">
+            <Fa icon={faEyeSlash}></Fa> DRAFT / NOT VISIBLE
+          </div>
+        {/if}
         <div class="title">
           {#if !isEditing}
             <h2>
@@ -201,6 +209,11 @@
                 value={event.description}
                 spellcheck="false"
               ></textarea>
+              <br />
+              <input type="checkbox" name="is_visible" checked={isVisible} />
+              <label class="inline" id="is_visible" for="is_visible"
+                >Publish event</label
+              >
               <br />
               <button type="submit" class="post action"
                 ><Fa icon={faSave} /> save</button

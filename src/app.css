@@ -82,10 +82,18 @@ pre.inline {
   display: inline;
 }
 
+label.inline {
+  display: inline;
+}
+
 input {
   font-size: inherit;
   font-family: inherit;
   color: var(--color-text);
+}
+
+input[type="checkbox"] {
+  margin-bottom: 1em;
 }
 
 button {

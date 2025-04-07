@@ -4,6 +4,10 @@ import type { LayoutServerLoad } from "./$types";
 import type { RecentCommentsData } from "$lib/types";
 
 export const load: LayoutServerLoad = async (event) => {
+  const visibilityClause = event.locals.user
+    ? sql``
+    : sql`WHERE e.is_visible = TRUE`;
+
   let recentComments: RecentCommentsData = await db.execute(sql`
     SELECT 
       c.id AS id,
@@ -13,6 +17,7 @@ export const load: LayoutServerLoad = async (event) => {
       e.slug AS event_slug
     FROM comment c
     JOIN event e ON c.event_id = e.id
+    ${visibilityClause}
     ORDER BY c.date DESC
     LIMIT 5;`);
 
