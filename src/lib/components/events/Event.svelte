@@ -15,6 +15,7 @@
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
   import { FieldError } from "$lib/components";
+  import { blur, slide } from "svelte/transition";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -138,14 +139,17 @@
                 >
                   <Fa icon={faTrash} /> delete</button
                 >
-                {#if confirmDelete}<br /><br />
-                  <strong>for real?</strong>
-                  <button
-                    class="post action"
-                    type="button"
-                    onclick={() => (confirmDelete = false)}>no!</button
-                  >
-                  <button class="post action" type="submit">yes!</button>
+                {#if confirmDelete}
+                  <div transition:slide>
+                    <br />
+                    <strong>for real?</strong>
+                    <button
+                      class="post action"
+                      type="button"
+                      onclick={() => (confirmDelete = false)}>no!</button
+                    >
+                    <button class="post action" type="submit">yes!</button>
+                  </div>
                 {/if}
               </form>
             {/if}
@@ -228,6 +232,7 @@
                 onclick={() => {
                   isEditing = false;
                   selectedImage = null;
+                  imageFilename = event.image;
                 }}><Fa icon={faXmark} /> cancel</button
               >
             </form>
@@ -238,16 +243,21 @@
         {#if isEditing}
           <ImageUploadForm
             bind:selectedImage
-            displayImage={imageFilename}
+            bind:displayImage={imageFilename}
             {slug}
           />
         {/if}
         {#if !detailed && event.image}
-          <img
-            class="previewImg"
-            src={event.image ? `${base}/images/${event.image}` : ""}
-            alt={event.title}
-          />
+          {#if imageFilename}
+            <img
+              class="previewImg"
+              src={imageFilename
+                ? `${base}/public/uploads/${imageFilename}`
+                : ""}
+              alt={event.title}
+              transition:blur
+            />
+          {/if}
         {/if}
       </div>
     </div>
