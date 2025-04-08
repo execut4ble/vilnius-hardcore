@@ -37,7 +37,7 @@ export const load = (async ({
     .orderBy(asc(table.comment.date));
 
   // Convert date to ISO-8601 string
-  for (let i in event) {
+  for (const i in event) {
     event[i].date = new Date(event[i].date)
       .toLocaleString("lt")
       .replace(" ", "T");

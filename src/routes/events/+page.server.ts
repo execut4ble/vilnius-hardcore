@@ -36,7 +36,7 @@ export const load = (async ({
   const meta = await db.select({ totalEvents: count() }).from(table.event);
 
   // Convert dates to ISO-8601 format
-  for (let i in events) {
+  for (const i in events) {
     events[i].date = new Date(events[i].date)
       .toLocaleString("lt")
       .replace(" ", "T");

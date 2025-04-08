@@ -8,7 +8,7 @@ export const load: LayoutServerLoad = async (event) => {
     ? sql``
     : sql`WHERE e.is_visible = TRUE`;
 
-  let recentComments: RecentCommentsData = await db.execute(sql`
+  const recentComments: RecentCommentsData = await db.execute(sql`
     SELECT 
       c.id AS id,
       c.author AS author,
@@ -22,7 +22,7 @@ export const load: LayoutServerLoad = async (event) => {
     LIMIT 5;`);
 
   // Convert dates to ISO-8601 format (with timezone)
-  for (let i in recentComments) {
+  for (const i in recentComments) {
     recentComments[i].date = new Date(recentComments[i].date).toISOString();
   }
 
