@@ -6,8 +6,11 @@ import * as table from "$lib/server/db/schema";
 import { eventActions } from "$lib/formActions/eventActions";
 
 export const load = (async ({
+  locals,
   url,
 }): Promise<{ events: EventsArray; meta }> => {
+  const visibilityClause = locals.user ? sql`` : sql`AND is_visible = TRUE`;
+
   const limit = Number(url.searchParams.get("limit")) || 5;
   const events: EventsArray = await db.execute(sql`
     SELECT e.*,
@@ -15,11 +18,13 @@ export const load = (async ({
     FROM   (SELECT *
         FROM   event
         WHERE  date >= CURRENT_DATE -- All upcoming events including today
+        ${visibilityClause}
         UNION ALL
         SELECT *
         FROM   (SELECT *
                 FROM   event
                 WHERE  date < CURRENT_DATE -- Past events before today
+                ${visibilityClause}
                 ORDER  BY date DESC
                 LIMIT  ${limit}) past_events) e
        LEFT JOIN (SELECT event_id,
@@ -31,7 +36,7 @@ export const load = (async ({
   const meta = await db.select({ totalEvents: count() }).from(table.event);
 
   // Convert dates to ISO-8601 format
-  for (let i in events) {
+  for (const i in events) {
     events[i].date = new Date(events[i].date)
       .toLocaleString("lt")
       .replace(" ", "T");

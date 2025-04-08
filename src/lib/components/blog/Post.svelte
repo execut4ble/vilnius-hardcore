@@ -36,14 +36,14 @@
           isEditing = false;
           slug = result.data[0].slug;
         } else {
-          await update().then(() => {
+          await update({ reset: false }).then(() => {
             isEditing = false;
           });
         }
       }
 
       if (result.type === "failure") {
-        await update(); // Update to throw form errors
+        await update({ reset: false }); // Update to throw form errors
       }
 
       if (result.type === "error") {

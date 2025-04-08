@@ -1,4 +1,11 @@
-import { pgTable, serial, text, integer, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  text,
+  integer,
+  timestamp,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -24,6 +31,7 @@ export const event = pgTable("event", {
   description: text("description"),
   slug: text("slug"),
   image: text("image"),
+  is_visible: boolean("is_visible").default(true).notNull(),
 });
 
 export const post = pgTable("post", {
