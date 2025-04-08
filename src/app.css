@@ -163,6 +163,12 @@ form input {
   font-weight: 400;
   font-size: 1rem;
   padding: 12px 10px;
+  accent-color: var(--color-text-2);
+}
+
+::selection {
+  color: var(--link-hover-color);
+  background: var(--color-text-2);
 }
 
 form input:focus {

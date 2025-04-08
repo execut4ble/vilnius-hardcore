@@ -22,6 +22,7 @@
   >
 </header>
 
+<!-- svelte-ignore css_unused_selector -->
 <style>
   :global(html.dark) figlet,
   :global(html.dark) header .description {
@@ -42,6 +43,10 @@
     justify-content: center;
   }
 
+  header img {
+    padding-top: 0.75em;
+  }
+
   header a {
     display: flex;
     justify-content: center;
@@ -56,6 +61,7 @@
 
   figlet pre {
     margin-top: 0;
+    padding-top: 1.2em;
     color: var(--color-text-2);
     background-color: rgba(0, 0, 0, 0);
     margin-bottom: 0;
