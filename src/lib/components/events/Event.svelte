@@ -209,9 +209,14 @@
                 spellcheck="false"
               ></textarea>
               <br />
-              <input type="checkbox" name="is_visible" checked={isVisible} />
-              <label class="inline" id="is_visible" for="is_visible"
-                >Publish event</label
+              <label for="is_visible"
+                ><input
+                  type="checkbox"
+                  id="is_visible"
+                  name="is_visible"
+                  checked={isVisible}
+                />
+                Publish event</label
               >
               <br />
               <button type="submit" class="post action"
