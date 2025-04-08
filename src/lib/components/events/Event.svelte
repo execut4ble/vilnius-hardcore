@@ -44,7 +44,6 @@
 
   function updateEvent({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
-    console.log(formData);
 
     return async ({ update, result }) => {
       if (result.type === "success") {
