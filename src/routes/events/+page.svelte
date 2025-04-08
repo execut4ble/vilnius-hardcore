@@ -105,6 +105,11 @@
           bind:value={newEventDescription}
         ></textarea>
         <br />
+        <label for="is_visible"
+          ><input type="checkbox" id="is_visible" name="is_visible" checked />
+          Publish event</label
+        >
+        <br />
         <button type="submit" class="post action"
           ><Fa icon={faSave} /> save</button
         >
