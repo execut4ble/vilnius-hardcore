@@ -49,7 +49,7 @@
     return async ({ update, result }) => {
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
-          goto(result.data[0].slug, { noScroll: true });
+          goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
           isEditing = false;
           slug = result.data[0].slug;
         } else {
@@ -73,7 +73,7 @@
   function removeEvent() {
     return async ({ update, result }) => {
       if (detailed) {
-        goto("/events", { noScroll: true });
+        goto("/events", { noScroll: true, invalidateAll: true });
       } else {
         await update();
       }

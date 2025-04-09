@@ -33,7 +33,7 @@
     return async ({ update, result }) => {
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
-          goto(result.data[0].slug, { noScroll: true });
+          goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
           isEditing = false;
           slug = result.data[0].slug;
         } else {
@@ -56,7 +56,7 @@
   function removePost() {
     return async ({ update, result }) => {
       if (page.params.slug === slug) {
-        goto("/blog", { noScroll: true });
+        goto("/blog", { noScroll: true, invalidateAll: true });
       } else {
         await update();
       }
