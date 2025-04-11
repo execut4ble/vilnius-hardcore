@@ -4,13 +4,14 @@
   import type { CommentComponent } from "$lib/types";
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
+  import { slide } from "svelte/transition";
 
   let { ...comment }: CommentComponent = $props();
   let date: Date = $derived(new Date(comment.date));
   let confirmDelete: boolean = $state(false);
 </script>
 
-<div class="comment">
+<div class="comment" transition:slide>
   <div class="heading">
     <strong>{comment.author}</strong> wrote at {date.toLocaleString("lt-LT")}
     {#if page.data.user}

@@ -6,6 +6,7 @@
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import type { PageProps } from "./$types";
+  import { slide } from "svelte/transition";
 
   let { data, form }: PageProps = $props();
   let posts = $derived(data.posts);
@@ -49,60 +50,64 @@
       ><Fa icon={faAdd} /> add new</button
     >
   {:else}
-    <h2><strong>Add new blog post</strong></h2>
-    <div>
-      <form
-        class="newPost"
-        method="POST"
-        action="?/create_post"
-        autocomplete="off"
-        use:enhance={createPost}
-      >
-        <label for="title">Title</label>
-        <input id="title" name="title" bind:value={newPostTitle} required />
-        <FieldError errors={form?.errors?.title} />
-        <label id="body" for="body">Post body</label>
-        <textarea
-          name="body"
-          spellcheck="false"
-          bind:value={newPostBody}
-          required
-        ></textarea>
-        <FieldError errors={form?.errors?.body} />
-        <br />
-        <button type="submit" class="post action"
-          ><Fa icon={faSave} /> save</button
+    <div transition:slide>
+      <h2><strong>Add new blog post</strong></h2>
+      <div>
+        <form
+          class="newPost"
+          method="POST"
+          action="?/create_post"
+          autocomplete="off"
+          use:enhance={createPost}
         >
-        <button
-          type="button"
-          class="post action"
-          onclick={() => {
-            if (!newPostTitle && !newPostBody) {
-              entryMode = false;
-              confirmCancel = false;
-            } else {
-              confirmCancel = true;
-            }
-          }}><Fa icon={faXmark} /> cancel</button
-        >
-        {#if confirmCancel}<br /><br />
-          <strong>really cancel?</strong>
-          <button
-            class="post action"
-            type="button"
-            onclick={() => (confirmCancel = false)}>no!</button
+          <label for="title">Title</label>
+          <input id="title" name="title" bind:value={newPostTitle} required />
+          <FieldError errors={form?.errors?.title} />
+          <label id="body" for="body">Post body</label>
+          <textarea
+            name="body"
+            spellcheck="false"
+            bind:value={newPostBody}
+            required
+          ></textarea>
+          <FieldError errors={form?.errors?.body} />
+          <br />
+          <button type="submit" class="post action"
+            ><Fa icon={faSave} /> save</button
           >
           <button
+            type="button"
             class="post action"
             onclick={() => {
-              entryMode = false;
-              newPostTitle = "";
-              newPostBody = "";
-              confirmCancel = false;
-            }}>yes!</button
+              if (!newPostTitle && !newPostBody) {
+                entryMode = false;
+                confirmCancel = false;
+              } else {
+                confirmCancel = true;
+              }
+            }}><Fa icon={faXmark} /> cancel</button
           >
-        {/if}
-      </form>
+          {#if confirmCancel}<br /><br />
+            <div transition:slide>
+              <strong>really cancel?</strong>
+              <button
+                class="post action"
+                type="button"
+                onclick={() => (confirmCancel = false)}>no!</button
+              >
+              <button
+                class="post action"
+                onclick={() => {
+                  entryMode = false;
+                  newPostTitle = "";
+                  newPostBody = "";
+                  confirmCancel = false;
+                }}>yes!</button
+              >
+            </div>
+          {/if}
+        </form>
+      </div>
     </div>
   {/if}
 {/if}

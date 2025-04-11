@@ -117,7 +117,7 @@
     section {
       margin-left: 1em;
       margin-right: 1em;
-      width: auto;
+      width: fit-content;
     }
   }
 

@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Hardcore</title>
+  <title>Vilnius Hardcore</title>
 </svelte:head>
 
 <h1>{page.status} {page.error ? page.error.message : "Unknown error"}</h1>

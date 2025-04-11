@@ -12,6 +12,7 @@
   } from "@fortawesome/free-solid-svg-icons";
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
+  import { slide } from "svelte/transition";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
@@ -32,7 +33,7 @@
     return async ({ update, result }) => {
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
-          goto(result.data[0].slug, { noScroll: true });
+          goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
           isEditing = false;
           slug = result.data[0].slug;
         } else {
@@ -55,7 +56,7 @@
   function removePost() {
     return async ({ update, result }) => {
       if (page.params.slug === slug) {
-        goto("/blog", { noScroll: true });
+        goto("/blog", { noScroll: true, invalidateAll: true });
       } else {
         await update();
       }
@@ -84,14 +85,17 @@
         >
           <Fa icon={faTrash} /> delete</button
         >
-        {#if confirmDelete}<br /><br />
-          <strong>for real?</strong>
-          <button
-            class="post action"
-            type="button"
-            onclick={() => (confirmDelete = false)}>no!</button
-          >
-          <button class="post action" type="submit">yes!</button>
+        {#if confirmDelete}
+          <div transition:slide>
+            <br />
+            <strong>for real?</strong>
+            <button
+              class="post action"
+              type="button"
+              onclick={() => (confirmDelete = false)}>no!</button
+            >
+            <button class="post action" type="submit">yes!</button>
+          </div>
         {/if}
       </form>
     {/if}

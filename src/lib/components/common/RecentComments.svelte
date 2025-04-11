@@ -2,13 +2,14 @@
   import type { RecentCommentsData } from "$lib/types";
   let { recentComments }: { recentComments: RecentCommentsData } = $props();
   import { relativeTime } from "svelte-relative-time";
+  import { slide } from "svelte/transition";
 </script>
 
 <div class="recentComments">
   <h3><strong>Recent comments</strong></h3>
   <ul>
     {#each recentComments as comment (comment.id)}
-      <li class="comment">
+      <li class="comment" transition:slide>
         <div class="content">
           {comment.author} on
           <a href="/events/{comment.event_slug}#comments"
@@ -23,7 +24,7 @@
         </div>
       </li>
     {:else}
-      <div>No comments found.</div>
+      <div transition:slide>No comments found.</div>
     {/each}
   </ul>
 </div>

@@ -6,6 +6,7 @@
   import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { Event, Comment, FieldError } from "$lib/components";
+  import { slide } from "svelte/transition";
 
   let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);
@@ -33,7 +34,7 @@
   {#each comments as comment (comment.id)}
     <Comment {...comment} />
   {:else}
-    <div>No comments found. Write something!</div>
+    <div transition:slide>No comments found. Write something!</div>
   {/each}
 </div>
 <hr class="dim" />
