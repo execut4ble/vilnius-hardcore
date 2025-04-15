@@ -4,7 +4,7 @@
   import Fa from "svelte-fa";
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
-  import { goto } from "$app/navigation";
+  import { goto, preloadData } from "$app/navigation";
   import type { PageProps } from "./$types";
   import { slide } from "svelte/transition";
 
@@ -30,11 +30,21 @@
     };
   }
 
-  async function loadMore() {
+  function getNextPageURL() {
     const newUrl = new URL(page.url);
     const newPage = (Number(posts.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
-    goto(newUrl, { noScroll: true });
+    return newUrl;
+  }
+
+  function preloadNextPage() {
+    preloadData(getNextPageURL().toString());
+  }
+
+  async function loadMore() {
+    goto(getNextPageURL().toString(), { noScroll: true }).then(() => {
+      preloadNextPage();
+    });
   }
 </script>
 
@@ -124,7 +134,9 @@
 </ul>
 
 {#if displayedPosts !== null && displayedPosts < (totalPosts !== null ? totalPosts : 0)}
-  <button class="post action" onclick={loadMore}>show more</button>
+  <button class="post action" onclick={loadMore} onmouseenter={preloadNextPage}
+    >show more</button
+  >
 {/if}
 
 <ItemCount displayedItems={displayedPosts} totalItems={totalPosts} />

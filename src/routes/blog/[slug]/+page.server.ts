@@ -1,11 +1,17 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { error } from "@sveltejs/kit";
 import { postActions } from "$lib/formActions/postActions";
+import { commentActions } from "$lib/formActions/commentActions";
 
-export const load = (async ({ params }): Promise<{ post }> => {
+export const load = (async ({
+  params,
+}): Promise<{
+  post;
+  comments: Array<Omit<table.Comment, "postId" | "eventId">>;
+}> => {
   const post = await db
     .select({
       id: table.post.id,
@@ -24,7 +30,22 @@ export const load = (async ({ params }): Promise<{ post }> => {
     error(404, "Not Found");
   }
 
-  return { post };
+  const comments = await db
+    .select({
+      id: table.comment.id,
+      author: table.comment.author,
+      content: table.comment.content,
+      date: table.comment.date,
+    })
+    .from(table.comment)
+    .innerJoin(table.post, eq(table.comment.postId, table.post.id))
+    .where(eq(table.post.slug, params.slug))
+    .orderBy(asc(table.comment.date));
+
+  return { post, comments };
 }) satisfies PageServerLoad;
 
-export const actions = postActions satisfies Actions;
+export const actions = {
+  ...postActions,
+  ...commentActions,
+} satisfies Actions;

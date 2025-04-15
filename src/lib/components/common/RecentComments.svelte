@@ -12,9 +12,14 @@
       <li class="comment" transition:slide>
         <div class="content">
           {comment.author} on
-          <a href="/events/{comment.event_slug}#comments"
-            >{comment.event_name}</a
-          >
+          {#if comment.event_slug}
+            <a href="/events/{comment.event_slug}#comments"
+              >{comment.event_name}</a
+            >
+          {:else}
+            <a href="/blog/{comment.post_slug}#comments">{comment.post_title}</a
+            >
+          {/if}
         </div>
         <div
           class="font-size-small"

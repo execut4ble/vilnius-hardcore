@@ -2,24 +2,12 @@
   import type { PageProps } from "./$types";
   import type { CommentsArray } from "$lib/types";
   import type { Event as EventObject } from "$lib/server/db/schema";
-  import { enhance } from "$app/forms";
-  import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
-  import { Event, Comment, FieldError } from "$lib/components";
+  import { Event, Comment, AddCommentForm } from "$lib/components";
   import { slide } from "svelte/transition";
 
   let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);
   let comments: CommentsArray = $derived(data.comments as CommentsArray);
-
-  function addComment() {
-    return async ({ update, result }) => {
-      await update();
-      if (result.type === "error") {
-        console.error("Form submission failed:", result.status);
-      }
-    };
-  }
 </script>
 
 <svelte:head>
@@ -38,36 +26,10 @@
   {/each}
 </div>
 <hr class="dim" />
-<strong><h3>Add a comment</h3></strong>
-<form
-  class="comment"
-  method="POST"
-  action="?/add_comment"
-  autocomplete="off"
-  use:enhance={addComment}
->
-  <label for="author">Name</label>
-  <input id="author" name="author" required maxlength="30" />
-  <FieldError errors={form?.errors?.author} />
-  <label id="content" for="content">Comment</label>
-  <textarea name="content" spellcheck="false" required maxlength="250"
-  ></textarea>
-  <FieldError errors={form?.errors?.content} />
-  <label for="acab">Are you a cop? Enter the ACAB digits</label>
-  <input id="acab" name="acab" required maxlength="4" />
-  <FieldError errors={form?.errors?.acab} />
-  <br />
-  <button type="submit" class="post action"
-    ><Fa icon={faCommentDots} /> post</button
-  >
-</form>
+<AddCommentForm {form} />
 
 <style>
   div.comments div {
     margin-bottom: 1em;
-  }
-
-  form.comment textarea {
-    height: 3.5em;
   }
 </style>
