@@ -10,9 +10,12 @@
     faTrash,
     faXmark,
   } from "@fortawesome/free-solid-svg-icons";
+  import remarkYoutubePlugin from "remark-youtube";
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
+  import type { Plugin } from "svelte-exmarkdown";
+  import rehypeRaw from "rehype-raw";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
@@ -65,6 +68,10 @@
       }
     };
   }
+
+  const plugins: Plugin[] = [
+    { remarkPlugin: [remarkYoutubePlugin], rehypePlugin: [rehypeRaw] },
+  ];
 </script>
 
 <post>
@@ -102,9 +109,9 @@
     <div class="meta">Posted by {author ? author : "anonymous"} | {date}</div>
     <div class="content">
       {#if body && preview && body.length > 500}
-        <Markdown md={previewBody} />
+        <Markdown md={previewBody} {plugins} />
       {:else}
-        <Markdown md={body} />
+        <Markdown md={body} {plugins} />
       {/if}
     </div>
   {:else}
