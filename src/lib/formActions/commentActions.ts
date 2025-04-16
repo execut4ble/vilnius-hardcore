@@ -25,13 +25,17 @@ export const commentActions = {
     let postId: number | undefined;
     let eventId: number | undefined;
     const formData: FormData = await request.formData();
-    if (parentRoute == "blog") {
-      postId = await queryPostId(params.slug);
-      formData.append("postId", postId?.toString() as string);
-    }
-    if (parentRoute == "events") {
-      eventId = await queryEventId(params.slug);
-      formData.append("eventId", eventId?.toString() as string);
+    switch (parentRoute) {
+      case "blog": {
+        postId = await queryPostId(params.slug);
+        formData.append("postId", postId?.toString() as string);
+        break;
+      }
+      case "events": {
+        eventId = await queryEventId(params.slug);
+        formData.append("eventId", eventId?.toString() as string);
+        break;
+      }
     }
     const data: object = Object.fromEntries(formData.entries());
     try {

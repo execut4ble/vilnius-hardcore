@@ -124,12 +124,12 @@
 
 <ul class="postList">
   {#each data.posts as post (post.slug)}
-    <li>
+    <li transition:slide>
       <Post {...post} {form} />
     </li>
     <hr class="long" />
   {:else}
-    <p>Nothing here!</p>
+    <p transition:slide>Nothing here!</p>
   {/each}
 </ul>
 
