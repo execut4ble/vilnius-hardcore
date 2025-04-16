@@ -48,9 +48,10 @@ export const post = pgTable("post", {
 
 export const comment = pgTable("comment", {
   id: serial("id").primaryKey(),
-  eventId: integer("event_id")
-    .references(() => event.id, { onDelete: "cascade" })
-    .notNull(),
+  eventId: integer("event_id").references(() => event.id, {
+    onDelete: "cascade",
+  }),
+  postId: integer("post_id").references(() => post.id, { onDelete: "cascade" }),
   author: text("author").notNull(),
   date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
   content: text("content").notNull(),

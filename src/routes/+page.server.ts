@@ -34,9 +34,20 @@ export const load = (async (
       slug: table.post.slug,
       image: table.post.image,
       authorName: table.user.username,
+      comments: sql<number>`COUNT(comment.id)`.as("comments"),
     })
     .from(table.post)
     .leftJoin(table.user, eq(table.user.id, table.post.author))
+    .leftJoin(table.comment, eq(table.comment.postId, table.post.id))
+    .groupBy(
+      table.post.id,
+      table.user.username,
+      table.post.title,
+      table.post.date,
+      table.post.body,
+      table.post.slug,
+      table.post.image,
+    )
     .orderBy(desc(table.post.date))
     .limit(1);
 

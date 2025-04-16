@@ -22,6 +22,7 @@ export type CommentComponent = Comment & {
 export type PostComponent = Post & {
   posts?: PostsArray | undefined;
   authorName: string;
+  comments?: number | null | undefined;
 } & {
   preview?: boolean;
 } & { form?: BlogActionData };
@@ -40,8 +41,10 @@ export type RecentComment = {
   id: number;
   author: string;
   date: Date | string;
-  event_name: string;
-  event_slug: string;
+  event_name?: string;
+  event_slug?: string;
+  post_title?: string;
+  post_slug?: string;
 };
 
 export type RecentCommentsData = Array<RecentComment>;

@@ -53,7 +53,7 @@
 
   div.comment .content {
     margin-left: 0.5em;
-    line-break: anywhere;
+    word-break: break-word;
   }
 
   div.comment form {

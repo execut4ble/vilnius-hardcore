@@ -20,12 +20,18 @@ export const commentInsertSchema = createInsertSchema(comment, {
       .refine((value) => !validator.isEmpty(value), {
         message: "Comment can't be empty",
       }),
-  eventId: z.coerce.number(),
-}).extend({
-  acab: z.literal("1312", {
-    errorMap: () => ({ message: "Incorrect!" }),
-  }),
-});
+  eventId: z.coerce.number().optional(),
+  postId: z.coerce.number().optional(),
+})
+  .extend({
+    acab: z.literal("1312", {
+      errorMap: () => ({ message: "Incorrect!" }),
+    }),
+  })
+  .refine((data) => data.eventId || data.postId, {
+    message: "eventId or postId was not specified",
+    path: ["submit"],
+  });
 
 export const postInsertSchema = createInsertSchema(post, {
   title: (schema) =>

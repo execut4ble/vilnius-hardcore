@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
-import { count } from "drizzle-orm";
+import { count, sql } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { postActions } from "$lib/formActions/postActions";
@@ -15,13 +15,25 @@ export const load = (async ({ url }): Promise<{ posts; meta }> => {
       body: table.post.body,
       slug: table.post.slug,
       image: table.post.image,
-      authorName: table.user.username, // Selecting author's username
+      authorName: table.user.username,
+      comments: sql<number>`COUNT(comment.id)`.as("comments"),
     })
     .from(table.post)
     .leftJoin(table.user, eq(table.user.id, table.post.author))
+    .leftJoin(table.comment, eq(table.comment.postId, table.post.id))
+    .groupBy(
+      table.post.id,
+      table.post.title,
+      table.post.date,
+      table.post.body,
+      table.post.slug,
+      table.post.image,
+      table.user.username,
+    )
     .orderBy(desc(table.post.date))
     .limit(limit);
   const meta = await db.select({ totalPosts: count() }).from(table.post);
+
   return { posts, meta };
 }) satisfies PageServerLoad;
 

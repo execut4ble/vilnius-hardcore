@@ -29,6 +29,7 @@
     body ? body.substring(0, 500) + "\u2026" : "",
   );
   let confirmDelete: boolean = $state(false);
+  let commentCount: number | null | undefined = $derived(post.comments);
 
   function updatePost({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
@@ -106,7 +107,23 @@
         {/if}
       </form>
     {/if}
-    <div class="meta">Posted by {author ? author : "anonymous"} | {date}</div>
+    <div class="meta">
+      <p class="postInfo">
+        Posted by {author ? author : "anonymous"} | {date}
+      </p>
+      {#if commentCount && commentCount > 0}
+        <p class="comments">
+          <a href="/blog/{slug}#comments"
+            >{commentCount}
+            {#if commentCount < 2}
+              comment
+            {:else}
+              comments
+            {/if}
+          </a>
+        </p>
+      {/if}
+    </div>
     <div class="content">
       {#if body && preview && body.length > 500}
         <Markdown md={previewBody} {plugins} />
@@ -156,5 +173,27 @@
   textarea.body {
     width: 100%;
     max-width: 100%;
+  }
+
+  div.meta p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  div.meta p a {
+    text-decoration: none;
+  }
+
+  div.meta {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5em;
+  }
+
+  @media (max-width: 720px) {
+    div.meta {
+      flex-direction: column;
+      gap: 1em;
+    }
   }
 </style>
