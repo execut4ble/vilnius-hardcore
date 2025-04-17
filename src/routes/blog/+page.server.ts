@@ -15,7 +15,8 @@ export const load = (async ({ url }): Promise<{ posts; meta }> => {
       body: table.post.body,
       slug: table.post.slug,
       image: table.post.image,
-      authorName: table.user.username,
+      authorName: table.post.authorName,
+      authorUsername: table.user.username,
       comments: sql<number>`COUNT(comment.id)`.as("comments"),
     })
     .from(table.post)
@@ -29,6 +30,7 @@ export const load = (async ({ url }): Promise<{ posts; meta }> => {
       table.post.slug,
       table.post.image,
       table.user.username,
+      table.post.authorName,
     )
     .orderBy(desc(table.post.date))
     .limit(limit);

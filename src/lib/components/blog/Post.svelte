@@ -23,7 +23,8 @@
   let title: string = $derived(post.title);
   let slug: string | null = $state(post.slug);
   let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
-  let author: string = $derived(post.authorName);
+  let authorUsername: string | null = $derived(post.authorUsername);
+  let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
   let previewBody: string = $derived(
     body ? body.substring(0, 500) + "\u2026" : "",
@@ -109,7 +110,7 @@
     {/if}
     <div class="meta">
       <p class="postInfo">
-        Posted by {author ? author : "anonymous"} | {date}
+        Posted by {authorUsername || authorDisplayName || "anonymous"} | {date}
       </p>
       {#if commentCount && commentCount > 0}
         <p class="comments">

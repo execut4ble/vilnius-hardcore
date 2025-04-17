@@ -21,7 +21,7 @@ export type CommentComponent = Comment & {
 
 export type PostComponent = Post & {
   posts?: PostsArray | undefined;
-  authorName: string;
+  authorUsername: string | null;
   comments?: number | null | undefined;
 } & {
   preview?: boolean;

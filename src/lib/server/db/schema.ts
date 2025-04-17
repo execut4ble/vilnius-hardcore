@@ -39,6 +39,7 @@ export const post = pgTable("post", {
   author: text("user_id").references(() => user.id, {
     onDelete: "set null",
   }),
+  authorName: text("author_name"),
   title: text("title").notNull(),
   date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
   body: text("body").notNull(),

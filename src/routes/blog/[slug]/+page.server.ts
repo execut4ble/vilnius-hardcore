@@ -20,7 +20,8 @@ export const load = (async ({
       body: table.post.body,
       slug: table.post.slug,
       image: table.post.image,
-      authorName: table.user.username,
+      authorName: table.post.authorName,
+      authorUsername: table.user.username,
     })
     .from(table.post)
     .where(eq(table.post.slug, params.slug))
