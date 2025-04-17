@@ -14,7 +14,7 @@ BEGIN
       regexp_replace(
         regexp_replace(
           lower(unaccent(value)), -- Lowercase and remove accents
-          '[^a-z0-9\\-_]+', '-', 'gi' -- Replace non-alphanumeric characters with hyphens
+          '[^a-z0-9_-]+', '-', 'gi' -- Replace non-alphanumeric characters with hyphens
         ),
         '(^-+|-+$)', '', 'g' -- Remove leading and trailing hyphens
       ),
