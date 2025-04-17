@@ -1,42 +1,43 @@
-# Venue Events app
+# Vilnius Hardcore
 
-Simple events agenda app for a DIY music venue. Mostly as a means to learn Svelte, SvelteKit and TypeScript, but maybe it'll end up being used at some place, sometime.
+An events agenda app for a DIY music venue, built with [SvelteKit](https://svelte.dev/docs/kit/introduction).
 
-# sv
+## Local development
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+### Database setup
+A Postgres database server needs to be running (locally or remotely) so that the website can fetch/store data. 
 
-## Creating a project
+It can be set up using a Docker container or a manual Postgres installation.
 
-If you're seeing this, you've probably already done this step. Congrats!
-
+#### Using Docker
+1. Create a `docker-compose.yml` file with desired database credentials (see `docker-compose.yml.example`).
+1. Run the database container:
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+npm run db:start
 ```
 
-## Developing
+> [!NOTE]
+> If you are using an existing Postgres server installation, execute all statements from `init.sql` before proceeding.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once the database is running:
+1. Create a `.env` file containing database connection string (see `.env.example`).
+1. Build the database schema. Agree to execute all statements when asked.
+```bash
+npm run db:init
+```
+
+Any changes made to the schema during development can be synced by running:
+```bash
+npm run db:push
+```
+
+### Running a development server
+Once you've cloned the repository, set up the database and installed dependencies with `npm install`, start a development server:
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## Deploying
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+See [install instructions](https://github.com/execut4ble/vilnius-hardcore/wiki/Installation)
