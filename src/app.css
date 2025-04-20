@@ -119,6 +119,16 @@ strong {
   font-weight: 700;
 }
 
+div.actions {
+  display: flex;
+  margin-bottom: 0.5em;
+  gap: 0.5em;
+}
+
+div.actions form {
+  margin-bottom: 0;
+}
+
 .post.action:hover {
   color: var(--color-text-2);
 }

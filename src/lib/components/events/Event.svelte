@@ -4,7 +4,6 @@
     faPenToSquare,
     faSave,
     faXmark,
-    faTrash,
     faEyeSlash,
   } from "@fortawesome/free-solid-svg-icons";
   import { enhance } from "$app/forms";
@@ -15,7 +14,8 @@
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
   import { FieldError } from "$lib/components";
-  import { blur, slide } from "svelte/transition";
+  import { blur } from "svelte/transition";
+  import RemoveItemForm from "../common/RemoveItemForm.svelte";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -27,7 +27,6 @@
   let commentCount: number | null | undefined = $derived(event.comments);
   let isVisible: boolean = $derived(event.is_visible);
 
-  let confirmDelete: boolean = $state(false);
   let date: string = $derived(
     new Date(event.date).toLocaleString("lt-LT", {
       year: "numeric",
@@ -66,20 +65,6 @@
       if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
-      }
-    };
-  }
-
-  function removeEvent() {
-    return async ({ update, result }) => {
-      if (detailed) {
-        goto("/events", { noScroll: true, invalidateAll: true });
-      } else {
-        await update();
-      }
-      if (result.type === "error") {
-        // Handle errors if necessary
-        console.error("Delete failed:", result.status);
       }
     };
   }
@@ -123,35 +108,12 @@
                 >{/if}
             </h2>
             {#if page.url.pathname !== "/" && page.data.user}
-              <form
-                method="POST"
-                action="?/remove_event"
-                use:enhance={removeEvent}
-              >
-                <input type="hidden" name="slug" value={slug} />
+              <div class="actions">
                 <button class="post action" onclick={() => (isEditing = true)}
                   ><Fa icon={faPenToSquare} /> edit</button
                 >
-                <button
-                  type="button"
-                  class="post action"
-                  onclick={() => (confirmDelete = true)}
-                >
-                  <Fa icon={faTrash} /> delete</button
-                >
-                {#if confirmDelete}
-                  <div transition:slide>
-                    <br />
-                    <strong>for real?</strong>
-                    <button
-                      class="post action"
-                      type="button"
-                      onclick={() => (confirmDelete = false)}>no!</button
-                    >
-                    <button class="post action" type="submit">yes!</button>
-                  </div>
-                {/if}
-              </form>
+                <RemoveItemForm {slug} action="?/remove_event" />
+              </div>
             {/if}
             <div class="meta">
               <p class="date">
@@ -336,10 +298,6 @@
 
   div.title h2 {
     margin-bottom: 0.25em;
-  }
-
-  div.title form {
-    margin-bottom: 0.5em;
   }
 
   div.meta {

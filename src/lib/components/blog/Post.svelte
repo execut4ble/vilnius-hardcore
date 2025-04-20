@@ -7,15 +7,14 @@
   import {
     faPenToSquare,
     faSave,
-    faTrash,
     faXmark,
   } from "@fortawesome/free-solid-svg-icons";
   import remarkYoutubePlugin from "remark-youtube";
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
-  import { slide } from "svelte/transition";
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
+  import RemoveItemForm from "../common/RemoveItemForm.svelte";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
@@ -29,7 +28,6 @@
   let previewBody: string = $derived(
     body ? body.substring(0, 500) + "\u2026" : "",
   );
-  let confirmDelete: boolean = $state(false);
   let commentCount: number | null | undefined = $derived(post.comments);
 
   function updatePost({ formData }: { formData: FormData }) {
@@ -58,19 +56,6 @@
     };
   }
 
-  function removePost() {
-    return async ({ update, result }) => {
-      if (page.params.slug === slug) {
-        goto("/blog", { noScroll: true, invalidateAll: true });
-      } else {
-        await update();
-      }
-      if (result.type === "error") {
-        console.error("Delete failed:", result.status);
-      }
-    };
-  }
-
   const plugins: Plugin[] = [
     { remarkPlugin: [remarkYoutubePlugin], rehypePlugin: [rehypeRaw] },
   ];
@@ -82,31 +67,12 @@
       <h2><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
     {/if}
     {#if page.url.pathname !== "/" && page.data.user}
-      <form method="POST" action="?/remove_post" use:enhance={removePost}>
-        <input type="hidden" name="slug" value={slug} />
+      <div class="actions">
         <button class="post action" onclick={() => (isEditing = true)}
           ><Fa icon={faPenToSquare} /> edit</button
         >
-        <button
-          type="button"
-          class="post action"
-          onclick={() => (confirmDelete = true)}
-        >
-          <Fa icon={faTrash} /> delete</button
-        >
-        {#if confirmDelete}
-          <div transition:slide>
-            <br />
-            <strong>for real?</strong>
-            <button
-              class="post action"
-              type="button"
-              onclick={() => (confirmDelete = false)}>no!</button
-            >
-            <button class="post action" type="submit">yes!</button>
-          </div>
-        {/if}
-      </form>
+        <RemoveItemForm {slug} action="?/remove_post" />
+      </div>
     {/if}
     <div class="meta">
       <p class="postInfo">
