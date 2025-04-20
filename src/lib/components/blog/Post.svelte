@@ -25,9 +25,6 @@
   let authorUsername: string | null = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
-  let previewBody: string = $derived(
-    body ? body.substring(0, 500) + "\u2026" : "",
-  );
   let commentCount: number | null | undefined = $derived(post.comments);
 
   function updatePost({ formData }: { formData: FormData }) {
@@ -91,12 +88,8 @@
         </p>
       {/if}
     </div>
-    <div class="content">
-      {#if body && preview && body.length > 500}
-        <Markdown md={previewBody} {plugins} />
-      {:else}
-        <Markdown md={body} {plugins} />
-      {/if}
+    <div class={preview ? "content preview" : "content"}>
+      <Markdown md={body} {plugins} />
     </div>
   {:else}
     <form
@@ -135,6 +128,14 @@
 <style>
   div.content {
     margin: 2em 0 2em 0;
+  }
+
+  div.preview {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+    overflow: hidden;
   }
 
   textarea.body {
