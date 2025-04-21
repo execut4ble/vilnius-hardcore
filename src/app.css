@@ -240,3 +240,8 @@ div.errorMsg {
 iframe {
   max-width: 100%;
 }
+
+.opaque {
+  opacity: 0;
+  cursor: default;
+}

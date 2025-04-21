@@ -1,9 +1,20 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
   import { Event, Post } from "$lib/components";
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
 
   let { data }: PageProps = $props();
   let post = $derived(data.recentPost[0]);
+  let isOverflowing = $state(false);
+
+  const isTextClamped = (elm) => elm.scrollHeight > elm.clientHeight;
+
+  onMount(() => {
+    const element = document.querySelector(".content.preview");
+
+    isOverflowing = isTextClamped(element);
+  });
 </script>
 
 <svelte:head>
@@ -18,9 +29,17 @@
 
   <div class="recent">
     <Post {...post} preview={true} />
-    {#if post.body.length > 500}
-      <div class="more"><a href="/blog/{post.slug}">read more...</a></div>
-    {/if}
+
+    <div class={isOverflowing ? "more" : "more opaque"}>
+      {#if isOverflowing}
+        <a href="/blog/{post.slug}" transition:fade={{ duration: 200 }}
+          >read more...</a
+        >
+      {:else}
+        <!-- Workaround to prevent layout shift -->
+        <div>...</div>
+      {/if}
+    </div>
   </div>
 {/if}
 
