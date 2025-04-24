@@ -1,21 +1,14 @@
 <script lang="ts">
   import Fa from "svelte-fa";
-  import {
-    faPenToSquare,
-    faSave,
-    faXmark,
-    faEyeSlash,
-  } from "@fortawesome/free-solid-svg-icons";
-  import { enhance } from "$app/forms";
+  import { faPenToSquare, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
   import { base } from "$app/paths";
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
-  import { FieldError } from "$lib/components";
+  import { RemoveItemForm, EventEntryForm } from "$lib/components";
   import { blur } from "svelte/transition";
-  import RemoveItemForm from "../common/RemoveItemForm.svelte";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -141,63 +134,15 @@
               </div>
             </div>
           {:else}
-            <form
-              method="POST"
-              action="?/update_event"
-              autocomplete="off"
-              use:enhance={updateEvent}
-            >
-              <label for="title">Title</label>
-              <input id="title" name="title" value={event.title} required />
-              <FieldError errors={form?.errors?.title} />
-              <label for="date">Date</label>
-              <input
-                id="date"
-                type="datetime-local"
-                name="date"
-                value={date}
-                required
-              />
-              <FieldError errors={form?.errors?.date} />
-              <input
-                type="hidden"
-                id="image"
-                name="image"
-                value={selectedImage !== undefined
-                  ? selectedImage
-                  : imageFilename}
-              />
-              <hr class="dim" />
-              <label id="description" for="description">Description</label>
-              <textarea
-                name="description"
-                value={event.description}
-                spellcheck="false"
-              ></textarea>
-              <br />
-              <label for="is_visible"
-                ><input
-                  type="checkbox"
-                  id="is_visible"
-                  name="is_visible"
-                  checked={isVisible}
-                />
-                Publish event</label
-              >
-              <br />
-              <button type="submit" class="post action"
-                ><Fa icon={faSave} /> save</button
-              >
-              <button
-                type="button"
-                class="post action"
-                onclick={() => {
-                  isEditing = false;
-                  selectedImage = null;
-                  imageFilename = event.image;
-                }}><Fa icon={faXmark} /> cancel</button
-              >
-            </form>
+            <EventEntryForm
+              {form}
+              formAction="?/update_event"
+              enhanceFunction={updateEvent}
+              bind:entryMode={isEditing}
+              bind:displayImage={imageFilename}
+              bind:selectedImage
+              {...event}
+            />
           {/if}
         </div>
       </div>
@@ -304,9 +249,5 @@
     display: flex;
     flex-direction: row;
     gap: 1.5em;
-  }
-
-  event form textarea {
-    max-width: 20em;
   }
 </style>
