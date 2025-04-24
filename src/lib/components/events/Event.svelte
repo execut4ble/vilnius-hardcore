@@ -9,6 +9,7 @@
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
   import { RemoveItemForm, EventEntryForm } from "$lib/components";
   import { blur } from "svelte/transition";
+  import CommentCount from "../common/CommentCount.svelte";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -17,7 +18,6 @@
   let isEditing: boolean = $state(false);
   let imageFilename: string | null = $derived(event.image);
   let selectedImage: string | null | undefined = $state();
-  let commentCount: number | null | undefined = $derived(event.comments);
   let isVisible: boolean = $derived(event.is_visible);
 
   let date: string = $derived(
@@ -112,17 +112,12 @@
               <p class="date">
                 {date}
               </p>
-              {#if !detailed && commentCount && commentCount > 0}
-                <p class="comments">
-                  <a href="/events/{slug}#comments"
-                    >{commentCount}
-                    {#if commentCount < 2}
-                      comment
-                    {:else}
-                      comments
-                    {/if}
-                  </a>
-                </p>
+              {#if !detailed}
+                <CommentCount
+                  taxonomy="events"
+                  {slug}
+                  commentCount={event.comments}
+                />
               {/if}
             </div>
             <hr class="dim" />
@@ -232,22 +227,7 @@
     white-space: pre-line;
   }
 
-  div.eventRow p {
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-
-  div.eventRow p a {
-    text-decoration: none;
-  }
-
   div.title h2 {
     margin-bottom: 0.25em;
-  }
-
-  div.meta {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5em;
   }
 </style>

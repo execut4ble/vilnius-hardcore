@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { FieldError } from "$lib/components";
+  import { FieldError, RemoveItemForm, CommentCount } from "$lib/components";
   import type { PostComponent } from "$lib/types";
   import {
     faPenToSquare,
@@ -14,7 +14,6 @@
   import Fa from "svelte-fa";
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
-  import RemoveItemForm from "../common/RemoveItemForm.svelte";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
@@ -25,7 +24,6 @@
   let authorUsername: string | null = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
-  let commentCount: number | null | undefined = $derived(post.comments);
 
   function updatePost({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
@@ -75,18 +73,7 @@
       <p class="postInfo">
         Posted by {authorUsername || authorDisplayName || "anonymous"} | {date}
       </p>
-      {#if commentCount && commentCount > 0}
-        <p class="comments">
-          <a href="/blog/{slug}#comments"
-            >{commentCount}
-            {#if commentCount < 2}
-              comment
-            {:else}
-              comments
-            {/if}
-          </a>
-        </p>
-      {/if}
+      <CommentCount taxonomy="blog" {slug} commentCount={post.comments} />
     </div>
     <div class={preview ? "content preview" : "content"}>
       <Markdown md={body} {plugins} />
@@ -146,10 +133,6 @@
   div.meta p {
     margin-top: 0;
     margin-bottom: 0;
-  }
-
-  div.meta p a {
-    text-decoration: none;
   }
 
   div.meta {

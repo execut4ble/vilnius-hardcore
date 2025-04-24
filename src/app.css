@@ -245,3 +245,14 @@ iframe {
   opacity: 0;
   cursor: default;
 }
+
+div.meta {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5em;
+}
+
+div.meta p {
+  margin-bottom: 0;
+  margin-top: 0;
+}
