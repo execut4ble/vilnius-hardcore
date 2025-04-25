@@ -98,7 +98,7 @@
 {/if}
 <h2><strong>Upcoming events</strong></h2>
 <ul class="eventList">
-  {#each upcomingEvents as event (event.slug)}
+  {#each upcomingEvents as event (event.id)}
     <li transition:slide>
       <Event {...event} {form} />
     </li>
@@ -111,7 +111,7 @@
 
 <h2><strong>Past events</strong></h2>
 <ul class="eventList">
-  {#each pastEvents as event (event.slug)}
+  {#each pastEvents as event (event.id)}
     <li transition:slide>
       <Event {...event} {form} />
     </li>

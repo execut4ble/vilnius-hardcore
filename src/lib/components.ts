@@ -1,4 +1,5 @@
 export { default as Post } from "$lib/components/blog/Post.svelte";
+export { default as PostEntryForm } from "$lib/components/blog/PostEntryForm.svelte";
 export { default as Event } from "$lib/components/events/Event.svelte";
 export { default as ImageUploadForm } from "$lib/components/events/ImageUploadForm.svelte";
 export { default as EventEntryForm } from "$lib/components/events/EventEntryForm.svelte";

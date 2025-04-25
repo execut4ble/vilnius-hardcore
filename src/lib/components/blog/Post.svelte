@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { FieldError, RemoveItemForm, CommentCount } from "$lib/components";
+  import { RemoveItemForm, CommentCount, PostEntryForm } from "$lib/components";
   import type { PostComponent } from "$lib/types";
   import {
     faPenToSquare,
@@ -19,7 +18,7 @@
 
   let isEditing: boolean = $state(false);
   let title: string = $derived(post.title);
-  let slug: string | null = $state(post.slug);
+  let slug: string | null = $derived(post.slug);
   let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
   let authorUsername: string | null = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
@@ -33,7 +32,6 @@
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
           isEditing = false;
-          slug = result.data[0].slug;
         } else {
           await update({ reset: false }).then(() => {
             isEditing = false;
@@ -79,36 +77,13 @@
       <Markdown md={body} {plugins} />
     </div>
   {:else}
-    <form
-      method="POST"
-      action="?/update_post"
-      autocomplete="off"
-      use:enhance={updatePost}
-    >
-      <label for="title">Title</label>
-      <input id="title" name="title" value={post.title} required />
-      <FieldError errors={form?.errors?.title} />
-      <label id="body" for="body">Post body</label>
-      <textarea
-        class="body"
-        name="body"
-        value={post.body}
-        spellcheck="false"
-        required
-      ></textarea>
-      <FieldError errors={form?.errors?.body} />
-      <br />
-      <button type="submit" class="post action"
-        ><Fa icon={faSave} /> save</button
-      >
-      <button
-        type="button"
-        class="post action"
-        onclick={() => {
-          isEditing = false;
-        }}><Fa icon={faXmark} /> cancel</button
-      >
-    </form>
+    <PostEntryForm
+      {form}
+      formAction="?/update_post"
+      enhanceFunction={updatePost}
+      bind:entryMode={isEditing}
+      {...post}
+    />
   {/if}
 </post>
 
@@ -123,11 +98,6 @@
     -webkit-line-clamp: 7;
     line-clamp: 7;
     overflow: hidden;
-  }
-
-  textarea.body {
-    width: 100%;
-    max-width: 100%;
   }
 
   div.meta p {

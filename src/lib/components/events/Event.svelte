@@ -14,7 +14,7 @@
   let { detailed = false, form, ...event }: EventComponent = $props();
 
   let md = $derived(event.description);
-  let slug = $state(event.slug);
+  let slug = $derived(event.slug);
   let isEditing: boolean = $state(false);
   let imageFilename: string | null = $derived(event.image);
   let selectedImage: string | null | undefined = $state();
@@ -43,7 +43,6 @@
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
           isEditing = false;
-          slug = result.data[0].slug;
         } else {
           await update({ reset: false }).then(() => {
             isEditing = false;
