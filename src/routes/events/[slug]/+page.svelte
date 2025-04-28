@@ -18,15 +18,18 @@
 <Event {...event} {form} detailed={true} />
 <strong><h2 id="comments">Comments</h2></strong>
 
-<div class="comments">
-  {#each comments as comment (comment.id)}
-    <Comment {...comment} />
-  {:else}
-    <div transition:slide>No comments found. Write something!</div>
-  {/each}
-</div>
-<hr class="dim" />
-<AddCommentForm {form} />
+{#key event.id}
+  <div class="comments">
+    {#each comments as comment (comment.id)}
+      <Comment {...comment} />
+    {:else}
+      <div transition:slide>No comments found. Write something!</div>
+    {/each}
+  </div>
+
+  <hr class="dim" />
+  <AddCommentForm {form} />
+{/key}
 
 <style>
   div.comments div {

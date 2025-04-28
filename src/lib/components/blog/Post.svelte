@@ -3,11 +3,7 @@
   import { page } from "$app/state";
   import { RemoveItemForm, CommentCount, PostEntryForm } from "$lib/components";
   import type { PostComponent } from "$lib/types";
-  import {
-    faPenToSquare,
-    faSave,
-    faXmark,
-  } from "@fortawesome/free-solid-svg-icons";
+  import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
   import remarkYoutubePlugin from "remark-youtube";
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
@@ -20,7 +16,7 @@
   let title: string = $derived(post.title);
   let slug: string | null = $derived(post.slug);
   let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
-  let authorUsername: string | null = $derived(post.authorUsername);
+  let authorUsername: string | null | undefined = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
 

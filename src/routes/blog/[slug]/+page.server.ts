@@ -5,11 +5,12 @@ import * as table from "$lib/server/db/schema";
 import { error } from "@sveltejs/kit";
 import { postActions } from "$lib/formActions/postActions";
 import { commentActions } from "$lib/formActions/commentActions";
+import type { PostsArray } from "$lib/types";
 
 export const load = (async ({
   params,
 }): Promise<{
-  post;
+  post: PostsArray;
   comments: Array<Omit<table.Comment, "postId" | "eventId">>;
 }> => {
   const post = await db
