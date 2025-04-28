@@ -83,9 +83,7 @@
             <div>
               <img
                 class="previewImg"
-                src={displayImage
-                  ? `${base}/public/uploads/${displayImage}`
-                  : ""}
+                src={displayImage ? `${base}/images/${displayImage}` : ""}
                 alt="New event"
                 transition:blur
               />

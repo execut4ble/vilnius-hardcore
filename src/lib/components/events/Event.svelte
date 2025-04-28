@@ -152,9 +152,7 @@
           {#if imageFilename}
             <img
               class="previewImg"
-              src={imageFilename
-                ? `${base}/public/uploads/${imageFilename}`
-                : ""}
+              src={imageFilename ? `${base}/images/${imageFilename}` : ""}
               alt={event.title}
               transition:blur
             />
