@@ -1,10 +1,12 @@
 import type { ActionData as BlogActionData } from "../routes/blog/$types";
 import type { ActionData as EventActionData } from "../routes/events/$types";
-import type { Comment, Event, Post } from "./server/db/schema";
+import type { Comment, Event, Post as PostObject } from "./server/db/schema";
 
 export type EventsArray = Array<Event>;
 
 export type CommentsArray = Array<Comment>;
+
+export type Post = Omit<PostObject, "author">;
 
 export type PostsArray = Array<Post>;
 
@@ -21,7 +23,7 @@ export type CommentComponent = Comment & {
 
 export type PostComponent = Post & {
   posts?: PostsArray | undefined;
-  authorUsername: string | null;
+  authorUsername?: string | null;
   comments?: number | null | undefined;
 } & {
   preview?: boolean;

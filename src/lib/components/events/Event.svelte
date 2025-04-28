@@ -1,33 +1,25 @@
 <script lang="ts">
   import Fa from "svelte-fa";
-  import {
-    faPenToSquare,
-    faSave,
-    faXmark,
-    faTrash,
-    faEyeSlash,
-  } from "@fortawesome/free-solid-svg-icons";
-  import { enhance } from "$app/forms";
+  import { faPenToSquare, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
   import { base } from "$app/paths";
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
-  import { FieldError } from "$lib/components";
-  import { blur, slide } from "svelte/transition";
+  import { RemoveItemForm, EventEntryForm } from "$lib/components";
+  import { blur } from "svelte/transition";
+  import CommentCount from "../common/CommentCount.svelte";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
   let md = $derived(event.description);
-  let slug = $state(event.slug);
+  let slug = $derived(event.slug);
   let isEditing: boolean = $state(false);
   let imageFilename: string | null = $derived(event.image);
   let selectedImage: string | null | undefined = $state();
-  let commentCount: number | null | undefined = $derived(event.comments);
   let isVisible: boolean = $derived(event.is_visible);
 
-  let confirmDelete: boolean = $state(false);
   let date: string = $derived(
     new Date(event.date).toLocaleString("lt-LT", {
       year: "numeric",
@@ -51,7 +43,6 @@
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
           isEditing = false;
-          slug = result.data[0].slug;
         } else {
           await update({ reset: false }).then(() => {
             isEditing = false;
@@ -66,20 +57,6 @@
       if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
-      }
-    };
-  }
-
-  function removeEvent() {
-    return async ({ update, result }) => {
-      if (detailed) {
-        goto("/events", { noScroll: true, invalidateAll: true });
-      } else {
-        await update();
-      }
-      if (result.type === "error") {
-        // Handle errors if necessary
-        console.error("Delete failed:", result.status);
       }
     };
   }
@@ -123,51 +100,23 @@
                 >{/if}
             </h2>
             {#if page.url.pathname !== "/" && page.data.user}
-              <form
-                method="POST"
-                action="?/remove_event"
-                use:enhance={removeEvent}
-              >
-                <input type="hidden" name="slug" value={slug} />
+              <div class="actions">
                 <button class="post action" onclick={() => (isEditing = true)}
                   ><Fa icon={faPenToSquare} /> edit</button
                 >
-                <button
-                  type="button"
-                  class="post action"
-                  onclick={() => (confirmDelete = true)}
-                >
-                  <Fa icon={faTrash} /> delete</button
-                >
-                {#if confirmDelete}
-                  <div transition:slide>
-                    <br />
-                    <strong>for real?</strong>
-                    <button
-                      class="post action"
-                      type="button"
-                      onclick={() => (confirmDelete = false)}>no!</button
-                    >
-                    <button class="post action" type="submit">yes!</button>
-                  </div>
-                {/if}
-              </form>
+                <RemoveItemForm {slug} action="?/remove_event" />
+              </div>
             {/if}
             <div class="meta">
               <p class="date">
                 {date}
               </p>
-              {#if !detailed && commentCount && commentCount > 0}
-                <p class="comments">
-                  <a href="/events/{slug}#comments"
-                    >{commentCount}
-                    {#if commentCount < 2}
-                      comment
-                    {:else}
-                      comments
-                    {/if}
-                  </a>
-                </p>
+              {#if !detailed}
+                <CommentCount
+                  taxonomy="events"
+                  {slug}
+                  commentCount={event.comments}
+                />
               {/if}
             </div>
             <hr class="dim" />
@@ -179,63 +128,15 @@
               </div>
             </div>
           {:else}
-            <form
-              method="POST"
-              action="?/update_event"
-              autocomplete="off"
-              use:enhance={updateEvent}
-            >
-              <label for="title">Title</label>
-              <input id="title" name="title" value={event.title} required />
-              <FieldError errors={form?.errors?.title} />
-              <label for="date">Date</label>
-              <input
-                id="date"
-                type="datetime-local"
-                name="date"
-                value={date}
-                required
-              />
-              <FieldError errors={form?.errors?.date} />
-              <input
-                type="hidden"
-                id="image"
-                name="image"
-                value={selectedImage !== undefined
-                  ? selectedImage
-                  : imageFilename}
-              />
-              <hr class="dim" />
-              <label id="description" for="description">Description</label>
-              <textarea
-                name="description"
-                value={event.description}
-                spellcheck="false"
-              ></textarea>
-              <br />
-              <label for="is_visible"
-                ><input
-                  type="checkbox"
-                  id="is_visible"
-                  name="is_visible"
-                  checked={isVisible}
-                />
-                Publish event</label
-              >
-              <br />
-              <button type="submit" class="post action"
-                ><Fa icon={faSave} /> save</button
-              >
-              <button
-                type="button"
-                class="post action"
-                onclick={() => {
-                  isEditing = false;
-                  selectedImage = null;
-                  imageFilename = event.image;
-                }}><Fa icon={faXmark} /> cancel</button
-              >
-            </form>
+            <EventEntryForm
+              {form}
+              formAction="?/update_event"
+              enhanceFunction={updateEvent}
+              bind:entryMode={isEditing}
+              bind:displayImage={imageFilename}
+              bind:selectedImage
+              {...event}
+            />
           {/if}
         </div>
       </div>
@@ -251,9 +152,7 @@
           {#if imageFilename}
             <img
               class="previewImg"
-              src={imageFilename
-                ? `${base}/public/uploads/${imageFilename}`
-                : ""}
+              src={imageFilename ? `${base}/images/${imageFilename}` : ""}
               alt={event.title}
               transition:blur
             />
@@ -325,30 +224,7 @@
     white-space: pre-line;
   }
 
-  div.eventRow p {
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-
-  div.eventRow p a {
-    text-decoration: none;
-  }
-
   div.title h2 {
     margin-bottom: 0.25em;
-  }
-
-  div.title form {
-    margin-bottom: 0.5em;
-  }
-
-  div.meta {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5em;
-  }
-
-  event form textarea {
-    max-width: 20em;
   }
 </style>

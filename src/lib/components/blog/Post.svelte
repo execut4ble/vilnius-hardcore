@@ -1,19 +1,12 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { FieldError } from "$lib/components";
+  import { RemoveItemForm, CommentCount, PostEntryForm } from "$lib/components";
   import type { PostComponent } from "$lib/types";
-  import {
-    faPenToSquare,
-    faSave,
-    faTrash,
-    faXmark,
-  } from "@fortawesome/free-solid-svg-icons";
+  import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
   import remarkYoutubePlugin from "remark-youtube";
   import Markdown from "svelte-exmarkdown";
   import Fa from "svelte-fa";
-  import { slide } from "svelte/transition";
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
 
@@ -21,16 +14,11 @@
 
   let isEditing: boolean = $state(false);
   let title: string = $derived(post.title);
-  let slug: string | null = $state(post.slug);
+  let slug: string | null = $derived(post.slug);
   let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
-  let authorUsername: string | null = $derived(post.authorUsername);
+  let authorUsername: string | null | undefined = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
-  let previewBody: string = $derived(
-    body ? body.substring(0, 500) + "\u2026" : "",
-  );
-  let confirmDelete: boolean = $state(false);
-  let commentCount: number | null | undefined = $derived(post.comments);
 
   function updatePost({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
@@ -40,7 +28,6 @@
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
           isEditing = false;
-          slug = result.data[0].slug;
         } else {
           await update({ reset: false }).then(() => {
             isEditing = false;
@@ -58,19 +45,6 @@
     };
   }
 
-  function removePost() {
-    return async ({ update, result }) => {
-      if (page.params.slug === slug) {
-        goto("/blog", { noScroll: true, invalidateAll: true });
-      } else {
-        await update();
-      }
-      if (result.type === "error") {
-        console.error("Delete failed:", result.status);
-      }
-    };
-  }
-
   const plugins: Plugin[] = [
     { remarkPlugin: [remarkYoutubePlugin], rehypePlugin: [rehypeRaw] },
   ];
@@ -82,87 +56,30 @@
       <h2><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
     {/if}
     {#if page.url.pathname !== "/" && page.data.user}
-      <form method="POST" action="?/remove_post" use:enhance={removePost}>
-        <input type="hidden" name="slug" value={slug} />
+      <div class="actions">
         <button class="post action" onclick={() => (isEditing = true)}
           ><Fa icon={faPenToSquare} /> edit</button
         >
-        <button
-          type="button"
-          class="post action"
-          onclick={() => (confirmDelete = true)}
-        >
-          <Fa icon={faTrash} /> delete</button
-        >
-        {#if confirmDelete}
-          <div transition:slide>
-            <br />
-            <strong>for real?</strong>
-            <button
-              class="post action"
-              type="button"
-              onclick={() => (confirmDelete = false)}>no!</button
-            >
-            <button class="post action" type="submit">yes!</button>
-          </div>
-        {/if}
-      </form>
+        <RemoveItemForm {slug} action="?/remove_post" />
+      </div>
     {/if}
     <div class="meta">
       <p class="postInfo">
         Posted by {authorUsername || authorDisplayName || "anonymous"} | {date}
       </p>
-      {#if commentCount && commentCount > 0}
-        <p class="comments">
-          <a href="/blog/{slug}#comments"
-            >{commentCount}
-            {#if commentCount < 2}
-              comment
-            {:else}
-              comments
-            {/if}
-          </a>
-        </p>
-      {/if}
+      <CommentCount taxonomy="blog" {slug} commentCount={post.comments} />
     </div>
-    <div class="content">
-      {#if body && preview && body.length > 500}
-        <Markdown md={previewBody} {plugins} />
-      {:else}
-        <Markdown md={body} {plugins} />
-      {/if}
+    <div class={preview ? "content preview" : "content"}>
+      <Markdown md={body} {plugins} />
     </div>
   {:else}
-    <form
-      method="POST"
-      action="?/update_post"
-      autocomplete="off"
-      use:enhance={updatePost}
-    >
-      <label for="title">Title</label>
-      <input id="title" name="title" value={post.title} required />
-      <FieldError errors={form?.errors?.title} />
-      <label id="body" for="body">Post body</label>
-      <textarea
-        class="body"
-        name="body"
-        value={post.body}
-        spellcheck="false"
-        required
-      ></textarea>
-      <FieldError errors={form?.errors?.body} />
-      <br />
-      <button type="submit" class="post action"
-        ><Fa icon={faSave} /> save</button
-      >
-      <button
-        type="button"
-        class="post action"
-        onclick={() => {
-          isEditing = false;
-        }}><Fa icon={faXmark} /> cancel</button
-      >
-    </form>
+    <PostEntryForm
+      {form}
+      formAction="?/update_post"
+      enhanceFunction={updatePost}
+      bind:entryMode={isEditing}
+      {...post}
+    />
   {/if}
 </post>
 
@@ -171,18 +88,17 @@
     margin: 2em 0 2em 0;
   }
 
-  textarea.body {
-    width: 100%;
-    max-width: 100%;
+  div.preview {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+    overflow: hidden;
   }
 
   div.meta p {
     margin-top: 0;
     margin-bottom: 0;
-  }
-
-  div.meta p a {
-    text-decoration: none;
   }
 
   div.meta {

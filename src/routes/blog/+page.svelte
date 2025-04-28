@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { Post, ItemCount, FieldError } from "$lib/components";
-  import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
+  import { Post, ItemCount, PostEntryForm } from "$lib/components";
+  import { faAdd } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
-  import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import { goto, preloadData } from "$app/navigation";
   import type { PageProps } from "./$types";
@@ -14,9 +13,6 @@
   let entryMode: boolean = $state(false);
   let displayedPosts: number | null = $derived(posts.length);
   let totalPosts: number | null = $derived(data.meta[0].totalPosts);
-  let newPostTitle: string = $state("");
-  let newPostBody: string = $state("");
-  let confirmCancel: boolean = $state(false);
 
   function createPost() {
     return async ({ update, result }) => {
@@ -63,67 +59,19 @@
     <div transition:slide>
       <h2><strong>Add new blog post</strong></h2>
       <div>
-        <form
-          class="newPost"
-          method="POST"
-          action="?/create_post"
-          autocomplete="off"
-          use:enhance={createPost}
-        >
-          <label for="title">Title</label>
-          <input id="title" name="title" bind:value={newPostTitle} required />
-          <FieldError errors={form?.errors?.title} />
-          <label id="body" for="body">Post body</label>
-          <textarea
-            name="body"
-            spellcheck="false"
-            bind:value={newPostBody}
-            required
-          ></textarea>
-          <FieldError errors={form?.errors?.body} />
-          <br />
-          <button type="submit" class="post action"
-            ><Fa icon={faSave} /> save</button
-          >
-          <button
-            type="button"
-            class="post action"
-            onclick={() => {
-              if (!newPostTitle && !newPostBody) {
-                entryMode = false;
-                confirmCancel = false;
-              } else {
-                confirmCancel = true;
-              }
-            }}><Fa icon={faXmark} /> cancel</button
-          >
-          {#if confirmCancel}<br /><br />
-            <div transition:slide>
-              <strong>really cancel?</strong>
-              <button
-                class="post action"
-                type="button"
-                onclick={() => (confirmCancel = false)}>no!</button
-              >
-              <button
-                class="post action"
-                onclick={() => {
-                  entryMode = false;
-                  newPostTitle = "";
-                  newPostBody = "";
-                  confirmCancel = false;
-                }}>yes!</button
-              >
-            </div>
-          {/if}
-        </form>
+        <PostEntryForm
+          {form}
+          formAction="?/create_post"
+          enhanceFunction={createPost}
+          bind:entryMode
+        />
       </div>
     </div>
   {/if}
 {/if}
 
 <ul class="postList">
-  {#each data.posts as post (post.slug)}
+  {#each data.posts as post (post.id)}
     <li transition:slide>
       <Post {...post} {form} />
     </li>
@@ -155,10 +103,5 @@
     color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.1);
     margin-bottom: 2em;
-  }
-
-  form.newPost textarea {
-    width: 100%;
-    max-width: 100%;
   }
 </style>

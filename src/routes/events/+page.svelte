@@ -1,10 +1,9 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
   import type { Event as EventObject } from "$lib/server/db/schema";
-  import { faAdd, faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
+  import { faAdd } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
-  import { enhance } from "$app/forms";
-  import { Event, FieldError, ImageUploadForm } from "$lib/components";
+  import { Event, EventEntryForm, ImageUploadForm } from "$lib/components";
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
@@ -34,10 +33,6 @@
   let selectedImage: string | undefined = $state();
   let displayedEvents: number | null = $derived(events.length);
   let totalEvents: number | null = $derived(data.meta[0].totalEvents);
-  let newEventDescription: string = $state("");
-  let newEventTitle: string = $state("");
-  let newEventDate: string = $state("");
-  let confirmCancel: boolean = $state(false);
 
   function createEvent() {
     return async ({ update, result }) => {
@@ -74,80 +69,13 @@
     <div transition:slide>
       <h2><strong>Add new event</strong></h2>
       <div class="formRow">
-        <form
-          class="newEvent"
-          method="POST"
-          action="?/create_event"
-          autocomplete="off"
-          use:enhance={createEvent}
-        >
-          <label for="title">Title</label>
-          <input id="title" name="title" bind:value={newEventTitle} required />
-          <FieldError errors={form?.errors?.title} />
-          <label for="date">Date</label>
-          <input
-            id="date"
-            type="datetime-local"
-            name="date"
-            bind:value={newEventDate}
-            required
-          />
-          <FieldError errors={form?.errors?.date} />
-          <input
-            type="hidden"
-            id="image"
-            name="image"
-            bind:value={displayImage}
-          />
-          <hr class="dim" />
-          <label id="description" for="description">Description</label>
-          <textarea
-            name="description"
-            spellcheck="false"
-            bind:value={newEventDescription}
-          ></textarea>
-          <br />
-          <label for="is_visible"
-            ><input type="checkbox" id="is_visible" name="is_visible" checked />
-            Publish event</label
-          >
-          <br />
-          <button type="submit" class="post action"
-            ><Fa icon={faSave} /> save</button
-          >
-          <button
-            type="button"
-            class="post action"
-            onclick={() => {
-              if (!newEventTitle && !newEventDate && !newEventDescription) {
-                entryMode = false;
-                confirmCancel = false;
-              } else {
-                confirmCancel = true;
-              }
-            }}><Fa icon={faXmark} /> cancel</button
-          >
-          {#if confirmCancel}<br /><br />
-            <div transition:slide>
-              <strong>really cancel?</strong>
-              <button
-                class="post action"
-                type="button"
-                onclick={() => (confirmCancel = false)}>no!</button
-              >
-              <button
-                class="post action"
-                onclick={() => {
-                  entryMode = false;
-                  newEventTitle = "";
-                  newEventDate = "";
-                  newEventDescription = "";
-                  confirmCancel = false;
-                }}>yes!</button
-              >
-            </div>
-          {/if}
-        </form>
+        <EventEntryForm
+          {form}
+          formAction="?/create_event"
+          enhanceFunction={createEvent}
+          bind:entryMode
+          {displayImage}
+        />
         <div>
           <ImageUploadForm bind:selectedImage bind:displayImage />
 
@@ -155,9 +83,7 @@
             <div>
               <img
                 class="previewImg"
-                src={displayImage
-                  ? `${base}/public/uploads/${displayImage}`
-                  : ""}
+                src={displayImage ? `${base}/images/${displayImage}` : ""}
                 alt="New event"
                 transition:blur
               />
@@ -170,7 +96,7 @@
 {/if}
 <h2><strong>Upcoming events</strong></h2>
 <ul class="eventList">
-  {#each upcomingEvents as event (event.slug)}
+  {#each upcomingEvents as event (event.id)}
     <li transition:slide>
       <Event {...event} {form} />
     </li>
@@ -183,7 +109,7 @@
 
 <h2><strong>Past events</strong></h2>
 <ul class="eventList">
-  {#each pastEvents as event (event.slug)}
+  {#each pastEvents as event (event.id)}
     <li transition:slide>
       <Event {...event} {form} />
     </li>
@@ -217,9 +143,5 @@
     width: 12em;
     border-radius: 10px;
     height: fit-content;
-  }
-
-  form textarea[name="description"] {
-    max-width: 25em;
   }
 </style>
