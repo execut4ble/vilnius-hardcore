@@ -2,8 +2,9 @@
   import type { PageProps } from "./$types";
   import type { CommentsArray } from "$lib/types";
   import type { Event as EventObject } from "$lib/server/db/schema";
-  import { Event, Comment, AddCommentForm } from "$lib/components";
+  import { Event, Comment, AddCommentForm, MetaTags } from "$lib/components";
   import { slide } from "svelte/transition";
+  import { page } from "$app/state";
 
   let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);
@@ -11,8 +12,10 @@
 </script>
 
 <svelte:head>
-  <title>{event ? event.title : "Vilnius Hardcore"}</title>
-  <meta name="description" content="Vilnius Hardcore" />
+  <MetaTags
+    title={event ? event.title : "Vilnius Hardcore"}
+    image={page.url.origin + "/images/" + event.image}
+  />
 </svelte:head>
 
 <Event {...event} {form} detailed={true} />

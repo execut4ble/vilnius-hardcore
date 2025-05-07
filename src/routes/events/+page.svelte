@@ -3,7 +3,12 @@
   import type { Event as EventObject } from "$lib/server/db/schema";
   import { faAdd } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
-  import { Event, EventEntryForm, ImageUploadForm } from "$lib/components";
+  import {
+    Event,
+    EventEntryForm,
+    ImageUploadForm,
+    MetaTags,
+  } from "$lib/components";
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
@@ -55,8 +60,7 @@
 </script>
 
 <svelte:head>
-  <title>Events</title>
-  <meta name="description" content="Vilnius Hardcore" />
+  <MetaTags title="Events" />
 </svelte:head>
 
 <h1>Events</h1>

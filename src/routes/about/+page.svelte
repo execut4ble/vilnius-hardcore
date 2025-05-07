@@ -1,6 +1,9 @@
+<script>
+  import { MetaTags } from "$lib/components";
+</script>
+
 <svelte:head>
-  <title>About</title>
-  <meta name="description" content="Lithuania underground scene" />
+  <MetaTags title="About" description="Lithuania underground scene" />
 </svelte:head>
 
 <h1>Lithuania underground scene</h1>

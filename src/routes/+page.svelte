@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import { Event, Post } from "$lib/components";
+  import { Event, Post, MetaTags } from "$lib/components";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
@@ -18,8 +18,7 @@
 </script>
 
 <svelte:head>
-  <title>Vilnius Hardcore</title>
-  <meta name="description" content="Vilnius Hardcore" />
+  <MetaTags />
 </svelte:head>
 
 {#if post}
