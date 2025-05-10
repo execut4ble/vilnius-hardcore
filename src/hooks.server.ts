@@ -29,7 +29,9 @@ export const handleError: HandleServerError = async ({
   status,
   message,
 }) => {
-  console.log("Custom error handling", error);
+  console.log("Custom error handling:", error);
+  console.log("Status:", status);
+  console.log("Message:", message);
   if (status === 413) {
     console.log("Payload too large, returning message...");
     return {
