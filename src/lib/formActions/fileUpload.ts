@@ -47,14 +47,18 @@ export const uploadImageAction = async ({ locals, request }) => {
     });
   }
 
-  const nodejs_wstream = fs.createWriteStream(file_path);
-  // Convert Web `ReadableStream` to a Node.js `Readable` stream
-  const web_rstream = file.stream();
-  const nodejs_rstream = Readable.fromWeb(
-    web_rstream as ReadableStream<Uint8Array>,
-  );
-  // Write file to disk and wait for it to finish
-  await pipeline(nodejs_rstream, nodejs_wstream).catch(() => {
-    return fail(500, { message: "An internal error occurred!" });
-  });
+  try {
+    const nodejs_wstream = fs.createWriteStream(file_path);
+    // Convert Web `ReadableStream` to a Node.js `Readable` stream
+    const web_rstream = file.stream();
+    const nodejs_rstream = Readable.fromWeb(
+      web_rstream as ReadableStream<Uint8Array>,
+    );
+    // Write file to disk and wait for it to finish
+    await pipeline(nodejs_rstream, nodejs_wstream).catch(() => {
+      return fail(500, { message: "An internal error occurred!" });
+    });
+  } catch (error) {
+    console.log("File upload error:", error);
+  }
 };

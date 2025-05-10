@@ -29,6 +29,10 @@
         is_image_uploading = false;
         fileUploadError = result.data.message;
       }
+      if (result.type === "error") {
+        is_image_uploading = false;
+        fileUploadError = result.error.message;
+      }
     };
   }
 </script>
