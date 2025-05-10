@@ -26,6 +26,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 
 export const handleError: HandleServerError = async ({ status, message }) => {
   if (status === 413) {
+    console.log("Payload too large, returning message...");
     return {
       message: "Payload Too Large",
     };
