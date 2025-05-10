@@ -1,5 +1,5 @@
 import * as auth from "$lib/server/auth.js";
-import type { Handle } from "@sveltejs/kit";
+import type { Handle, HandleServerError } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { handleAppearance } from "@friendofsvelte/toggle";
 
@@ -22,6 +22,19 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   event.locals.session = session;
 
   return resolve(event);
+};
+
+export const handleError: HandleServerError = async ({ status, message }) => {
+  if (status === 413) {
+    return {
+      message: "Payload Too Large",
+    };
+  }
+
+  // For other errors, return the default message
+  return {
+    message: message,
+  };
 };
 
 export const handle = sequence(handleAuth, handleAppearance);
