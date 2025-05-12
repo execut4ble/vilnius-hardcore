@@ -25,19 +25,16 @@
       body: formData,
     });
 
-    console.log(response);
     let result: ActionResult;
     if (response.status === 413) {
       result = {
         type: "failure",
-        status: 200,
+        status: 413,
         data: { message: "Image exceeds file size limits" },
       };
     } else {
       result = deserialize(await response.text());
     }
-
-    console.log(result);
 
     if (result.type === "success") {
       const fileObj: File = Object.fromEntries(formData).file as File;
