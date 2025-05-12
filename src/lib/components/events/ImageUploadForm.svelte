@@ -25,8 +25,16 @@
       body: formData,
     });
 
-    console.log(response);
-    const result: ActionResult = deserialize(await response.text());
+    let result: ActionResult;
+    if (response.status === 413) {
+      result = {
+        type: "error",
+        status: 413,
+        error: { message: "Image size is too large" },
+      };
+    } else {
+      result = deserialize(await response.text());
+    }
 
     if (result.type === "success") {
       const fileObj: File = Object.fromEntries(formData).file as File;
