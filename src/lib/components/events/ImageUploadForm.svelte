@@ -31,7 +31,7 @@
       }
       if (result.type === "error") {
         is_image_uploading = false;
-        console.log(result);
+        console.log(result.status);
         fileUploadError = result.error.message;
       }
     };
