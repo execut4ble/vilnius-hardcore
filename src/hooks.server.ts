@@ -24,38 +24,35 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-// export const handleError: HandleServerError = async ({
-//   error,
-//   message,
-//   event,
-// }) => {
-//   console.error(error);
+export const handleError: HandleServerError = async ({
+  error,
+  message,
+  event,
+}) => {
+  console.error(error);
 
-//   if ((error as { status?: number })?.status === 413) {
-//     const isImageUpload = event.url.searchParams.has("/upload_image");
-//     const errorMessage = (error as { message?: string })?.message;
+  if ((error as { status?: number })?.status === 413) {
+    const isImageUpload = event.url.searchParams.has("/upload_image");
+    const errorMessage = (error as { message?: string })?.message;
 
-//     if (isImageUpload && typeof errorMessage === "string") {
-//       const parts = errorMessage.split(" ");
-//       const limitBytes = parseInt(parts[6], 10);
-//       const limitMB = isNaN(limitBytes)
-//         ? null
-//         : (limitBytes / 1048576).toFixed(2);
+    if (isImageUpload && typeof errorMessage === "string") {
+      const parts = errorMessage.split(" ");
+      const limitBytes = parseInt(parts[6], 10);
+      const limitMB = isNaN(limitBytes)
+        ? null
+        : (limitBytes / 1048576).toFixed(2);
+      return {
+        message: limitMB
+          ? `Image size exceeds limit of ${limitMB} MB`
+          : "Image size exceeds upload limit",
+      };
+    }
+  }
 
-//       console.log("Returning image error");
-//       return {
-//         message: limitMB
-//           ? `Image size exceeds limit of ${limitMB} MB`
-//           : "Image size exceeds upload limit",
-//       };
-//     }
-//   }
-
-//   // For other errors, return the default message
-//   console.log("Returning unknown error");
-//   return {
-//     message: message,
-//   };
-// };
+  // For other errors, return the default message
+  return {
+    message: message,
+  };
+};
 
 export const handle = sequence(handleAuth, handleAppearance);
