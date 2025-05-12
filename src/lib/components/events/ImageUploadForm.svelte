@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
+  import { applyAction, deserialize, enhance } from "$app/forms";
+  import { invalidateAll } from "$app/navigation";
+  import type { ActionResult } from "@sveltejs/kit";
 
   let {
     selectedImage = $bindable(),
@@ -11,30 +13,41 @@
   let uploaded: boolean = $state(false);
   let selectedImageToSave = $state();
 
-  function uploadImage() {
+  async function handleSubmit(
+    event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement },
+  ) {
+    event.preventDefault();
     is_image_uploading = true;
+    const formData = new FormData(event.currentTarget);
 
-    return async ({ formData, update, result }) => {
-      if (result.type === "success") {
-        const fileObj: File = Object.fromEntries(formData).file as File;
-        update().then(() => {
-          displayImage = fileObj.name;
-          is_image_uploading = false;
-          uploaded = true;
-          selectedImage = fileObj.name;
-          selectedImageToSave = null;
-        });
-      }
-      if (result.type === "failure") {
+    const response = await fetch(event.currentTarget.action, {
+      method: "POST",
+      body: formData,
+    });
+
+    console.log(response);
+    const result: ActionResult = deserialize(await response.text());
+
+    if (result.type === "success") {
+      const fileObj: File = Object.fromEntries(formData).file as File;
+      await invalidateAll().then(() => {
+        displayImage = fileObj.name;
         is_image_uploading = false;
-        fileUploadError = result.data.message;
-      }
-      if (result.type === "error") {
-        is_image_uploading = false;
-        console.log(result.status);
-        fileUploadError = result.error.message;
-      }
-    };
+        uploaded = true;
+        selectedImage = fileObj.name;
+        selectedImageToSave = null;
+      });
+    }
+    if (result.type === "failure") {
+      is_image_uploading = false;
+      fileUploadError = result.data?.message;
+    }
+    if (result.type === "error") {
+      is_image_uploading = false;
+      fileUploadError = result.error.message ?? "Server returned an error";
+    }
+
+    applyAction(result);
   }
 </script>
 
@@ -43,7 +56,7 @@
   action="?/upload_image"
   enctype="multipart/form-data"
   class="imageUpload"
-  use:enhance={uploadImage}
+  onsubmit={handleSubmit}
 >
   <div>
     <label class="imageUpload" for={slug ? slug : "file"}
