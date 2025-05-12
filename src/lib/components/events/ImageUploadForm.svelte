@@ -56,9 +56,9 @@
     if (result.type === "error") {
       is_image_uploading = false;
       fileUploadError = result.error.message ?? "Server returned an error";
+    } else {
+      applyAction(result);
     }
-
-    applyAction(result);
   }
 </script>
 

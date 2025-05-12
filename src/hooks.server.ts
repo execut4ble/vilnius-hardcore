@@ -24,29 +24,14 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-export const handleError: HandleServerError = async ({
-  error,
-  message,
-  event,
-}) => {
+export const handleError: HandleServerError = async ({ error, message }) => {
   console.error(error);
 
   if ((error as { status?: number })?.status === 413) {
-    const isImageUpload = event.url.searchParams.has("/upload_image");
     const errorMessage = (error as { message?: string })?.message;
-
-    if (isImageUpload && typeof errorMessage === "string") {
-      const parts = errorMessage.split(" ");
-      const limitBytes = parseInt(parts[6], 10);
-      const limitMB = isNaN(limitBytes)
-        ? null
-        : (limitBytes / 1048576).toFixed(2);
+    if (typeof errorMessage === "string") {
       return {
-        type: "failure",
-        status: 413,
-        message: limitMB
-          ? `Image size exceeds limit of ${limitMB} MB`
-          : "Image size exceeds upload limit",
+        message: errorMessage,
       };
     }
   }
