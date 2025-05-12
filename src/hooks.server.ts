@@ -42,6 +42,7 @@ export const handleError: HandleServerError = async ({
         ? null
         : (limitBytes / 1048576).toFixed(2);
 
+      console.log("Returning image error");
       return {
         message: limitMB
           ? `Image size exceeds limit of ${limitMB} MB`
@@ -51,6 +52,7 @@ export const handleError: HandleServerError = async ({
   }
 
   // For other errors, return the default message
+  console.log("Returning unknown error");
   return {
     message: message ?? "An unknown error occurred",
   };
