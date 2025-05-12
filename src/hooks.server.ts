@@ -42,6 +42,8 @@ export const handleError: HandleServerError = async ({
         ? null
         : (limitBytes / 1048576).toFixed(2);
       return {
+        type: "failure",
+        status: 413,
         message: limitMB
           ? `Image size exceeds limit of ${limitMB} MB`
           : "Image size exceeds upload limit",
