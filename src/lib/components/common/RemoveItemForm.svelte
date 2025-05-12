@@ -21,6 +21,7 @@
       if (result.type === "error") {
         // Handle errors if necessary
         console.error("Delete failed:", result.status);
+        await update({ reset: false }); // Update to throw form errors
       }
     };
   }

@@ -41,6 +41,7 @@
 
       if (result.type === "error") {
         console.error("Form submission failed:", result.status);
+        await update({ reset: false }); // Update to throw form errors
       }
     };
   }
