@@ -53,7 +53,7 @@
       is_image_uploading = false;
       fileUploadError = result.data?.message;
     }
-    if (result.type === "error" && result.error.type === 413) {
+    if (result.type === "error" && result.error.status === 413) {
       is_image_uploading = false;
       const parts = result.error.message.split(" ");
       const limitBytes = parseInt(parts[6], 10);
@@ -62,8 +62,8 @@
         : (limitBytes / 1048576).toFixed(2);
 
       fileUploadError = limitMB
-        ? `Image size exceeds limit of ${limitMB} MB`
-        : "Image size exceeds limit";
+        ? `Image file size exceeds limit of ${limitMB} MB`
+        : "Image exceeds file size limits";
     } else {
       applyAction(result);
     }
