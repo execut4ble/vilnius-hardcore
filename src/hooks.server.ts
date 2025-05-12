@@ -31,6 +31,7 @@ export const handleError: HandleServerError = async ({ error, message }) => {
     const errorMessage = (error as { message?: string })?.message;
     if (typeof errorMessage === "string") {
       return {
+        status: 413,
         message: errorMessage,
       };
     }

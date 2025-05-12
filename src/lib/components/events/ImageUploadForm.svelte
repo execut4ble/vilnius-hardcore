@@ -53,9 +53,17 @@
       is_image_uploading = false;
       fileUploadError = result.data?.message;
     }
-    if (result.type === "error") {
+    if (result.type === "error" && result.error.type === 413) {
       is_image_uploading = false;
-      fileUploadError = result.error.message ?? "Server returned an error";
+      const parts = result.error.message.split(" ");
+      const limitBytes = parseInt(parts[6], 10);
+      const limitMB = isNaN(limitBytes)
+        ? null
+        : (limitBytes / 1048576).toFixed(2);
+
+      fileUploadError = limitMB
+        ? `Image size exceeds limit of ${limitMB} MB`
+        : "Image size exceeds limit";
     } else {
       applyAction(result);
     }
