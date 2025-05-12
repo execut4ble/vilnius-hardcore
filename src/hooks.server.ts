@@ -29,17 +29,30 @@ export const handleError: HandleServerError = async ({
   message,
   event,
 }) => {
-  console.log(event);
   console.error(error);
-  if ((error as { status?: number }).status === 413) {
-    return {
-      message: "Content size exceeds limits",
-    };
+
+  if ((error as { status?: number })?.status === 413) {
+    const isImageUpload = event.url.searchParams.has("/upload_image");
+    const errorMessage = (error as { message?: string })?.message;
+
+    if (isImageUpload && typeof errorMessage === "string") {
+      const parts = errorMessage.split(" ");
+      const limitBytes = parseInt(parts[6], 10);
+      const limitMB = isNaN(limitBytes)
+        ? null
+        : (limitBytes / 1048576).toFixed(2);
+
+      return {
+        message: limitMB
+          ? `Image size exceeds limit of ${limitMB} MB`
+          : "Image size exceeds upload limit",
+      };
+    }
   }
 
   // For other errors, return the default message
   return {
-    message: message,
+    message: message ?? "An unknown error occurred",
   };
 };
 
