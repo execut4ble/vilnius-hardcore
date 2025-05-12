@@ -28,9 +28,9 @@
     let result: ActionResult;
     if (response.status === 413) {
       result = {
-        type: "error",
-        status: 413,
-        error: { message: "Image size is too large" },
+        type: "failure",
+        status: 200,
+        data: { message: "Image size is too large" },
       };
     } else {
       result = deserialize(await response.text());
