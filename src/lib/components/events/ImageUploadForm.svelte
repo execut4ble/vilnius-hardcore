@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { applyAction, deserialize, enhance } from "$app/forms";
+  import { applyAction, deserialize } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
   import type { ActionResult } from "@sveltejs/kit";
 
