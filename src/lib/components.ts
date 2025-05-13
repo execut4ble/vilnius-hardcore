@@ -17,3 +17,4 @@ export { default as AddCommentForm } from "$lib/components/common/AddCommentForm
 export { default as RemoveItemForm } from "$lib/components/common/RemoveItemForm.svelte";
 export { default as CommentCount } from "$lib/components/common/CommentCount.svelte";
 export { default as MetaTags } from "$lib/components/common/MetaTags.svelte";
+export { default as Shoutbox } from "$lib/components/common/Shoutbox.svelte";

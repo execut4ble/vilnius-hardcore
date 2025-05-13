@@ -7,6 +7,7 @@
     RecentComments,
     UserInfo,
     ThemeToggle,
+    Shoutbox,
   } from "$lib/components";
   import type { LayoutProps } from "./$types";
   import type { RecentCommentsData, UserInfoData } from "$lib/types";
@@ -14,6 +15,7 @@
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
   let recentComments: RecentCommentsData = $derived(data.recentComments);
+  let shouts = $derived(data.shouts);
 </script>
 
 <div class="app">
@@ -37,6 +39,7 @@
           <Menu />
         </div>
         <RecentComments {recentComments} />
+        <Shoutbox {shouts} />
         <ThemeToggle />
       </sidebar>
     </row>
