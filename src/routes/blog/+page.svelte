@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Post, ItemCount, PostEntryForm } from "$lib/components";
+  import { Post, ItemCount, PostEntryForm, MetaTags } from "$lib/components";
   import { faAdd } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { page } from "$app/state";
@@ -45,8 +45,7 @@
 </script>
 
 <svelte:head>
-  <title>Blog</title>
-  <meta name="description" content="Vilnius Hardcore" />
+  <MetaTags title="Blog" />
 </svelte:head>
 
 <h1>Blog</h1>

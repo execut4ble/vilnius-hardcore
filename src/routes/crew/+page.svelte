@@ -1,5 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
+  import { MetaTags } from "$lib/components";
   import type { PageServerData, ActionData } from "./$types";
 
   let { data, form }: { data: PageServerData; form: ActionData } = $props();
@@ -9,8 +10,7 @@
 </script>
 
 <svelte:head>
-  <title>Crew</title>
-  <meta name="description" content="Vilnius Hardcore" />
+  <MetaTags title="Crew" />
 </svelte:head>
 
 <h1>Hi, {data.user.username}!</h1>

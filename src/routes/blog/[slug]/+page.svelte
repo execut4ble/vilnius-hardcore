@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import { Post, Comment, AddCommentForm } from "$lib/components";
+  import { Post, Comment, AddCommentForm, MetaTags } from "$lib/components";
   import { slide } from "svelte/transition";
   import type { CommentsArray, Post as PostObject } from "$lib/types";
 
@@ -10,8 +10,7 @@
 </script>
 
 <svelte:head>
-  <title>{post ? post.title : "Vilnius Hardcore"}</title>
-  <meta name="description" content="Vilnius Hardcore" />
+  <MetaTags title={post ? post.title : "Vilnius Hardcore"} />
 </svelte:head>
 
 <h1>{post.title}</h1>
