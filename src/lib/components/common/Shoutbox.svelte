@@ -1,6 +1,5 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  let { shouts } = $props();
   import { relativeTime } from "svelte-relative-time";
   import { slide } from "svelte/transition";
   import FieldError from "./FieldError.svelte";
@@ -12,9 +11,21 @@
     };
   };
 
+  let { shouts } = $props();
+
   let author = $state("");
   let message = $state("");
   let errors: ValidationErrors | undefined = $state();
+  let offset: number = $state(0);
+
+  async function fetchShouts(offset: number) {
+    const res = await fetch(`/api/shouts?offset=${offset}`);
+    if (res.ok) {
+      shouts = await res.json();
+    } else {
+      console.error("Failed to fetch shouts:", res.statusText);
+    }
+  }
 </script>
 
 <div class="shoutbox">
@@ -84,16 +95,23 @@
       <FieldError errors={errors?.content} />
     {/if}
   </form>
+  <button
+    onclick={() => {
+      fetchShouts((offset += 5));
+    }}
+    >offset +5
+  </button>
 </div>
 
 <style>
   li.shout {
-    margin-bottom: 1.5em;
+    padding-bottom: 1.5em;
+    list-style: none;
   }
 
   li.shout .content {
     word-break: break-word;
-    margin-bottom: 0.2em;
+    padding: 0.2em 0 0.2em 0;
   }
 
   li.shout .heading {
@@ -102,6 +120,13 @@
 
   li.shout .date {
     margin-left: auto;
+    min-width: 5em;
+  }
+
+  li.shout .author {
+    max-width: 8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   form .actions {
@@ -116,5 +141,11 @@
     min-width: 12.5em;
     max-width: 12.5em;
     height: 3em;
+  }
+
+  ul {
+    max-height: 25em;
+    overflow: scroll;
+    padding-left: 0;
   }
 </style>

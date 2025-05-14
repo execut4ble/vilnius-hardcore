@@ -9,7 +9,7 @@ import { eq } from "drizzle-orm";
 export const load = (async ({
   locals,
   url,
-}): Promise<{ events: EventsArray; meta }> => {
+}): Promise<{ events: EventsArray; meta: { totalEvents: number }[] }> => {
   const visibilityClause = locals.user ? sql`` : sql`AND is_visible = TRUE`;
 
   const limit = Number(url.searchParams.get("limit")) || 5;

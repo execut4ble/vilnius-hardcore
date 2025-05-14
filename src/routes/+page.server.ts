@@ -1,4 +1,4 @@
-import type { EventsArray } from "$lib/types";
+import type { EventsArray, PostsArray } from "$lib/types";
 import type { PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
@@ -10,7 +10,7 @@ import { shoutInsertSchema } from "$lib/server/db/validations";
 
 export const load = (async (
   event,
-): Promise<{ events: EventsArray; recentPost }> => {
+): Promise<{ events: EventsArray; recentPost: PostsArray }> => {
   const visibilityClause = event.locals.user
     ? sql``
     : sql`AND is_visible = TRUE`;
