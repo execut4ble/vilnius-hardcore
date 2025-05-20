@@ -16,7 +16,17 @@
   let author = $state("");
   let message = $state("");
   let errors: ValidationErrors | undefined = $state();
-  let offset: number = $state(0);
+
+  let currentPage = $state(0);
+
+  let perPage = 5;
+  let totalRows = $derived(shouts.meta[0].totalRows);
+
+  let totalPages = $derived(Math.ceil(totalRows / perPage));
+  let start = $derived(currentPage * perPage);
+  let end = $derived(
+    currentPage === totalPages - 1 ? totalRows - 1 : start + perPage - 1,
+  );
 
   async function fetchShouts(offset: number) {
     const res = await fetch(`/api/shouts?offset=${offset}`);
@@ -31,8 +41,8 @@
 <div class="shoutbox">
   <h3><strong>Shoutbox</strong></h3>
   <ul>
-    {#each shouts as shout (shout.id)}
-      <li class="shout" transition:slide>
+    {#each shouts.data as shout (shout.id)}
+      <li class="shout">
         <div class="heading">
           <div class="author">
             <strong>
@@ -52,6 +62,34 @@
       <div transition:slide>Nothing here. Write something!</div>
     {/each}
   </ul>
+  {#if totalRows && totalRows > perPage}
+    <div class="pagination">
+      {#if currentPage !== 0}
+        <button
+          onclick={() => {
+            currentPage -= 1;
+            fetchShouts(start);
+          }}
+          aria-label="left arrow icon"
+          aria-describedby="prev"
+          >&lt;
+        </button>
+      {/if}
+      <p>{start + 1} - {end + 1} of {totalRows}</p>
+      {#if currentPage !== totalPages - 1}
+        <button
+          onclick={() => {
+            currentPage += 1;
+            fetchShouts(currentPage === 0 ? end : start);
+          }}
+          aria-label="right arrow icon"
+          aria-describedby="next"
+        >
+          &gt;
+        </button>
+      {/if}
+    </div>
+  {/if}
   <form
     method="POST"
     action="/?/add_shout"
@@ -61,6 +99,7 @@
           errors = (result as EnhancedResult).data.errors;
         }
         await update();
+        currentPage = 0;
       };
     }}
   >
@@ -95,18 +134,11 @@
       <FieldError errors={errors?.content} />
     {/if}
   </form>
-  <button
-    onclick={() => {
-      fetchShouts((offset += 5));
-    }}
-    >offset +5
-  </button>
 </div>
 
 <style>
-  li.shout {
+  li.shout:not(:last-child) {
     padding-bottom: 1.5em;
-    list-style: none;
   }
 
   li.shout .content {
@@ -147,5 +179,15 @@
     max-height: 25em;
     overflow: scroll;
     padding-left: 0;
+  }
+
+  div.pagination {
+    display: flex;
+    justify-content: center;
+  }
+
+  div.pagination p {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 </style>
