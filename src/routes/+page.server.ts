@@ -80,4 +80,14 @@ export const actions: Actions = {
       }
     }
   },
+  remove_shout: async ({ request, locals }) => {
+    if (!locals.session) {
+      return fail(401);
+    }
+    const formData: FormData = await request.formData();
+    const shoutId: FormDataEntryValue | null = formData.get("id");
+    await db
+      .delete(table.shout)
+      .where(eq(table.shout.id, shoutId as unknown as number));
+  },
 };

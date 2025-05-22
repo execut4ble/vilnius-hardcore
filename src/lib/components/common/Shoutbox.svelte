@@ -3,6 +3,9 @@
   import { relativeTime } from "svelte-relative-time";
   import { slide } from "svelte/transition";
   import FieldError from "./FieldError.svelte";
+  import { page } from "$app/state";
+  import Fa from "svelte-fa";
+  import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
   type ValidationErrors = { author: string[]; content: string[] };
   type EnhancedResult = {
@@ -28,6 +31,8 @@
     currentPage === totalPages - 1 ? totalRows - 1 : start + perPage - 1,
   );
 
+  let hoveredItem = $state(null);
+
   async function fetchShouts(offset: number) {
     const res = await fetch(`/api/shouts?offset=${offset}`);
     if (res.ok) {
@@ -42,13 +47,26 @@
   <h3><strong>Shoutbox</strong></h3>
   <ul>
     {#each shouts.data as shout (shout.id)}
-      <li class="shout">
+      <li
+        class="shout"
+        onfocus={() => (hoveredItem = shout.id)}
+        onmouseover={() => (hoveredItem = shout.id)}
+        onmouseleave={() => (hoveredItem = null)}
+      >
         <div class="heading">
           <div class="author">
             <strong>
               {shout.author}
             </strong>
           </div>
+          {#if page.data.user && hoveredItem === shout.id}
+            <form method="POST" action="?/remove_shout" use:enhance>
+              <input type="hidden" name="id" value={shout.id} />
+              <button type="submit" class="post action">
+                <Fa icon={faTrash} /></button
+              >
+            </form>
+          {/if}
           <div
             class="font-size-small dim date"
             use:relativeTime={{ date: new Date(shout.date) }}
@@ -189,5 +207,10 @@
   div.pagination p {
     margin-top: 0;
     margin-bottom: 0;
+  }
+
+  div.heading form {
+    margin-bottom: 0;
+    font-size: smaller;
   }
 </style>
