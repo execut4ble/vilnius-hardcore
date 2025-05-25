@@ -19,12 +19,9 @@
   let author = $state("");
   let message = $state("");
   let errors: ValidationErrors | undefined = $state();
-
   let currentPage = $state(0);
-
   let perPage = 5;
   let totalRows = $derived(shouts.meta[0].totalRows);
-
   let totalPages = $derived(Math.ceil(totalRows / perPage));
   let start = $derived(currentPage * perPage);
   let end = $derived(
@@ -32,6 +29,7 @@
   );
 
   let hoveredItem = $state(null);
+  let displayInputForm = $state(false);
 
   async function fetchShouts(offset: number) {
     const res = await fetch(`/api/shouts?offset=${offset}`);
@@ -60,7 +58,7 @@
             </strong>
           </div>
           {#if page.data.user && hoveredItem === shout.id}
-            <form method="POST" action="?/remove_shout" use:enhance>
+            <form method="POST" action="/?/remove_shout" use:enhance>
               <input type="hidden" name="id" value={shout.id} />
               <button type="submit" class="post action">
                 <Fa icon={faTrash} /></button
@@ -108,50 +106,59 @@
       {/if}
     </div>
   {/if}
-  <form
-    method="POST"
-    action="/?/add_shout"
-    use:enhance={() => {
-      return async ({ update, result }) => {
-        if ((result as EnhancedResult).data) {
-          errors = (result as EnhancedResult).data.errors;
-        }
-        await update();
-        currentPage = 0;
-      };
-    }}
-  >
-    <input
-      id="author"
-      name="author"
-      placeholder="Name"
-      bind:value={author}
-      maxlength="30"
-      required
-    />
-    <textarea
-      id="content"
-      name="content"
-      bind:value={message}
-      maxlength="150"
-      spellcheck="false"
-      required
-      autocomplete="off"
-    ></textarea>
-    <div class="actions">
-      <button type="submit">Shout!</button>
-      <div class="length">
-        {message.length}/150
+  {#if displayInputForm}
+    <form
+      method="POST"
+      action="/?/add_shout"
+      use:enhance={() => {
+        return async ({ update, result }) => {
+          if ((result as EnhancedResult).data) {
+            errors = (result as EnhancedResult).data.errors;
+          }
+          await update();
+          currentPage = 0;
+        };
+      }}
+    >
+      <input
+        id="author"
+        name="author"
+        placeholder="Name"
+        bind:value={author}
+        maxlength="30"
+        required
+      />
+      <textarea
+        id="content"
+        name="content"
+        placeholder="Message"
+        bind:value={message}
+        maxlength="150"
+        spellcheck="false"
+        required
+        autocomplete="off"
+      ></textarea>
+      <div class="actions">
+        <button type="submit">Scream into the void!</button>
+        <div class="length">
+          {message.length}/150
+        </div>
       </div>
-    </div>
 
-    {#if errors?.author}
-      <FieldError errors={errors?.author} />
-    {/if}
-    {#if errors?.content}
-      <FieldError errors={errors?.content} />
-    {/if}
-  </form>
+      {#if errors?.author}
+        <FieldError errors={errors?.author} />
+      {/if}
+      {#if errors?.content}
+        <FieldError errors={errors?.content} />
+      {/if}
+    </form>
+  {:else}
+    <button
+      id="areyouacop"
+      name="areyouacop"
+      onclick={() => (displayInputForm = true)}>Ż̴̼a̴͂ͅĺ̶͖g̷̋͜o̷̭̅ ̶̻̅l̵̯̍i̵̹͋s̶͎̿t̵͇̀e̸̯͑ṇ̸̽s̵͔̊.̶̪̏.̶̥͆.̸̲̆</button
+    >
+  {/if}
 </div>
 
 <style>
@@ -170,6 +177,7 @@
 
   li.shout .date {
     margin-left: auto;
+    padding-right: 1em;
     min-width: 5em;
   }
 
@@ -197,6 +205,8 @@
     max-height: 25em;
     overflow: scroll;
     padding-left: 0;
+    list-style: none;
+    font-size: 0.75rem;
   }
 
   div.pagination {
