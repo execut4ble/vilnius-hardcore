@@ -3,8 +3,8 @@ import { sql } from "drizzle-orm";
 import type { LayoutServerLoad } from "./$types";
 import type { RecentCommentsData } from "$lib/types";
 
-export const load: LayoutServerLoad = async (event) => {
-  const visibilityClause = event.locals.user
+export const load: LayoutServerLoad = async ({locals}) => {
+  const visibilityClause = locals.user
     ? sql``
     : sql`AND (c.event_id IS NULL OR e.is_visible = TRUE)`;
 
@@ -30,5 +30,5 @@ export const load: LayoutServerLoad = async (event) => {
     recentComments[i].date = new Date(recentComments[i].date).toISOString();
   }
 
-  return { user: event.locals.user, recentComments };
+  return { user: locals.user, recentComments };
 };

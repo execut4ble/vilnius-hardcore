@@ -4,8 +4,9 @@ import { count, sql } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { postActions } from "$lib/formActions/postActions";
+import type { PostsArray } from "$lib/types";
 
-export const load = (async ({ url }): Promise<{ posts; meta }> => {
+export const load = (async ({ url }): Promise<{ posts: PostsArray; meta: { totalPosts: number }[] }> => {
   const limit = Number(url.searchParams.get("limit")) || 5;
   const posts = await db
     .select({
