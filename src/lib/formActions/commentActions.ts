@@ -1,9 +1,9 @@
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
-import { fail } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
 import { commentInsertSchema } from "$lib/server/db/validations";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const queryPostId = async (slug: string): Promise<number | undefined> => {
   const queryResult: table.Post | undefined = await db.query.post.findFirst({
@@ -43,8 +43,11 @@ export const commentActions = {
       await db.insert(table.comment).values(comment);
     } catch (err) {
       if (err instanceof z.ZodError) {
-        const { fieldErrors: errors } = err.flatten();
+        const { fieldErrors: errors } = z.flattenError(err);
         return fail(400, { errors });
+      } else {
+        console.error(err);
+        return error(500, "Something went wrong");
       }
     }
   },
