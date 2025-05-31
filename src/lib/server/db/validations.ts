@@ -80,12 +80,7 @@ export const eventInsertSchema = createInsertSchema(event, {
         message: "Event title can't be empty",
       }),
   date: (schema) =>
-    schema
-      .min(1, { error: "Event date can't be empty" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        message: "Event date can't be empty",
-      }),
+    schema.min(1, { error: "Event date can't be empty" }).trim(),
   is_visible: z.coerce.boolean(),
 });
 
@@ -98,11 +93,6 @@ export const eventUpdateSchema = createUpdateSchema(event, {
         message: "Event title can't be empty",
       }),
   date: (schema) =>
-    schema
-      .min(1, { error: "Event date can't be empty" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        error: "Event date can't be empty",
-      }),
+    schema.min(1, { error: "Event date can't be empty" }).trim(),
   is_visible: z.coerce.boolean(),
 });
