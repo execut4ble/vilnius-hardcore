@@ -1,0 +1,31 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hello_world": "Hello, {name} from en!",
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "events": "Events",
+    "xi20live": "Live @ XI20",
+    "music": "Music",
+    "blog": "Blog",
+    "oldversion": "Old version",
+    "contacts": "Contacts"
+  },
+  "recentnews": "Recent news",
+  "recentcomments": "Recent comments",
+  "upcomingevents": "Upcoming events",
+  "poweredby": "powered by",
+  "loggedin": "Logged in as",
+  "deleteconfirm": "for real?",
+  "delete": "delete",
+  "yes": "yes!",
+  "no": "no!",
+  "edit": "edit",
+  "addcomment": "Add a comment",
+  "readmore": "read more...",
+  "noevents": {
+    "checklater": "We have no upcoming events right now! Check back later!",
+    "orcheckout": "Or check out our",
+    "pastevents": "past events"
+  }
+}

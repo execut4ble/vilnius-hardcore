@@ -48,6 +48,7 @@
     "@fontsource/courier-prime": "^5.2.5",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@friendofsvelte/toggle": "^0.0.4-svelte.5",
+    "@inlang/paraglide-js": "^2.0.0",
     "@node-rs/argon2": "^2.0.2",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",

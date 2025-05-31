@@ -3,6 +3,7 @@
   import Fa from "svelte-fa";
   import FieldError from "./FieldError.svelte";
   import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
+  import { m } from "$lib/paraglide/messages.js";
 
   let { form } = $props();
 
@@ -16,7 +17,7 @@
   }
 </script>
 
-<strong><h3>Add a comment</h3></strong>
+<strong><h3>{m.addcomment()}</h3></strong>
 <form
   class="comment"
   method="POST"

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hello_world": "Sveiki, {name} from lt!",
+  "navigation": {
+    "home": "Pagrindinis",
+    "about": "Veikla / Info",
+    "events": "Renginiai",
+    "xi20live": "Gyvai XI20",
+    "music": "Muzika",
+    "blog": "Naujienos",
+    "oldversion": "Sena versija",
+    "contacts": "Kontaktai"
+  },
+  "recentnews": "Aktualijos",
+  "recentcomments": "Naujausi komentarai",
+  "upcomingevents": "Kas bus?!",
+  "poweredby": "powered by",
+  "loggedin": "Prisijungęs kaip",
+  "delete": "ištrinti",
+  "deleteconfirm": "tikrai?",
+  "yes": "taip!",
+  "no": "ne!",
+  "edit": "redaguoti",
+  "addcomment": "Parašyk kažką!",
+  "readmore": "skaityti toliau...",
+  "noevents": {
+    "checklater": "Šiuo metu nėra jokių renginių! Užsukite vėliau!",
+    "orcheckout": "Arba peržiūrėkite mūsų",
+    "pastevents": "įvykusius renginius"
+  }
+}

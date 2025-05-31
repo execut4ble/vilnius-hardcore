@@ -10,6 +10,8 @@
   } from "$lib/components";
   import type { LayoutProps } from "./$types";
   import type { RecentCommentsData, UserInfoData } from "$lib/types";
+  import { locales, localizeHref, setLocale } from "$lib/paraglide/runtime";
+  import { page } from "$app/state";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
@@ -30,6 +32,15 @@
         {@render children?.()}
       </section>
       <sidebar>
+        <div style="display:none">
+          {#each locales as locale}
+            <a href={localizeHref(page.url.pathname, { locale })}>{locale}</a>
+          {/each}
+        </div>
+        <div>
+          <button onclick={() => setLocale("en")}>en</button>
+          <button onclick={() => setLocale("lt")}>lt</button>
+        </div>
         <div class="navigation">
           {#if user}
             <UserInfo {user} />

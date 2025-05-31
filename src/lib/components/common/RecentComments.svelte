@@ -3,10 +3,11 @@
   let { recentComments }: { recentComments: RecentCommentsData } = $props();
   import { relativeTime } from "svelte-relative-time";
   import { slide } from "svelte/transition";
+  import { m } from "$lib/paraglide/messages.js";
 </script>
 
 <div class="recentComments">
-  <h3><strong>Recent comments</strong></h3>
+  <h3><strong>{m.recentcomments()}</strong></h3>
   <ul>
     {#each recentComments as comment (comment.id)}
       <li class="comment" transition:slide>

@@ -10,6 +10,7 @@
   import { RemoveItemForm, EventEntryForm } from "$lib/components";
   import { blur } from "svelte/transition";
   import CommentCount from "../common/CommentCount.svelte";
+  import { m } from "$lib/paraglide/messages.js";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -103,7 +104,7 @@
             {#if page.url.pathname !== "/" && page.data.user}
               <div class="actions">
                 <button class="post action" onclick={() => (isEditing = true)}
-                  ><Fa icon={faPenToSquare} /> edit</button
+                  ><Fa icon={faPenToSquare} /> {m.edit()}</button
                 >
                 <RemoveItemForm {slug} action="?/remove_event" />
               </div>
