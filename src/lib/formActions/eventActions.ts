@@ -1,13 +1,13 @@
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
-import { fail } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
 import {
   eventInsertSchema,
   eventUpdateSchema,
 } from "$lib/server/db/validations";
-import { z } from "zod";
 import { uploadImageAction } from "./fileUpload";
+import { z } from "zod/v4";
 
 export const eventActions = {
   update_event: async ({ locals, request }) => {
@@ -27,8 +27,11 @@ export const eventActions = {
       return response;
     } catch (err) {
       if (err instanceof z.ZodError) {
-        const { fieldErrors: errors } = err.flatten();
+        const { fieldErrors: errors } = z.flattenError(err);
         return fail(400, { errors });
+      } else {
+        console.error(err);
+        return error(500, "Something went wrong");
       }
     }
   },
@@ -43,8 +46,11 @@ export const eventActions = {
       await db.insert(table.event).values(event);
     } catch (err) {
       if (err instanceof z.ZodError) {
-        const { fieldErrors: errors } = err.flatten();
+        const { fieldErrors: errors } = z.flattenError(err);
         return fail(400, { errors });
+      } else {
+        console.error(err);
+        return error(500, "Something went wrong");
       }
     }
   },
