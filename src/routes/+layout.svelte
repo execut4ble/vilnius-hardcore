@@ -40,6 +40,7 @@
         <div>
           <button onclick={() => setLocale("en")}>en</button>
           <button onclick={() => setLocale("lt")}>lt</button>
+          <button onclick={() => setLocale("fi")}>fi</button>
         </div>
         <div class="navigation">
           {#if user}
