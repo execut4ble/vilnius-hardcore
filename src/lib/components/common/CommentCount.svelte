@@ -1,6 +1,6 @@
 <script lang="ts">
   let { taxonomy, slug, commentCount } = $props();
-  import { comment_singular, m } from "$lib/paraglide/messages.js";
+  import { m } from "$lib/paraglide/messages.js";
   import { getLocale } from "$lib/paraglide/runtime";
 </script>
 
