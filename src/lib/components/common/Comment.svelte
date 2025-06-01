@@ -14,7 +14,9 @@
 
 <div class="comment" transition:slide>
   <div class="heading">
-    <strong>{comment.author}</strong> wrote at {date.toLocaleString("lt-LT")}
+    <strong>{comment.author}</strong>
+    {m.wrote_at()}
+    {date.toLocaleString("lt-LT")}
     {#if page.data.user}
       <form method="POST" action="?/remove_comment" use:enhance>
         <input type="hidden" name="id" value={comment.id} />

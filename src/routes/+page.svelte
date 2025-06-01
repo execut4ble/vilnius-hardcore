@@ -24,7 +24,7 @@
 
 {#if post}
   <h2 class="blog">
-    <strong>{m.recentnews()}</strong>
+    <strong>{m.recent_news()}</strong>
   </h2>
 
   <div class="recent">
@@ -33,7 +33,7 @@
     <div class={isOverflowing ? "more" : "more opaque"}>
       {#if isOverflowing}
         <a href="/blog/{post.slug}" transition:fade={{ duration: 200 }}
-          >{m.readmore()}</a
+          >{m.read_more()}</a
         >
       {:else}
         <!-- Workaround to prevent layout shift -->
@@ -44,13 +44,14 @@
 {/if}
 
 <h2 class="upcoming">
-  <strong>{m.upcomingevents()}</strong>
+  <strong>{m.upcoming_events()}</strong>
 </h2>
 
 {#if data.events.length === 0}
-  <p>{m["noevents.checklater"]()}</p>
+  <p>{m["no_events.check_later"]()}</p>
   <p>
-    {m["noevents.orcheckout"]} <a href="/events">{m["noevents.pastevents"]}</a>
+    {m["no_events.checkout"]()}
+    <a href="/events">{m["no_events.past_events"]()}</a>
   </p>
 {/if}
 <ul class="eventList">

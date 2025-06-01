@@ -7,12 +7,13 @@
 </script>
 
 <div class="recentComments">
-  <h3><strong>{m.recentcomments()}</strong></h3>
+  <h3><strong>{m.recent_comments()}</strong></h3>
   <ul>
     {#each recentComments as comment (comment.id)}
       <li class="comment" transition:slide>
         <div class="content">
-          {comment.author} on
+          {comment.author}
+          {m.commented_on()}
           {#if comment.event_slug}
             <a href="/events/{comment.event_slug}#comments"
               >{comment.event_name}</a
@@ -26,11 +27,11 @@
           class="font-size-small"
           use:relativeTime={{ date: new Date(comment.date) }}
         >
-          some time ago
+          {m.some_time_ago()}
         </div>
       </li>
     {:else}
-      <div transition:slide>No comments found.</div>
+      <div transition:slide>{m.no_comments()}</div>
     {/each}
   </ul>
 </div>

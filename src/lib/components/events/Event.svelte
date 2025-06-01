@@ -87,8 +87,9 @@
     <div class="eventDetails">
       <div class="eventInfo">
         {#if !isVisible}
-          <div class="font-size-small dim">
-            <Fa icon={faEyeSlash}></Fa> DRAFT / NOT VISIBLE
+          <div class="font-size-small dim draft">
+            <Fa icon={faEyeSlash}></Fa>
+            {m.draft()}
           </div>
         {/if}
         <div class="title">
@@ -228,5 +229,9 @@
 
   div.title h2 {
     margin-bottom: 0.25em;
+  }
+
+  div.draft {
+    text-transform: uppercase;
   }
 </style>

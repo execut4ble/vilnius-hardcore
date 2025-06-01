@@ -43,7 +43,7 @@
   >
   {#if confirmDelete}
     <div class="confirm">
-      <strong>{m.deleteconfirm()}</strong>
+      <strong>{m.delete_confirm()}</strong>
       <button
         class="post action"
         type="button"

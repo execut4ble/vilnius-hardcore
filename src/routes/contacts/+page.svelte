@@ -1,12 +1,13 @@
 <script>
   import { MetaTags } from "$lib/components";
+  import { m } from "$lib/paraglide/messages.js";
 </script>
 
 <svelte:head>
   <MetaTags title="Contacts" />
 </svelte:head>
 
-<h1>Contacts</h1>
+<h1>{m["navigation.contacts"]()}</h1>
 
 <p>
   Do you have anything interesting you'd like to share with us? <br />

@@ -5,5 +5,5 @@
 </script>
 
 <div class="userInfo">
-  {m.loggedin()} <a href="/crew">{user?.username}</a>
+  {m.logged_in()} <a href="/crew">{user?.username}</a>
 </div>

@@ -14,6 +14,7 @@
   import { goto } from "$app/navigation";
   import ItemCount from "$lib/components/common/ItemCount.svelte";
   import { blur, slide } from "svelte/transition";
+  import { m } from "$lib/paraglide/messages.js";
 
   let { data, form }: PageProps = $props();
   let events: Array<EventObject> = $derived(data.events);
@@ -63,15 +64,15 @@
   <MetaTags title="Events" />
 </svelte:head>
 
-<h1>Events</h1>
+<h1>{m["navigation.events"]()}</h1>
 {#if data.user}
   {#if !entryMode}
     <button type="button" class="post action" onclick={() => (entryMode = true)}
-      ><Fa icon={faAdd} /> add new</button
+      ><Fa icon={faAdd} /> {m.add_new()}</button
     >
   {:else}
     <div transition:slide>
-      <h2><strong>Add new event</strong></h2>
+      <h2><strong>{m.add_new_event()}</strong></h2>
       <div class="formRow">
         <EventEntryForm
           {form}
@@ -98,7 +99,7 @@
     </div>
   {/if}
 {/if}
-<h2><strong>Upcoming events</strong></h2>
+<h2><strong>{m.upcoming_events()}</strong></h2>
 <ul class="eventList">
   {#each upcomingEvents as event (event.id)}
     <li transition:slide>
@@ -106,24 +107,24 @@
     </li>
   {:else}
     <p transition:slide>
-      We have no upcoming events right now! Check back later!
+      {m["no_events.check_later"]()}
     </p>
   {/each}
 </ul>
 
-<h2><strong>Past events</strong></h2>
+<h2><strong>{m.past_events()}</strong></h2>
 <ul class="eventList">
   {#each pastEvents as event (event.id)}
     <li transition:slide>
       <Event {...event} {form} />
     </li>
   {:else}
-    <p transition:slide>No past events found.</p>
+    <p transition:slide>{m.no_past_events()}</p>
   {/each}
 </ul>
 
 {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
-  <button class="post action" onclick={loadMore}>show more</button>
+  <button class="post action" onclick={loadMore}>{m.show_more()}</button>
 {/if}
 
 <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />

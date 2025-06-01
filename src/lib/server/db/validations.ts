@@ -2,23 +2,30 @@ import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import validator from "validator";
 import { comment, event, post } from "./schema";
 import { z } from "zod/v4";
+import { m } from "$lib/paraglide/messages.js";
 
 export const commentInsertSchema = createInsertSchema(comment, {
   author: (schema) =>
     schema
-      .min(1, { error: "Name is required" })
-      .max(30, { error: "Name must be less than 30 characters" })
+      .max(30, { error: m["error.name_too_long"]({ count: 30 }) })
       .trim()
       .refine((value) => !validator.isEmpty(value), {
-        error: "Name can't be empty",
+        error: () => {
+          return m["error.name_empty"]();
+        },
       }),
   content: (schema) =>
     schema
-      .min(1, { error: "Comment can't be empty" })
-      .max(250, { error: "Comment must be less than 250 characters" })
+      .max(250, {
+        error: () => {
+          return m["error.comment_too_long"]({ count: 250 });
+        },
+      })
       .trim()
       .refine((value) => !validator.isEmpty(value), {
-        error: "Comment can't be empty",
+        error: () => {
+          return m["error.comment_empty"]();
+        },
       }),
   eventId: z.coerce.number().optional(),
   postId: z.coerce.number().optional(),
@@ -27,7 +34,7 @@ export const commentInsertSchema = createInsertSchema(comment, {
     acab: z.literal("1312", {
       error: (issue) => {
         if (issue.code === "invalid_value") {
-          return "Incorrect!";
+          return m["error.incorrect_value"]();
         }
       },
     }),
@@ -39,60 +46,66 @@ export const commentInsertSchema = createInsertSchema(comment, {
 
 export const postInsertSchema = createInsertSchema(post, {
   title: (schema) =>
-    schema
-      .min(1, { error: "Post title is required" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        message: "Post title can't be empty",
-      }),
+    schema.trim().refine((value) => !validator.isEmpty(value), {
+      error: () => {
+        return m["error.title_empty"]();
+      },
+    }),
   body: (schema) =>
-    schema
-      .min(1, { error: "Post body can't be empty" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        message: "Post body can't be empty",
-      }),
+    schema.trim().refine((value) => !validator.isEmpty(value), {
+      error: () => {
+        return m["error.body_empty"]();
+      },
+    }),
 });
 
 export const postUpdateSchema = createUpdateSchema(post, {
   title: (schema) =>
-    schema
-      .min(1, { error: "Post title is required" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        message: "Post title can't be empty",
-      }),
+    schema.trim().refine((value) => !validator.isEmpty(value), {
+      error: () => {
+        return m["error.body_empty"]();
+      },
+    }),
   body: (schema) =>
-    schema
-      .min(1, { error: "Post body can't be empty" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        message: "Post body can't be empty",
-      }),
+    schema.trim().refine((value) => !validator.isEmpty(value), {
+      error: () => {
+        return m["error.body_empty"]();
+      },
+    }),
 });
 
 export const eventInsertSchema = createInsertSchema(event, {
   title: (schema) =>
-    schema
-      .min(1, { error: "Event title is required" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        message: "Event title can't be empty",
-      }),
+    schema.trim().refine((value) => !validator.isEmpty(value), {
+      error: () => {
+        return m["error.title_empty"]();
+      },
+    }),
   date: (schema) =>
-    schema.min(1, { error: "Event date can't be empty" }).trim(),
+    schema
+      .min(1, {
+        error: () => {
+          return m["error.date_empty"]();
+        },
+      })
+      .trim(),
   is_visible: z.coerce.boolean(),
 });
 
 export const eventUpdateSchema = createUpdateSchema(event, {
   title: (schema) =>
-    schema
-      .min(1, { error: "Event title is required" })
-      .trim()
-      .refine((value) => !validator.isEmpty(value), {
-        message: "Event title can't be empty",
-      }),
+    schema.trim().refine((value) => !validator.isEmpty(value), {
+      error: () => {
+        return m["error.title_empty"]();
+      },
+    }),
   date: (schema) =>
-    schema.min(1, { error: "Event date can't be empty" }).trim(),
+    schema
+      .min(1, {
+        error: () => {
+          return m["error.date_empty"]();
+        },
+      })
+      .trim(),
   is_visible: z.coerce.boolean(),
 });

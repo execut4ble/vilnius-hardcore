@@ -8,7 +8,7 @@
   <p>
     1995-{currentYear}
     <a href="/"><strong>hardcore.lt</strong></a>
-    | {m.poweredby()}
+    | {m.powered_by()}
     <a href="https://github.com/execut4ble/vilnius-hardcore"
       ><strong>chebrytė</strong></a
     >
