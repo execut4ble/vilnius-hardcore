@@ -4,6 +4,7 @@
   import { relativeTime } from "svelte-relative-time";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
+  import { getLocale } from "$lib/paraglide/runtime";
 </script>
 
 <div class="recentComments">
@@ -25,7 +26,10 @@
         </div>
         <div
           class="font-size-small"
-          use:relativeTime={{ date: new Date(comment.date) }}
+          use:relativeTime={{
+            date: new Date(comment.date),
+            locale: getLocale(),
+          }}
         >
           {m.some_time_ago()}
         </div>
