@@ -5,6 +5,7 @@
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
+  import { m } from "$lib/paraglide/messages.js";
 
   let { ...comment }: CommentComponent = $props();
   let date: Date = $derived(new Date(comment.date));
@@ -13,7 +14,9 @@
 
 <div class="comment" transition:slide>
   <div class="heading">
-    <strong>{comment.author}</strong> wrote at {date.toLocaleString("lt-LT")}
+    <strong>{comment.author}</strong>
+    {m.wrote_at()}
+    {date.toLocaleString("lt-LT")}
     {#if page.data.user}
       <form method="POST" action="?/remove_comment" use:enhance>
         <input type="hidden" name="id" value={comment.id} />
@@ -25,13 +28,13 @@
           <Fa icon={faTrash} /></button
         >
         {#if confirmDelete}
-          <strong>delete?</strong>
+          <strong>{m.delete()}?</strong>
           <button
             class="post action"
             type="button"
-            onclick={() => (confirmDelete = false)}>no!</button
+            onclick={() => (confirmDelete = false)}>{m.no()}</button
           >
-          <button class="post action" type="submit">yes!</button>
+          <button class="post action" type="submit">{m.yes()}</button>
         {/if}
       </form>
     {/if}
