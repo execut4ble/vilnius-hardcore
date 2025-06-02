@@ -76,5 +76,5 @@
     "body_empty": "Post body can't be empty"
   },
   "commented_on": "on",
-  "some_time_ago": "some time ago"
+  "some_time_ago": " "
 }

@@ -11,6 +11,7 @@
   import { blur } from "svelte/transition";
   import CommentCount from "../common/CommentCount.svelte";
   import { m } from "$lib/paraglide/messages.js";
+  import { getLocale } from "$lib/paraglide/runtime";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -20,6 +21,7 @@
   let imageFilename: string | null = $derived(event.image);
   let selectedImage: string | null | undefined = $state();
   let isVisible: boolean = $derived(event.is_visible);
+  let locale: string = $derived(getLocale());
 
   let date: string = $derived(
     new Date(event.date).toLocaleString("lt-LT", {
@@ -32,7 +34,9 @@
   );
   const year: number = $derived(new Date(event.date).getFullYear());
   const month: string = $derived(
-    new Date(event.date).toLocaleString("en-us", { month: "short" }),
+    new Date(event.date).toLocaleString(locale, {
+      month: locale === "lt" ? "long" : "short",
+    }),
   );
   const day: number = $derived(new Date(event.date).getDate());
 
