@@ -22,6 +22,11 @@
   <main>
     <row>
       <mobile>
+        <div class="locale">
+          {#each locales as locale (locale)}
+            <button onclick={() => setLocale(locale)}>{locale}</button>
+          {/each}
+        </div>
         {#if user}
           <UserInfo {user} />
         {/if}
@@ -163,6 +168,10 @@
     }
 
     sidebar .navigation {
+      display: none;
+    }
+
+    sidebar .locale {
       display: none;
     }
   }
