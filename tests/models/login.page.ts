@@ -22,7 +22,7 @@ export class LoginPage {
   }
 
   async verifyLoginFormIsVisible() {
-    await expect(this.formLogin).toBeVisible();
+    await expect(this.formLogin, "Login form should be visible").toBeVisible();
     await expect(this.inputUsername).toBeVisible();
     await expect(this.inputPassword).toBeVisible();
     await expect(this.inputPassword).toHaveAttribute("type", "password");

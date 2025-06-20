@@ -30,10 +30,13 @@ test("Login with invalid credentials", async ({ page }) => {
   await loginPage.verifyLoginFormIsVisible();
   await loginPage.login("", "");
   await expect(page).toHaveURL("crew/login");
-  await expect(page.locator("p.error")).toBeVisible();
+  await expect(
+    page.locator("p.error"),
+    "Error message should be visible",
+  ).toBeVisible();
   await expect(
     page.locator("sidebar .userInfo"),
-    "should not be logged in",
+    "Should not be logged in",
   ).not.toBeVisible();
 });
 
@@ -47,12 +50,12 @@ test("Login and logout with valid credentials", async ({ page }) => {
   await crewPage.verifyPageElementsVisible();
   await expect(
     page.locator("sidebar .userInfo"),
-    "should be logged in",
+    "Should be logged in",
   ).toBeVisible();
   await crewPage.btnLogout.click();
   await expect(page).toHaveURL("crew/login");
   await expect(
     page.locator("sidebar .userInfo"),
-    "should not be logged in",
+    "Should not be logged in",
   ).not.toBeVisible();
 });
