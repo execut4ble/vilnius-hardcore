@@ -125,7 +125,7 @@
   {/if}
   {#if fileUploadError}
     <br /><br />
-    <p style="color: red">{fileUploadError}</p>
+    <p class="error" style="color: red">{fileUploadError}</p>
   {/if}
 </form>
 
