@@ -20,7 +20,7 @@
 </svelte:head>
 
 <Event {...event} {form} detailed={true} />
-<strong><h2 id="comments">{m.comment_singular()}</h2></strong>
+<strong><h2 id="comments">{m.comment_plural()}</h2></strong>
 
 {#key event.id}
   <div class="comments">
