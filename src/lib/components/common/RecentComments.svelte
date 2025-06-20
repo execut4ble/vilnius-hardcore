@@ -31,7 +31,7 @@
             locale: getLocale(),
           }}
         >
-          {m.some_time_ago()}
+          {` `}
         </div>
       </li>
     {:else}

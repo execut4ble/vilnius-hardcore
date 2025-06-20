@@ -75,6 +75,5 @@
     "date_empty": "Tapahtuman päivämäärä ei voi olla tyhjä",
     "body_empty": "Kirjoituksen sisältö ei voi olla tyhjä"
   },
-  "commented_on": "kirjoitti",
-  "some_time_ago": " "
+  "commented_on": "kirjoitti"
 }

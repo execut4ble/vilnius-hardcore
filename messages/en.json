@@ -75,6 +75,5 @@
     "date_empty": "Event date can't be empty",
     "body_empty": "Post body can't be empty"
   },
-  "commented_on": "on",
-  "some_time_ago": " "
+  "commented_on": "on"
 }
