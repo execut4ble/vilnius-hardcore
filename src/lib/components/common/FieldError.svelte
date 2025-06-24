@@ -1,6 +1,5 @@
 <script lang="ts">
   let { errors } = $props();
-  console.log(errors);
 </script>
 
 {#if errors}

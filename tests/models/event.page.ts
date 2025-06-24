@@ -43,7 +43,6 @@ export class EventPage {
 
   async postCommentAndVerifyContent(author: string, content: string) {
     const originalCommentCount: number = await this.ctrComment.count();
-    console.log(originalCommentCount);
     await this.fillCommentAndSubmit(author, content, "1312");
     await expect(this.ctrComment).toHaveCount(originalCommentCount + 1);
     await expect(this.ctrCommentContent.last()).toHaveText(content);
