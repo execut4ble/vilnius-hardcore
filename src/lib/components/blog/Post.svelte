@@ -54,7 +54,7 @@
 <post>
   {#if !isEditing}
     {#if page.params.slug !== slug}
-      <h2><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
+      <h2 class="title"><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
     {/if}
     {#if page.url.pathname !== "/" && page.data.user}
       <div class="actions">
