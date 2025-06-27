@@ -66,11 +66,13 @@
 <h1>Events</h1>
 {#if data.user}
   {#if !entryMode}
-    <button type="button" class="post action" onclick={() => (entryMode = true)}
-      ><Fa icon={faAdd} /> add new</button
+    <button
+      type="button"
+      class="post action new-event"
+      onclick={() => (entryMode = true)}><Fa icon={faAdd} /> add new</button
     >
   {:else}
-    <div transition:slide>
+    <div transition:slide class="event-entry-form">
       <h2><strong>Add new event</strong></h2>
       <div class="formRow">
         <EventEntryForm

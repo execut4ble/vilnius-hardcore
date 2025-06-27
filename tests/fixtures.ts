@@ -2,7 +2,7 @@ import { test as base } from "@playwright/test";
 import { LoginPage } from "./models/login.page";
 import { CrewPage } from "./models/crew.page";
 import { Layout } from "./models/layout";
-import { EventsListPage } from "./models/eventsList.page";
+import { EventsListPage } from "./models/events-list.page";
 import { EventPage } from "./models/event.page";
 import { BlogPage } from "./models/blog.page";
 import { PostPage } from "./models/post.page";
