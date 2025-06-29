@@ -9,26 +9,30 @@ export class EventsListPage {
   readonly inputEventDate: Locator;
   readonly inputEventDescription: Locator;
   readonly chkBoxEventVisible: Locator;
-  readonly btnCreateEvent: Locator;
-  readonly labelEventDate: Locator;
-  readonly labelEventDescription: Locator;
+  readonly btnSaveEvent: Locator;
+  readonly btnEditEvent: Locator;
+  readonly btnDeleteEvent: Locator;
+  readonly labelConfirmDelete: Locator;
+  readonly btnConfirmDelete: Locator;
+  readonly btnDeclineDelete: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.linkEvent = page.locator("ul.eventList event h2.title a");
     this.btnAddNewEvent = page.locator("button.new-event");
-    this.formEventEntry = page.locator("div.event-entry-form");
+    this.formEventEntry = page.locator("form.newEvent");
     this.inputEventTitle = page.locator("form.newEvent input#title");
     this.inputEventDate = page.locator("form.newEvent input#date");
     this.inputEventDescription = page.locator(
       "form.newEvent textarea#description",
     );
     this.chkBoxEventVisible = page.locator("form.newEvent input#is_visible");
-    this.btnCreateEvent = page.locator("form.newEvent button[type='submit']");
-    this.labelEventDate = page.locator("event div.meta > p.date");
-    this.labelEventDescription = page.locator(
-      "event div.eventBody div.description",
-    );
+    this.btnSaveEvent = page.locator("form.newEvent button[type='submit']");
+    this.btnEditEvent = page.locator("event button#edit");
+    this.btnDeleteEvent = page.locator("event button#delete");
+    this.labelConfirmDelete = page.locator("button#delete + div.confirm");
+    this.btnConfirmDelete = page.locator("div.confirm > button[type='submit']");
+    this.btnDeclineDelete = page.locator("div.confirm > button[type='button']");
   }
 
   async openFirstEvent() {
@@ -49,7 +53,7 @@ export class EventsListPage {
     await this.inputEventDate.fill(date.toISOString().slice(0, 16));
     await this.inputEventDescription.fill(description);
     await this.chkBoxEventVisible.setChecked(isVisible);
-    await this.btnCreateEvent.click();
+    await this.btnSaveEvent.click();
   }
 
   async createEventAndVerifyContent(
@@ -62,7 +66,30 @@ export class EventsListPage {
     await this.createNewEvent(title, date, description, isVisible);
     await expect(this.formEventEntry).not.toBeVisible();
     await expect(this.linkEvent).toHaveCount(eventCount + 1);
-    await expect(this.linkEvent.first()).toHaveText(title);
-    await expect(this.labelEventDescription.first()).toHaveText(description);
+    await expect(this.page.getByRole("heading", { name: title })).toBeVisible();
+    await expect(this.page.getByText(description)).toBeVisible();
+  }
+
+  async clickDeleteAndDecline() {
+    await expect(this.linkEvent.first()).toBeVisible();
+    const eventTitle: string | null = await this.linkEvent
+      .first()
+      .textContent();
+    await this.btnDeleteEvent.first().click();
+    await expect(this.labelConfirmDelete).toBeVisible();
+    await this.btnDeclineDelete.click();
+    await expect(this.labelConfirmDelete).not.toBeVisible();
+    await expect(this.page.getByText(eventTitle as string)).toBeVisible();
+  }
+
+  async clickDeleteAndConfirm() {
+    await expect(this.linkEvent.first()).toBeVisible();
+    const eventTitle: string | null = await this.linkEvent
+      .first()
+      .textContent();
+    await this.btnDeleteEvent.first().click();
+    await expect(this.labelConfirmDelete).toBeVisible();
+    await this.btnConfirmDelete.click();
+    await expect(this.page.getByText(eventTitle as string)).not.toBeVisible();
   }
 }

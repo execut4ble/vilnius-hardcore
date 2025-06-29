@@ -34,6 +34,7 @@
     value={page.params.slug ? page.params.slug : slug}
   />
   <button
+    id="delete"
     type="button"
     class="post action"
     onclick={() => (confirmDelete = true)}

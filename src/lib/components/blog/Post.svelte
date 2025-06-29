@@ -58,7 +58,7 @@
     {/if}
     {#if page.url.pathname !== "/" && page.data.user}
       <div class="actions">
-        <button class="post action" onclick={() => (isEditing = true)}
+        <button id="edit" class="post action" onclick={() => (isEditing = true)}
           ><Fa icon={faPenToSquare} /> edit</button
         >
         <RemoveItemForm {slug} action="?/remove_post" />
