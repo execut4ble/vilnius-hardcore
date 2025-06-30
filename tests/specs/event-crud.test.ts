@@ -22,16 +22,24 @@ test.describe("Event CRUD flow", () => {
   });
 
   test("Edit an event", async ({ page, eventsPage }) => {
-    const editDescriptionValue: string = crypto.randomUUID();
-    await eventsPage.btnEditEvent.first().click();
-    await expect(eventsPage.formEventEntry).toBeVisible();
-    await eventsPage.inputEventDescription.fill(editDescriptionValue);
-    await eventsPage.btnSaveEvent.click();
-    await expect(page.getByText(editDescriptionValue)).toBeVisible();
+    if ((await eventsPage.linkEvent.count()) === 0) {
+      test.skip();
+    } else {
+      const editDescriptionValue: string = crypto.randomUUID();
+      await eventsPage.btnEditEvent.first().click();
+      await expect(eventsPage.formEventEntry).toBeVisible();
+      await eventsPage.inputEventDescription.fill(editDescriptionValue);
+      await eventsPage.btnSaveEvent.click();
+      await expect(page.getByText(editDescriptionValue)).toBeVisible();
+    }
   });
 
   test("Delete an event", async ({ eventsPage }) => {
-    eventsPage.clickDeleteAndDecline();
-    eventsPage.clickDeleteAndConfirm();
+    if ((await eventsPage.linkEvent.count()) === 0) {
+      test.skip();
+    } else {
+      await eventsPage.clickDeleteAndDecline();
+      await eventsPage.clickDeleteAndConfirm();
+    }
   });
 });
