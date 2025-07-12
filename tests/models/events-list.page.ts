@@ -15,6 +15,7 @@ export class EventsListPage {
   readonly labelConfirmDelete: Locator;
   readonly btnConfirmDelete: Locator;
   readonly btnDeclineDelete: Locator;
+  readonly labelItemCount: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -33,12 +34,17 @@ export class EventsListPage {
     this.labelConfirmDelete = page.locator("button#delete + div.confirm");
     this.btnConfirmDelete = page.locator("div.confirm > button[type='submit']");
     this.btnDeclineDelete = page.locator("div.confirm > button[type='button']");
+    this.labelItemCount = page.locator("div.itemCount");
   }
 
   async openFirstEvent() {
     await this.linkEvent.first().click();
     const eventUrl = await this.linkEvent.first().getAttribute("href");
     await expect(this.page).toHaveURL(eventUrl as string);
+  }
+
+  async getItemCount(): Promise<number> {
+    return Number((await this.labelItemCount.textContent() as string).split("out of").pop())
   }
 
   async createNewEvent(
@@ -62,10 +68,10 @@ export class EventsListPage {
     description: string,
     isVisible: boolean,
   ) {
-    const eventCount = await this.linkEvent.count();
+    const eventCount = await this.getItemCount();
     await this.createNewEvent(title, date, description, isVisible);
     await expect(this.formEventEntry).not.toBeVisible();
-    await expect(this.linkEvent).toHaveCount(eventCount + 1);
+    expect(await this.getItemCount()).toEqual(eventCount + 1);
     await expect(this.page.getByRole("heading", { name: title })).toBeVisible();
     await expect(this.page.getByText(description)).toBeVisible();
   }
