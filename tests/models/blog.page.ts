@@ -59,7 +59,6 @@ export class BlogPage {
     content: string,
   ) {
     const postCount = await this.getItemCount();
-    console.log(postCount);
     await this.createNewPost(title, content);
     await expect(this.formPostEntry).not.toBeVisible();
     expect(await this.getItemCount()).toEqual(postCount + 1);
