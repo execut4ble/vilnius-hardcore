@@ -3,15 +3,18 @@
   let { recentComments }: { recentComments: RecentCommentsData } = $props();
   import { relativeTime } from "svelte-relative-time";
   import { slide } from "svelte/transition";
+  import { m } from "$lib/paraglide/messages.js";
+  import { getLocale } from "$lib/paraglide/runtime";
 </script>
 
 <div class="recentComments">
-  <h3><strong>Recent comments</strong></h3>
+  <h3><strong>{m.recent_comments()}</strong></h3>
   <ul>
     {#each recentComments as comment (comment.id)}
       <li class="comment" transition:slide>
         <div class="content">
-          {comment.author} on
+          {comment.author}
+          {m.commented_on()}
           {#if comment.event_slug}
             <a href="/events/{comment.event_slug}#comments"
               >{comment.event_name}</a
@@ -23,13 +26,16 @@
         </div>
         <div
           class="font-size-small"
-          use:relativeTime={{ date: new Date(comment.date) }}
+          use:relativeTime={{
+            date: new Date(comment.date),
+            locale: getLocale(),
+          }}
         >
-          some time ago
+          {` `}
         </div>
       </li>
     {:else}
-      <div transition:slide>No comments found.</div>
+      <div transition:slide>{m.no_comments()}</div>
     {/each}
   </ul>
 </div>

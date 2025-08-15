@@ -4,6 +4,7 @@
   import { faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
+  import { m } from "$lib/paraglide/messages.js";
 
   let {
     form,
@@ -25,14 +26,14 @@
   autocomplete="off"
   use:enhance={enhanceFunction}
 >
-  <label for="title">Title</label>
+  <label for="title">{m["form.title"]()}</label>
   {#if post.title}
     <input id="title" name="title" value={post.title} required />
   {:else}
     <input id="title" name="title" bind:value={newPostTitle} required />
   {/if}
   <FieldError errors={form?.errors?.title} />
-  <label id="body" for="body">Post body</label>
+  <label id="body" for="body">{m["form.body"]()}</label>
   {#if post.body}
     <textarea name="body" spellcheck="false" value={post.body} required
     ></textarea>
@@ -42,7 +43,9 @@
   {/if}
   <FieldError errors={form?.errors?.body} />
   <br />
-  <button type="submit" class="post action"><Fa icon={faSave} /> save</button>
+  <button type="submit" class="post action"
+    ><Fa icon={faSave} /> {m.save()}</button
+  >
   <button
     type="button"
     class="post action"
@@ -53,15 +56,15 @@
       } else {
         confirmCancel = true;
       }
-    }}><Fa icon={faXmark} /> cancel</button
+    }}><Fa icon={faXmark} /> {m.cancel()}</button
   >
   {#if confirmCancel}<br /><br />
     <div transition:slide>
-      <strong>really cancel?</strong>
+      <strong>{m.cancel_confirm()}</strong>
       <button
         class="post action"
         type="button"
-        onclick={() => (confirmCancel = false)}>no!</button
+        onclick={() => (confirmCancel = false)}>{m.no()}</button
       >
       <button
         type="button"
@@ -71,7 +74,7 @@
           newPostTitle = "";
           newPostBody = "";
           confirmCancel = false;
-        }}>yes!</button
+        }}>{m.yes()}</button
       >
     </div>
   {/if}

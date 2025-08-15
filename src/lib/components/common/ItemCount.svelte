@@ -1,8 +1,11 @@
 <script lang="ts">
   let { displayedItems, totalItems } = $props();
+  import { m } from "$lib/paraglide/messages.js";
 </script>
 
-<div class="itemCount">Showing {displayedItems} out of {totalItems}</div>
+<div class="itemCount">
+  {m.showing({ showCount: displayedItems, totalCount: totalItems })}
+</div>
 
 <style>
   div.itemCount {
