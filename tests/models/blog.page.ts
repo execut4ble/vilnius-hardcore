@@ -21,9 +21,7 @@ export class BlogPage {
     this.btnAddNewPost = page.locator("button.new-post");
     this.formPostEntry = page.locator("form.newPost");
     this.inputPostTitle = page.locator("form.newPost input#title");
-    this.inputPostContent = page.locator(
-      "form.newPost textarea#description",
-    );
+    this.inputPostContent = page.locator("form.newPost textarea#description");
     this.btnSavePost = page.locator("form.newPost button[type='submit']");
     this.btnEditPost = page.locator("post button#edit");
     this.btnDeletePost = page.locator("post button#delete");
@@ -34,7 +32,11 @@ export class BlogPage {
   }
 
   async getItemCount(): Promise<number> {
-    return Number((await this.labelItemCount.textContent() as string).split("out of").pop())
+    return Number(
+      ((await this.labelItemCount.textContent()) as string)
+        .split("out of")
+        .pop(),
+    );
   }
 
   async openFirstPost() {
@@ -43,10 +45,7 @@ export class BlogPage {
     await expect(this.page).toHaveURL(postUrl as string);
   }
 
-  async createNewPost(
-    title: string,
-    content: string,
-  ) {
+  async createNewPost(title: string, content: string) {
     await this.btnAddNewPost.click();
     await expect(this.formPostEntry).toBeVisible();
     await this.inputPostTitle.fill(title);
@@ -54,10 +53,7 @@ export class BlogPage {
     await this.btnSavePost.click();
   }
 
-  async createPostAndVerifyContent(
-    title: string,
-    content: string,
-  ) {
+  async createPostAndVerifyContent(title: string, content: string) {
     const postCount = await this.getItemCount();
     await this.createNewPost(title, content);
     await expect(this.formPostEntry).not.toBeVisible();
@@ -68,24 +64,24 @@ export class BlogPage {
 
   async clickDeleteAndDecline() {
     await expect(this.linkPost.first()).toBeVisible();
-    const postTitle: string | null = await this.linkPost
-      .first()
-      .textContent();
+    const postTitle: string | null = await this.linkPost.first().textContent();
     await this.btnDeletePost.first().click();
     await expect(this.labelConfirmDelete).toBeVisible();
     await this.btnDeclineDelete.click();
     await expect(this.labelConfirmDelete).not.toBeVisible();
-    await expect(this.page.getByText(postTitle as string)).toBeVisible();
+    await expect(
+      this.page.getByRole("heading", { name: postTitle as string }),
+    ).toBeVisible();
   }
 
   async clickDeleteAndConfirm() {
     await expect(this.linkPost.first()).toBeVisible();
-    const postTitle: string | null = await this.linkPost
-      .first()
-      .textContent();
+    const postTitle: string | null = await this.linkPost.first().textContent();
     await this.btnDeletePost.first().click();
     await expect(this.labelConfirmDelete).toBeVisible();
     await this.btnConfirmDelete.click();
-    await expect(this.page.getByText(postTitle as string)).not.toBeVisible();
+    await expect(
+      this.page.getByRole("heading", { name: postTitle as string }),
+    ).not.toBeVisible();
   }
 }
