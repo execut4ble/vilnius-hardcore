@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: production
     services:
       db:
         image: postgres:15
@@ -18,7 +19,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
         options: >-
-          --health-cmd="pg_isready -U user -d local"
+          --health-cmd="pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
