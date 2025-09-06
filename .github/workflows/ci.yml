@@ -26,6 +26,8 @@ jobs:
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      TEST_USER: ${{ secrets.TEST_USER }}
+      TEST_USER_PASS: ${{ secrets.TEST_USER_PASS }}
 
     steps:
       - name: Checkout repository
