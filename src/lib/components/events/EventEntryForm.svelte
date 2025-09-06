@@ -100,7 +100,7 @@
       if (!newEventTitle && !newEventDate && !newEventDescription) {
         entryMode = false;
         confirmCancel = false;
-        selectedImage = null;
+        selectedImage = undefined;
         displayImage = event.image;
       } else {
         confirmCancel = true;
