@@ -53,7 +53,7 @@ jobs:
           backup_file: "tests/testdb.sql"
 
       - name: Run database migrations
-        run: npm run db:push
+        run: npx drizzle-kit push --force
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
