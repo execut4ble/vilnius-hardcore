@@ -44,7 +44,11 @@ export class EventsListPage {
   }
 
   async getItemCount(): Promise<number> {
-    return Number((await this.labelItemCount.textContent() as string).split("out of").pop())
+    return Number(
+      ((await this.labelItemCount.textContent()) as string)
+        .split("out of")
+        .pop(),
+    );
   }
 
   async createNewEvent(
@@ -85,7 +89,9 @@ export class EventsListPage {
     await expect(this.labelConfirmDelete).toBeVisible();
     await this.btnDeclineDelete.click();
     await expect(this.labelConfirmDelete).not.toBeVisible();
-    await expect(this.page.getByText(eventTitle as string)).toBeVisible();
+    await expect(
+      this.page.getByRole("heading", { name: eventTitle as string }),
+    ).toBeVisible();
   }
 
   async clickDeleteAndConfirm() {
@@ -96,6 +102,8 @@ export class EventsListPage {
     await this.btnDeleteEvent.first().click();
     await expect(this.labelConfirmDelete).toBeVisible();
     await this.btnConfirmDelete.click();
-    await expect(this.page.getByText(eventTitle as string)).not.toBeVisible();
+    await expect(
+      this.page.getByRole("heading", { name: eventTitle as string }),
+    ).not.toBeVisible();
   }
 }
