@@ -12,6 +12,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.0
+      options: --ipc=host
     services:
       db:
         image: postgres:15
@@ -54,9 +57,6 @@ jobs:
 
       - name: Run database migrations
         run: npx drizzle-kit push --force
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
 
       - name: Run Playwright tests
         run: npm run test
