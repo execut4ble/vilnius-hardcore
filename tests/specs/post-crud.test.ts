@@ -15,11 +15,10 @@ test.describe("Post CRUD flow", () => {
   test("Create a new post", async ({ blogPage }) => {
     await blogPage.createPostAndVerifyContent(
       crypto.randomUUID(),
-      crypto.randomUUID()
+      crypto.randomUUID(),
     );
   });
 
-  // TODO: Delete and edit
   test("Edit a post", async ({ page, blogPage }) => {
     if ((await blogPage.linkPost.count()) === 0) {
       test.skip();
