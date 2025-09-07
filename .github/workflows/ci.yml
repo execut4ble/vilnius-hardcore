@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.53.1-noble
-      options: --user 1001
     services:
       db:
         image: postgres:15
@@ -29,8 +28,6 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
-        volumes:
-          - ${{ github.workspace }}/init.sql:/docker-entrypoint-initdb.d/init.sql
 
     env:
       DATABASE_URL: postgres://${{secrets.CI_DB_USER}}:${{secrets.CI_DB_PASS}}@db:5432/${{secrets.CI_DB_NAME}}
@@ -47,8 +44,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run database migrations
+      - name: Initialize database schema
         run: npx drizzle-kit push --force
+
+      - name: Run database migrations
+        run: npx drizzle-kit migrate
 
       - name: Run Playwright tests
         run: npm run test
