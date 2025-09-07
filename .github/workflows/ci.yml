@@ -30,7 +30,7 @@ jobs:
           --health-timeout=5s
           --health-retries=5
         volumes:
-          - ${{ github.workspace }}/tests:/docker-entrypoint-initdb.d
+          - ${{ github.workspace }}/init.sql:/docker-entrypoint-initdb.d/init.sql
 
     env:
       DATABASE_URL: postgres://${{secrets.CI_DB_USER}}:${{secrets.CI_DB_PASS}}@db:5432/${{secrets.CI_DB_NAME}}
