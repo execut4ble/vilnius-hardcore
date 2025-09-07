@@ -38,7 +38,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          set-safe-directory: $GITHUB_WORKSPACE
+          set-safe-directory: "*"
 
       - name: Install dependencies
         run: npm ci
