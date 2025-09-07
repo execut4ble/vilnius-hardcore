@@ -47,11 +47,11 @@ jobs:
       - name: Initialize database schema
         run: npx drizzle-kit push --force
 
-      - name: Initialize database triggers
-        run: npm run db:setup-triggers
-
       - name: Insert database seed data
         run: npx drizzle-kit migrate
+
+      - name: Initialize database triggers
+        run: npm run db:setup-triggers
 
       - name: Run Playwright tests
         run: npm run test
