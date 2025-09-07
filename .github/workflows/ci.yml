@@ -37,9 +37,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Mark repo as safe
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+        with:
+          set-safe-directory: $GITHUB_WORKSPACE
 
       - name: Install dependencies
         run: npm ci
