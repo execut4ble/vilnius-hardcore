@@ -28,4 +28,4 @@
     <button>Login</button>
   {/if}
 </form>
-<p style="color: red">{form?.message ?? ""}</p>
+<p class="error" style="color: red">{form?.message ?? ""}</p>

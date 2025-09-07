@@ -1,9 +1,9 @@
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
-import { fail } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
 import { postInsertSchema, postUpdateSchema } from "$lib/server/db/validations";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const postActions = {
   update_post: async ({ locals, request }) => {
@@ -23,8 +23,11 @@ export const postActions = {
       return response;
     } catch (err) {
       if (err instanceof z.ZodError) {
-        const { fieldErrors: errors } = err.flatten();
+        const { fieldErrors: errors } = z.flattenError(err);
         return fail(400, { errors });
+      } else {
+        console.error(err);
+        return error(500, "Something went wrong");
       }
     }
   },
@@ -41,8 +44,11 @@ export const postActions = {
       await db.insert(table.post).values(post);
     } catch (err) {
       if (err instanceof z.ZodError) {
-        const { fieldErrors: errors } = err.flatten();
+        const { fieldErrors: errors } = z.flattenError(err);
         return fail(400, { errors });
+      } else {
+        console.error(err);
+        return error(500, "Something went wrong");
       }
     }
   },

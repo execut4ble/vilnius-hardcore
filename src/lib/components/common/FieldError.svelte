@@ -2,9 +2,11 @@
   let { errors } = $props();
 </script>
 
-<div class="fieldError">
-  {errors?.join("\r\n") ?? ""}
-</div>
+{#if errors}
+  <div class="fieldError">
+    {errors?.join("\r\n") ?? ""}
+  </div>
+{/if}
 
 <style>
   div.fieldError {

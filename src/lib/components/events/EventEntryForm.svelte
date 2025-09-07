@@ -67,10 +67,15 @@
   <hr class="dim" />
   <label id="description" for="description">Description</label>
   {#if event.description}
-    <textarea name="description" spellcheck="false" value={event.description}
+    <textarea
+      id="description"
+      name="description"
+      spellcheck="false"
+      value={event.description}
     ></textarea>
   {:else}
     <textarea
+      id="description"
       name="description"
       spellcheck="false"
       bind:value={newEventDescription}
@@ -95,7 +100,7 @@
       if (!newEventTitle && !newEventDate && !newEventDescription) {
         entryMode = false;
         confirmCancel = false;
-        selectedImage = null;
+        selectedImage = undefined;
         displayImage = event.image;
       } else {
         confirmCancel = true;
