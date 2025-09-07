@@ -15,6 +15,20 @@
       "when": 1757272593194,
       "tag": "0001_seed-users",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757273592902,
+      "tag": "0002_seed-events",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757273598618,
+      "tag": "0003_seed-posts",
+      "breakpoints": true
     }
   ]
 }

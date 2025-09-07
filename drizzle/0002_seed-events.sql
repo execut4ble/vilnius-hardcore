@@ -1,0 +1,3 @@
+-- Custom SQL migration file, put your code below! --
+INSERT INTO "event" ("id", "title", "date", "description", "slug", "is_visible") VALUES(1, 'Test future event', '9999-01-01 12:34:00', 'This event is in the future', 'test-future-event', true);
+INSERT INTO "event" ("id", "title", "date", "description", "slug", "is_visible") VALUES(2, 'Test past event', '2007-11-20 20:00:00', 'Zhiurkės [vno]\nAnarres [kns]\nNagasaki Nightmare [it]', 'test-past-event', true);
