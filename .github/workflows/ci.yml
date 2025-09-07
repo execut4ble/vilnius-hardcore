@@ -29,6 +29,8 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
+        volumes:
+          - ./tests/testdb.sql:/docker-entrypoint-initdb.d/testdb.sql
 
     env:
       DATABASE_URL: postgres://${{secrets.CI_DB_USER}}:${{secrets.CI_DB_PASS}}@db:5432/${{secrets.CI_DB_NAME}}
@@ -39,18 +41,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Mark repo as safe
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
       - name: Install dependencies
         run: npm ci
-
-      - name: Install PostgreSQL client
-        run: apt-get update && apt-get install -y postgresql-client
-
-      # Run pg-restore
-      - name: Postgres Backup Restore
-        uses: tj-actions/pg-restore@v6
-        with:
-          database_url: postgres://${{secrets.CI_DB_USER}}:${{secrets.CI_DB_PASS}}@db:5432/${{secrets.CI_DB_NAME}}
-          backup_file: "tests/testdb.sql"
 
       - name: Run database migrations
         run: npx drizzle-kit push --force
