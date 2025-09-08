@@ -1,4 +1,4 @@
-name: CI
+name: Playwright e2e tests
 
 on:
   push:
