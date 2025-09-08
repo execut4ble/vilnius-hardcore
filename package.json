@@ -11,8 +11,6 @@
     "format": "prettier --write .",
     "db:start": "docker compose up",
     "db:push": "drizzle-kit push",
-    "db:setup-triggers": "tsx src/lib/server/db/triggers.ts",
-    "db:init": "npm run db:push && npm run db:setup-triggers",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "lint": "eslint .",

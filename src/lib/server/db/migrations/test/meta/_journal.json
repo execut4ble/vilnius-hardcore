@@ -29,6 +29,13 @@
       "when": 1757363768776,
       "tag": "0003_seed-test-content",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1757365478376,
+      "tag": "0004_init-triggers",
+      "breakpoints": true
     }
   ]
 }

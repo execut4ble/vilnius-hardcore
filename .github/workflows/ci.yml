@@ -45,7 +45,7 @@ jobs:
         run: npm ci
 
       - name: Initialize database and seed data
-        run: npx drizzle-kit push --force && npx drizzle-kit migrate && npm run db:setup-triggers
+        run: npx drizzle-kit migrate --config=drizzle.test.config.ts
 
       - name: Run Playwright tests
         run: npm run test
