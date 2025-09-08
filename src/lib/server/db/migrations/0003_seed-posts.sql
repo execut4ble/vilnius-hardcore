@@ -1,2 +1,0 @@
--- Custom SQL migration file, put your code below! --
-INSERT INTO "post" ("user_id", "title", "date", "body", "slug") VALUES('wrzxjrwvl55o6jpykdohdrpo', 'Test blog post', '2025-06-27 05:50:44.913198+00', 'Hello!', 'test-blog-post');

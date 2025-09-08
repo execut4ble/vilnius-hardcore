@@ -12,22 +12,22 @@
     {
       "idx": 1,
       "version": "7",
-      "when": 1757272593194,
-      "tag": "0001_seed-users",
+      "when": 1757363702241,
+      "tag": "0001_seed-schema",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1757273592902,
-      "tag": "0002_seed-events",
+      "when": 1757363744404,
+      "tag": "0002_seed-test-users",
       "breakpoints": true
     },
     {
       "idx": 3,
       "version": "7",
-      "when": 1757273598618,
-      "tag": "0003_seed-posts",
+      "when": 1757363768776,
+      "tag": "0003_seed-test-content",
       "breakpoints": true
     }
   ]
