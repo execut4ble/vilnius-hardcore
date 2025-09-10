@@ -29,7 +29,12 @@
   <input id="author" name="author" required maxlength="30" />
   <FieldError errors={form?.errors?.author} />
   <label id="content" for="content">{m["form.comment"]()}</label>
-  <textarea name="content" spellcheck="false" required maxlength="250"
+  <textarea
+    id="content"
+    name="content"
+    spellcheck="false"
+    required
+    maxlength="250"
   ></textarea>
   <FieldError errors={form?.errors?.content} />
   <label for="acab">{m["form.acab_captcha"]()}</label>

@@ -67,11 +67,13 @@
 <h1>{m["navigation.events"]()}</h1>
 {#if data.user}
   {#if !entryMode}
-    <button type="button" class="post action" onclick={() => (entryMode = true)}
-      ><Fa icon={faAdd} /> {m.add_new()}</button
+    <button
+      type="button"
+      class="post action new-event"
+      onclick={() => (entryMode = true)}><Fa icon={faAdd} /> {m.add_new()}</button
     >
   {:else}
-    <div transition:slide>
+    <div transition:slide class="event-entry-form">
       <h2><strong>{m.add_new_event()}</strong></h2>
       <div class="formRow">
         <EventEntryForm

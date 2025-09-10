@@ -1,0 +1,51 @@
+name: Playwright e2e tests
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - ".gitignore"
+      - "*.md"
+      - "LICENSE*"
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.53.1-noble
+    services:
+      db:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: ${{ secrets.CI_DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.CI_DB_PASS }}
+          POSTGRES_DB: ${{ secrets.CI_DB_NAME }}
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgres://${{secrets.CI_DB_USER}}:${{secrets.CI_DB_PASS}}@db:5432/${{secrets.CI_DB_NAME}}
+      TEST_USER: ${{ secrets.TEST_USER }}
+      TEST_USER_PASS: ${{ secrets.TEST_USER_PASS }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Mark repo as safe
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Initialize database and seed data
+        run: npx drizzle-kit migrate --config=drizzle.test.config.ts
+
+      - name: Run Playwright tests
+        run: npm run test

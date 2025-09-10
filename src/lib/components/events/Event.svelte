@@ -96,56 +96,57 @@
             {m.draft()}
           </div>
         {/if}
-        <div class="title">
-          {#if !isEditing}
-            <h2>
-              {#if detailed}
-                <strong>{event.title ? event.title : ""}</strong>
-              {:else}
-                <a href="/events/{slug}"
-                  ><strong>{event.title ? event.title : ""}</strong></a
-                >{/if}
-            </h2>
-            {#if page.url.pathname !== "/" && page.data.user}
-              <div class="actions">
-                <button class="post action" onclick={() => (isEditing = true)}
-                  ><Fa icon={faPenToSquare} /> {m.edit()}</button
-                >
-                <RemoveItemForm {slug} action="?/remove_event" />
-              </div>
+        {#if !isEditing}
+          <h2 class="title">
+            {#if detailed}
+              <strong>{event.title ? event.title : ""}</strong>
+            {:else}
+              <a href="/events/{slug}"
+                ><strong>{event.title ? event.title : ""}</strong></a
+              >{/if}
+          </h2>
+          {#if page.url.pathname !== "/" && page.data.user}
+            <div class="actions">
+              <button
+                id="edit"
+                class="post action"
+                onclick={() => (isEditing = true)}
+                ><Fa icon={faPenToSquare} /> {m.edit()}</button
+              >
+              <RemoveItemForm {slug} action="?/remove_event" />
+            </div>
+          {/if}
+          <div class="meta">
+            <p class="date">
+              {date}
+            </p>
+            {#if !detailed}
+              <CommentCount
+                taxonomy="events"
+                {slug}
+                commentCount={event.comments}
+              />
             {/if}
-            <div class="meta">
-              <p class="date">
-                {date}
-              </p>
-              {#if !detailed}
-                <CommentCount
-                  taxonomy="events"
-                  {slug}
-                  commentCount={event.comments}
-                />
+          </div>
+          <hr class="dim" />
+          <div class="eventBody">
+            <div class="description">
+              {#if md}
+                <Markdown {md} />
               {/if}
             </div>
-            <hr class="dim" />
-            <div class="eventBody">
-              <div class="description">
-                {#if md}
-                  <Markdown {md} />
-                {/if}
-              </div>
-            </div>
-          {:else}
-            <EventEntryForm
-              {form}
-              formAction="?/update_event"
-              enhanceFunction={updateEvent}
-              bind:entryMode={isEditing}
-              bind:displayImage={imageFilename}
-              bind:selectedImage
-              {...event}
-            />
-          {/if}
-        </div>
+          </div>
+        {:else}
+          <EventEntryForm
+            {form}
+            formAction="?/update_event"
+            enhanceFunction={updateEvent}
+            bind:entryMode={isEditing}
+            bind:displayImage={imageFilename}
+            bind:selectedImage
+            {...event}
+          />
+        {/if}
       </div>
       <div>
         {#if isEditing}
@@ -231,7 +232,7 @@
     white-space: pre-line;
   }
 
-  div.title h2 {
+  h2.title {
     margin-bottom: 0.25em;
   }
 

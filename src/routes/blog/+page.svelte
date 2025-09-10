@@ -52,8 +52,9 @@
 <h1>{m["navigation.blog"]()}</h1>
 {#if data.user}
   {#if !entryMode}
-    <button type="button" class="post action" onclick={() => (entryMode = true)}
-      ><Fa icon={faAdd} /> {m.add_new()}</button
+    <button type="button" 
+    class="post action new-post" 
+    onclick={() => (entryMode = true)}><Fa icon={faAdd} /> {m.add_new()}</button
     >
   {:else}
     <div transition:slide>

@@ -35,10 +35,20 @@
   <FieldError errors={form?.errors?.title} />
   <label id="body" for="body">{m["form.body"]()}</label>
   {#if post.body}
-    <textarea name="body" spellcheck="false" value={post.body} required
+    <textarea
+      id="description"
+      name="body"
+      spellcheck="false"
+      value={post.body}
+      required
     ></textarea>
   {:else}
-    <textarea name="body" spellcheck="false" bind:value={newPostBody} required
+    <textarea
+      id="description"
+      name="body"
+      spellcheck="false"
+      bind:value={newPostBody}
+      required
     ></textarea>
   {/if}
   <FieldError errors={form?.errors?.body} />
