@@ -1,4 +1,4 @@
-name: CI
+name: Playwright e2e tests
 
 on:
   push:
@@ -12,6 +12,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.53.1-noble
     services:
       db:
         image: postgres:15
@@ -28,7 +30,7 @@ jobs:
           --health-retries=5
 
     env:
-      DATABASE_URL: ${{ secrets.CI_DB_URL }}
+      DATABASE_URL: postgres://${{secrets.CI_DB_USER}}:${{secrets.CI_DB_PASS}}@db:5432/${{secrets.CI_DB_NAME}}
       TEST_USER: ${{ secrets.TEST_USER }}
       TEST_USER_PASS: ${{ secrets.TEST_USER_PASS }}
 
@@ -36,35 +38,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
+      - name: Mark repo as safe
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
       - name: Install dependencies
         run: npm ci
 
-      # Run pg-restore
-      - name: Postgres Backup Restore
-        uses: tj-actions/pg-restore@v6
-        with:
-          database_url: ${{ secrets.CI_DB_URL }}
-          backup_file: "tests/testdb.sql"
-
-      - name: Run database migrations
-        run: npx drizzle-kit push --force
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            playwright-browsers-${{ runner.os }}-
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Initialize database and seed data
+        run: npx drizzle-kit migrate --config=drizzle.test.config.ts
 
       - name: Run Playwright tests
         run: npm run test

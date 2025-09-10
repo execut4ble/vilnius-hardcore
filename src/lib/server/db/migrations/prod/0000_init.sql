@@ -1,3 +1,5 @@
+-- Custom SQL migration file, put your code below! --
+
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
 -- DROP FUNCTION public.slugify(text);
