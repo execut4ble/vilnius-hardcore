@@ -9,6 +9,7 @@
   import Fa from "svelte-fa";
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
+  import { m } from "$lib/paraglide/messages.js";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
@@ -59,14 +60,15 @@
     {#if page.url.pathname !== "/" && page.data.user}
       <div class="actions">
         <button id="edit" class="post action" onclick={() => (isEditing = true)}
-          ><Fa icon={faPenToSquare} /> edit</button
+          ><Fa icon={faPenToSquare} /> {m.edit()}</button
         >
         <RemoveItemForm {slug} action="?/remove_post" />
       </div>
     {/if}
     <div class="meta">
       <p class="postInfo">
-        Posted by {authorUsername || authorDisplayName || "anonymous"} | {date}
+        {m.posted_by()}
+        {authorUsername || authorDisplayName || m.anonymous()} | {date}
       </p>
       <CommentCount taxonomy="blog" {slug} commentCount={post.comments} />
     </div>

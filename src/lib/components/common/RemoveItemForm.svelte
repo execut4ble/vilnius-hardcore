@@ -4,6 +4,7 @@
   import { page } from "$app/state";
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
+  import { m } from "$lib/paraglide/messages.js";
 
   let { slug, action } = $props();
   let confirmDelete: boolean = $state(false);
@@ -39,17 +40,17 @@
     class="post action"
     onclick={() => (confirmDelete = true)}
   >
-    <Fa icon={faTrash} /> delete</button
+    <Fa icon={faTrash} /> {m.delete()}</button
   >
   {#if confirmDelete}
     <div class="confirm">
-      <strong>for real?</strong>
+      <strong>{m.delete_confirm()}</strong>
       <button
         class="post action"
         type="button"
-        onclick={() => (confirmDelete = false)}>no!</button
+        onclick={() => (confirmDelete = false)}>{m.no()}</button
       >
-      <button class="post action" type="submit">yes!</button>
+      <button class="post action" type="submit">{m.yes()}</button>
     </div>
   {/if}
 </form>

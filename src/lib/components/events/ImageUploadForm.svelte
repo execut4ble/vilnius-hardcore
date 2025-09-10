@@ -2,6 +2,7 @@
   import { applyAction, deserialize } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
   import type { ActionResult } from "@sveltejs/kit";
+  import { m } from "$lib/paraglide/messages.js";
 
   let {
     selectedImage = $bindable(),
@@ -30,7 +31,7 @@
       result = {
         type: "failure",
         status: 413,
-        data: { message: "Image exceeds file size limits" },
+        data: { message: m["error.file_size_too_big"]() },
       };
     } else {
       result = deserialize(await response.text());
@@ -59,8 +60,8 @@
         : (limitBytes / 1048576).toFixed(2);
 
       fileUploadError = limitMB
-        ? `Image file size exceeds limit of ${limitMB} MB`
-        : "Image exceeds file size limits";
+        ? m["error.file_exceeds_limit"]({ limit: limitMB })
+        : m["error.file_size_too_big"]();
     } else {
       applyAction(result);
     }
@@ -80,7 +81,7 @@
         ? selectedImageToSave
         : displayImage
           ? displayImage
-          : "Select an image"}</label
+          : m["form.select_image"]()}</label
     >
     <input
       type="file"
@@ -104,9 +105,9 @@
   {#if selectedImageToSave && !uploaded}
     <button class="post action" disabled={is_image_uploading}>
       {#if is_image_uploading}
-        Uploading...
+        {m["form.uploading"]()}
       {:else}
-        Upload
+        {m["form.upload"]()}
       {/if}
     </button>
   {/if}
@@ -120,7 +121,7 @@
         selectedImageToSave = "";
       }}
     >
-      Clear image
+      {m["form.clear_image"]()}
     </button>
   {/if}
   {#if fileUploadError}

@@ -29,3 +29,6 @@ docker-compose.yml
 
 nightly.sh
 run.sh
+
+# Paraglide
+src/lib/paraglide
