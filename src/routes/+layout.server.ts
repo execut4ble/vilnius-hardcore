@@ -1,9 +1,10 @@
 import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
+
 import type { LayoutServerLoad } from "./$types";
 import type { RecentCommentsData } from "$lib/types";
 
-export const load: LayoutServerLoad = async ({locals}) => {
+export const load: LayoutServerLoad = async ({ fetch, locals }) => {
   const visibilityClause = locals.user
     ? sql``
     : sql`AND (c.event_id IS NULL OR e.is_visible = TRUE)`;
@@ -25,10 +26,12 @@ export const load: LayoutServerLoad = async ({locals}) => {
   ORDER BY c.date DESC
   LIMIT 5;`);
 
+  const shouts = await fetch("/api/shouts");
+
   // Convert dates to ISO-8601 format (with timezone)
   for (const i in recentComments) {
     recentComments[i].date = new Date(recentComments[i].date).toISOString();
   }
 
-  return { user: locals.user, recentComments };
+  return { user: locals.user, recentComments, shouts: await shouts.json() };
 };

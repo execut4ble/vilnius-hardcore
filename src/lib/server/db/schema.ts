@@ -58,6 +58,13 @@ export const comment = pgTable("comment", {
   content: text("content").notNull(),
 });
 
+export const shout = pgTable("shout", {
+  id: serial("id").primaryKey(),
+  author: text("author").notNull(),
+  date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
+  content: text("content").notNull(),
+});
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
