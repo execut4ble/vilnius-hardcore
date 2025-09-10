@@ -2,10 +2,19 @@ on:
   push:
     branches:
       - main
+  workflow_run:
+    workflows: ["Playwright e2e tests"]
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
   deploy:
+    # only run automatically if tests passed OR if manually dispatched
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     environment: production
     steps:
