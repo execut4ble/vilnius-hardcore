@@ -3,7 +3,7 @@ import * as table from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
 import { error, fail } from "@sveltejs/kit";
 import { postInsertSchema, postUpdateSchema } from "$lib/server/db/validations";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 export const postActions = {
   update_post: async ({ locals, request }) => {
