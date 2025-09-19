@@ -1,3 +1,4 @@
+import { paraglideMiddleware } from "$lib/paraglide/server";
 import * as auth from "$lib/server/auth.js";
 import type { Handle, HandleServerError } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
@@ -36,17 +37,22 @@ export const handleError: HandleServerError = async ({ error, message }) => {
   if ((error as { status?: number })?.status === 413) {
     const errorMessage = (error as { message?: string })?.message;
     if (typeof errorMessage === "string") {
-      return {
-        status: 413,
-        message: errorMessage,
-      };
+      return { status: 413, message: errorMessage };
     }
   }
 
   // For other errors, return the default message
-  return {
-    message: message,
-  };
+  return { message };
 };
 
-export const handle = sequence(handleAuth, handleAppearance);
+const handleParaglide: Handle = ({ event, resolve }) =>
+  paraglideMiddleware(event.request, ({ request, locale }) => {
+    event.request = request;
+
+    return resolve(event, {
+      transformPageChunk: ({ html }) =>
+        html.replace("%paraglide.lang%", locale),
+    });
+  });
+
+export const handle = sequence(handleAuth, handleAppearance, handleParaglide);

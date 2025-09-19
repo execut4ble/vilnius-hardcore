@@ -8,9 +8,12 @@ import type { Actions, PageServerLoad } from "./$types";
 import { hash } from "@node-rs/argon2";
 import {
   generateUserId,
+  passwordSchema,
+  usernameSchema,
   validatePassword,
   validateUsername,
 } from "$lib/server/user";
+import { z } from "zod";
 
 export const load: PageServerLoad = async (event) => {
   if ((await getUserCount()) === 0) {
@@ -66,36 +69,38 @@ export const actions: Actions = {
     const username = formData.get("username");
     const password = formData.get("password");
 
+    if (typeof username !== "string" || typeof password !== "string") {
+      return fail(400, { message: "Invalid form data" });
+    }
+
     if ((await getUserCount()) > 0) {
       return fail(403, { message: "A user already exists" });
     }
-    if (!validateUsername(username)) {
-      return fail(400, { message: "Invalid username" });
-    }
-    if (!validatePassword(password)) {
-      return fail(400, { message: "Invalid password" });
-    }
-
-    const userId = generateUserId();
-    const passwordHash = await hash(password, {
-      // recommended minimum parameters
-      memoryCost: 19456,
-      timeCost: 2,
-      outputLen: 32,
-      parallelism: 1,
-    });
 
     try {
+      usernameSchema.parse(username);
+      passwordSchema.parse(password);
+
+      const userId = generateUserId();
+      const passwordHash = await hash(password as string, {
+        // recommended minimum parameters
+        memoryCost: 19456,
+        timeCost: 2,
+        outputLen: 32,
+        parallelism: 1,
+      });
+
       await db
         .insert(table.user)
         .values({ id: userId, username, passwordHash });
-
-      const sessionToken = auth.generateSessionToken();
-      const session = await auth.createSession(sessionToken, userId);
-      auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
-    } catch (e) {
-      console.error(e);
-      return fail(500, { message: "An error has occurred" });
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const { errors } = z.treeifyError(err);
+        return fail(400, { message: errors });
+      } else {
+        console.error(err);
+        return fail(500, { message: "An error has occurred" });
+      }
     }
     return redirect(302, "/crew");
   },
