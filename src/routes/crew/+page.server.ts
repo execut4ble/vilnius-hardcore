@@ -42,7 +42,7 @@ export const actions: Actions = {
     const newPasswordRepeat = formData.get("newPassRepeat");
 
     if (event.locals.user === null) {
-      return fail(403, { msg: "Not logged in" });
+      return fail(403, { message: "Not logged in" });
     }
 
     if (
@@ -50,7 +50,7 @@ export const actions: Actions = {
       typeof newPassword !== "string" ||
       typeof newPasswordRepeat !== "string"
     ) {
-      return fail(400, { msg: "Invalid form data" });
+      return fail(400, { message: "Invalid form data" });
     }
 
     const results = await db
@@ -99,10 +99,10 @@ export const actions: Actions = {
     } catch (e) {
       if (e instanceof z.ZodError) {
         const { errors } = z.treeifyError(e);
-        return fail(400, { msg: errors });
+        return fail(400, { message: errors });
       } else {
         console.error(e);
-        return fail(500, { msg: "An error has occurred" });
+        return fail(500, { message: "An error has occurred" });
       }
     }
     return redirect(302, "/crew/login");
