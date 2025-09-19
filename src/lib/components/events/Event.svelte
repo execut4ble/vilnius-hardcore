@@ -10,6 +10,8 @@
   import { RemoveItemForm, EventEntryForm } from "$lib/components";
   import { blur } from "svelte/transition";
   import CommentCount from "../common/CommentCount.svelte";
+  import { m } from "$lib/paraglide/messages.js";
+  import { getLocale } from "$lib/paraglide/runtime";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -19,6 +21,7 @@
   let imageFilename: string | null = $derived(event.image);
   let selectedImage: string | null | undefined = $state();
   let isVisible: boolean = $derived(event.is_visible);
+  let locale: string = $derived(getLocale());
 
   let date: string = $derived(
     new Date(event.date).toLocaleString("lt-LT", {
@@ -31,7 +34,9 @@
   );
   const year: number = $derived(new Date(event.date).getFullYear());
   const month: string = $derived(
-    new Date(event.date).toLocaleString("en-us", { month: "short" }),
+    new Date(event.date).toLocaleString(locale, {
+      month: locale === "lt" ? "long" : "short",
+    }),
   );
   const day: number = $derived(new Date(event.date).getDate());
 
@@ -86,8 +91,9 @@
     <div class="eventDetails">
       <div class="eventInfo">
         {#if !isVisible}
-          <div class="font-size-small dim">
-            <Fa icon={faEyeSlash}></Fa> DRAFT / NOT VISIBLE
+          <div class="font-size-small dim draft">
+            <Fa icon={faEyeSlash}></Fa>
+            {m.draft()}
           </div>
         {/if}
         {#if !isEditing}
@@ -105,7 +111,7 @@
                 id="edit"
                 class="post action"
                 onclick={() => (isEditing = true)}
-                ><Fa icon={faPenToSquare} /> edit</button
+                ><Fa icon={faPenToSquare} /> {m.edit()}</button
               >
               <RemoveItemForm {slug} action="?/remove_event" />
             </div>
@@ -234,5 +240,9 @@
 
   h2.title {
     margin-bottom: 0.25em;
+  }
+
+  div.draft {
+    text-transform: uppercase;
   }
 </style>

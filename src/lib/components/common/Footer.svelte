@@ -1,13 +1,14 @@
 <script lang="ts">
   import NowItFuckingCuts from "$lib/images/nowitfuckingcuts.gif";
   const currentYear = $state(new Date().getFullYear());
+  import { m } from "$lib/paraglide/messages.js";
 </script>
 
 <footer>
   <p>
     1995-{currentYear}
     <a href="/"><strong>hardcore.lt</strong></a>
-    | powered by
+    | {m.powered_by()}
     <a href="https://github.com/execut4ble/vilnius-hardcore"
       ><strong>chebrytė</strong></a
     >

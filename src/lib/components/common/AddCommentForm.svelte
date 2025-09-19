@@ -3,6 +3,7 @@
   import Fa from "svelte-fa";
   import FieldError from "./FieldError.svelte";
   import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
+  import { m } from "$lib/paraglide/messages.js";
 
   let { form } = $props();
 
@@ -16,7 +17,7 @@
   }
 </script>
 
-<strong><h3>Add a comment</h3></strong>
+<strong><h3>{m.add_comment()}</h3></strong>
 <form
   class="comment"
   method="POST"
@@ -24,10 +25,10 @@
   autocomplete="off"
   use:enhance={addComment}
 >
-  <label for="author">Name</label>
+  <label for="author">{m["form.name"]()}</label>
   <input id="author" name="author" required maxlength="30" />
   <FieldError errors={form?.errors?.author} />
-  <label id="content" for="content">Comment</label>
+  <label id="content" for="content">{m["form.comment"]()}</label>
   <textarea
     id="content"
     name="content"
@@ -36,12 +37,12 @@
     maxlength="250"
   ></textarea>
   <FieldError errors={form?.errors?.content} />
-  <label for="acab">Are you a cop? Enter the ACAB digits</label>
+  <label for="acab">{m["form.acab_captcha"]()}</label>
   <input id="acab" name="acab" required maxlength="4" />
   <FieldError errors={form?.errors?.acab} />
   <br />
   <button type="submit" class="post action"
-    ><Fa icon={faCommentDots} /> post</button
+    ><Fa icon={faCommentDots} /> {m.submit()}</button
   >
   <br /><br />
   <FieldError errors={form?.errors?.submit} />

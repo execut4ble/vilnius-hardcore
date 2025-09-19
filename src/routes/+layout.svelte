@@ -10,6 +10,7 @@
   } from "$lib/components";
   import type { LayoutProps } from "./$types";
   import type { RecentCommentsData, UserInfoData } from "$lib/types";
+  import { locales, setLocale } from "$lib/paraglide/runtime";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
@@ -21,6 +22,11 @@
   <main>
     <row>
       <mobile>
+        <div class="locale">
+          {#each locales as locale (locale)}
+            <button onclick={() => setLocale(locale)}>{locale}</button>
+          {/each}
+        </div>
         {#if user}
           <UserInfo {user} />
         {/if}
@@ -30,6 +36,11 @@
         {@render children?.()}
       </section>
       <sidebar>
+        <div class="locale">
+          {#each locales as locale (locale)}
+            <button onclick={() => setLocale(locale)}>{locale}</button>
+          {/each}
+        </div>
         <div class="navigation">
           {#if user}
             <UserInfo {user} />
@@ -158,6 +169,10 @@
     }
 
     sidebar .navigation {
+      display: none;
+    }
+
+    sidebar .locale {
       display: none;
     }
   }
