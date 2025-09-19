@@ -1,5 +1,5 @@
 import { encodeBase32LowerCase } from "@oslojs/encoding";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 export function generateUserId() {
   // ID with 120 bits of entropy, or about the same as UUID v4.

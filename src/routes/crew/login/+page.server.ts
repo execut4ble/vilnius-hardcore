@@ -13,7 +13,7 @@ import {
   validatePassword,
   validateUsername,
 } from "$lib/server/user";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 export const load: PageServerLoad = async (event) => {
   if ((await getUserCount()) === 0) {

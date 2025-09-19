@@ -11,7 +11,7 @@ import {
   passwordSchema,
   usernameSchema,
 } from "$lib/server/user";
-import { z } from "zod/v4";
+import { z } from "zod";
 import { DrizzleQueryError } from "drizzle-orm/errors";
 
 export const load: PageServerLoad = async (event) => {
@@ -76,10 +76,6 @@ export const actions: Actions = {
       return fail(400, { message: "Current password is invalid" });
     }
 
-    if (!validatePassword(newPassword)) {
-      return fail(400, { message: "New password is invalid" });
-    }
-    
     if (newPasswordRepeat !== newPassword) {
       return fail(400, { message: "Passwords do not match" });
     }
@@ -118,23 +114,6 @@ export const actions: Actions = {
 
     if (!event.locals.session) {
       return fail(401);
-    }
-
-    const results = await db
-      .select()
-      .from(table.user)
-      .where(eq(table.user.username, username as string));
-
-    const existingUser = results.at(0);
-    if (existingUser) {
-      return fail(400, { message: "This username is already taken" });
-    }
-
-    if (!validateUsername(username)) {
-      return fail(400, { message: "Invalid username" });
-    }
-    if (!validatePassword(password)) {
-      return fail(400, { message: "Invalid password" });
     }
 
     if (typeof username !== "string" || typeof password !== "string") {
