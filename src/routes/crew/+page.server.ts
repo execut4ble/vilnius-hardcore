@@ -32,8 +32,11 @@ export const actions: Actions = {
     return redirect(302, "/crew/login");
   },
   change_password: async (event) => {
+    // As a workaround to not display duplicate form error messages
+    // The error message key is called msg instead of message
+    // See form.msg errors in crew/+page.svelte
     if (!event.locals.session) {
-      return fail(401, { message: "Not logged in" });
+      return fail(401, { msg: "Not logged in" });
     }
 
     const formData = await event.request.formData();
@@ -42,7 +45,7 @@ export const actions: Actions = {
     const newPasswordRepeat = formData.get("newPassRepeat");
 
     if (event.locals.user === null) {
-      return fail(403, { message: "Not logged in" });
+      return fail(403, { msg: "Not logged in" });
     }
 
     if (
@@ -50,7 +53,7 @@ export const actions: Actions = {
       typeof newPassword !== "string" ||
       typeof newPasswordRepeat !== "string"
     ) {
-      return fail(400, { message: "Invalid form data" });
+      return fail(400, { msg: "Invalid form data" });
     }
 
     const results = await db
@@ -60,7 +63,7 @@ export const actions: Actions = {
 
     const existingUser = results.at(0);
     if (!existingUser) {
-      return fail(400, { message: "User not found" });
+      return fail(400, { msg: "User not found" });
     }
     const validPassword = await verify(
       existingUser.passwordHash,
@@ -73,11 +76,11 @@ export const actions: Actions = {
       },
     );
     if (!validPassword) {
-      return fail(400, { message: "Current password is invalid" });
+      return fail(400, { msg: "Current password is invalid" });
     }
 
     if (newPasswordRepeat !== newPassword) {
-      return fail(400, { message: "Passwords do not match" });
+      return fail(400, { msg: "Passwords do not match" });
     }
 
     try {
@@ -99,10 +102,10 @@ export const actions: Actions = {
     } catch (e) {
       if (e instanceof z.ZodError) {
         const { errors } = z.treeifyError(e);
-        return fail(400, { message: errors });
+        return fail(400, { msg: errors });
       } else {
         console.error(e);
-        return fail(500, { message: "An error has occurred" });
+        return fail(500, { msg: "An error has occurred" });
       }
     }
     return redirect(302, "/crew/login");

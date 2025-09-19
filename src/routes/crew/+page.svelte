@@ -38,10 +38,10 @@
       >Cancel</button
     >
   </form>
-  {#if form?.message}
+  {#if form?.msg}
     <div class="errorMsg">
       <strong>
-        {form?.message ?? ""}
+        {form?.msg ?? ""}
       </strong>
     </div>
   {/if}
