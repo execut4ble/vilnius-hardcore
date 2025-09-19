@@ -80,7 +80,6 @@
     margin: 50px auto;
     font-size: 14px;
     line-height: 16px;
-
     -webkit-font-smoothing: antialiased;
   }
 
@@ -99,7 +98,8 @@
     gap: 2em;
     align-items: center;
     margin-top: 2em;
-    width: 25em;
+    width: 15em;
+    flex-shrink: 0.1;
   }
 
   sidebar .navigation {
@@ -117,7 +117,8 @@
     section {
       margin-left: 1em;
       margin-right: 1em;
-      width: fit-content;
+      width: unset;
+      align-self: center;
     }
   }
 
