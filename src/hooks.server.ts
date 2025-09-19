@@ -12,17 +12,23 @@ const handleAuth: Handle = async ({ event, resolve }) => {
     return resolve(event);
   }
 
-  const { session, user } = await auth.validateSessionToken(sessionToken);
-  if (session) {
-    auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
-  } else {
-    auth.deleteSessionTokenCookie(event);
+  try {
+    const { session, user } = await auth.validateSessionToken(sessionToken);
+    if (session) {
+      auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+    } else {
+      auth.deleteSessionTokenCookie(event);
+    }
+
+    event.locals.user = user;
+    event.locals.session = session;
+    return resolve(event);
+  } catch (e) {
+    console.error(e);
+    event.locals.user = null;
+    event.locals.session = null;
+    return resolve(event);
   }
-
-  event.locals.user = user;
-  event.locals.session = session;
-
-  return resolve(event);
 };
 
 export const handleError: HandleServerError = async ({ error, message }) => {

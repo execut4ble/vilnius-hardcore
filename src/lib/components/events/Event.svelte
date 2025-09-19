@@ -179,14 +179,14 @@
     margin-bottom: 2em;
   }
 
-  @media screen and (max-width: 530px) {
+  @media screen and (max-width: 575px) {
     div.eventDetails {
       display: flex;
       flex-direction: column-reverse;
     }
   }
 
-  @media screen and (min-width: 530px) {
+  @media screen and (min-width: 575px) {
     div.eventDetails {
       display: flex;
       flex-direction: row;
@@ -202,6 +202,12 @@
     gap: 0.5em;
     max-width: 2.5em;
     margin: 0.5em 1em 0.5em 1em;
+  }
+
+  @media screen and (max-width: 850px) {
+    div.eventRow div.date {
+      margin: 0.5em 0em 0.5em 0em;
+    }
   }
 
   div.eventRow .date .day {

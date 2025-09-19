@@ -60,7 +60,7 @@ export const actions: Actions = {
 
     const existingUser = results.at(0);
     if (!existingUser) {
-      return fail(400, { msg: "User not found" });
+      return fail(400, { message: "User not found" });
     }
     const validPassword = await verify(
       existingUser.passwordHash,
@@ -73,11 +73,15 @@ export const actions: Actions = {
       },
     );
     if (!validPassword) {
-      return fail(400, { msg: "Current password is invalid" });
+      return fail(400, { message: "Current password is invalid" });
     }
 
+    if (!validatePassword(newPassword)) {
+      return fail(400, { message: "New password is invalid" });
+    }
+    
     if (newPasswordRepeat !== newPassword) {
-      return fail(400, { msg: "Passwords do not match" });
+      return fail(400, { message: "Passwords do not match" });
     }
 
     try {
@@ -114,6 +118,23 @@ export const actions: Actions = {
 
     if (!event.locals.session) {
       return fail(401);
+    }
+
+    const results = await db
+      .select()
+      .from(table.user)
+      .where(eq(table.user.username, username as string));
+
+    const existingUser = results.at(0);
+    if (existingUser) {
+      return fail(400, { message: "This username is already taken" });
+    }
+
+    if (!validateUsername(username)) {
+      return fail(400, { message: "Invalid username" });
+    }
+    if (!validatePassword(password)) {
+      return fail(400, { message: "Invalid password" });
     }
 
     if (typeof username !== "string" || typeof password !== "string") {
