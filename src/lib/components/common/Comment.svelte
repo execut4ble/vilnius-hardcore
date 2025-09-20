@@ -15,7 +15,11 @@
 
 <div class="comment" transition:slide>
   <div class="heading">
-    <strong>{comment.author}</strong>
+    <span
+      title={page.data.user
+        ? `IP: ` + (comment.ipAddress ? comment.ipAddress : "not logged")
+        : ""}><strong>{comment.author}</strong></span
+    >
     {m.wrote_at()}
     {date.toLocaleString("lt-LT")}
     {#if page.data.user}

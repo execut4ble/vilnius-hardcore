@@ -38,6 +38,7 @@ export const load = (async ({
       author: table.comment.author,
       content: table.comment.content,
       date: table.comment.date,
+      ipAddress: table.comment.ipAddress,
     })
     .from(table.comment)
     .innerJoin(table.post, eq(table.comment.postId, table.post.id))
