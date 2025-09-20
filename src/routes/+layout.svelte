@@ -122,6 +122,7 @@
   row {
     display: flex;
     flex-direction: row;
+    justify-content: center;
   }
 
   @media screen and (max-width: 850px) {

@@ -10,13 +10,17 @@
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
   import { m } from "$lib/paraglide/messages.js";
+  import { SvelteDate } from "svelte/reactivity";
+  import { resolve } from "$app/paths";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
   let isEditing: boolean = $state(false);
   let title: string = $derived(post.title);
   let slug: string | null = $derived(post.slug);
-  let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
+  let date: string = $derived(
+    new SvelteDate(post.date).toLocaleString("lt-LT"),
+  );
   let authorUsername: string | null | undefined = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
@@ -27,7 +31,10 @@
     return async ({ update, result }) => {
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
-          goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
+          goto(resolve("/blog/[slug]", { slug: result.data[0].slug }), {
+            noScroll: true,
+            invalidateAll: true,
+          });
           isEditing = false;
         } else {
           await update({ reset: false }).then(() => {
@@ -55,7 +62,11 @@
 <post>
   {#if !isEditing}
     {#if page.params.slug !== slug}
-      <h2 class="title"><a href="/blog/{slug}"><strong>{title}</strong></a></h2>
+      <h2 class="title">
+        <a href={resolve("/blog/[slug]", { slug: slug as string })}
+          ><strong>{title}</strong></a
+        >
+      </h2>
     {/if}
     {#if page.url.pathname !== "/" && page.data.user}
       <div class="actions">

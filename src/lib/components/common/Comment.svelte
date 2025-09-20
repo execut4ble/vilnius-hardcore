@@ -6,9 +6,10 @@
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
+  import { SvelteDate } from "svelte/reactivity";
 
   let { ...comment }: CommentComponent = $props();
-  let date: Date = $derived(new Date(comment.date));
+  let date: Date = $derived(new SvelteDate(comment.date));
   let confirmDelete: boolean = $state(false);
 </script>
 

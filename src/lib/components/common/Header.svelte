@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { resolve } from "$app/paths";
   import Logo from "$lib/images/logo.gif?enhanced";
   const description: string = $state(
     "Ska funk rasta punk scene, Vilnius, Lithuania",
@@ -6,7 +7,7 @@
 </script>
 
 <header>
-  <a href="/" aria-label="Vilnius Hardcore">
+  <a href={resolve("/")} aria-label="Vilnius Hardcore">
     <figlet
       ><pre>    .__                     .___                            .__   __   
     |  |__ _____ _______  __| _/____  ___________   ____    |  |_/  |_ 

@@ -9,28 +9,34 @@
     ImageUploadForm,
     MetaTags,
   } from "$lib/components";
-  import { base } from "$app/paths";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import ItemCount from "$lib/components/common/ItemCount.svelte";
   import { blur, slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
+  import { SvelteDate, SvelteURL } from "svelte/reactivity";
 
   let { data, form }: PageProps = $props();
   let events: Array<EventObject> = $derived(data.events);
-  let today: Date = new Date();
+  let today: Date = new SvelteDate();
   today.setHours(0, 0, 0, 0); // Normalize to midnight
 
   let upcomingEvents: Array<EventObject> = $derived(
     events
-      .filter((event) => new Date(event.date) >= today)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
+      .filter((event) => new SvelteDate(event.date) >= today)
+      .sort(
+        (a, b) =>
+          new SvelteDate(a.date).getTime() - new SvelteDate(b.date).getTime(),
+      ),
   );
 
   let pastEvents: Array<EventObject> = $derived(
     events
-      .filter((event) => new Date(event.date) < today)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .filter((event) => new SvelteDate(event.date) < today)
+      .sort(
+        (a, b) =>
+          new SvelteDate(a.date).getTime() - new SvelteDate(b.date).getTime(),
+      )
       .reverse(),
   );
 
@@ -53,7 +59,7 @@
   }
 
   async function loadMore() {
-    const newUrl = new URL(page.url);
+    const newUrl = new SvelteURL(page.url);
     const newPage = (Number(pastEvents.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
     goto(newUrl, { noScroll: true });
@@ -70,7 +76,8 @@
     <button
       type="button"
       class="post action new-event"
-      onclick={() => (entryMode = true)}><Fa icon={faAdd} /> {m.add_new()}</button
+      onclick={() => (entryMode = true)}
+      ><Fa icon={faAdd} /> {m.add_new()}</button
     >
   {:else}
     <div transition:slide class="event-entry-form">
@@ -90,7 +97,7 @@
             <div>
               <img
                 class="previewImg"
-                src={displayImage ? `${base}/images/${displayImage}` : ""}
+                src={displayImage ? `/images/${displayImage}` : ""}
                 alt="New event"
                 transition:blur
               />

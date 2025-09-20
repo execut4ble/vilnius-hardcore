@@ -5,6 +5,8 @@
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { getLocale } from "$lib/paraglide/runtime";
+  import { SvelteDate } from "svelte/reactivity";
+  import { resolve } from "$app/paths";
 </script>
 
 <div class="recentComments">
@@ -16,22 +18,27 @@
           {comment.author}
           {m.commented_on()}
           {#if comment.event_slug}
-            <a href="/events/{comment.event_slug}#comments"
-              >{comment.event_name}</a
+            <a
+              href={resolve("/events/[slug]", {
+                slug: comment.event_slug as string,
+              }) + "#comments"}>{comment.event_name}</a
             >
           {:else}
-            <a href="/blog/{comment.post_slug}#comments">{comment.post_title}</a
+            <a
+              href={resolve("/blog/[slug]", {
+                slug: comment.post_slug as string,
+              }) + "#comments"}>{comment.post_title}</a
             >
           {/if}
         </div>
         <div
           class="font-size-small"
           use:relativeTime={{
-            date: new Date(comment.date),
+            date: new SvelteDate(comment.date),
             locale: getLocale(),
           }}
         >
-          {` `}
+          &nbsp;
         </div>
       </li>
     {:else}

@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
+  import { resolve } from "$app/paths";
 
   let { data }: PageProps = $props();
   let post = $derived(data.recentPost[0]);
@@ -32,8 +33,9 @@
 
     <div class={isOverflowing ? "more" : "more opaque"}>
       {#if isOverflowing}
-        <a href="/blog/{post.slug}" transition:fade={{ duration: 200 }}
-          >{m.read_more()}</a
+        <a
+          href={resolve("/blog/[slug]", { slug: post.slug as string })}
+          transition:fade={{ duration: 200 }}>{m.read_more()}</a
         >
       {:else}
         <!-- Workaround to prevent layout shift -->
@@ -51,7 +53,7 @@
   <p>{m["no_events.check_later"]()}</p>
   <p>
     {m["no_events.checkout"]()}
-    <a href="/events">{m["no_events.past_events"]()}</a>
+    <a href={resolve("/events")}>{m["no_events.past_events"]()}</a>
   </p>
 {/if}
 <ul class="eventList">

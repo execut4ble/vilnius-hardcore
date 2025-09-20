@@ -7,6 +7,7 @@
   import type { PageProps } from "./$types";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
+  import { SvelteURL } from "svelte/reactivity";
 
   let { data, form }: PageProps = $props();
   let posts = $derived(data.posts);
@@ -28,7 +29,7 @@
   }
 
   function getNextPageURL() {
-    const newUrl = new URL(page.url);
+    const newUrl = new SvelteURL(page.url);
     const newPage = (Number(posts.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
     return newUrl;
@@ -52,9 +53,11 @@
 <h1>{m["navigation.blog"]()}</h1>
 {#if data.user}
   {#if !entryMode}
-    <button type="button" 
-    class="post action new-post" 
-    onclick={() => (entryMode = true)}><Fa icon={faAdd} /> {m.add_new()}</button
+    <button
+      type="button"
+      class="post action new-post"
+      onclick={() => (entryMode = true)}
+      ><Fa icon={faAdd} /> {m.add_new()}</button
     >
   {:else}
     <div transition:slide>
