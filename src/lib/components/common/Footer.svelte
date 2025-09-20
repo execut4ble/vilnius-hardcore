@@ -1,7 +1,8 @@
 <script lang="ts">
   import NowItFuckingCuts from "$lib/images/nowitfuckingcuts.gif";
-  const currentYear = $state(new Date().getFullYear());
+  const currentYear = $state(new SvelteDate().getFullYear());
   import { m } from "$lib/paraglide/messages.js";
+  import { SvelteDate } from "svelte/reactivity";
 </script>
 
 <footer>

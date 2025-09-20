@@ -4,7 +4,6 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
-  import { base } from "$app/paths";
   import Markdown from "svelte-exmarkdown";
   import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
   import { RemoveItemForm, EventEntryForm } from "$lib/components";
@@ -12,6 +11,7 @@
   import CommentCount from "../common/CommentCount.svelte";
   import { m } from "$lib/paraglide/messages.js";
   import { getLocale } from "$lib/paraglide/runtime";
+  import { SvelteDate } from "svelte/reactivity";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -24,7 +24,7 @@
   let locale: string = $derived(getLocale());
 
   let date: string = $derived(
-    new Date(event.date).toLocaleString("lt-LT", {
+    new SvelteDate(event.date).toLocaleString("lt-LT", {
       year: "numeric",
       month: "numeric",
       day: "numeric",
@@ -32,13 +32,13 @@
       minute: "2-digit",
     }),
   );
-  const year: number = $derived(new Date(event.date).getFullYear());
+  const year: number = $derived(new SvelteDate(event.date).getFullYear());
   const month: string = $derived(
-    new Date(event.date).toLocaleString(locale, {
+    new SvelteDate(event.date).toLocaleString(locale, {
       month: locale === "lt" ? "long" : "short",
     }),
   );
-  const day: number = $derived(new Date(event.date).getDate());
+  const day: number = $derived(new SvelteDate(event.date).getDate());
 
   function updateEvent({ formData }: { formData: FormData }) {
     formData.set("slug", slug as string);
@@ -72,7 +72,7 @@
   {#if detailed && event.image}
     <img
       class="img"
-      src={event.image ? `${base}/images/${event.image}` : ""}
+      src={event.image ? `/images/${event.image}` : ""}
       alt={event.title}
     />
   {/if}
@@ -160,7 +160,7 @@
           {#if imageFilename}
             <img
               class="previewImg"
-              src={imageFilename ? `${base}/images/${imageFilename}` : ""}
+              src={imageFilename ? `/images/${imageFilename}` : ""}
               alt={event.title}
               transition:blur
             />

@@ -10,13 +10,16 @@
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
   import { m } from "$lib/paraglide/messages.js";
+  import { SvelteDate } from "svelte/reactivity";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
   let isEditing: boolean = $state(false);
   let title: string = $derived(post.title);
   let slug: string | null = $derived(post.slug);
-  let date: string = $derived(new Date(post.date).toLocaleString("lt-LT"));
+  let date: string = $derived(
+    new SvelteDate(post.date).toLocaleString("lt-LT"),
+  );
   let authorUsername: string | null | undefined = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
