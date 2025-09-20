@@ -20,7 +20,7 @@ const queryEventId = async (slug: string): Promise<number | undefined> => {
 };
 
 export const commentActions = {
-  add_comment: async ({ request, params, route }) => {
+  add_comment: async ({ request, params, route, getClientAddress }) => {
     const parentRoute = route.id.split("/")[1];
     let postId: number | undefined;
     let eventId: number | undefined;
@@ -37,6 +37,8 @@ export const commentActions = {
         break;
       }
     }
+    const ipAddress: string = getClientAddress();
+    formData.append("ipAddress", ipAddress);
     const data: object = Object.fromEntries(formData.entries());
     try {
       const comment = commentInsertSchema.parse(data);

@@ -56,6 +56,7 @@ export const comment = pgTable("comment", {
   author: text("author").notNull(),
   date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
   content: text("content").notNull(),
+  ipAddress: text("ip_address"),
 });
 
 export type Session = typeof session.$inferSelect;
