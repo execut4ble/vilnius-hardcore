@@ -53,7 +53,7 @@
   <p>{m["no_events.check_later"]()}</p>
   <p>
     {m["no_events.checkout"]()}
-    <a href="/events">{m["no_events.past_events"]()}</a>
+    <a href={resolve("/events")}>{m["no_events.past_events"]()}</a>
   </p>
 {/if}
 <ul class="eventList">

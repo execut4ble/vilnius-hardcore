@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { resolve } from "$app/paths";
   import NowItFuckingCuts from "$lib/images/nowitfuckingcuts.gif";
   const currentYear = $state(new SvelteDate().getFullYear());
   import { m } from "$lib/paraglide/messages.js";
@@ -8,7 +9,7 @@
 <footer>
   <p>
     1995-{currentYear}
-    <a href="/"><strong>hardcore.lt</strong></a>
+    <a href={resolve("/")}><strong>hardcore.lt</strong></a>
     | {m.powered_by()}
     <a href="https://github.com/execut4ble/vilnius-hardcore"
       ><strong>chebrytė</strong></a

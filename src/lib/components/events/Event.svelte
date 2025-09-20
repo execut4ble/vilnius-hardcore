@@ -12,6 +12,7 @@
   import { m } from "$lib/paraglide/messages.js";
   import { getLocale } from "$lib/paraglide/runtime";
   import { SvelteDate } from "svelte/reactivity";
+  import { resolve } from "$app/paths";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -46,7 +47,10 @@
     return async ({ update, result }) => {
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
-          goto(result.data[0].slug, { noScroll: true, invalidateAll: true });
+          goto(resolve("/events/[slug]", { slug: result.data[0].slug }), {
+            noScroll: true,
+            invalidateAll: true,
+          });
           isEditing = false;
         } else {
           await update({ reset: false }).then(() => {
@@ -101,7 +105,7 @@
             {#if detailed}
               <strong>{event.title ? event.title : ""}</strong>
             {:else}
-              <a href="/events/{slug}"
+              <a href={resolve("/events/[slug]", { slug: slug as string })}
                 ><strong>{event.title ? event.title : ""}</strong></a
               >{/if}
           </h2>
