@@ -2,7 +2,10 @@ import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
 import { error, fail } from "@sveltejs/kit";
-import { commentInsertSchema } from "$lib/server/db/validations";
+import {
+  banInsertSchema,
+  commentInsertSchema,
+} from "$lib/server/db/validations";
 import { z } from "zod";
 
 const queryPostId = async (slug: string): Promise<number | undefined> => {
@@ -63,5 +66,25 @@ export const commentActions = {
     await db
       .delete(table.comment)
       .where(eq(table.comment.id, commentId as unknown as number));
+  },
+
+  add_banned_ip: async ({ request, locals }) => {
+    if (!locals.session) {
+      return fail(401);
+    }
+    const formData: FormData = await request.formData();
+    const data: object = Object.fromEntries(formData.entries());
+    try {
+      const ban = banInsertSchema.parse(data);
+      await db.insert(table.bannedIp).values(ban);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const { fieldErrors: errors } = z.flattenError(err);
+        return fail(400, { errors });
+      } else {
+        console.error(err);
+        return error(500, "Something went wrong");
+      }
+    }
   },
 };

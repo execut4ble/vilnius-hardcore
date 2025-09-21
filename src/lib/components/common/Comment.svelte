@@ -2,7 +2,10 @@
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import type { CommentComponent } from "$lib/types";
-  import { faTrash } from "@fortawesome/free-solid-svg-icons";
+  import {
+    faSkullCrossbones,
+    faTrash,
+  } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
@@ -11,6 +14,7 @@
   let { ...comment }: CommentComponent = $props();
   let date: Date = $derived(new SvelteDate(comment.date));
   let confirmDelete: boolean = $state(false);
+  let confirmBlock: boolean = $state(false);
 </script>
 
 <div class="comment" transition:slide>
@@ -40,6 +44,30 @@
             onclick={() => (confirmDelete = false)}>{m.no()}</button
           >
           <button class="post action" type="submit">{m.yes()}</button>
+        {/if}
+      </form>
+
+      <form method="POST" action="?/add_banned_ip" use:enhance>
+        <input type="hidden" name="ipAddress" value={comment.ipAddress} />
+        <button
+          type="button"
+          class="post action"
+          onclick={() => (confirmBlock = true)}
+        >
+          <Fa icon={faSkullCrossbones} /></button
+        >
+        {#if confirmBlock}
+          <strong>block ip {comment.ipAddress}?</strong>
+          <button
+            class="post action"
+            type="button"
+            onclick={() => (confirmBlock = false)}>{m.no()}</button
+          >
+          <button
+            class="post action"
+            type="submit"
+            onclick={() => (confirmBlock = false)}>{m.yes()}</button
+          >
         {/if}
       </form>
     {/if}
