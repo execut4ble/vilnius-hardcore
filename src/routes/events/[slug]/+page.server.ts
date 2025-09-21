@@ -1,7 +1,7 @@
 import type { EventsArray } from "$lib/types";
 import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
-import { asc, eq } from "drizzle-orm";
+import { asc, eq, isNotNull } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { error } from "@sveltejs/kit";
 import { eventActions } from "$lib/formActions/eventActions";
@@ -23,19 +23,6 @@ export const load = (async ({
     error(404, "Not Found");
   }
 
-  const comments = await db
-    .select({
-      id: table.comment.id,
-      author: table.comment.author,
-      content: table.comment.content,
-      date: table.comment.date,
-      ipAddress: table.comment.ipAddress,
-    })
-    .from(table.comment)
-    .innerJoin(table.event, eq(table.comment.eventId, table.event.id))
-    .where(eq(table.event.slug, params.slug))
-    .orderBy(asc(table.comment.date));
-
   // Convert date to ISO-8601 string
   for (const i in event) {
     event[i].date = new Date(event[i].date)
@@ -43,7 +30,42 @@ export const load = (async ({
       .replace(" ", "T");
   }
 
-  return { event, comments };
+  // TODO: Refactor this instance and blog/[slug]/+page.server.ts instance
+  // into a shared database helper method for loading comments
+  if (!locals.user) {
+    const comments = await db
+      .select({
+        id: table.comment.id,
+        author: table.comment.author,
+        content: table.comment.content,
+        date: table.comment.date,
+        ipAddress: table.comment.ipAddress,
+      })
+      .from(table.comment)
+      .innerJoin(table.event, eq(table.comment.eventId, table.event.id))
+      .where(eq(table.event.slug, params.slug))
+      .orderBy(asc(table.comment.date));
+    return { event, comments };
+  } else {
+    const comments = await db
+      .select({
+        id: table.comment.id,
+        author: table.comment.author,
+        content: table.comment.content,
+        date: table.comment.date,
+        ipAddress: table.comment.ipAddress,
+        isIpBanned: isNotNull(table.bannedIp.ipAddress),
+      })
+      .from(table.comment)
+      .innerJoin(table.event, eq(table.comment.eventId, table.event.id))
+      .leftJoin(
+        table.bannedIp,
+        eq(table.comment.ipAddress, table.bannedIp.ipAddress),
+      )
+      .where(eq(table.event.slug, params.slug))
+      .orderBy(asc(table.comment.date));
+    return { event, comments };
+  }
 }) satisfies PageServerLoad;
 
 export const actions = {

@@ -3,6 +3,7 @@
   import { page } from "$app/state";
   import type { CommentComponent } from "$lib/types";
   import {
+    faBan,
     faSkullCrossbones,
     faTrash,
   } from "@fortawesome/free-solid-svg-icons";
@@ -15,10 +16,24 @@
   let date: Date = $derived(new SvelteDate(comment.date));
   let confirmDelete: boolean = $state(false);
   let confirmBlock: boolean = $state(false);
+  let isIpBanned: boolean | undefined = $derived(comment.isIpBanned);
+
+  function banUser() {
+    return async ({ update, result }) => {
+      confirmBlock = false;
+      await update();
+      if (result.type === "error") {
+        console.error("Form submission failed:", result.status);
+      }
+    };
+  }
 </script>
 
 <div class="comment" transition:slide>
   <div class="heading">
+    {#if page.data.user && isIpBanned}
+      <Fa icon={faBan} color={"#bf0405"} title={"User is IP banned"} />
+    {/if}
     <span
       title={page.data.user
         ? `IP: ` + (comment.ipAddress ? comment.ipAddress : "not logged")
@@ -46,30 +61,27 @@
           <button class="post action" type="submit">{m.yes()}</button>
         {/if}
       </form>
-
-      <form method="POST" action="?/add_banned_ip" use:enhance>
-        <input type="hidden" name="ipAddress" value={comment.ipAddress} />
-        <button
-          type="button"
-          class="post action"
-          onclick={() => (confirmBlock = true)}
-        >
-          <Fa icon={faSkullCrossbones} /></button
-        >
-        {#if confirmBlock}
-          <strong>block ip {comment.ipAddress}?</strong>
+      {#if comment.ipAddress && !comment.isIpBanned}
+        <form method="POST" action="?/add_banned_ip" use:enhance={banUser}>
+          <input type="hidden" name="ipAddress" value={comment.ipAddress} />
           <button
-            class="post action"
             type="button"
-            onclick={() => (confirmBlock = false)}>{m.no()}</button
-          >
-          <button
             class="post action"
-            type="submit"
-            onclick={() => (confirmBlock = false)}>{m.yes()}</button
+            onclick={() => (confirmBlock = true)}
           >
-        {/if}
-      </form>
+            <Fa icon={faSkullCrossbones} /></button
+          >
+          {#if confirmBlock}
+            <strong>block ip {comment.ipAddress}?</strong>
+            <button
+              class="post action"
+              type="button"
+              onclick={() => (confirmBlock = false)}>{m.no()}</button
+            >
+            <button class="post action" type="submit">{m.yes()}</button>
+          {/if}
+        </form>
+      {/if}
     {/if}
   </div>
 

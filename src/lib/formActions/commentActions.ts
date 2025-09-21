@@ -41,11 +41,21 @@ export const commentActions = {
       }
     }
     const ipAddress: string = getClientAddress();
+
     formData.append("ipAddress", ipAddress);
     const data: object = Object.fromEntries(formData.entries());
     try {
       const comment = commentInsertSchema.parse(data);
-      await db.insert(table.comment).values(comment);
+      const lookupResult = await db
+        .select()
+        .from(table.bannedIp)
+        .where(eq(table.bannedIp.ipAddress, ipAddress as string));
+      const isIpBanned = lookupResult.at(0);
+      if (isIpBanned) {
+        return fail(403, { errors: { submit: ["Something went wrong"] } });
+      } else {
+        await db.insert(table.comment).values(comment);
+      }
     } catch (err) {
       if (err instanceof z.ZodError) {
         const { fieldErrors: errors } = z.flattenError(err);

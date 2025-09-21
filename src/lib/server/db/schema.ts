@@ -61,8 +61,8 @@ export const comment = pgTable("comment", {
 
 export const bannedIp = pgTable("banned_ip", {
   id: serial("id").primaryKey(),
-  ipAddress: text("ip_address").notNull(),
-  banDate: timestamp("ban_date", { withTimezone: true }).notNull().defaultNow(),
+  ipAddress: text("ip_address").notNull().unique(),
+  date: timestamp("ban_date", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export type Session = typeof session.$inferSelect;
