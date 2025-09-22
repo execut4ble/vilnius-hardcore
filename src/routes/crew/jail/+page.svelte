@@ -3,8 +3,9 @@
   import type { BannedIpsArray } from "$lib/types";
   import type { PageProps } from "./$types";
   import { m } from "$lib/paraglide/messages";
+  import { BannedAddress } from "$lib/components";
 
-  let { data, form }: PageProps = $props();
+  let { data }: PageProps = $props();
   let banlist: BannedIpsArray = $derived(data.banlist as BannedIpsArray);
 </script>
 
@@ -21,11 +22,9 @@
 {/if}
 
 <ul>
-  <!-- TODO: Add remove block button -->
   {#each banlist as ban (ban.id)}
     <li>
-      <strong>{ban.ipAddress}</strong> ({m.blocked_on()}
-      {new Date(ban.date).toLocaleString("lt-LT")})
+      <BannedAddress {...ban} />
     </li>
   {/each}
 </ul>

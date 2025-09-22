@@ -1,8 +1,8 @@
-import { redirect } from "@sveltejs/kit";
+import { redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
-import { asc } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 
 export const load = (async ({ locals, params }) => {
   if (!locals.user) {
@@ -24,3 +24,13 @@ export const load = (async ({ locals, params }) => {
     }
   }
 }) satisfies PageServerLoad;
+
+export const actions: Actions = {
+  remove_ip: async (event) => {
+    const formData = await event.request.formData();
+    const banId: FormDataEntryValue | null = formData.get("id");
+    await db
+      .delete(table.bannedIp)
+      .where(eq(table.bannedIp.id, banId as unknown as number));
+  },
+};
