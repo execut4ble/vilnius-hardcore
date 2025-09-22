@@ -75,5 +75,9 @@
     "date_empty": "Renginio data negali būti tuščia",
     "body_empty": "Turinys negali būti tuščias"
   },
-  "commented_on": "apie"
+  "commented_on": "apie",
+  "blocked_ips_heading": "Užblokuoti IP adresai",
+  "blocked_ips_description": "Šie IP adresai negali skelbti komentarų.",
+  "blocked_ips_no_entries": "Užblokuoti IP adresai bus rodomi čia.",
+  "blocked_on": "užblokuotas"
 }

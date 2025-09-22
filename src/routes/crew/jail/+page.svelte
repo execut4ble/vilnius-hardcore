@@ -2,6 +2,7 @@
   import { MetaTags } from "$lib/components";
   import type { BannedIpsArray } from "$lib/types";
   import type { PageProps } from "./$types";
+  import { m } from "$lib/paraglide/messages";
 
   let { data, form }: PageProps = $props();
   let banlist: BannedIpsArray = $derived(data.banlist as BannedIpsArray);
@@ -11,21 +12,20 @@
   <MetaTags title="Blocked IPs" />
 </svelte:head>
 
-<h2>Blocked IP addresses</h2>
+<h2>{m.blocked_ips_heading()}</h2>
 
 {#if banlist.length > 0}
-  <p>These IP addresses are prohibited from posting comments.</p>
+  <p>{m.blocked_ips_description()}</p>
 {:else}
-  <p>Once you block an IP address it will appear here.</p>
+  <p>{m.blocked_ips_no_entries()}</p>
 {/if}
 
 <ul>
   <!-- TODO: Add remove block button -->
   {#each banlist as ban (ban.id)}
     <li>
-      <strong>{ban.ipAddress}</strong> (blocked on {new Date(
-        ban.date,
-      ).toLocaleString("lt-LT")})
+      <strong>{ban.ipAddress}</strong> ({m.blocked_on()}
+      {new Date(ban.date).toLocaleString("lt-LT")})
     </li>
   {/each}
 </ul>

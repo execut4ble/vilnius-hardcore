@@ -75,5 +75,9 @@
     "date_empty": "Tapahtuman päivämäärä ei voi olla tyhjä",
     "body_empty": "Kirjoituksen sisältö ei voi olla tyhjä"
   },
-  "commented_on": "kirjoitti"
+  "commented_on": "kirjoitti",
+  "blocked_ips_heading": "Estetyt IP-osoitteet",
+  "blocked_ips_description": "Näistä IP-osoitteista ei voi julkaista kommentteja.",
+  "blocked_ips_no_entries": "Kun estät IP-osoitteen, se näkyy täällä.",
+  "blocked_on": "estetty"
 }
