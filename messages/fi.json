@@ -79,5 +79,6 @@
   "blocked_ips_heading": "Estetyt IP-osoitteet",
   "blocked_ips_description": "Näistä IP-osoitteista ei voi julkaista kommentteja.",
   "blocked_ips_no_entries": "Kun estät IP-osoitteen, se näkyy täällä.",
-  "blocked_on": "estetty"
+  "blocked_on": "estetty",
+  "block_ip": "estä IP-osoite"
 }

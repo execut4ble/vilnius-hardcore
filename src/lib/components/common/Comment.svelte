@@ -72,7 +72,7 @@
             <Fa icon={faSkullCrossbones} /></button
           >
           {#if confirmBlock}
-            <strong>block ip {comment.ipAddress}?</strong>
+            <strong>{m.block_ip()} {comment.ipAddress}?</strong>
             <button
               class="post action"
               type="button"

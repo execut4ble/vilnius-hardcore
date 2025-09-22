@@ -79,5 +79,6 @@
   "blocked_ips_heading": "Blocked IP addresses",
   "blocked_ips_description": "These IP addresses are prohibited from posting comments.",
   "blocked_ips_no_entries": "Once you block an IP address it will appear here.",
-  "blocked_on": "blocked on"
+  "blocked_on": "blocked on",
+  "block_ip": "block ip"
 }

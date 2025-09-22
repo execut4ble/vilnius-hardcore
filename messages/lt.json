@@ -79,5 +79,6 @@
   "blocked_ips_heading": "Užblokuoti IP adresai",
   "blocked_ips_description": "Šie IP adresai negali skelbti komentarų.",
   "blocked_ips_no_entries": "Užblokuoti IP adresai bus rodomi čia.",
-  "blocked_on": "užblokuotas"
+  "blocked_on": "užblokuotas",
+  "block_ip": "užblokuoti ip"
 }
