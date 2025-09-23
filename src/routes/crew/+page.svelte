@@ -1,6 +1,9 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
+  import { resolve } from "$app/paths";
   import { MetaTags } from "$lib/components";
+  import { m } from "$lib/paraglide/messages";
   import type { PageServerData, ActionData } from "./$types";
 
   let { data, form }: { data: PageServerData; form: ActionData } = $props();
@@ -81,6 +84,12 @@
     >
   </div>
 {/if}
+
+<div>
+  <button type="button" onclick={() => goto(resolve("/crew/jail/"))}
+    >{m.blocked_ips_heading()}</button
+  >
+</div>
 
 <style>
   div.userInfo {

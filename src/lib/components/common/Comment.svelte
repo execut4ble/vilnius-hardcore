@@ -2,11 +2,7 @@
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import type { CommentComponent } from "$lib/types";
-  import {
-    faBan,
-    faSkullCrossbones,
-    faTrash,
-  } from "@fortawesome/free-solid-svg-icons";
+  import { faBan, faGavel, faTrash } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
@@ -69,7 +65,7 @@
             class="post action"
             onclick={() => (confirmBlock = true)}
           >
-            <Fa icon={faSkullCrossbones} /></button
+            <Fa icon={faGavel} /></button
           >
           {#if confirmBlock}
             <strong>{m.block_ip()} {comment.ipAddress}?</strong>

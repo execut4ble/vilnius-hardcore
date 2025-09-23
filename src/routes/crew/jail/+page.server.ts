@@ -8,20 +8,16 @@ export const load = (async ({ locals, params }) => {
   if (!locals.user) {
     return redirect(302, "/crew/login");
   } else {
-    try {
-      const banlist = await db
-        .select({
-          id: table.bannedIp.id,
-          ipAddress: table.bannedIp.ipAddress,
-          date: table.bannedIp.date,
-        })
-        .from(table.bannedIp)
-        .orderBy(asc(table.bannedIp.date));
+    const banlist = await db
+      .select({
+        id: table.bannedIp.id,
+        ipAddress: table.bannedIp.ipAddress,
+        date: table.bannedIp.date,
+      })
+      .from(table.bannedIp)
+      .orderBy(asc(table.bannedIp.date));
 
-      return { banlist };
-    } catch (error) {
-      console.error(error);
-    }
+    return { banlist };
   }
 }) satisfies PageServerLoad;
 
