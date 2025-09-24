@@ -9,7 +9,6 @@ const loadComments = async (
   parentTable: table.EventTable | table.PostTable,
   parentId: typeof table.comment.eventId | typeof table.comment.postId,
 ) => {
-  console.log(locals.user);
   return db
     .select({
       id: table.comment.id,
