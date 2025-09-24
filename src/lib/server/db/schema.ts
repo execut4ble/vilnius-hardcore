@@ -71,8 +71,12 @@ export type User = typeof user.$inferSelect;
 
 export type Event = typeof event.$inferSelect;
 
+export type EventTable = typeof event;
+
 export type Comment = typeof comment.$inferSelect;
 
 export type Post = typeof post.$inferSelect;
+
+export type PostTable = typeof post;
 
 export type BannedIp = typeof bannedIp.$inferSelect;

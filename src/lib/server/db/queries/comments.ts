@@ -3,7 +3,13 @@ import { asc, eq, isNotNull } from "drizzle-orm";
 import { db } from "$lib/server/db";
 import type { CommentsArray } from "$lib/types";
 
-const loadComments = async (locals, params, parentTable, parentId) => {
+const loadComments = async (
+  locals: App.Locals,
+  params: { slug: string },
+  parentTable: table.EventTable | table.PostTable,
+  parentId: typeof table.comment.eventId | typeof table.comment.postId,
+) => {
+  console.log(locals.user);
   return db
     .select({
       id: table.comment.id,
@@ -25,7 +31,10 @@ const loadComments = async (locals, params, parentTable, parentId) => {
     .orderBy(asc(table.comment.date));
 };
 
-export const loadPostComments = async (locals, params) => {
+export const loadPostComments = async (
+  locals: App.Locals,
+  params: { slug: string },
+) => {
   return (await loadComments(
     locals,
     params,
@@ -34,7 +43,10 @@ export const loadPostComments = async (locals, params) => {
   )) as unknown as CommentsArray;
 };
 
-export const loadEventComments = async (locals, params) => {
+export const loadEventComments = async (
+  locals: App.Locals,
+  params: { slug: string },
+) => {
   return (await loadComments(
     locals,
     params,
