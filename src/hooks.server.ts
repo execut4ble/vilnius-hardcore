@@ -5,7 +5,6 @@ import { sequence } from "@sveltejs/kit/hooks";
 import { handleAppearance } from "@friendofsvelte/toggle";
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-  console.log(event.getClientAddress(), event.request.headers.get("url"));
   const sessionToken = event.cookies.get(auth.sessionCookieName);
   if (!sessionToken) {
     event.locals.user = null;
