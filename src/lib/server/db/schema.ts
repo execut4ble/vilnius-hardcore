@@ -56,6 +56,13 @@ export const comment = pgTable("comment", {
   author: text("author").notNull(),
   date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
   content: text("content").notNull(),
+  ipAddress: text("ip_address"),
+});
+
+export const bannedIp = pgTable("banned_ip", {
+  id: serial("id").primaryKey(),
+  ipAddress: text("ip_address").notNull().unique(),
+  date: timestamp("ban_date", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export type Session = typeof session.$inferSelect;
@@ -64,6 +71,12 @@ export type User = typeof user.$inferSelect;
 
 export type Event = typeof event.$inferSelect;
 
+export type EventTable = typeof event;
+
 export type Comment = typeof comment.$inferSelect;
 
 export type Post = typeof post.$inferSelect;
+
+export type PostTable = typeof post;
+
+export type BannedIp = typeof bannedIp.$inferSelect;

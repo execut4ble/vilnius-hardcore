@@ -75,5 +75,10 @@
     "date_empty": "Event date can't be empty",
     "body_empty": "Post body can't be empty"
   },
-  "commented_on": "on"
+  "commented_on": "on",
+  "blocked_ips_heading": "Blocked IP addresses",
+  "blocked_ips_description": "These IP addresses are prohibited from posting comments.",
+  "blocked_ips_no_entries": "Once you block an IP address it will appear here.",
+  "blocked_on": "blocked on",
+  "block_ip": "block ip"
 }

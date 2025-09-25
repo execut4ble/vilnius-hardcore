@@ -23,8 +23,8 @@ const handleAuth: Handle = async ({ event, resolve }) => {
     event.locals.user = user;
     event.locals.session = session;
     return resolve(event);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
     event.locals.user = null;
     event.locals.session = null;
     return resolve(event);

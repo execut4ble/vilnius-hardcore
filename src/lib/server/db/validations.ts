@@ -1,6 +1,6 @@
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import validator from "validator";
-import { comment, event, post } from "./schema";
+import { bannedIp, comment, event, post } from "./schema";
 import { m } from "$lib/paraglide/messages.js";
 import { z } from "zod";
 
@@ -109,3 +109,5 @@ export const eventUpdateSchema = createUpdateSchema(event, {
       .trim(),
   is_visible: z.coerce.boolean(),
 });
+
+export const banInsertSchema = createInsertSchema(bannedIp);

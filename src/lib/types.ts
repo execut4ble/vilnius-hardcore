@@ -1,10 +1,17 @@
 import type { ActionData as BlogActionData } from "../routes/blog/$types";
 import type { ActionData as EventActionData } from "../routes/events/$types";
-import type { Comment, Event, Post as PostObject } from "./server/db/schema";
+import type {
+  Comment,
+  Event,
+  Post as PostObject,
+  BannedIp,
+} from "./server/db/schema";
 
 export type EventsArray = Array<Event>;
 
 export type CommentsArray = Array<Comment>;
+
+export type BannedIpsArray = Array<BannedIp>;
 
 export type Post = Omit<PostObject, "author">;
 
@@ -19,7 +26,7 @@ export type EventComponent = Event & {
 
 export type CommentComponent = Comment & {
   comments?: CommentsArray | undefined;
-};
+} & { isIpBanned?: boolean | undefined };
 
 export type PostComponent = Post & {
   posts?: PostsArray | undefined;

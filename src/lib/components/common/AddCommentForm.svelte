@@ -6,15 +6,6 @@
   import { m } from "$lib/paraglide/messages.js";
 
   let { form } = $props();
-
-  function addComment() {
-    return async ({ update, result }) => {
-      await update();
-      if (result.type === "error") {
-        console.error("Form submission failed:", result.status);
-      }
-    };
-  }
 </script>
 
 <strong><h3>{m.add_comment()}</h3></strong>
@@ -23,7 +14,7 @@
   method="POST"
   action="?/add_comment"
   autocomplete="off"
-  use:enhance={addComment}
+  use:enhance
 >
   <label for="author">{m["form.name"]()}</label>
   <input id="author" name="author" required maxlength="30" />

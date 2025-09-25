@@ -130,7 +130,6 @@
       margin-left: 1em;
       margin-right: 1em;
       width: unset;
-      align-self: center;
     }
   }
 
@@ -146,6 +145,7 @@
       margin-left: 1em;
       min-width: auto;
       margin-bottom: 3em;
+      align-self: center;
     }
 
     main {
