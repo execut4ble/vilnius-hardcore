@@ -7,7 +7,7 @@ import {
   eventUpdateSchema,
 } from "$lib/server/db/validations";
 import { uploadImageAction } from "./fileUpload";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 export const eventActions = {
   update_event: async ({ locals, request }) => {

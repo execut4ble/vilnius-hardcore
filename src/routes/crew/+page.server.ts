@@ -8,9 +8,11 @@ import * as table from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
 import {
   generateUserId,
-  validatePassword,
-  validateUsername,
+  passwordSchema,
+  usernameSchema,
 } from "$lib/server/user";
+import { z } from "zod";
+import { DrizzleQueryError } from "drizzle-orm/errors";
 
 export const load: PageServerLoad = async (event) => {
   if (!event.locals.user) {
@@ -30,14 +32,29 @@ export const actions: Actions = {
     return redirect(302, "/crew/login");
   },
   change_password: async (event) => {
+    // As a workaround to not display duplicate form error messages
+    // The error message key is called msg instead of message
+    // See form.msg errors in crew/+page.svelte
     if (!event.locals.session) {
-      return fail(401);
+      return fail(401, { msg: "Not logged in" });
     }
 
     const formData = await event.request.formData();
     const currentPassword = formData.get("password");
     const newPassword = formData.get("newPass");
     const newPasswordRepeat = formData.get("newPassRepeat");
+
+    if (event.locals.user === null) {
+      return fail(403, { msg: "Not logged in" });
+    }
+
+    if (
+      typeof currentPassword !== "string" ||
+      typeof newPassword !== "string" ||
+      typeof newPasswordRepeat !== "string"
+    ) {
+      return fail(400, { msg: "Invalid form data" });
+    }
 
     const results = await db
       .select()
@@ -62,37 +79,34 @@ export const actions: Actions = {
       return fail(400, { msg: "Current password is invalid" });
     }
 
-    if (!validatePassword(newPassword)) {
-      return fail(400, { msg: "New password is invalid" });
-    }
-
     if (newPasswordRepeat !== newPassword) {
       return fail(400, { msg: "Passwords do not match" });
     }
 
-    const passwordHash = await hash(newPassword, {
-      // recommended minimum parameters
-      memoryCost: 19456,
-      timeCost: 2,
-      outputLen: 32,
-      parallelism: 1,
-    });
-
     try {
-      if (event.locals.user === null) {
-        return fail(403, { message: "Not logged in" });
-      } else {
-        await db
-          .update(table.user)
-          .set({ passwordHash })
-          .where(eq(table.user.id, event.locals.user.id));
-      }
+      passwordSchema.parse(newPassword);
+      const passwordHash = await hash(newPassword, {
+        // recommended minimum parameters
+        memoryCost: 19456,
+        timeCost: 2,
+        outputLen: 32,
+        parallelism: 1,
+      });
+      await db
+        .update(table.user)
+        .set({ passwordHash })
+        .where(eq(table.user.id, event.locals.user.id));
 
       await auth.invalidateSession(event.locals.session.id);
       auth.deleteSessionTokenCookie(event);
     } catch (e) {
-      console.error(e);
-      return fail(500, { message: "An error has occurred" });
+      if (e instanceof z.ZodError) {
+        const { errors } = z.treeifyError(e);
+        return fail(400, { msg: errors });
+      } else {
+        console.error(e);
+        return fail(500, { msg: "An error has occurred" });
+      }
     }
     return redirect(302, "/crew/login");
   },
@@ -104,30 +118,45 @@ export const actions: Actions = {
     if (!event.locals.session) {
       return fail(401);
     }
-    if (!validateUsername(username)) {
-      return fail(400, { message: "Invalid username" });
-    }
-    if (!validatePassword(password)) {
-      return fail(400, { message: "Invalid password" });
-    }
 
-    const userId = generateUserId();
-    const passwordHash = await hash(password, {
-      // recommended minimum parameters
-      memoryCost: 19456,
-      timeCost: 2,
-      outputLen: 32,
-      parallelism: 1,
-    });
+    if (typeof username !== "string" || typeof password !== "string") {
+      return fail(400, { message: "Invalid form data" });
+    }
 
     try {
+      usernameSchema.parse(username);
+      passwordSchema.parse(password);
+
+      const userId = generateUserId();
+      const passwordHash = await hash(password as string, {
+        // recommended minimum parameters
+        memoryCost: 19456,
+        timeCost: 2,
+        outputLen: 32,
+        parallelism: 1,
+      });
+
       await db
         .insert(table.user)
         .values({ id: userId, username, passwordHash });
-    } catch (e) {
-      console.error(e);
-      return fail(500, { message: "An error has occurred" });
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const { errors } = z.treeifyError(err);
+        return fail(400, { message: errors });
+      } else if (err instanceof DrizzleQueryError) {
+        if (
+          err.cause?.message.includes(
+            "duplicate key value violates unique constraint",
+          )
+        ) {
+          return fail(400, { message: "Username already taken" });
+        }
+      } else {
+        console.error(err);
+        return fail(500, { message: "An error has occurred" });
+      }
     }
+
     return {
       success: true,
       message: "Successfully registered " + username + "!",

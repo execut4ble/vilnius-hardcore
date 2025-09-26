@@ -1,33 +1,37 @@
 <script lang="ts">
+  import { resolve } from "$app/paths";
   import { page } from "$app/state";
+  import { m } from "$lib/paraglide/messages.js";
 </script>
 
 <div class="menu">
   <nav>
     <ul>
       <li aria-current={page.url.pathname === "/" ? "page" : undefined}>
-        <a href="/">Home</a>
+        <a href={resolve("/")}>{m["navigation.home"]()}</a>
       </li>
       <li aria-current={page.url.pathname === "/about" ? "page" : undefined}>
-        <a href="/about">About</a>
+        <a href={resolve("/about")}>{m["navigation.about"]()}</a>
       </li>
       <li aria-current={page.url.pathname === "/events" ? "page" : undefined}>
-        <a href="/events">Events</a>
+        <a href={resolve("/events")}>{m["navigation.events"]()}</a>
       </li>
       <li>
-        <a href="https://mp3.hardcore.lt/1120/">Live @ xi20</a>
+        <a href="https://mp3.hardcore.lt/1120/">{m["navigation.xi20live"]()}</a>
       </li>
       <li>
-        <a href="https://music.ver.lt">Music</a>
+        <a href="https://music.ver.lt">{m["navigation.music"]()}</a>
       </li>
       <li aria-current={page.url.pathname === "/blog" ? "page" : undefined}>
-        <a href="/blog">Blog</a>
+        <a href={resolve("/blog")}>{m["navigation.blog"]()}</a>
       </li>
       <li>
-        <a href="https://oldschool.hardcore.lt">Old version</a>
+        <a href="https://oldschool.hardcore.lt"
+          >{m["navigation.oldversion"]()}</a
+        >
       </li>
       <li aria-current={page.url.pathname === "/contacts" ? "page" : undefined}>
-        <a href="/contacts">Contacts</a>
+        <a href={resolve("/contacts")}>{m["navigation.contacts"]()}</a>
       </li>
     </ul>
   </nav>

@@ -3,6 +3,8 @@
   import { Event, Post, MetaTags } from "$lib/components";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
+  import { m } from "$lib/paraglide/messages.js";
+  import { resolve } from "$app/paths";
 
   let { data }: PageProps = $props();
   let post = $derived(data.recentPost[0]);
@@ -23,7 +25,7 @@
 
 {#if post}
   <h2 class="blog">
-    <strong>Recent news</strong>
+    <strong>{m.recent_news()}</strong>
   </h2>
 
   <div class="recent">
@@ -31,8 +33,9 @@
 
     <div class={isOverflowing ? "more" : "more opaque"}>
       {#if isOverflowing}
-        <a href="/blog/{post.slug}" transition:fade={{ duration: 200 }}
-          >read more...</a
+        <a
+          href={resolve("/blog/[slug]", { slug: post.slug as string })}
+          transition:fade={{ duration: 200 }}>{m.read_more()}</a
         >
       {:else}
         <!-- Workaround to prevent layout shift -->
@@ -43,12 +46,15 @@
 {/if}
 
 <h2 class="upcoming">
-  <strong>Upcoming events</strong>
+  <strong>{m.upcoming_events()}</strong>
 </h2>
 
 {#if data.events.length === 0}
-  <p>We have no upcoming events right now! Check back later!</p>
-  <p>Or check out our <a href="/events">past events</a></p>
+  <p>{m["no_events.check_later"]()}</p>
+  <p>
+    {m["no_events.checkout"]()}
+    <a href={resolve("/events")}>{m["no_events.past_events"]()}</a>
+  </p>
 {/if}
 <ul class="eventList">
   {#each data.events as event (event.slug)}

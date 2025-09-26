@@ -1,0 +1,3 @@
+INSERT INTO "event" ("title", "date", "description", "slug", "is_visible") VALUES('Test future event', '9999-01-01 12:34:00', 'This event is in the future', 'test-future-event', true);
+INSERT INTO "event" ("title", "date", "description", "slug", "is_visible") VALUES('Test past event', '2007-11-20 20:00:00', 'Zhiurkės [vno]\nAnarres [kns]\nNagasaki Nightmare [it]', 'test-past-event', true);
+INSERT INTO "post" ("user_id", "title", "date", "body", "slug") VALUES('wrzxjrwvl55o6jpykdohdrpo', 'Test blog post', '2025-06-27 05:50:44.913198+00', 'Hello!', 'test-blog-post');

@@ -5,6 +5,7 @@
   import { Event, Comment, AddCommentForm, MetaTags } from "$lib/components";
   import { slide } from "svelte/transition";
   import { page } from "$app/state";
+  import { m } from "$lib/paraglide/messages";
 
   let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);
@@ -19,14 +20,14 @@
 </svelte:head>
 
 <Event {...event} {form} detailed={true} />
-<strong><h2 id="comments">Comments</h2></strong>
+<strong><h2 id="comments">{m.comment_plural()}</h2></strong>
 
 {#key event.id}
   <div class="comments">
     {#each comments as comment (comment.id)}
       <Comment {...comment} />
     {:else}
-      <div transition:slide>No comments found. Write something!</div>
+      <div transition:slide>{m.no_comments()}</div>
     {/each}
   </div>
 
@@ -37,5 +38,9 @@
 <style>
   div.comments div {
     margin-bottom: 1em;
+  }
+
+  h2 {
+    text-transform: capitalize;
   }
 </style>

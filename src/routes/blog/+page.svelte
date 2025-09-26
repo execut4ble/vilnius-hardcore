@@ -6,6 +6,8 @@
   import { goto, preloadData } from "$app/navigation";
   import type { PageProps } from "./$types";
   import { slide } from "svelte/transition";
+  import { m } from "$lib/paraglide/messages.js";
+  import { SvelteURL } from "svelte/reactivity";
 
   let { data, form }: PageProps = $props();
   let posts = $derived(data.posts);
@@ -27,7 +29,7 @@
   }
 
   function getNextPageURL() {
-    const newUrl = new URL(page.url);
+    const newUrl = new SvelteURL(page.url);
     const newPage = (Number(posts.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
     return newUrl;
@@ -48,16 +50,18 @@
   <MetaTags title="Blog" />
 </svelte:head>
 
-<h1>Blog</h1>
+<h1>{m["navigation.blog"]()}</h1>
 {#if data.user}
   {#if !entryMode}
-    <button type="button" 
-    class="post action new-post" 
-    onclick={() => (entryMode = true)}><Fa icon={faAdd} /> add new</button
+    <button
+      type="button"
+      class="post action new-post"
+      onclick={() => (entryMode = true)}
+      ><Fa icon={faAdd} /> {m.add_new()}</button
     >
   {:else}
     <div transition:slide>
-      <h2><strong>Add new blog post</strong></h2>
+      <h2><strong>{m.add_new_post()}</strong></h2>
       <div>
         <PostEntryForm
           {form}
@@ -77,13 +81,13 @@
     </li>
     <hr class="long" />
   {:else}
-    <p transition:slide>Nothing here!</p>
+    <p transition:slide>{m.no_posts()}</p>
   {/each}
 </ul>
 
 {#if displayedPosts !== null && displayedPosts < (totalPosts !== null ? totalPosts : 0)}
   <button class="post action" onclick={loadMore} onmouseenter={preloadNextPage}
-    >show more</button
+    >{m.show_more()}</button
   >
 {/if}
 

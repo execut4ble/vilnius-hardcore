@@ -2,29 +2,42 @@ import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
 
 import type { LayoutServerLoad } from "./$types";
-import type { RecentCommentsData } from "$lib/types";
+import type { RecentComment, RecentCommentsData } from "$lib/types";
 
-export const load: LayoutServerLoad = async ({ fetch, locals }) => {
+const queryRecentComments = async ({ locals }) => {
   const visibilityClause = locals.user
     ? sql``
     : sql`AND (c.event_id IS NULL OR e.is_visible = TRUE)`;
 
-  const recentComments: RecentCommentsData = await db.execute(sql`
-  SELECT 
-    c.id AS id,
-    c.author AS author,
-    c.date AS date,
-    e.title AS event_name,
-    e.slug AS event_slug,
-    p.title AS post_title,
-    p.slug AS post_slug
-  FROM comment c
-  LEFT JOIN event e ON c.event_id = e.id
-  LEFT JOIN post p ON c.post_id = p.id
-  WHERE 1=1
-  ${visibilityClause}
-  ORDER BY c.date DESC
-  LIMIT 5;`);
+  try {
+    const result = await db.execute(sql`
+      SELECT 
+        c.id AS id,
+        c.author AS author,
+        c.date AS date,
+        e.title AS event_name,
+        e.slug AS event_slug,
+        p.title AS post_title,
+        p.slug AS post_slug
+      FROM comment c
+      LEFT JOIN event e ON c.event_id = e.id
+      LEFT JOIN post p ON c.post_id = p.id
+      WHERE 1=1
+      ${visibilityClause}
+      ORDER BY c.date DESC
+      LIMIT 5;`);
+
+    return result.map((r) => r as RecentComment);
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+};
+
+export const load: LayoutServerLoad = async ({ fetch, locals }) => {
+  const recentComments: RecentCommentsData = await queryRecentComments({
+    locals,
+  });
 
   const shouts = await fetch("/api/shouts");
 

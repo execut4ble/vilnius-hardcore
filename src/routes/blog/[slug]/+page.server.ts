@@ -1,13 +1,15 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
-import { asc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { error } from "@sveltejs/kit";
 import { postActions } from "$lib/formActions/postActions";
 import { commentActions } from "$lib/formActions/commentActions";
 import type { PostsArray } from "$lib/types";
+import { loadPostComments } from "$lib/server/db/queries/comments";
 
 export const load = (async ({
+  locals,
   params,
 }): Promise<{
   post: PostsArray;
@@ -32,18 +34,7 @@ export const load = (async ({
     error(404, "Not Found");
   }
 
-  const comments = await db
-    .select({
-      id: table.comment.id,
-      author: table.comment.author,
-      content: table.comment.content,
-      date: table.comment.date,
-    })
-    .from(table.comment)
-    .innerJoin(table.post, eq(table.comment.postId, table.post.id))
-    .where(eq(table.post.slug, params.slug))
-    .orderBy(asc(table.comment.date));
-
+  const comments = await loadPostComments(locals, params);
   return { post, comments };
 }) satisfies PageServerLoad;
 

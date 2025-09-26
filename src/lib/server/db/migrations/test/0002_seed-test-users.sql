@@ -1,0 +1,1 @@
+INSERT INTO "user" ("id", "username", "password_hash") VALUES('wrzxjrwvl55o6jpykdohdrpo', 'playwright', '$argon2id$v=19$m=19456,t=2,p=1$lZ+gElMLcXA6k6F14aos4w$KHIPlutnO/cLG68vmomJIOR9YN+teEEaeWvpXwxEMAc');

@@ -13,7 +13,7 @@ services:
       POSTGRES_EXTENSIONS: unaccent
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./src/lib/server/db/migrations/0000_init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   pgdata:

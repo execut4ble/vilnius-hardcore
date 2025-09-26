@@ -11,6 +11,7 @@
   } from "$lib/components";
   import type { LayoutProps } from "./$types";
   import type { RecentCommentsData, UserInfoData } from "$lib/types";
+  import { locales, setLocale } from "$lib/paraglide/runtime";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
@@ -23,6 +24,11 @@
   <main>
     <row>
       <mobile>
+        <div class="locale">
+          {#each locales as locale (locale)}
+            <button onclick={() => setLocale(locale)}>{locale}</button>
+          {/each}
+        </div>
         {#if user}
           <UserInfo {user} />
         {/if}
@@ -32,6 +38,11 @@
         {@render children?.()}
       </section>
       <sidebar>
+        <div class="locale">
+          {#each locales as locale (locale)}
+            <button onclick={() => setLocale(locale)}>{locale}</button>
+          {/each}
+        </div>
         <div class="navigation">
           {#if user}
             <UserInfo {user} />
@@ -83,7 +94,6 @@
     margin: 50px auto;
     font-size: 14px;
     line-height: 16px;
-
     -webkit-font-smoothing: antialiased;
   }
 
@@ -102,7 +112,8 @@
     gap: 2em;
     align-items: center;
     margin-top: 2em;
-    width: 25em;
+    width: 15em;
+    flex-shrink: 0.1;
   }
 
   sidebar .navigation {
@@ -114,13 +125,14 @@
   row {
     display: flex;
     flex-direction: row;
+    justify-content: center;
   }
 
   @media screen and (max-width: 850px) {
     section {
       margin-left: 1em;
       margin-right: 1em;
-      width: fit-content;
+      width: unset;
     }
   }
 
@@ -136,6 +148,7 @@
       margin-left: 1em;
       min-width: auto;
       margin-bottom: 3em;
+      align-self: center;
     }
 
     main {
@@ -160,6 +173,10 @@
     }
 
     sidebar .navigation {
+      display: none;
+    }
+
+    sidebar .locale {
       display: none;
     }
   }

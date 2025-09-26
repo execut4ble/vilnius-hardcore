@@ -1,11 +1,12 @@
 import type { EventsArray } from "$lib/types";
 import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
-import { asc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { error } from "@sveltejs/kit";
 import { eventActions } from "$lib/formActions/eventActions";
 import { commentActions } from "$lib/formActions/commentActions";
+import { loadEventComments } from "$lib/server/db/queries/comments";
 
 export const load = (async ({
   params,
@@ -23,18 +24,6 @@ export const load = (async ({
     error(404, "Not Found");
   }
 
-  const comments = await db
-    .select({
-      id: table.comment.id,
-      author: table.comment.author,
-      content: table.comment.content,
-      date: table.comment.date,
-    })
-    .from(table.comment)
-    .innerJoin(table.event, eq(table.comment.eventId, table.event.id))
-    .where(eq(table.event.slug, params.slug))
-    .orderBy(asc(table.comment.date));
-
   // Convert date to ISO-8601 string
   for (const i in event) {
     event[i].date = new Date(event[i].date)
@@ -42,6 +31,7 @@ export const load = (async ({
       .replace(" ", "T");
   }
 
+  const comments = await loadEventComments(locals, params);
   return { event, comments };
 }) satisfies PageServerLoad;
 
