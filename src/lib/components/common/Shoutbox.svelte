@@ -52,7 +52,7 @@
         onmouseleave={() => (hoveredItem = null)}
       >
         <div class="heading">
-          <div class="author">
+          <div class="author" title={shout.author}>
             <strong>
               {shout.author}
             </strong>
@@ -108,6 +108,7 @@
   {/if}
   {#if displayInputForm}
     <form
+      class="add-shout"
       method="POST"
       action="/?/add_shout"
       use:enhance={() => {
@@ -124,6 +125,7 @@
         id="author"
         name="author"
         placeholder="Name"
+        class="shoutbox"
         bind:value={author}
         maxlength="30"
         required
@@ -173,18 +175,22 @@
 
   li.shout .heading {
     display: flex;
+    gap: 0.2em;
+    /* justify-content: space-around; */
+    min-width: 0;
   }
 
   li.shout .date {
     margin-left: auto;
     padding-right: 1em;
-    min-width: 5em;
+    white-space: nowrap;
   }
 
   li.shout .author {
-    max-width: 8em;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   form .actions {
@@ -195,18 +201,36 @@
     margin-left: auto;
   }
 
+  form.add-shout {
+    display: flex;
+    flex-direction: column;
+  }
   form textarea {
-    min-width: 12.5em;
-    max-width: 12.5em;
-    height: 3em;
+    max-height: 5em;
+    font-size: 10pt;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  form input.shoutbox#author {
+    font-size: 10pt;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  div.shoutbox {
+    width: 100%;
   }
 
   ul {
     max-height: 25em;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-width: 100%;
     padding-left: 0;
     list-style: none;
     font-size: 0.75rem;
+    scrollbar-color: var(--color-text-2) var(--color-text);
   }
 
   div.pagination {
