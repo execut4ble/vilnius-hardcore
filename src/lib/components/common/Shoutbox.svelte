@@ -6,6 +6,8 @@
   import { page } from "$app/state";
   import Fa from "svelte-fa";
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
+  import { m } from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime";
 
   type ValidationErrors = { author: string[]; content: string[] };
   type EnhancedResult = {
@@ -42,7 +44,7 @@
 </script>
 
 <div class="shoutbox">
-  <h3><strong>Shoutbox</strong></h3>
+  <h3><strong>{m.shoutbox()}</strong></h3>
   <ul>
     {#each shouts.data as shout (shout.id)}
       <li
@@ -67,7 +69,10 @@
           {/if}
           <div
             class="font-size-small dim date"
-            use:relativeTime={{ date: new Date(shout.date) }}
+            use:relativeTime={{
+              date: new Date(shout.date),
+              locale: getLocale(),
+            }}
           ></div>
         </div>
         <div class="content">
@@ -75,7 +80,7 @@
         </div>
       </li>
     {:else}
-      <div transition:slide>Nothing here. Write something!</div>
+      <div transition:slide>{m.shoutbox_empty()}</div>
     {/each}
   </ul>
   {#if totalRows && totalRows > perPage}
@@ -124,7 +129,7 @@
       <input
         id="author"
         name="author"
-        placeholder="Name"
+        placeholder={m["form.name"]()}
         class="shoutbox"
         bind:value={author}
         maxlength="30"
@@ -133,7 +138,7 @@
       <textarea
         id="content"
         name="content"
-        placeholder="Message"
+        placeholder={m["form.message"]()}
         bind:value={message}
         maxlength="150"
         spellcheck="false"
@@ -141,7 +146,7 @@
         autocomplete="off"
       ></textarea>
       <div class="actions">
-        <button type="submit">Scream into the void!</button>
+        <button type="submit">{m.shoutbox_submit()}</button>
         <div class="length">
           {message.length}/150
         </div>
@@ -158,7 +163,7 @@
     <button
       id="areyouacop"
       name="areyouacop"
-      onclick={() => (displayInputForm = true)}>Ż̴̼a̴͂ͅĺ̶͖g̷̋͜o̷̭̅ ̶̻̅l̵̯̍i̵̹͋s̶͎̿t̵͇̀e̸̯͑ṇ̸̽s̵͔̊.̶̪̏.̶̥͆.̸̲̆</button
+      onclick={() => (displayInputForm = true)}>{m.shoutbox_toggle()}</button
     >
   {/if}
 </div>
@@ -176,7 +181,6 @@
   li.shout .heading {
     display: flex;
     gap: 0.2em;
-    /* justify-content: space-around; */
     min-width: 0;
   }
 
