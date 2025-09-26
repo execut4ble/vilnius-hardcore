@@ -54,7 +54,8 @@
     "select_image": "Select an image",
     "upload": "Upload",
     "uploading": "Uploading...",
-    "clear_image": "Clear image"
+    "clear_image": "Clear image",
+    "message": "Message"
   },
   "draft": "DRAFT / NOT VISIBLE",
   "submit": "post",
@@ -80,5 +81,9 @@
   "blocked_ips_description": "These IP addresses are prohibited from posting comments.",
   "blocked_ips_no_entries": "Once you block an IP address it will appear here.",
   "blocked_on": "blocked on",
-  "block_ip": "block ip"
+  "block_ip": "block ip",
+  "shoutbox": "Shoutbox",
+  "shoutbox_empty": "Nothing here. Write something!",
+  "shoutbox_toggle": "Ż̴̼a̴͂ͅĺ̶͖g̷̋͜o̷̭̅ ̶̻̅l̵̯̍i̵̹͋s̶͎̿t̵͇̀e̸̯͑ṇ̸̽s̵͔̊.̶̪̏.̶̥͆.̸̲̆",
+  "shoutbox_submit": "Scream into the void!"
 }

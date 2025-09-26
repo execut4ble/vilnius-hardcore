@@ -1,8 +1,27 @@
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import validator from "validator";
-import { bannedIp, comment, event, post } from "./schema";
+import { bannedIp, comment, event, post, shout } from "./schema";
 import { m } from "$lib/paraglide/messages.js";
 import { z } from "zod";
+
+export const shoutInsertSchema = createInsertSchema(shout, {
+  author: (schema) =>
+    schema
+      .min(1, { message: "Name is required" })
+      .max(30, { message: "Name must be less than 30 characters" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Name can't be empty",
+      }),
+  content: (schema) =>
+    schema
+      .min(1, { message: "Shout can't be empty" })
+      .max(150, { message: "Shout must be less than 250 characters" })
+      .trim()
+      .refine((value) => !validator.isEmpty(value), {
+        message: "Shout can't be empty",
+      }),
+});
 
 export const commentInsertSchema = createInsertSchema(comment, {
   author: (schema) =>
