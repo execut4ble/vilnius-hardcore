@@ -73,10 +73,10 @@
 </script>
 
 <event>
-  {#if detailed && event.image}
+  {#if detailed && imageFilename}
     <img
       class="img"
-      src={event.image ? `/images/${event.image}` : ""}
+      src={imageFilename ? `/images/${imageFilename}` : ""}
       alt={event.title}
     />
   {/if}
@@ -160,15 +160,15 @@
             {slug}
           />
         {/if}
-        {#if !detailed && event.image}
-          {#if imageFilename}
-            <img
+        {#if !detailed && imageFilename}
+          <a href={resolve("/events/[slug]", { slug: event.slug as string })}
+            ><img
               class="previewImg"
               src={imageFilename ? `/images/${imageFilename}` : ""}
               alt={event.title}
               transition:blur
-            />
-          {/if}
+            /></a
+          >
         {/if}
       </div>
     </div>
