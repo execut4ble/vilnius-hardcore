@@ -23,6 +23,9 @@
   let newEventDate: Date = $state(new SvelteDate());
   let confirmCancel: boolean = $state(false);
   let eventDate: Date = $derived(new SvelteDate(event.date));
+  let dateToSave: Date = $derived(
+    formAction === "?/update_event" ? eventDate : newEventDate,
+  );
 </script>
 
 <form
@@ -40,48 +43,23 @@
   {/if}
   <FieldError errors={form?.errors?.title} />
   <label for="date">{m["form.date"]()}</label>
-  {#if event.date}
-    <DateInput
-      id="date"
-      bind:value={eventDate}
-      timePrecision="minute"
-      format="yyyy-MM-dd HH:mm"
-      min={new SvelteDate("2007-11-20")}
-      max={new SvelteDate("2099-12-31")}
-      placeholder={new SvelteDate().toLocaleString("lt-LT", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })}
-      required
-    />
-  {:else}
-    <DateInput
-      id="date"
-      bind:value={newEventDate}
-      format="yyyy-MM-dd HH:mm"
-      placeholder={new SvelteDate().toLocaleString("lt-LT", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })}
-      min={new SvelteDate("2007-11-20")}
-      max={new SvelteDate("2099-12-31")}
-      timePrecision="minute"
-      required
-    />
-  {/if}
-  <input
-    type="hidden"
-    name="date"
-    value={eventDate
-      ? new SvelteDate(eventDate).toLocaleString()
-      : new SvelteDate(newEventDate).toLocaleString()}
+  <DateInput
+    id="date"
+    bind:value={dateToSave}
+    timePrecision="minute"
+    format="yyyy-MM-dd HH:mm"
+    min={new SvelteDate("2007-11-20")}
+    max={new SvelteDate("2099-12-31")}
+    placeholder={new SvelteDate().toLocaleString("lt-LT", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    })}
+    required
   />
+  <input type="hidden" name="date" value={dateToSave} />
   <FieldError errors={form?.errors?.date} />
   {#if event.image}
     <input
