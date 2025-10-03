@@ -27,7 +27,7 @@ export const session = pgTable("session", {
 export const event = pgTable("event", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  date: timestamp("date", { withTimezone: false, mode: "string" }).notNull(),
+  date: timestamp("date", { withTimezone: true }).notNull(),
   description: text("description"),
   slug: text("slug"),
   image: text("image"),

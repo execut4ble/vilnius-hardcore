@@ -20,10 +20,10 @@
 
   let newEventDescription: string = $state("");
   let newEventTitle: string = $state("");
-  let newEventDate: Date = $state(new SvelteDate());
+  let newEventDate: Date | null = $state(null);
   let confirmCancel: boolean = $state(false);
   let eventDate: Date = $derived(new SvelteDate(event.date));
-  let dateToSave: Date = $derived(
+  let dateToSave: Date | null = $derived(
     formAction === "?/update_event" ? eventDate : newEventDate,
   );
 </script>
@@ -130,7 +130,7 @@
         onclick={() => {
           entryMode = false;
           newEventTitle = "";
-          newEventDate = new SvelteDate();
+          newEventDate = null;
           newEventDescription = "";
           confirmCancel = false;
         }}>{m.yes()}</button

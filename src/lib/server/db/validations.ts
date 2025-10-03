@@ -81,14 +81,11 @@ export const eventInsertSchema = createInsertSchema(event, {
         return m["error.title_empty"]();
       },
     }),
-  date: z.coerce
-    .date()
-    .refine((d) => !isNaN(d.getTime()), {
-      error: () => {
-        return "Invalid date";
-      },
-    })
-    .transform((d) => d.toLocaleString("lt-LT")),
+  date: z.coerce.date({
+    error: () => {
+      return m["error.date_invalid"]();
+    },
+  }),
   is_visible: z.coerce.boolean(),
 });
 
@@ -99,14 +96,11 @@ export const eventUpdateSchema = createUpdateSchema(event, {
         return m["error.title_empty"]();
       },
     }),
-  date: z.coerce
-    .date()
-    .refine((d) => !isNaN(d.getTime()), {
-      error: () => {
-        return "Invalid date";
-      },
-    })
-    .transform((d) => d.toLocaleString("lt-LT")),
+  date: z.coerce.date({
+    error: () => {
+      return m["error.date_invalid"]();
+    },
+  }),
   is_visible: z.coerce.boolean(),
 });
 
