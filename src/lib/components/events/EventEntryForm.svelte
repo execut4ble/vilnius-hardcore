@@ -5,6 +5,8 @@
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
+  import { DateInput } from "date-picker-svelte";
+  import { SvelteDate } from "svelte/reactivity";
 
   let {
     form,
@@ -18,8 +20,9 @@
 
   let newEventDescription: string = $state("");
   let newEventTitle: string = $state("");
-  let newEventDate: string = $state("");
+  let newEventDate: Date = $state(new SvelteDate());
   let confirmCancel: boolean = $state(false);
+  let eventDate: Date = $derived(new SvelteDate(event.date));
 </script>
 
 <form
@@ -38,22 +41,47 @@
   <FieldError errors={form?.errors?.title} />
   <label for="date">{m["form.date"]()}</label>
   {#if event.date}
-    <input
+    <DateInput
       id="date"
-      type="datetime-local"
-      name="date"
-      value={event.date}
+      bind:value={eventDate}
+      timePrecision="minute"
+      format="yyyy-MM-dd HH:mm"
+      min={new SvelteDate("2007-11-20")}
+      max={new SvelteDate("2099-12-31")}
+      placeholder={new SvelteDate().toLocaleString("lt-LT", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })}
       required
     />
   {:else}
-    <input
+    <DateInput
       id="date"
-      type="datetime-local"
-      name="date"
       bind:value={newEventDate}
+      format="yyyy-MM-dd HH:mm"
+      placeholder={new SvelteDate().toLocaleString("lt-LT", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })}
+      min={new SvelteDate("2007-11-20")}
+      max={new SvelteDate("2099-12-31")}
+      timePrecision="minute"
       required
     />
   {/if}
+  <input
+    type="hidden"
+    name="date"
+    value={eventDate
+      ? new SvelteDate(eventDate).toLocaleString()
+      : new SvelteDate(newEventDate).toLocaleString()}
+  />
   <FieldError errors={form?.errors?.date} />
   {#if event.image}
     <input
@@ -100,7 +128,7 @@
     type="button"
     class="post action"
     onclick={() => {
-      if (!newEventTitle && !newEventDate && !newEventDescription) {
+      if (!newEventTitle && !newEventDescription) {
         entryMode = false;
         confirmCancel = false;
         selectedImage = undefined;
@@ -124,7 +152,7 @@
         onclick={() => {
           entryMode = false;
           newEventTitle = "";
-          newEventDate = "";
+          newEventDate = new SvelteDate();
           newEventDescription = "";
           confirmCancel = false;
         }}>{m.yes()}</button

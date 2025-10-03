@@ -5,14 +5,17 @@
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
   import Markdown from "svelte-exmarkdown";
-  import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
-  import { RemoveItemForm, EventEntryForm } from "$lib/components";
+  import {
+    RemoveItemForm,
+    EventEntryForm,
+    ImageUploadForm,
+    CommentCount,
+  } from "$lib/components";
   import { blur } from "svelte/transition";
-  import CommentCount from "../common/CommentCount.svelte";
-  import { m } from "$lib/paraglide/messages.js";
   import { getLocale } from "$lib/paraglide/runtime";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
+  import { m } from "$lib/paraglide/messages";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
