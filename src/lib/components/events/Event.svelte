@@ -27,15 +27,7 @@
   let isVisible: boolean = $derived(event.is_visible);
   let locale: string = $derived(getLocale());
 
-  let date: string = $derived(
-    new SvelteDate(event.date).toLocaleString("lt-LT", {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-  );
+  let date: Date = $derived(new SvelteDate(event.date));
   const year: number = $derived(new SvelteDate(event.date).getFullYear());
   const month: string = $derived(
     new SvelteDate(event.date).toLocaleString(locale, {
@@ -125,7 +117,13 @@
           {/if}
           <div class="meta">
             <p class="date">
-              {date}
+              {date.toLocaleString("lt-LT", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
             {#if !detailed}
               <CommentCount
