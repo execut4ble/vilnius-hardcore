@@ -4,7 +4,7 @@ import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { asc, eq } from "drizzle-orm";
 
-export const load = (async ({ locals, params }) => {
+export const load = (async ({ locals }) => {
   if (!locals.user) {
     return redirect(302, "/crew/login");
   } else {

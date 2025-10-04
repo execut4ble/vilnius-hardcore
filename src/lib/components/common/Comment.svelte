@@ -28,7 +28,7 @@
 <div class="comment" transition:slide>
   <div class="heading">
     {#if page.data.user && isIpBanned}
-      <Fa icon={faBan} color={"#bf0405"} title={"User is IP banned"} />
+      <Fa icon={faBan} color="#bf0405" title="User is IP banned" />
     {/if}
     <span
       title={page.data.user
