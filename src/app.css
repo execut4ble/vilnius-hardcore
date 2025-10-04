@@ -26,6 +26,10 @@ p {
   word-break: break-word;
 }
 
+h2.title {
+  margin-bottom: 0.25em;
+}
+
 a {
   color: var(--link-color);
   text-decoration: none;
@@ -144,9 +148,9 @@ a:hover strong {
   color: var(--color-text-3);
 }
 
-hr.dim {
-  border-color: var(--color-text-3);
-  color: var(--color-text-3);
+hr {
+  border-color: var(--color-text-2);
+  color: var(--color-text-2);
 }
 
 .post.action {
@@ -197,7 +201,9 @@ form textarea {
   font-weight: 400;
   font-size: 1rem;
   padding: 12px 10px;
-  width: 20em;
+  max-width: 25em;
+  min-width: 12.5em;
+  width: 40vw;
   height: 10rem;
 }
 
@@ -257,4 +263,11 @@ div.meta {
 div.meta p {
   margin-bottom: 0;
   margin-top: 0;
+}
+
+hr.long {
+  width: 100%;
+  color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+  margin-bottom: 2em;
 }

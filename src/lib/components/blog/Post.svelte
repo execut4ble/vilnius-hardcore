@@ -99,7 +99,7 @@
 
 <style>
   div.content {
-    margin: 2em 0 2em 0;
+    margin: 0.25em 0 2em 0;
   }
 
   div.preview {

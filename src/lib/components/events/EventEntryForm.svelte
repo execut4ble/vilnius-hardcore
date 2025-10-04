@@ -138,9 +138,3 @@
     </div>
   {/if}
 </form>
-
-<style>
-  form textarea[name="description"] {
-    max-width: 25em;
-  }
-</style>

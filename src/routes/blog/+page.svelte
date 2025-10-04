@@ -101,11 +101,4 @@
   ul.postList li {
     list-style: none;
   }
-
-  ul.postList hr.long {
-    width: 100%;
-    color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.1);
-    margin-bottom: 2em;
-  }
 </style>

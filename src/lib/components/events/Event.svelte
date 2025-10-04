@@ -243,10 +243,6 @@
     white-space: pre-line;
   }
 
-  h2.title {
-    margin-bottom: 0.25em;
-  }
-
   div.draft {
     text-transform: uppercase;
   }
