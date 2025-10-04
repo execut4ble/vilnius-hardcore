@@ -5,6 +5,8 @@
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
+  import { DateInput } from "date-picker-svelte";
+  import { SvelteDate } from "svelte/reactivity";
 
   let {
     form,
@@ -18,8 +20,12 @@
 
   let newEventDescription: string = $state("");
   let newEventTitle: string = $state("");
-  let newEventDate: string = $state("");
+  let newEventDate: Date | null = $state(null);
   let confirmCancel: boolean = $state(false);
+  let eventDate: Date = $derived(new SvelteDate(event.date));
+  let dateToSave: Date | null = $derived(
+    formAction === "?/update_event" ? eventDate : newEventDate,
+  );
 </script>
 
 <form
@@ -37,23 +43,23 @@
   {/if}
   <FieldError errors={form?.errors?.title} />
   <label for="date">{m["form.date"]()}</label>
-  {#if event.date}
-    <input
-      id="date"
-      type="datetime-local"
-      name="date"
-      value={event.date}
-      required
-    />
-  {:else}
-    <input
-      id="date"
-      type="datetime-local"
-      name="date"
-      bind:value={newEventDate}
-      required
-    />
-  {/if}
+  <DateInput
+    id="date"
+    bind:value={dateToSave}
+    timePrecision="minute"
+    format="yyyy-MM-dd HH:mm"
+    min={new SvelteDate("2007-11-20")}
+    max={new SvelteDate("2099-12-31")}
+    placeholder={new SvelteDate().toLocaleString("lt-LT", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    })}
+    required
+  />
+  <input type="hidden" name="date" value={dateToSave} />
   <FieldError errors={form?.errors?.date} />
   {#if event.image}
     <input
@@ -100,7 +106,7 @@
     type="button"
     class="post action"
     onclick={() => {
-      if (!newEventTitle && !newEventDate && !newEventDescription) {
+      if (!newEventTitle && !newEventDescription) {
         entryMode = false;
         confirmCancel = false;
         selectedImage = undefined;
@@ -124,7 +130,7 @@
         onclick={() => {
           entryMode = false;
           newEventTitle = "";
-          newEventDate = "";
+          newEventDate = null;
           newEventDescription = "";
           confirmCancel = false;
         }}>{m.yes()}</button
@@ -132,9 +138,3 @@
     </div>
   {/if}
 </form>
-
-<style>
-  form textarea[name="description"] {
-    max-width: 25em;
-  }
-</style>

@@ -16,6 +16,7 @@
 
 <h1>{post.title}</h1>
 <Post {...post} {form} />
+<hr class="long" />
 <strong><h2 id="comments">{m.comment_plural()}</h2></strong>
 
 {#key post.id}
@@ -26,7 +27,6 @@
       <div transition:slide>{m.no_comments()}</div>
     {/each}
   </div>
-  <hr class="dim" />
   <AddCommentForm {form} />
 {/key}
 

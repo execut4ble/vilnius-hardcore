@@ -177,4 +177,33 @@
       display: none;
     }
   }
+
+  :global(body) {
+    --date-picker-foreground: var(--form-text-color);
+    --date-picker-background: #1c1c1c;
+    --date-picker-highlight-border: var(--form-border-color);
+    --date-picker-border-color: rgba(0, 0, 0, 0);
+    --date-picker-highlight-shadow: none;
+    --date-picker-selected-color: var(--link-hover-color);
+    --date-picker-selected-background: var(--color-text-2);
+    --date-input-width: fit-content;
+  }
+
+  :global(.date-time-field input) {
+    width: 16rem;
+    margin-top: 0.83em !important;
+    margin-bottom: 0.5em !important;
+    font-weight: 400 !important;
+    font-size: 1rem !important;
+    padding: 12px 10px !important;
+    border: 1px solid rgba(0, 0, 0, 0) !important;
+  }
+
+  :global(.date-time-field input:focus) {
+    border-color: var(--form-border-color) !important;
+  }
+
+  :global(.date-time-field select) {
+    background-color: var(--date-picker-background) !important;
+  }
 </style>

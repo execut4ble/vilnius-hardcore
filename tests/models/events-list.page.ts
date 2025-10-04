@@ -60,7 +60,15 @@ export class EventsListPage {
     await this.btnAddNewEvent.click();
     await expect(this.formEventEntry).toBeVisible();
     await this.inputEventTitle.fill(title);
-    await this.inputEventDate.fill(date.toISOString().slice(0, 16));
+    await this.inputEventDate.fill(
+      date.toLocaleString("lt-LT", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    );
     await this.inputEventDescription.fill(description);
     await this.chkBoxEventVisible.setChecked(isVisible);
     await this.btnSaveEvent.click();

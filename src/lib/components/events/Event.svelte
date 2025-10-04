@@ -5,14 +5,17 @@
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
   import Markdown from "svelte-exmarkdown";
-  import ImageUploadForm from "$lib/components/events/ImageUploadForm.svelte";
-  import { RemoveItemForm, EventEntryForm } from "$lib/components";
+  import {
+    RemoveItemForm,
+    EventEntryForm,
+    ImageUploadForm,
+    CommentCount,
+  } from "$lib/components";
   import { blur } from "svelte/transition";
-  import CommentCount from "../common/CommentCount.svelte";
-  import { m } from "$lib/paraglide/messages.js";
   import { getLocale } from "$lib/paraglide/runtime";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
+  import { m } from "$lib/paraglide/messages";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -24,15 +27,7 @@
   let isVisible: boolean = $derived(event.is_visible);
   let locale: string = $derived(getLocale());
 
-  let date: string = $derived(
-    new SvelteDate(event.date).toLocaleString("lt-LT", {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-  );
+  let date: Date = $derived(new SvelteDate(event.date));
   const year: number = $derived(new SvelteDate(event.date).getFullYear());
   const month: string = $derived(
     new SvelteDate(event.date).toLocaleString(locale, {
@@ -122,7 +117,13 @@
           {/if}
           <div class="meta">
             <p class="date">
-              {date}
+              {date.toLocaleString("lt-LT", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
             {#if !detailed}
               <CommentCount
@@ -240,10 +241,6 @@
 
   .eventBody {
     white-space: pre-line;
-  }
-
-  h2.title {
-    margin-bottom: 0.25em;
   }
 
   div.draft {

@@ -18,9 +18,7 @@
   let isEditing: boolean = $state(false);
   let title: string = $derived(post.title);
   let slug: string | null = $derived(post.slug);
-  let date: string = $derived(
-    new SvelteDate(post.date).toLocaleString("lt-LT"),
-  );
+  let date: Date = $derived(new SvelteDate(post.date));
   let authorUsername: string | null | undefined = $derived(post.authorUsername);
   let authorDisplayName: string | null = $derived(post.authorName);
   let body: string = $derived(post.body);
@@ -79,7 +77,9 @@
     <div class="meta">
       <p class="postInfo">
         {m.posted_by()}
-        {authorUsername || authorDisplayName || m.anonymous()} | {date}
+        {authorUsername || authorDisplayName || m.anonymous()} | {date.toLocaleString(
+          "lt-LT",
+        )}
       </p>
       <CommentCount taxonomy="blog" {slug} commentCount={post.comments} />
     </div>
@@ -99,7 +99,7 @@
 
 <style>
   div.content {
-    margin: 2em 0 2em 0;
+    margin: 0.25em 0 2em 0;
   }
 
   div.preview {

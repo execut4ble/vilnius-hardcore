@@ -73,7 +73,8 @@
     "title_required": "Otsikko vaaditaan",
     "title_empty": "Otsikko ei voi olla tyhjä",
     "date_empty": "Tapahtuman päivämäärä ei voi olla tyhjä",
-    "body_empty": "Kirjoituksen sisältö ei voi olla tyhjä"
+    "body_empty": "Kirjoituksen sisältö ei voi olla tyhjä",
+    "date_invalid": "Virheellinen päivämäärä"
   },
   "commented_on": "kirjoitti",
   "blocked_ips_heading": "Estetyt IP-osoitteet",
