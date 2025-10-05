@@ -73,7 +73,8 @@
     "title_required": "Pavadinimas yra privalomas",
     "title_empty": "Pavadinimas negali būti tuščias",
     "date_empty": "Renginio data negali būti tuščia",
-    "body_empty": "Turinys negali būti tuščias"
+    "body_empty": "Turinys negali būti tuščias",
+    "date_invalid": "Neteisinga data"
   },
   "commented_on": "apie",
   "blocked_ips_heading": "Užblokuoti IP adresai",

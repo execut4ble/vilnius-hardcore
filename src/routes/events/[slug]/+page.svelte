@@ -20,6 +20,7 @@
 </svelte:head>
 
 <Event {...event} {form} detailed={true} />
+<hr class="long" />
 <strong><h2 id="comments">{m.comment_plural()}</h2></strong>
 
 {#key event.id}
@@ -30,8 +31,6 @@
       <div transition:slide>{m.no_comments()}</div>
     {/each}
   </div>
-
-  <hr class="dim" />
   <AddCommentForm {form} />
 {/key}
 

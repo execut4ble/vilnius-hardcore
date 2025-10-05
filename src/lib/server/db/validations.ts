@@ -81,14 +81,13 @@ export const eventInsertSchema = createInsertSchema(event, {
         return m["error.title_empty"]();
       },
     }),
-  date: (schema) =>
-    schema
-      .min(1, {
-        error: () => {
-          return m["error.date_empty"]();
-        },
-      })
-      .trim(),
+  date: z.coerce
+    .date({
+      error: () => {
+        return m["error.date_invalid"]();
+      },
+    })
+    .transform((val) => val.toLocaleString("lt-LT")), // Database does not accept JS Date, transform to string
   is_visible: z.coerce.boolean(),
 });
 
@@ -99,14 +98,13 @@ export const eventUpdateSchema = createUpdateSchema(event, {
         return m["error.title_empty"]();
       },
     }),
-  date: (schema) =>
-    schema
-      .min(1, {
-        error: () => {
-          return m["error.date_empty"]();
-        },
-      })
-      .trim(),
+  date: z.coerce
+    .date({
+      error: () => {
+        return m["error.date_invalid"]();
+      },
+    })
+    .transform((val) => val.toLocaleString("lt-LT")), // Database does not accept JS Date, transform to string
   is_visible: z.coerce.boolean(),
 });
 

@@ -150,7 +150,13 @@
   div.formRow {
     display: flex;
     flex-direction: row;
-    gap: 2em;
+    justify-content: space-around;
+  }
+
+  @media screen and (max-width: 575px) {
+    div.formRow {
+      flex-direction: column-reverse;
+    }
   }
 
   div .previewImg {

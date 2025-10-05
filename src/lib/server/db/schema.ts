@@ -27,6 +27,9 @@ export const session = pgTable("session", {
 export const event = pgTable("event", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
+  // No timezone is intentional here
+  // just a wall-clock value in order to avoid +2 hours being added depending on server timezone
+  // mode: string ensures it's always returned as string both by raw SQL queries and Drizzle queries
   date: timestamp("date", { withTimezone: false, mode: "string" }).notNull(),
   description: text("description"),
   slug: text("slug"),
