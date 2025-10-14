@@ -4,6 +4,9 @@ import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
+import { fail, type Actions } from "@sveltejs/kit";
+import { z } from "zod";
+import { shoutInsertSchema } from "$lib/server/db/validations";
 
 export const load = (async (
   event,
@@ -62,3 +65,29 @@ export const load = (async (
 
   return { events, recentPost };
 }) satisfies PageServerLoad;
+
+export const actions: Actions = {
+  add_shout: async ({ request }) => {
+    const formData: FormData = await request.formData();
+    const data: object = Object.fromEntries(formData.entries());
+    try {
+      const shout = shoutInsertSchema.parse(data);
+      await db.insert(table.shout).values(shout);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const { fieldErrors: errors } = err.flatten();
+        return fail(400, { errors });
+      }
+    }
+  },
+  remove_shout: async ({ request, locals }) => {
+    if (!locals.session) {
+      return fail(401);
+    }
+    const formData: FormData = await request.formData();
+    const shoutId: FormDataEntryValue | null = formData.get("id");
+    await db
+      .delete(table.shout)
+      .where(eq(table.shout.id, shoutId as unknown as number));
+  },
+};

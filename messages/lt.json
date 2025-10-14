@@ -54,7 +54,8 @@
     "select_image": "Pasirinkti nuotrauką",
     "upload": "Įkelti",
     "uploading": "Įkeliama...",
-    "clear_image": "Panaikinti"
+    "clear_image": "Panaikinti",
+    "message": "Žinutė"
   },
   "draft": "nepaskelbta / viešai nematoma",
   "submit": "būpt",
@@ -81,5 +82,9 @@
   "blocked_ips_description": "Šie IP adresai negali skelbti komentarų.",
   "blocked_ips_no_entries": "Užblokuoti IP adresai bus rodomi čia.",
   "blocked_on": "užblokuotas",
-  "block_ip": "užblokuoti ip"
+  "block_ip": "užblokuoti ip",
+  "shoutbox": "Šaukykla",
+  "shoutbox_empty": "Tuščia. Būk pirmas!",
+  "shoutbox_toggle": "Z̵̈́͜͝a̸̢̭̝̿͠ĺ̶̞͕g̴̺̃̾ó̴̹̺ ̶͖̮̞̑ḳ̵̅̒ḻ̶̛̳̒̔ä̸̘́̂͌ụ̵̦̜̆s̶͉̖͒͊͝ọ̸̱̆̅́s̸̛͍̰̓̊i̴̹͓̋̅.̸̼͗̐.̴̳͍̭̾.̴̮̲̭̀̀͛",
+  "shoutbox_submit": "Šauk į tuštumą!"
 }

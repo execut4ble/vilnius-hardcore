@@ -54,7 +54,8 @@
     "select_image": "Valitse kuva",
     "upload": "Lataa",
     "uploading": "Ladataan...",
-    "clear_image": "Tyhjennä kuva"
+    "clear_image": "Tyhjennä kuva",
+    "message": "Viesti"
   },
   "draft": "LUONNOS / EI NÄKYVISSÄ",
   "submit": "lähetä",
@@ -81,5 +82,9 @@
   "blocked_ips_description": "Näistä IP-osoitteista ei voi julkaista kommentteja.",
   "blocked_ips_no_entries": "Kun estät IP-osoitteen, se näkyy täällä.",
   "blocked_on": "estetty",
-  "block_ip": "estä IP-osoite"
+  "block_ip": "estä IP-osoite",
+  "shoutbox": "Huutolaatikko",
+  "shoutbox_empty": "Täällä ei ole mitään. Kirjoita jotain!",
+  "shoutbox_toggle": "Z̸̛̪̓å̸͍l̶̬̪̇̇́g̷̛̞̍o̸͓̝͉͌ ̵̧̖̏k̵̝͌̿ū̴̟̠̀̓ȕ̶̫̪̙͐n̷̠̈͊͘t̷̨͒̎̌ẻ̶̬̘̱̔ĺ̶̼̘e̶̥̲̽͋͝ͅḛ̴̜͚̈́͊͝.̷̨̦̘̐̄.̵͕̲̝̈́͝.̷͍̀ͅ",
+  "shoutbox_submit": "Huuda tyhjyyteen!"
 }
