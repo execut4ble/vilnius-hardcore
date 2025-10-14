@@ -98,7 +98,7 @@
     width: 100%;
     flex-direction: column;
     align-content: center;
-    margin: 1.5em 3em 1.5em 3em;
+    padding: 1.5em 3em 1.5em 3em;
     min-width: 500px;
   }
 
@@ -129,8 +129,8 @@
 
   @media screen and (max-width: 850px) {
     section {
-      margin-left: 1em;
-      margin-right: 1em;
+      padding-left: 1em;
+      padding-right: 1em;
       width: unset;
     }
 
@@ -148,9 +148,9 @@
   @media screen and (max-width: 780px) {
     section {
       display: flex;
-      margin-left: 1em;
+      padding-left: 1em;
       min-width: auto;
-      margin-bottom: 3em;
+      padding-bottom: 3em;
       align-self: center;
     }
 

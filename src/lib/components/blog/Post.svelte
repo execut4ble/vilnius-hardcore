@@ -98,10 +98,6 @@
 </post>
 
 <style>
-  div.content {
-    margin: 0.25em 0 2em 0;
-  }
-
   div.preview {
     display: -webkit-box;
     -webkit-box-orient: vertical;
