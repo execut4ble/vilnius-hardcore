@@ -1,9 +1,11 @@
 <script lang="ts">
+  import { slide } from "svelte/transition";
+
   let { errors } = $props();
 </script>
 
 {#if errors}
-  <div class="fieldError">
+  <div class="fieldError" transition:slide>
     {errors?.join("\r\n") ?? ""}
   </div>
 {/if}

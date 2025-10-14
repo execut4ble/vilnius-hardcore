@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Post, ItemCount, PostEntryForm, MetaTags } from "$lib/components";
-  import { faAdd } from "@fortawesome/free-solid-svg-icons";
+  import { faAdd, faChevronDown } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { page } from "$app/state";
   import { goto, preloadData } from "$app/navigation";
@@ -87,18 +87,8 @@
 
 {#if displayedPosts !== null && displayedPosts < (totalPosts !== null ? totalPosts : 0)}
   <button class="post action" onclick={loadMore} onmouseenter={preloadNextPage}
-    >{m.show_more()}</button
+    ><Fa icon={faChevronDown}></Fa> {m.show_more()}</button
   >
 {/if}
 
 <ItemCount displayedItems={displayedPosts} totalItems={totalPosts} />
-
-<style>
-  ul.postList {
-    padding-left: 0;
-  }
-
-  ul.postList li {
-    list-style: none;
-  }
-</style>

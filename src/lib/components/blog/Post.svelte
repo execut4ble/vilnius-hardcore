@@ -121,7 +121,7 @@
     gap: 1.5em;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 780px) {
     div.meta {
       flex-direction: column;
       gap: 1em;
