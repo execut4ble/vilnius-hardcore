@@ -84,7 +84,7 @@
     color: var(--link-hover-color);
   }
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 780px) {
     nav a {
       font-size: 12pt;
       line-height: 16pt;

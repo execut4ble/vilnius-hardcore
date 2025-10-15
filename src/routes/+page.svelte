@@ -5,6 +5,8 @@
   import { fade } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { resolve } from "$app/paths";
+  import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+  import Fa from "svelte-fa";
 
   let { data }: PageProps = $props();
   let post = $derived(data.recentPost[0]);
@@ -35,7 +37,8 @@
       {#if isOverflowing}
         <a
           href={resolve("/blog/[slug]", { slug: post.slug as string })}
-          transition:fade={{ duration: 200 }}>{m.read_more()}</a
+          transition:fade={{ duration: 200 }}
+          ><Fa icon={faChevronRight}></Fa> {m.read_more()}</a
         >
       {:else}
         <!-- Workaround to prevent layout shift -->
@@ -71,14 +74,6 @@
 
   h2.upcoming {
     text-align: center;
-  }
-
-  ul.eventList {
-    padding-left: 0;
-  }
-
-  ul.eventList li {
-    list-style: none;
   }
 
   div.more {

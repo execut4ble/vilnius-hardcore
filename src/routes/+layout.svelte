@@ -85,10 +85,9 @@
   main {
     padding: 1rem;
     width: 100%;
-    max-width: 64rem;
-    margin: 0 auto;
+    max-width: 70rem;
     box-sizing: border-box;
-    margin: 50px auto;
+    margin: 2rem auto;
     font-size: 14px;
     line-height: 16px;
     -webkit-font-smoothing: antialiased;
@@ -99,7 +98,7 @@
     width: 100%;
     flex-direction: column;
     align-content: center;
-    margin: 0 5em 0 5em;
+    padding: 1.5em 3em 1.5em 3em;
     min-width: 500px;
   }
 
@@ -108,9 +107,10 @@
     flex-direction: column;
     gap: 2em;
     align-items: center;
-    margin-top: 2em;
-    width: 15em;
+    width: 17em;
+    padding: 2em 1em 1em 1em;
     flex-shrink: 0.1;
+    border-left: 1px solid rgba(255, 255, 255, 0.075);
   }
 
   sidebar .navigation {
@@ -123,28 +123,34 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 10px;
   }
 
   @media screen and (max-width: 850px) {
     section {
-      margin-left: 1em;
-      margin-right: 1em;
+      padding-left: 1em;
+      padding-right: 1em;
       width: unset;
+    }
+
+    sidebar {
+      width: 15em;
     }
   }
 
-  @media screen and (min-width: 720px) {
+  @media screen and (min-width: 780px) {
     mobile {
       display: none;
     }
   }
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 780px) {
     section {
       display: flex;
-      margin-left: 1em;
+      padding-left: 1em;
       min-width: auto;
-      margin-bottom: 3em;
+      padding-bottom: 3em;
       align-self: center;
     }
 
@@ -161,7 +167,8 @@
       flex-direction: column;
       align-items: center;
       gap: 2em;
-      margin-bottom: 3em;
+      margin-bottom: 2em;
+      margin-top: 2em;
     }
 
     sidebar {
@@ -182,7 +189,7 @@
     --date-picker-foreground: var(--form-text-color);
     --date-picker-background: #1c1c1c;
     --date-picker-highlight-border: var(--form-border-color);
-    --date-picker-border-color: rgba(0, 0, 0, 0);
+    --date-picker-border-color: rgba(255, 255, 255, 0.075);
     --date-picker-highlight-shadow: none;
     --date-picker-selected-color: var(--link-hover-color);
     --date-picker-selected-background: var(--color-text-2);
@@ -196,7 +203,7 @@
     font-weight: 400 !important;
     font-size: 1rem !important;
     padding: 12px 10px !important;
-    border: 1px solid rgba(0, 0, 0, 0) !important;
+    border: 1px solid rgba(255, 255, 255, 0.075) !important;
   }
 
   :global(.date-time-field input:focus) {

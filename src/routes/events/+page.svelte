@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
   import type { Event as EventObject } from "$lib/server/db/schema";
-  import { faAdd } from "@fortawesome/free-solid-svg-icons";
+  import { faAdd, faChevronDown } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import {
     Event,
@@ -133,20 +133,14 @@
 </ul>
 
 {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
-  <button class="post action" onclick={loadMore}>{m.show_more()}</button>
+  <button class="post action" onclick={loadMore}
+    ><Fa icon={faChevronDown}></Fa> {m.show_more()}</button
+  >
 {/if}
 
 <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
 
 <style>
-  ul.eventList {
-    padding-left: 0;
-  }
-
-  ul.eventList li {
-    list-style: none;
-  }
-
   div.formRow {
     display: flex;
     flex-direction: row;

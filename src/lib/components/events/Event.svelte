@@ -181,7 +181,6 @@
     display: flex;
     flex-direction: row;
     gap: 1em;
-    margin-bottom: 2em;
   }
 
   @media screen and (max-width: 575px) {

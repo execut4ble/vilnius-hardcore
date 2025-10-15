@@ -98,10 +98,6 @@
 </post>
 
 <style>
-  div.content {
-    margin: 0.25em 0 2em 0;
-  }
-
   div.preview {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -121,7 +117,7 @@
     gap: 1.5em;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 780px) {
     div.meta {
       flex-direction: column;
       gap: 1em;
