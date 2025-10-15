@@ -172,8 +172,9 @@
     }
 
     sidebar {
-      width: 100%;
+      width: auto;
       align-items: center;
+      border: none;
     }
 
     sidebar .navigation {
