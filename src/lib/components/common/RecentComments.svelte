@@ -33,6 +33,7 @@
         </div>
         <div
           class="font-size-small"
+          title={new SvelteDate(comment.date).toLocaleString("lt-LT")}
           use:relativeTime={{
             date: new SvelteDate(comment.date),
             locale: getLocale(),
