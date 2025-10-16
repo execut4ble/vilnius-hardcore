@@ -11,13 +11,23 @@
   import type { LayoutProps } from "./$types";
   import type { RecentCommentsData, UserInfoData } from "$lib/types";
   import { locales, setLocale } from "$lib/paraglide/runtime";
+  import { page } from "$app/state";
+  import { fade } from "svelte/transition";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
   let recentComments: RecentCommentsData = $derived(data.recentComments);
+  let backgroundImage = $derived(page.data.event?.[0]?.image ?? null);
 </script>
 
 <div class="app">
+  {#if backgroundImage}
+    <div
+      class="background-image"
+      style={`background-image: url('../images/${backgroundImage}')`}
+      transition:fade
+    ></div>
+  {/if}
   <Header />
   <main>
     <row>
@@ -125,6 +135,7 @@
     justify-content: center;
     border: 1px solid rgba(255, 255, 255, 0.075);
     border-radius: 10px;
+    backdrop-filter: blur(10px) brightness(50%);
   }
 
   @media screen and (max-width: 850px) {
@@ -213,5 +224,28 @@
 
   :global(.date-time-field select) {
     background-color: var(--date-picker-background) !important;
+  }
+
+  div.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    filter: opacity(30%);
+    background-size: cover;
+  }
+
+  div.background-image:after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(
+      180deg,
+      var(--color-bg) 15%,
+      rgba(255, 255, 255, 0),
+      var(--color-bg)
+    );
   }
 </style>
