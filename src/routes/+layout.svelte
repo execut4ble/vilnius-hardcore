@@ -235,6 +235,7 @@
     z-index: -1;
     filter: opacity(30%);
     background-size: cover;
+    background-position: center;
   }
 
   div.background-image:after {
