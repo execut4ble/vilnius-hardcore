@@ -13,14 +13,39 @@
   import { locales, setLocale } from "$lib/paraglide/runtime";
   import { page } from "$app/state";
   import { fade } from "svelte/transition";
+  import { confetti } from "@neoconfetti/svelte";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
   let recentComments: RecentCommentsData = $derived(data.recentComments);
   let backgroundImage = $derived(page.data.event?.[0]?.image ?? null);
+
+  const today = new Date();
+  const month = today.getMonth();
+  const day = today.getDate();
 </script>
 
 <div class="app">
+  {#if month === 10 && day === 20}
+    <div
+      class="foreground-confetti"
+      use:confetti={{
+        destroyAfterDone: true,
+        particleCount: 75,
+        stageHeight: window.innerHeight,
+        stageWidth: window.innerWidth,
+      }}
+    ></div>
+    <div
+      class="background-confetti"
+      use:confetti={{
+        destroyAfterDone: true,
+        particleCount: 100,
+        stageHeight: window.innerHeight,
+        stageWidth: window.innerWidth,
+      }}
+    ></div>
+  {/if}
   {#if backgroundImage}
     <div
       class="background-image"
@@ -248,5 +273,24 @@
       rgba(255, 255, 255, 0),
       var(--color-bg)
     );
+  }
+
+  div.background-confetti {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  div.foreground-confetti {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    pointer-events: none;
   }
 </style>
