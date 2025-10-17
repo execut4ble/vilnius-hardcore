@@ -258,7 +258,8 @@
     right: 0;
     bottom: 0;
     z-index: -1;
-    filter: opacity(30%);
+    pointer-events: none;
+    filter: opacity(40%);
     background-size: cover;
     background-position: center;
   }
@@ -269,7 +270,7 @@
     content: "";
     background: linear-gradient(
       180deg,
-      var(--color-bg) 15%,
+      var(--color-bg) 5%,
       rgba(255, 255, 255, 0),
       var(--color-bg)
     );
