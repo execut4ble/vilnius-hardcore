@@ -85,5 +85,21 @@
   "users": "Käyttäjät",
   "account": "Tili",
   "list_of_users": "Rekisteröityjen käyttäjien lista",
-  "blocked_ips_heading_short": "Estetyt IP:t"
+  "blocked_ips_heading_short": "Estetyt IP:t",
+  "hello": "Moi",
+  "your_userid": "Käyttäjätunnuksesi on",
+  "sign_out": "Kirjaudu ulos",
+  "password_form": {
+    "change_password": "Vaihda salasana",
+    "current_password": "Nykyinen salasana",
+    "new_password": "Uusi salasana",
+    "repeat_password": "Toista salasana"
+  },
+  "submit_form": "lähetä",
+  "register_user_first_time": "Luo käyttäjä ensimmäistä käyttöönottoa varten",
+  "username": "Käyttäjätunnus",
+  "password": "Salasana",
+  "login": "Kirjaudu sisään",
+  "register": "Rekisteröidy",
+  "register_user": "Rekisteröi käyttäjä"
 }

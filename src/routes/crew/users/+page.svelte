@@ -26,16 +26,16 @@
 
 {#if displayRegisterForm}
   <hr class="long" />
-  <h2>Register new user</h2>
+  <h2>{m.register_user()}</h2>
   <form method="post" action="?/register" use:enhance>
-    <label for="username">Username</label>
+    <label for="username">{m.username()}</label>
     <input name="username" />
-    <label for="password">Password</label>
+    <label for="password">{m.password()}</label>
     <input type="password" name="password" />
     <br />
-    <button>Submit</button>
+    <button>{m.submit_form()}</button>
     <button type="button" onclick={() => (displayRegisterForm = false)}
-      >Cancel</button
+      >{m.cancel()}</button
     >
   </form>
   {#if form?.message}
@@ -48,7 +48,7 @@
 {:else}
   <div>
     <button type="button" onclick={() => (displayRegisterForm = true)}
-      >Add new user</button
+      >{m.register_user()}</button
     >
   </div>
 {/if}

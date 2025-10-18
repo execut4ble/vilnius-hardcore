@@ -1,6 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { MetaTags } from "$lib/components";
+  import { m } from "$lib/paraglide/messages";
   import type { PageServerData, ActionData } from "./$types";
 
   let { data, form }: { data: PageServerData; form: ActionData } = $props();
@@ -11,29 +12,29 @@
   <MetaTags title="Crew" />
 </svelte:head>
 
-<h2>Hi, {data.user.username}!</h2>
+<h2>{m.hello()}, {data.user.username}!</h2>
 <div class="userInfo">
-  Your user ID is
+  {m.your_userid()}
   <pre class="inline">{data.user.id}</pre>
 </div>
 <form method="post" action="?/logout" use:enhance>
-  <button>Sign out</button>
+  <button>{m.sign_out()}</button>
 </form>
 
 {#if displayChangePasswordForm}
   <br /><br />
-  <h2>Change your password</h2>
+  <h2>{m["password_form.change_password"]()}</h2>
   <form method="post" action="?/change_password" use:enhance>
-    <label for="password">Current password</label>
+    <label for="password">{m["password_form.current_password"]()}</label>
     <input type="password" name="password" />
-    <label for="newPassword">New password</label>
+    <label for="newPassword">{m["password_form.new_password"]()}</label>
     <input type="password" name="newPass" />
-    <label for="newPassRepeat">Confirm new password</label>
+    <label for="newPassRepeat">{m["password_form.repeat_password"]()}</label>
     <input type="password" name="newPassRepeat" />
     <br />
-    <button>Submit</button>
+    <button>{m.submit_form()}</button>
     <button type="button" onclick={() => (displayChangePasswordForm = false)}
-      >Cancel</button
+      >{m.cancel()}</button
     >
   </form>
   {#if form?.msg}
@@ -46,7 +47,7 @@
 {:else}
   <div>
     <button type="button" onclick={() => (displayChangePasswordForm = true)}
-      >Change your password</button
+      >{m["password_form.change_password"]()}</button
     >
   </div>
 {/if}
