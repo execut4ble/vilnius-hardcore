@@ -16,9 +16,9 @@
 <h2>{m.blocked_ips_heading()}</h2>
 
 {#if banlist.length > 0}
-  <p>{m.blocked_ips_description()}</p>
+  <div>{m.blocked_ips_description()}</div>
 {:else}
-  <p>{m.blocked_ips_no_entries()}</p>
+  <div>{m.blocked_ips_no_entries()}</div>
 {/if}
 
 <ul>

@@ -46,6 +46,8 @@
 
   header img {
     padding-top: 0.75em;
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.3));
+    border-radius: 10px;
   }
 
   header a {

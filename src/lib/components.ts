@@ -17,4 +17,5 @@ export { default as AddCommentForm } from "$lib/components/common/AddCommentForm
 export { default as RemoveItemForm } from "$lib/components/common/RemoveItemForm.svelte";
 export { default as CommentCount } from "$lib/components/common/CommentCount.svelte";
 export { default as MetaTags } from "$lib/components/common/MetaTags.svelte";
-export { default as BannedAddress } from "$lib/components/common/BannedAddress.svelte";
+export { default as BannedAddress } from "$lib/components/crew/BannedAddress.svelte";
+export { default as CrewMenu } from "$lib/components/crew/CrewMenu.svelte";
