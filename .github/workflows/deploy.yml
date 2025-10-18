@@ -34,8 +34,8 @@ jobs:
 
       - name: Install npm packages
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && npm install"
-          echo "npm install completed"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && npm ci"
+          echo "npm ci completed"
 
       - name: Update database schema
         run: |
