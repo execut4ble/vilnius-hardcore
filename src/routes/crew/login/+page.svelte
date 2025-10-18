@@ -29,4 +29,4 @@
     <button>{m.login()}</button>
   {/if}
 </form>
-<p class="error" style="color: red">{form?.message ?? ""}</p>
+<p class="field-error">{form?.message ?? ""}</p>

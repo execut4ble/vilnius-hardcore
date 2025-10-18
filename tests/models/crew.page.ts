@@ -15,7 +15,7 @@ export class CrewPage {
     this.inputPassword = page.locator("input[name='password']");
     this.btnRegister = page.locator("form[action='?/register'] > button");
     this.formRegister = page.locator("form[action='?/register']");
-    this.ctrUserInfo = page.locator("section .userInfo");
+    this.ctrUserInfo = page.locator("section .user-info");
     this.btnLogout = page.locator("form[action='?/logout'] > button");
   }
 

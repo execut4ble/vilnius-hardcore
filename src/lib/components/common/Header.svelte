@@ -16,7 +16,7 @@
     |___|  (____  /__|  \____ |\___  &lt____/|__|    \___  &gt /\____/__|  
          \/     \/           \/    \/                  \/  \/</pre></figlet
     >
-    <div class="description">
+    <div class="site-description">
       <span>{description}</span><span class="cursor">&nbsp;</span>
     </div>
     <enhanced:img src={Logo} alt={description} /></a
@@ -26,7 +26,7 @@
 <!-- svelte-ignore css_unused_selector -->
 <style>
   :global(html.dark) figlet,
-  :global(html.dark) header .description {
+  :global(html.dark) header .site-description {
     display: inherit;
   }
 
@@ -35,7 +35,7 @@
   }
 
   :global(html) figlet,
-  :global(html) header .description {
+  :global(html) header .site-description {
     display: none;
   }
 
@@ -72,7 +72,7 @@
     box-shadow: none;
   }
 
-  .description {
+  .site-description {
     text-transform: uppercase;
   }
 
@@ -120,7 +120,7 @@
   }
 
   @media screen and (max-width: 450px) {
-    header .description {
+    header .site-description {
       font-size: 3vw;
     }
   }

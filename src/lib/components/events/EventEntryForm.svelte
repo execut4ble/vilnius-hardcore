@@ -29,7 +29,7 @@
 </script>
 
 <form
-  class="newEvent"
+  id="add-event"
   method="POST"
   action={formAction}
   autocomplete="off"

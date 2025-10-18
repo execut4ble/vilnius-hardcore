@@ -9,12 +9,12 @@
   import { resolve } from "$app/paths";
 </script>
 
-<div class="recentComments">
+<div id="recent-comments">
   <h3><strong>{m.recent_comments()}</strong></h3>
   <ul>
     {#each recentComments as comment (comment.id)}
       <li class="comment" transition:slide>
-        <div class="content">
+        <div class="comment-content">
           {comment.author}
           {m.commented_on()}
           {#if comment.event_slug}
@@ -31,7 +31,7 @@
             >
           {/if}
         </div>
-        <div
+        <span
           class="font-size-small"
           title={new SvelteDate(comment.date).toLocaleString("lt-LT")}
           use:relativeTime={{
@@ -40,7 +40,7 @@
           }}
         >
           &nbsp;
-        </div>
+        </span>
       </li>
     {:else}
       <div transition:slide>{m.no_comments()}</div>
@@ -49,11 +49,13 @@
 </div>
 
 <style>
-  li.comment {
-    margin-bottom: 1.5em;
+  div#recent-comments ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
   }
 
-  li.comment .content {
+  li.comment .comment-content {
     word-break: break-word;
     margin-bottom: 0.2em;
   }

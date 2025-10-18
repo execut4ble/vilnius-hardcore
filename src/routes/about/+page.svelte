@@ -211,10 +211,6 @@
 {/if}
 
 <style>
-  p.align-right {
-    text-align: right;
-  }
-
   h2 {
     margin-top: 1em;
     margin-bottom: 0;

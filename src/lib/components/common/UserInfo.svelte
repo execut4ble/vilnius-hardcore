@@ -5,6 +5,6 @@
   import { resolve } from "$app/paths";
 </script>
 
-<div class="userInfo">
+<div id="user-info">
   {m.logged_in()} <a href={resolve("/crew")}>{user?.username}</a>
 </div>

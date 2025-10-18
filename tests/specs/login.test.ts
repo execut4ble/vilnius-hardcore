@@ -28,7 +28,7 @@ test("Login with invalid credentials", async ({ page, loginPage, layout }) => {
   await loginPage.login("", "");
   await expect(page).toHaveURL("crew/login");
   await expect(
-    page.locator("p.error"),
+    page.locator("p.field-error"),
     "Error message should be visible",
   ).toBeVisible();
   await expect(layout.ctrUserInfo, "Should not be logged in").not.toBeVisible();

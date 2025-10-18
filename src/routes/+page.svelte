@@ -26,14 +26,14 @@
 </svelte:head>
 
 {#if post}
-  <h2 class="blog">
+  <h2 id="blog">
     <strong>{m.recent_news()}</strong>
   </h2>
 
-  <div class="recent">
+  <div id="recent">
     <Post {...post} preview={true} />
 
-    <div class={isOverflowing ? "more" : "more opaque"}>
+    <div class={isOverflowing ? "text-block" : "text-block opaque"}>
       {#if isOverflowing}
         <a
           href={resolve("/blog/[slug]", { slug: post.slug as string })}
@@ -48,7 +48,7 @@
   </div>
 {/if}
 
-<h2 class="upcoming">
+<h2 id="upcoming">
   <strong>{m.upcoming_events()}</strong>
 </h2>
 
@@ -59,7 +59,7 @@
     <a href={resolve("/events")}>{m["no_events.past_events"]()}</a>
   </p>
 {/if}
-<ul class="eventList">
+<ul class="item-list">
   {#each data.events as event (event.slug)}
     <li>
       <Event {...event} />
@@ -68,15 +68,11 @@
 </ul>
 
 <style>
-  h2.blog {
+  h2#blog {
     text-align: center;
   }
 
-  h2.upcoming {
+  h2#upcoming {
     text-align: center;
-  }
-
-  div.more {
-    margin-bottom: 2em;
   }
 </style>

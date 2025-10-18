@@ -5,7 +5,7 @@
 </script>
 
 {#if commentCount && commentCount > 0}
-  <p class="comments">
+  <span class="comment-count">
     <a href="/{taxonomy}/{slug}#comments"
       >{commentCount}
       {#if getLocale() === "lt"}
@@ -24,11 +24,11 @@
         {m.comment_singular()}
       {/if}
     </a>
-  </p>
+  </span>
 {/if}
 
 <style>
-  p.comments a {
+  span.comment-count a {
     text-decoration: none;
   }
 </style>

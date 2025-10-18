@@ -82,7 +82,7 @@ pre {
   color: var(--color-text-2);
 }
 
-pre.inline {
+.inline {
   display: inline;
 }
 
@@ -224,20 +224,16 @@ post div.content img {
   max-height: 65vh;
 }
 
-event div.description img {
+event div.event-description img {
   max-width: 100%;
   border-radius: 10px;
   margin-bottom: 1em;
   max-height: 65vh;
 }
 
-event div.description p {
+event div.event-description p {
   margin-bottom: 0;
   margin-top: 0;
-}
-
-div.errorMsg {
-  margin-bottom: 2em;
 }
 
 .font-size-small {
@@ -254,15 +250,10 @@ iframe {
   cursor: default;
 }
 
-div.meta {
+div.meta-info {
   display: flex;
   flex-direction: row;
   gap: 1.5em;
-}
-
-div.meta p {
-  margin-bottom: 0;
-  margin-top: 0;
 }
 
 hr.long {
@@ -273,20 +264,25 @@ hr.long {
   margin-bottom: 2em;
 }
 
-ul.eventList {
+ul.item-list {
   padding-left: 0;
 }
 
-ul.eventList li {
+ul.item-list li {
   list-style: none;
   margin-bottom: 2em;
 }
 
-ul.postList {
-  padding-left: 0;
+div.center-block {
+  margin: 2em;
+  display: flex;
+  justify-content: center;
 }
 
-ul.postList li {
-  list-style: none;
-  margin-bottom: 2em;
+div.text-block {
+  margin-bottom: 1em;
+}
+
+p.align-right {
+  text-align: right;
 }

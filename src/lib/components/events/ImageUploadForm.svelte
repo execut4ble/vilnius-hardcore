@@ -72,11 +72,11 @@
   method="POST"
   action="?/upload_image"
   enctype="multipart/form-data"
-  class="imageUpload"
+  class="upload-image"
   onsubmit={handleSubmit}
 >
   <div>
-    <label class="imageUpload" for={slug ? slug : "file"}
+    <label for={slug ? slug : "file"}
       >{selectedImageToSave
         ? selectedImageToSave
         : displayImage
@@ -131,25 +131,25 @@
 </form>
 
 <style>
-  form.imageUpload {
+  form.upload-image {
     width: 12em;
   }
 
-  form.imageUpload label {
+  form.upload-image label {
     word-wrap: break-word;
   }
 
-  form.imageUpload input {
+  form.upload-image input {
     display: none;
   }
 
-  form.imageUpload label {
+  form.upload-image label {
     border: 2px dashed var(--color-text);
     padding: 1.5em;
     margin-bottom: 1em;
   }
 
-  form.imageUpload label:hover {
+  form.upload-image label:hover {
     border: 2px dashed var(--color-text-2);
     color: var(--color-text-2);
   }

@@ -20,21 +20,17 @@
 <strong><h2 id="comments">{m.comment_plural()}</h2></strong>
 
 {#key post.id}
-  <div class="comments">
+  <div id="comments-list">
     {#each comments as comment (comment.id)}
       <Comment {...comment} />
     {:else}
-      <div transition:slide>{m.no_comments()}</div>
+      <div class="text-block" transition:slide>{m.no_comments()}</div>
     {/each}
   </div>
   <AddCommentForm {form} />
 {/key}
 
 <style>
-  div.comments div {
-    margin-bottom: 1em;
-  }
-
   h2 {
     text-transform: capitalize;
   }

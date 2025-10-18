@@ -10,7 +10,7 @@
 
 <strong><h3>{m.add_comment()}</h3></strong>
 <form
-  class="comment"
+  id="add-comment"
   method="POST"
   action="?/add_comment"
   autocomplete="off"
@@ -40,7 +40,7 @@
 </form>
 
 <style>
-  form.comment textarea {
+  form#add-comment textarea {
     height: 3.5em;
   }
 </style>

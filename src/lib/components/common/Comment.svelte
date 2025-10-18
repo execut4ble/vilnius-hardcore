@@ -26,7 +26,7 @@
 </script>
 
 <div class="comment" transition:slide>
-  <div class="heading">
+  <div class="comment-heading">
     {#if page.data.user && isIpBanned}
       <Fa icon={faBan} color="#bf0405" title="User is IP banned" />
     {/if}
@@ -81,7 +81,7 @@
     {/if}
   </div>
 
-  <div class="content">
+  <div class="comment-content">
     {comment.content}
   </div>
 </div>
@@ -91,11 +91,9 @@
     margin-bottom: 2em;
   }
 
-  div.comment .heading {
+  div.comment .comment-content {
+    margin-top: 1em;
     margin-bottom: 1em;
-  }
-
-  div.comment .content {
     margin-left: 0.5em;
     word-break: break-word;
   }
