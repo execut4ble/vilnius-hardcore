@@ -115,9 +115,7 @@
       <Event {...event} {form} />
     </li>
   {:else}
-    <p transition:slide>
-      {m["no_events.check_later"]()}
-    </p>
+    <span transition:slide> {m["no_events.check_later"]()}</span>
   {/each}
 </ul>
 
@@ -128,7 +126,7 @@
       <Event {...event} {form} />
     </li>
   {:else}
-    <p transition:slide>{m.no_past_events()}</p>
+    <span transition:slide>{m.no_past_events()}</span>
   {/each}
 </ul>
 

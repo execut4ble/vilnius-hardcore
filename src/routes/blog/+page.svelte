@@ -81,7 +81,7 @@
     </li>
     <hr class="long" />
   {:else}
-    <p transition:slide>{m.no_posts()}</p>
+    <span transition:slide>{m.no_posts()}</span>
   {/each}
 </ul>
 

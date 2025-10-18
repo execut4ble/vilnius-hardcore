@@ -94,5 +94,6 @@
   form#add-post textarea {
     width: 100%;
     max-width: 100%;
+    box-sizing: border-box;
   }
 </style>
