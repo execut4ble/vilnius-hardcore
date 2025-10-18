@@ -17,18 +17,24 @@ export class BlogPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.linkPost = page.locator("ul.postList post h2.title a");
+    this.linkPost = page.locator("ul.item-list post h2.title a");
     this.btnAddNewPost = page.locator("button.new-post");
-    this.formPostEntry = page.locator("form.newPost");
-    this.inputPostTitle = page.locator("form.newPost input#title");
-    this.inputPostContent = page.locator("form.newPost textarea#description");
-    this.btnSavePost = page.locator("form.newPost button[type='submit']");
+    this.formPostEntry = page.locator("form#add-post");
+    this.inputPostTitle = page.locator("form#add-post input#title");
+    this.inputPostContent = page.locator("form#add-post textarea#description");
+    this.btnSavePost = page.locator("form#add-post button[type='submit']");
     this.btnEditPost = page.locator("post button#edit");
     this.btnDeletePost = page.locator("post button#delete");
-    this.labelConfirmDelete = page.locator("button#delete + div.confirm");
-    this.btnConfirmDelete = page.locator("div.confirm > button[type='submit']");
-    this.btnDeclineDelete = page.locator("div.confirm > button[type='button']");
-    this.labelItemCount = page.locator("div.itemCount");
+    this.labelConfirmDelete = page.locator(
+      "button#delete + span.confirm-dialog",
+    );
+    this.btnConfirmDelete = page.locator(
+      "span.confirm-dialog > button[type='submit']",
+    );
+    this.btnDeclineDelete = page.locator(
+      "span.confirm-dialog > button[type='button']",
+    );
+    this.labelItemCount = page.locator("div#item-total");
   }
 
   async getItemCount(): Promise<number> {

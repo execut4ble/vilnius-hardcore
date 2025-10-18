@@ -70,25 +70,25 @@
 <event>
   {#if detailed && imageFilename}
     <img
-      class="img"
+      class="detailed"
       src={imageFilename ? `/images/${imageFilename}` : ""}
       alt={event.title}
     />
   {/if}
-  <div class="eventRow">
+  <div class="event-row">
     <div class="date">
-      <div class="month">
+      <span class="month">
         {month}
-      </div>
-      <div class="day">
+      </span>
+      <span class="day">
         <strong>{day}</strong>
-      </div>
-      <div class="year">
+      </span>
+      <span class="year">
         {year}
-      </div>
+      </span>
     </div>
-    <div class="eventDetails">
-      <div class="eventInfo">
+    <div class="event-block">
+      <div class="event-heading">
         {#if !isVisible}
           <div class="font-size-small dim draft">
             <Fa icon={faEyeSlash}></Fa>
@@ -115,8 +115,8 @@
               <RemoveItemForm {slug} action="?/remove_event" />
             </div>
           {/if}
-          <div class="meta">
-            <p class="date">
+          <div class="meta-info">
+            <span class="date">
               {date.toLocaleString("lt-LT", {
                 year: "numeric",
                 month: "numeric",
@@ -124,7 +124,7 @@
                 hour: "2-digit",
                 minute: "2-digit",
               })}
-            </p>
+            </span>
             {#if !detailed}
               <CommentCount
                 taxonomy="events"
@@ -134,8 +134,8 @@
             {/if}
           </div>
           <hr class="dim" />
-          <div class="eventBody">
-            <div class="description">
+          <div class="event-body">
+            <div class="event-description">
               {#if md}
                 <Markdown {md} />
               {/if}
@@ -153,7 +153,7 @@
           />
         {/if}
       </div>
-      <div>
+      <div class="image-upload">
         {#if isEditing}
           <ImageUploadForm
             bind:selectedImage
@@ -164,7 +164,7 @@
         {#if !detailed && imageFilename}
           <a href={resolve("/events/[slug]", { slug: event.slug as string })}
             ><img
-              class="previewImg"
+              class="preview"
               src={imageFilename ? `/images/${imageFilename}` : ""}
               alt={event.title}
               transition:blur
@@ -177,28 +177,28 @@
 </event>
 
 <style>
-  div.eventRow {
+  div.event-row {
     display: flex;
     flex-direction: row;
     gap: 1em;
   }
 
   @media screen and (max-width: 575px) {
-    div.eventDetails {
+    div.event-block {
       display: flex;
       flex-direction: column-reverse;
     }
   }
 
   @media screen and (min-width: 575px) {
-    div.eventDetails {
+    div.event-block {
       display: flex;
       flex-direction: row;
       flex-grow: 1;
     }
   }
 
-  div.eventRow div.date {
+  div.event-row div.date {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -209,36 +209,36 @@
   }
 
   @media screen and (max-width: 850px) {
-    div.eventRow div.date {
+    div.event-row div.date {
       margin: 0.5em 0em 0.5em 0em;
     }
   }
 
-  div.eventRow .date .day {
+  div.event-row div.date span.day {
     font-size: 20pt;
   }
 
-  div.eventRow .date .month {
+  div.event-row div.date span.month {
     text-transform: uppercase;
   }
 
-  event .img {
+  event img.detailed {
     max-width: 100%;
     border-radius: 10px;
     margin-bottom: 1em;
     max-height: 65vh;
   }
 
-  event .previewImg {
+  event img.preview {
     width: 12em;
     border-radius: 10px;
   }
 
-  div.eventInfo {
+  div.event-heading {
     flex-grow: 1;
   }
 
-  .eventBody {
+  div.event-body {
     white-space: pre-line;
   }
 

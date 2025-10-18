@@ -13,13 +13,16 @@
 </svelte:head>
 
 <h2>{m.hello()}, {data.user.username}!</h2>
-<div class="userInfo">
+<div class="user-info">
   {m.your_userid()}
   <pre class="inline">{data.user.id}</pre>
 </div>
-<form method="post" action="?/logout" use:enhance>
-  <button>{m.sign_out()}</button>
-</form>
+
+<div>
+  <form method="post" action="?/logout" use:enhance>
+    <button>{m.sign_out()}</button>
+  </form>
+</div>
 
 {#if displayChangePasswordForm}
   <br /><br />
@@ -38,7 +41,7 @@
     >
   </form>
   {#if form?.msg}
-    <div class="errorMsg">
+    <div class="fieldError">
       <strong>
         {form?.msg ?? ""}
       </strong>
@@ -51,13 +54,3 @@
     >
   </div>
 {/if}
-
-<style>
-  div.userInfo {
-    margin-bottom: 2em;
-  }
-
-  div button {
-    margin-bottom: 2em;
-  }
-</style>

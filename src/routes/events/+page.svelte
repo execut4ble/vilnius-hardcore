@@ -82,7 +82,7 @@
   {:else}
     <div transition:slide class="event-entry-form">
       <h2><strong>{m.add_new_event()}</strong></h2>
-      <div class="formRow">
+      <div class="form-row">
         <EventEntryForm
           {form}
           formAction="?/create_event"
@@ -96,7 +96,7 @@
           {#if displayImage}
             <div>
               <img
-                class="previewImg"
+                class="preview"
                 src={displayImage ? `/images/${displayImage}` : ""}
                 alt="New event"
                 transition:blur
@@ -109,7 +109,7 @@
   {/if}
 {/if}
 <h2><strong>{m.upcoming_events()}</strong></h2>
-<ul class="eventList">
+<ul class="item-list">
   {#each upcomingEvents as event (event.id)}
     <li transition:slide>
       <Event {...event} {form} />
@@ -122,7 +122,7 @@
 </ul>
 
 <h2><strong>{m.past_events()}</strong></h2>
-<ul class="eventList">
+<ul class="item-list">
   {#each pastEvents as event (event.id)}
     <li transition:slide>
       <Event {...event} {form} />
@@ -141,19 +141,19 @@
 <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
 
 <style>
-  div.formRow {
+  div.form-row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
   }
 
   @media screen and (max-width: 575px) {
-    div.formRow {
+    div.form-row {
       flex-direction: column-reverse;
     }
   }
 
-  div .previewImg {
+  div img.preview {
     width: 12em;
     border-radius: 10px;
     height: fit-content;

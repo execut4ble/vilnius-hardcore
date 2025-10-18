@@ -20,7 +20,7 @@
 </script>
 
 <form
-  class="newPost"
+  id="add-post"
   method="POST"
   action={formAction}
   autocomplete="off"
@@ -91,7 +91,7 @@
 </form>
 
 <style>
-  form.newPost textarea {
+  form#add-post textarea {
     width: 100%;
     max-width: 100%;
   }

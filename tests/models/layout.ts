@@ -7,7 +7,7 @@ export class Layout {
 
   constructor(page: Page) {
     this.page = page;
-    this.ctrUserInfo = page.locator("sidebar .userInfo");
-    this.labelRecentComments = page.locator(".recentComments li.comment");
+    this.ctrUserInfo = page.locator("sidebar #user-info");
+    this.labelRecentComments = page.locator("#recent-comments li.comment");
   }
 }

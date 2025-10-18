@@ -43,7 +43,7 @@
     <Fa icon={faTrash} /> {m.delete()}</button
   >
   {#if confirmDelete}
-    <div class="confirm">
+    <span class="confirm-dialog">
       <strong>{m.delete_confirm()}</strong>
       <button
         class="post action"
@@ -51,12 +51,12 @@
         onclick={() => (confirmDelete = false)}>{m.no()}</button
       >
       <button class="post action" type="submit">{m.yes()}</button>
-    </div>
+    </span>
   {/if}
 </form>
 
 <style>
-  div.confirm {
+  span.confirm-dialog {
     display: inline;
   }
 </style>

@@ -3,15 +3,12 @@
   import { m } from "$lib/paraglide/messages.js";
 </script>
 
-<div class="itemCount">
+<div id="item-total" class="center-block">
   {m.showing({ showCount: displayedItems, totalCount: totalItems })}
 </div>
 
 <style>
-  div.itemCount {
-    margin: 2em;
-    display: flex;
-    justify-content: center;
+  div#item-total {
     color: var(--color-text-3);
   }
 </style>

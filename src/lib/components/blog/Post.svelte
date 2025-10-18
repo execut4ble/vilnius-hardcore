@@ -74,13 +74,13 @@
         <RemoveItemForm {slug} action="?/remove_post" />
       </div>
     {/if}
-    <div class="meta">
-      <p class="postInfo">
+    <div class="meta-info">
+      <span class="post-heading">
         {m.posted_by()}
         {authorUsername || authorDisplayName || m.anonymous()} | {date.toLocaleString(
           "lt-LT",
         )}
-      </p>
+      </span>
       <CommentCount taxonomy="blog" {slug} commentCount={post.comments} />
     </div>
     <div class={preview ? "content preview" : "content"}>
@@ -104,21 +104,11 @@
     -webkit-line-clamp: 7;
     line-clamp: 7;
     overflow: hidden;
-  }
-
-  div.meta p {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  div.meta {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5em;
+    margin-bottom: 1em;
   }
 
   @media (max-width: 780px) {
-    div.meta {
+    div.meta-info {
       flex-direction: column;
       gap: 1em;
     }

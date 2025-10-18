@@ -9,7 +9,7 @@
 <TrackAppearance />
 {#if appearance.dark !== null}
   <button
-    class:isDarkMode={appearance.dark}
+    class:isHackerMode={appearance.dark}
     in:scale
     onclick={() => (appearance.dark = !appearance.dark)}
   >

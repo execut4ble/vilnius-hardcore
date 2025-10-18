@@ -19,22 +19,28 @@ export class EventsListPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.linkEvent = page.locator("ul.eventList event h2.title a");
+    this.linkEvent = page.locator("ul.item-list event h2.title a");
     this.btnAddNewEvent = page.locator("button.new-event");
-    this.formEventEntry = page.locator("form.newEvent");
-    this.inputEventTitle = page.locator("form.newEvent input#title");
-    this.inputEventDate = page.locator("form.newEvent input#date");
+    this.formEventEntry = page.locator("form#add-event");
+    this.inputEventTitle = page.locator("form#add-event input#title");
+    this.inputEventDate = page.locator("form#add-event input#date");
     this.inputEventDescription = page.locator(
-      "form.newEvent textarea#description",
+      "form#add-event textarea#description",
     );
-    this.chkBoxEventVisible = page.locator("form.newEvent input#is_visible");
-    this.btnSaveEvent = page.locator("form.newEvent button[type='submit']");
+    this.chkBoxEventVisible = page.locator("form#add-event input#is_visible");
+    this.btnSaveEvent = page.locator("form#add-event button[type='submit']");
     this.btnEditEvent = page.locator("event button#edit");
     this.btnDeleteEvent = page.locator("event button#delete");
-    this.labelConfirmDelete = page.locator("button#delete + div.confirm");
-    this.btnConfirmDelete = page.locator("div.confirm > button[type='submit']");
-    this.btnDeclineDelete = page.locator("div.confirm > button[type='button']");
-    this.labelItemCount = page.locator("div.itemCount");
+    this.labelConfirmDelete = page.locator(
+      "button#delete + span.confirm-dialog",
+    );
+    this.btnConfirmDelete = page.locator(
+      "span.confirm-dialog > button[type='submit']",
+    );
+    this.btnDeclineDelete = page.locator(
+      "span.confirm-dialog > button[type='button']",
+    );
+    this.labelItemCount = page.locator("div.item-total");
   }
 
   async openFirstEvent() {
