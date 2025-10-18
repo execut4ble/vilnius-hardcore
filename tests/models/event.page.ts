@@ -14,7 +14,7 @@ export class EventPage {
   constructor(page: Page) {
     this.page = page;
     this.formComment = page.locator("form#add-comment");
-    this.inputCommentAuthor = page.locator("form#-addcomment > input#author");
+    this.inputCommentAuthor = page.locator("form#add-comment > input#author");
     this.inputCommentText = page.locator("form#add-comment > textarea#content");
     this.inputCommentChallenge = page.locator("form#add-comment > input#acab");
     this.btnSubmitComment = page.locator(
@@ -22,10 +22,10 @@ export class EventPage {
     );
     this.ctrComment = page.locator("div#comments-list > div.comment");
     this.ctrCommentContent = page.locator(
-      "div#comments-list > div.comment > .content",
+      "div#comments-list > div.comment > .comment-content",
     );
     this.labelChallengeError = page.locator(
-      "form#add-comment > input#acab + div.fieldError",
+      "form#add-comment > input#acab + div.field-error",
     );
   }
 

@@ -41,7 +41,7 @@
     >
   </form>
   {#if form?.msg}
-    <div class="fieldError">
+    <div class="field-error">
       <strong>
         {form?.msg ?? ""}
       </strong>

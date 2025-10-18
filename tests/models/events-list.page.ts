@@ -40,7 +40,7 @@ export class EventsListPage {
     this.btnDeclineDelete = page.locator(
       "span.confirm-dialog > button[type='button']",
     );
-    this.labelItemCount = page.locator("div.item-total");
+    this.labelItemCount = page.locator("div#item-total");
   }
 
   async openFirstEvent() {
