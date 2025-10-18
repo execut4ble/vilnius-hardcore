@@ -81,5 +81,9 @@
   "blocked_ips_description": "These IP addresses are prohibited from posting comments.",
   "blocked_ips_no_entries": "Once you block an IP address it will appear here.",
   "blocked_on": "blocked on",
-  "block_ip": "block ip"
+  "block_ip": "block ip",
+  "users": "Users",
+  "account": "Account",
+  "list_of_users": "List of registered users:",
+  "blocked_ips_heading_short": "Blocked IPs"
 }
