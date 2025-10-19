@@ -13,7 +13,7 @@
 </svelte:head>
 
 <h2>{m.hello()}, {data.user.username}!</h2>
-<div class="user-info">
+<div class="user-info text-block">
   {m.your_userid()}
   <pre class="inline">{data.user.id}</pre>
 </div>
