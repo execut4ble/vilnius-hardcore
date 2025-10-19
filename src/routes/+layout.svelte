@@ -57,7 +57,7 @@
   <main>
     <row>
       <mobile>
-        <div class="locale">
+        <div id="locale">
           {#each locales as locale (locale)}
             <button onclick={() => setLocale(locale)}>{locale}</button>
           {/each}
@@ -71,12 +71,12 @@
         {@render children?.()}
       </section>
       <sidebar>
-        <div class="locale">
+        <div id="locale">
           {#each locales as locale (locale)}
             <button onclick={() => setLocale(locale)}>{locale}</button>
           {/each}
         </div>
-        <div class="navigation">
+        <div id="navigation">
           {#if user}
             <UserInfo {user} />
           {/if}
@@ -143,12 +143,12 @@
     gap: 2em;
     align-items: center;
     width: 17em;
-    padding: 2em 1em 1em 1em;
+    padding: 2em 1em 2em 1em;
     flex-shrink: 0.1;
     border-left: 1px solid rgba(255, 255, 255, 0.075);
   }
 
-  sidebar .navigation {
+  sidebar #navigation {
     display: flex;
     flex-direction: column;
     gap: 2em;
@@ -213,11 +213,11 @@
       border: none;
     }
 
-    sidebar .navigation {
+    sidebar #navigation {
       display: none;
     }
 
-    sidebar .locale {
+    sidebar #locale {
       display: none;
     }
   }

@@ -74,14 +74,14 @@
   {/if}
 {/if}
 
-<ul class="postList">
+<ul class="item-list">
   {#each data.posts as post (post.id)}
     <li transition:slide>
       <Post {...post} {form} />
     </li>
     <hr class="long" />
   {:else}
-    <p transition:slide>{m.no_posts()}</p>
+    <span transition:slide>{m.no_posts()}</span>
   {/each}
 </ul>
 

@@ -10,7 +10,7 @@
   import { page } from "$app/state";
 </script>
 
-<div class="crew-nav">
+<div id="crew-nav">
   <nav>
     <ul class="navlist-items">
       <li aria-current={page.url.pathname === "/crew" ? "page" : undefined}>

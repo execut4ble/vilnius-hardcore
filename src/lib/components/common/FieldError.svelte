@@ -5,13 +5,13 @@
 </script>
 
 {#if errors}
-  <div class="fieldError" transition:slide>
+  <div class="field-error" transition:slide>
     {errors?.join("\r\n") ?? ""}
   </div>
 {/if}
 
 <style>
-  div.fieldError {
+  div.field-error {
     color: var(--color-text-2);
     margin-bottom: 1em;
     white-space: pre;
