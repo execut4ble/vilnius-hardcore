@@ -50,6 +50,7 @@
     "body": "Turinys",
     "date": "Data",
     "description": "Aprašymas",
+    "external_url": "Nuoroda",
     "publish_event": "Paskelbti viešai",
     "select_image": "Pasirinkti nuotrauką",
     "upload": "Įkelti",
@@ -74,7 +75,8 @@
     "title_empty": "Pavadinimas negali būti tuščias",
     "date_empty": "Renginio data negali būti tuščia",
     "body_empty": "Turinys negali būti tuščias",
-    "date_invalid": "Neteisinga data"
+    "date_invalid": "Neteisinga data",
+    "url_invalid": "Neteisinga nuoroda"
   },
   "commented_on": "apie",
   "blocked_ips_heading": "Užblokuoti IP adresai",

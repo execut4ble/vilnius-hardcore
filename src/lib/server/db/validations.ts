@@ -89,6 +89,14 @@ export const eventInsertSchema = createInsertSchema(event, {
     })
     .transform((val) => val.toLocaleString("lt-LT")), // Database does not accept JS Date, transform to string
   is_visible: z.coerce.boolean(),
+  external_url: z.union([
+    z.url({
+      error: () => {
+        return m["error.url_invalid"]();
+      },
+    }),
+    z.literal(""),
+  ]),
 });
 
 export const eventUpdateSchema = createUpdateSchema(event, {
@@ -106,6 +114,14 @@ export const eventUpdateSchema = createUpdateSchema(event, {
     })
     .transform((val) => val.toLocaleString("lt-LT")), // Database does not accept JS Date, transform to string
   is_visible: z.coerce.boolean(),
+  external_url: z.union([
+    z.url({
+      error: () => {
+        return m["error.url_invalid"]();
+      },
+    }),
+    z.literal(""),
+  ]),
 });
 
 export const banInsertSchema = createInsertSchema(bannedIp);
