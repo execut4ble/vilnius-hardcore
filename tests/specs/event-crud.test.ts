@@ -13,11 +13,14 @@ test.describe("Event CRUD flow", () => {
   });
 
   test("Create a new event", async ({ eventsPage }) => {
+    const title: string = crypto.randomUUID();
+    const externalUrl: string = "https://example.com/events/" + title;
     await eventsPage.createEventAndVerifyContent(
-      crypto.randomUUID(),
+      title,
       new Date(),
       crypto.randomUUID(),
       true,
+      externalUrl,
     );
   });
 
@@ -26,11 +29,21 @@ test.describe("Event CRUD flow", () => {
       test.skip();
     } else {
       const editDescriptionValue: string = crypto.randomUUID();
+      const editExternalUrlValue: string =
+        "https://example.org/events/" + crypto.randomUUID();
       await eventsPage.btnEditEvent.first().click();
       await expect(eventsPage.formEventEntry).toBeVisible();
       await eventsPage.inputEventDescription.fill(editDescriptionValue);
+      await eventsPage.inputEventExternalUrl.fill(editExternalUrlValue);
       await eventsPage.btnSaveEvent.click();
       await expect(page.getByText(editDescriptionValue)).toBeVisible();
+      const linkExternalUrl = page.locator(
+        `span.external-url a[href="${editExternalUrlValue}"]`,
+      );
+      await expect(linkExternalUrl).toBeVisible();
+      await expect(linkExternalUrl).toContainText(
+        new URL(editExternalUrlValue).hostname,
+      );
     }
   });
 
