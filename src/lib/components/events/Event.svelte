@@ -1,6 +1,10 @@
 <script lang="ts">
   import Fa from "svelte-fa";
-  import { faPenToSquare, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+  import {
+    faPenToSquare,
+    faEyeSlash,
+    faLink,
+  } from "@fortawesome/free-solid-svg-icons";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
@@ -13,7 +17,7 @@
   } from "$lib/components";
   import { blur } from "svelte/transition";
   import { getLocale } from "$lib/paraglide/runtime";
-  import { SvelteDate } from "svelte/reactivity";
+  import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import { resolve } from "$app/paths";
   import { m } from "$lib/paraglide/messages";
 
@@ -26,6 +30,7 @@
   let selectedImage: string | null | undefined = $state();
   let isVisible: boolean = $derived(event.is_visible);
   let locale: string = $derived(getLocale());
+  let externalUrl: string | null = $derived(event.external_url);
 
   let date: Date = $derived(new SvelteDate(event.date));
   const year: number = $derived(new SvelteDate(event.date).getFullYear());
@@ -91,7 +96,7 @@
       <div class="event-heading">
         {#if !isVisible}
           <div class="font-size-small dim draft">
-            <Fa icon={faEyeSlash}></Fa>
+            <Fa icon={faEyeSlash} />
             {m.draft()}
           </div>
         {/if}
@@ -140,6 +145,16 @@
                 <Markdown {md} />
               {/if}
             </div>
+            {#if externalUrl}
+              <span class="external-url">
+                <p>
+                  <span class="icon"><Fa icon={faLink} /></span>
+                  <a href={externalUrl} target="_blank"
+                    ><strong>{new SvelteURL(externalUrl).hostname}</strong></a
+                  >
+                </p>
+              </span>
+            {/if}
           </div>
         {:else}
           <EventEntryForm
@@ -244,5 +259,10 @@
 
   div.draft {
     text-transform: uppercase;
+  }
+
+  span.external-url {
+    color: var(--color-text-3);
+    font-style: italic;
   }
 </style>

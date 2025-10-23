@@ -35,6 +35,7 @@ export const event = pgTable("event", {
   slug: text("slug"),
   image: text("image"),
   is_visible: boolean("is_visible").default(true).notNull(),
+  external_url: text("external_url"),
 });
 
 export const post = pgTable("post", {

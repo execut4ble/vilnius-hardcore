@@ -7,52 +7,23 @@
     RecentComments,
     UserInfo,
     ThemeToggle,
+    BackgroundImage,
+    Confetti,
   } from "$lib/components";
   import type { LayoutProps } from "./$types";
   import type { RecentCommentsData, UserInfoData } from "$lib/types";
   import { locales, setLocale } from "$lib/paraglide/runtime";
   import { page } from "$app/state";
-  import { fade } from "svelte/transition";
-  import { confetti } from "@neoconfetti/svelte";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
   let recentComments: RecentCommentsData = $derived(data.recentComments);
   let backgroundImage = $derived(page.data.event?.[0]?.image ?? null);
-
-  const today = new Date();
-  const month = today.getMonth();
-  const day = today.getDate();
 </script>
 
 <div class="app">
-  {#if month === 10 && day === 20}
-    <div
-      class="foreground-confetti"
-      use:confetti={{
-        destroyAfterDone: true,
-        particleCount: 75,
-        stageHeight: window.innerHeight,
-        stageWidth: window.innerWidth,
-      }}
-    ></div>
-    <div
-      class="background-confetti"
-      use:confetti={{
-        destroyAfterDone: true,
-        particleCount: 100,
-        stageHeight: window.innerHeight,
-        stageWidth: window.innerWidth,
-      }}
-    ></div>
-  {/if}
-  {#if backgroundImage}
-    <div
-      class="background-image"
-      style={`background-image: url('../images/${backgroundImage}')`}
-      transition:fade
-    ></div>
-  {/if}
+  <Confetti />
+  <BackgroundImage {backgroundImage} />
   <Header />
   <main>
     <row>
@@ -249,49 +220,5 @@
 
   :global(.date-time-field select) {
     background-color: var(--date-picker-background) !important;
-  }
-
-  div.background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    pointer-events: none;
-    filter: opacity(40%);
-    background-size: cover;
-    background-position: center;
-  }
-
-  div.background-image:after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    background: linear-gradient(
-      180deg,
-      var(--color-bg) 5%,
-      rgba(255, 255, 255, 0),
-      var(--color-bg)
-    );
-  }
-
-  div.background-confetti {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  div.foreground-confetti {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    pointer-events: none;
   }
 </style>

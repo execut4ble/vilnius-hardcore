@@ -8,6 +8,7 @@ export class EventsListPage {
   readonly inputEventTitle: Locator;
   readonly inputEventDate: Locator;
   readonly inputEventDescription: Locator;
+  readonly inputEventExternalUrl: Locator;
   readonly chkBoxEventVisible: Locator;
   readonly btnSaveEvent: Locator;
   readonly btnEditEvent: Locator;
@@ -26,6 +27,9 @@ export class EventsListPage {
     this.inputEventDate = page.locator("form#add-event input#date");
     this.inputEventDescription = page.locator(
       "form#add-event textarea#description",
+    );
+    this.inputEventExternalUrl = page.locator(
+      "form#add-event input#external_url",
     );
     this.chkBoxEventVisible = page.locator("form#add-event input#is_visible");
     this.btnSaveEvent = page.locator("form#add-event button[type='submit']");
@@ -62,6 +66,7 @@ export class EventsListPage {
     date: Date,
     description: string,
     isVisible: boolean,
+    externalUrl?: string,
   ) {
     await this.btnAddNewEvent.click();
     await expect(this.formEventEntry).toBeVisible();
@@ -76,6 +81,9 @@ export class EventsListPage {
       }),
     );
     await this.inputEventDescription.fill(description);
+    if (externalUrl) {
+      await this.inputEventExternalUrl.fill(externalUrl);
+    }
     await this.chkBoxEventVisible.setChecked(isVisible);
     await this.btnSaveEvent.click();
   }
@@ -85,13 +93,27 @@ export class EventsListPage {
     date: Date,
     description: string,
     isVisible: boolean,
+    externalUrl?: string,
   ) {
     const eventCount = await this.getItemCount();
-    await this.createNewEvent(title, date, description, isVisible);
+    await this.createNewEvent(title, date, description, isVisible, externalUrl);
     await expect(this.formEventEntry).not.toBeVisible();
     expect(await this.getItemCount()).toEqual(eventCount + 1);
     await expect(this.page.getByRole("heading", { name: title })).toBeVisible();
     await expect(this.page.getByText(description)).toBeVisible();
+    if (externalUrl) {
+      const linkExternalUrl = this.page.locator(
+        `span.external-url a[href="${externalUrl}"]`,
+      );
+      const imgExternalUrl = this.page.locator(
+        `span.external-url:has(a[href="${externalUrl}"]) span.icon svg`,
+      );
+      await expect(imgExternalUrl).toBeVisible();
+      await expect(linkExternalUrl).toBeVisible();
+      await expect(linkExternalUrl).toContainText(
+        new URL(externalUrl).hostname,
+      );
+    }
   }
 
   async clickDeleteAndDecline() {

@@ -19,3 +19,5 @@ export { default as CommentCount } from "$lib/components/common/CommentCount.sve
 export { default as MetaTags } from "$lib/components/common/MetaTags.svelte";
 export { default as BannedAddress } from "$lib/components/crew/BannedAddress.svelte";
 export { default as CrewMenu } from "$lib/components/crew/CrewMenu.svelte";
+export { default as BackgroundImage } from "$lib/components/common/BackgroundImage.svelte";
+export { default as Confetti } from "$lib/components/common/Confetti.svelte";

@@ -50,6 +50,7 @@
     "body": "Post body",
     "date": "Date",
     "description": "Description",
+    "external_url": "External URL",
     "publish_event": "Publish event",
     "select_image": "Select an image",
     "upload": "Upload",
@@ -74,7 +75,8 @@
     "title_empty": "Title can't be empty",
     "date_empty": "Event date can't be empty",
     "body_empty": "Post body can't be empty",
-    "date_invalid": "Invalid date"
+    "date_invalid": "Invalid date",
+    "url_invalid": "Invalid URL"
   },
   "commented_on": "on",
   "blocked_ips_heading": "Blocked IP addresses",

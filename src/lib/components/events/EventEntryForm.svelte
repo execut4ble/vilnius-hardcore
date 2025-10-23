@@ -20,6 +20,7 @@
 
   let newEventDescription: string = $state("");
   let newEventTitle: string = $state("");
+  let newEventExternalUrl: string = $state("");
   let newEventDate: Date | null = $state(null);
   let confirmCancel: boolean = $state(false);
   let eventDate: Date = $derived(new SvelteDate(event.date));
@@ -88,7 +89,17 @@
       bind:value={newEventDescription}
     ></textarea>
   {/if}
-  <br />
+  <label for="external_url">{m["form.external_url"]()}</label>
+  {#if event.external_url}
+    <input id="external_url" name="external_url" value={event.external_url} />
+  {:else}
+    <input
+      id="external_url"
+      name="external_url"
+      bind:value={newEventExternalUrl}
+    />
+  {/if}
+  <FieldError errors={form?.errors?.external_url} />
   <label for="is_visible"
     ><input
       type="checkbox"

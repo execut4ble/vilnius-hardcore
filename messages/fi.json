@@ -50,6 +50,7 @@
     "body": "Kirjoituksen sisältö",
     "date": "Päivämäärä",
     "description": "Kuvaus",
+    "external_url": "Ulkoinen linkki",
     "publish_event": "Julkaise tapahtuma",
     "select_image": "Valitse kuva",
     "upload": "Lataa",
@@ -74,7 +75,8 @@
     "title_empty": "Otsikko ei voi olla tyhjä",
     "date_empty": "Tapahtuman päivämäärä ei voi olla tyhjä",
     "body_empty": "Kirjoituksen sisältö ei voi olla tyhjä",
-    "date_invalid": "Virheellinen päivämäärä"
+    "date_invalid": "Virheellinen päivämäärä",
+    "url_invalid": "Virheellinen linkki"
   },
   "commented_on": "kirjoitti",
   "blocked_ips_heading": "Estetyt IP",
