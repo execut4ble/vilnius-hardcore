@@ -1,0 +1,1 @@
+ALTER TABLE "event" ADD COLUMN "external_url" text;
