@@ -3,6 +3,7 @@ import { and, eq, gte, sql } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { type RequestHandler } from "@sveltejs/kit";
 import ical, { ICalCalendarMethod } from "ical-generator";
+import { markdownToText } from "$lib/utils/markdown";
 
 export const GET: RequestHandler = async () => {
   const events = await db
@@ -30,7 +31,9 @@ export const GET: RequestHandler = async () => {
       start: startTime,
       end: endTime,
       summary: events[i].title,
-      description: events[i].description,
+      description: markdownToText(events[i].description as string) as
+        | string
+        | null,
       timezone: "Europe/Vilnius",
       url: events[i].external_url
         ? events[i].external_url

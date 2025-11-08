@@ -6,6 +6,7 @@
   import { slide } from "svelte/transition";
   import { page } from "$app/state";
   import { m } from "$lib/paraglide/messages";
+  import { markdownToText } from "$lib/utils/markdown";
 
   let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);
@@ -14,8 +15,11 @@
 
 <svelte:head>
   <MetaTags
-    title={event ? event.title : "Vilnius Hardcore"}
-    image={page.url.origin + "/images/" + event.image}
+    title={event ? event.title : undefined}
+    image={event.image ? page.url.origin + "/images/" + event.image : undefined}
+    description={event.description
+      ? markdownToText(event.description)
+      : undefined}
   />
 </svelte:head>
 
