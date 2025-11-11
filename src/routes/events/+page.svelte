@@ -53,7 +53,7 @@
   let totalEvents: number | null = $derived(data.meta[0].totalEvents);
 
   let iCalUrl: string = $state(page.url.origin + "/events/calendar.ics");
-  let rssUrl: string = $state(page.url.origin + "/events/feed.xml");
+  let rssUrl: string = $state(page.url.origin + "/events/feed.rss");
 
   function createEvent() {
     return async ({ update, result }) => {
