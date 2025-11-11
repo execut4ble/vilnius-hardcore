@@ -103,5 +103,6 @@
   "sign_out": "Atsijungti",
   "your_userid": "Tavo vartotojo ID yra",
   "hello": "Labas",
-  "register_user": "Užregistruoti naują vartotoją"
+  "register_user": "Užregistruoti naują vartotoją",
+  "copied": "Nukopijuota!"
 }

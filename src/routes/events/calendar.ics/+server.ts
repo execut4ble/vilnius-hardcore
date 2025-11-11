@@ -45,7 +45,7 @@ export const GET: RequestHandler = async () => {
     headers: {
       "Cache-Control": "max-age=3600, must-revalidate",
       "Content-Type": "text/calendar; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="events.ics"',
+      "Content-Disposition": 'attachment; filename="calendar.ics"',
     },
   });
 };
