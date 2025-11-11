@@ -23,9 +23,10 @@ export const GET: RequestHandler = async ({ request }) => {
     site_url: origin,
     feed_url: origin + "/events/feed.rss",
     image_url: "https://hardcore.lt/favicon.png",
+    generator: "XI20 crew",
+    webMaster: "vilnius@hardcore.lt",
   });
 
-  // console.log(events);
   for (const i in events) {
     const dateString = events[i].date;
     const startTime = new Date(dateString);
