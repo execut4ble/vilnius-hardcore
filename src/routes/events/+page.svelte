@@ -1,9 +1,15 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
   import type { Event as EventObject } from "$lib/server/db/schema";
-  import { faAdd, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+  import {
+    faAdd,
+    faCalendarAlt,
+    faChevronDown,
+    faRss,
+  } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import {
+    CopyTextButton,
     Event,
     EventEntryForm,
     ImageUploadForm,
@@ -46,6 +52,9 @@
   let displayedEvents: number | null = $derived(events.length);
   let totalEvents: number | null = $derived(data.meta[0].totalEvents);
 
+  let iCalUrl: string = $state(page.url.origin + "/events/calendar.ics");
+  let rssUrl: string = $state(page.url.origin + "/events/feed.rss");
+
   function createEvent() {
     return async ({ update, result }) => {
       await update();
@@ -69,6 +78,21 @@
 <svelte:head>
   <MetaTags title="Events" />
 </svelte:head>
+
+<div class="feed-links">
+  <ul class="feed-items">
+    <li>
+      <CopyTextButton
+        textToCopy={iCalUrl}
+        buttonIcon={faCalendarAlt}
+        buttonText="iCal"
+      />
+    </li>
+    <li>
+      <CopyTextButton textToCopy={rssUrl} buttonIcon={faRss} buttonText="RSS" />
+    </li>
+  </ul>
+</div>
 
 <h1>{m["navigation.events"]()}</h1>
 {#if data.user}
@@ -155,5 +179,21 @@
     width: 12em;
     border-radius: 10px;
     height: fit-content;
+  }
+
+  div.feed-links {
+    position: relative;
+  }
+
+  ul.feed-items {
+    position: absolute;
+    width: fit-content;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    list-style: none;
+    padding-left: 0;
+    align-items: flex-end;
   }
 </style>

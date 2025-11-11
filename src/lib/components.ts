@@ -21,3 +21,4 @@ export { default as BannedAddress } from "$lib/components/crew/BannedAddress.sve
 export { default as CrewMenu } from "$lib/components/crew/CrewMenu.svelte";
 export { default as BackgroundImage } from "$lib/components/common/BackgroundImage.svelte";
 export { default as Confetti } from "$lib/components/common/Confetti.svelte";
+export { default as CopyTextButton } from "$lib/components/common/CopyTextButton.svelte";

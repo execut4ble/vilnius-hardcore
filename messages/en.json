@@ -103,5 +103,6 @@
   "register": "Register",
   "login": "Login",
   "sign_out": "Sign out",
-  "register_user": "Register a new user"
+  "register_user": "Register a new user",
+  "copied": "Copied!"
 }

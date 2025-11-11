@@ -103,5 +103,6 @@
   "password": "Salasana",
   "login": "Kirjaudu sisään",
   "register": "Rekisteröidy",
-  "register_user": "Rekisteröi käyttäjä"
+  "register_user": "Rekisteröi käyttäjä",
+  "copied": "Kopioitu!"
 }
