@@ -24,7 +24,9 @@
     {#each comments as comment (comment.id)}
       <Comment {...comment} />
     {:else}
-      <div class="text-block" transition:slide>{m.no_comments()}</div>
+      {#if !post.disable_comments}
+        <div class="text-block" transition:slide>{m.no_comments()}</div>
+      {/if}
     {/each}
   </div>
   {#if post.disable_comments}
