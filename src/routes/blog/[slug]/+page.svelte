@@ -27,7 +27,11 @@
       <div class="text-block" transition:slide>{m.no_comments()}</div>
     {/each}
   </div>
-  <AddCommentForm {form} />
+  {#if post.disable_comments}
+    <div class="text-block" transition:slide>{m.comments_disabled()}</div>
+  {:else}
+    <AddCommentForm {form} />
+  {/if}
 {/key}
 
 <style>

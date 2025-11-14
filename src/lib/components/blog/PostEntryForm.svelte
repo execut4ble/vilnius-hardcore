@@ -52,6 +52,15 @@
     ></textarea>
   {/if}
   <FieldError errors={form?.errors?.body} />
+  <label for="disable_comments"
+    ><input
+      type="checkbox"
+      id="disable_comments"
+      name="disable_comments"
+      checked={post.disable_comments}
+    />
+    {m["form.disable_comments"]()}</label
+  >
   <br />
   <button type="submit" class="post action"
     ><Fa icon={faSave} /> {m.save()}</button

@@ -36,6 +36,7 @@ export const event = pgTable("event", {
   image: text("image"),
   is_visible: boolean("is_visible").default(true).notNull(),
   external_url: text("external_url"),
+  disable_comments: boolean("disable_comments").default(false).notNull(),
 });
 
 export const post = pgTable("post", {
@@ -49,6 +50,7 @@ export const post = pgTable("post", {
   body: text("body").notNull(),
   slug: text("slug"),
   image: text("image"),
+  disable_comments: boolean("disable_comments").default(false).notNull(),
 });
 
 export const comment = pgTable("comment", {

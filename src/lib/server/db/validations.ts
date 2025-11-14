@@ -57,6 +57,7 @@ export const postInsertSchema = createInsertSchema(post, {
         return m["error.body_empty"]();
       },
     }),
+  disable_comments: z.coerce.boolean(),
 });
 
 export const postUpdateSchema = createUpdateSchema(post, {
@@ -72,6 +73,7 @@ export const postUpdateSchema = createUpdateSchema(post, {
         return m["error.body_empty"]();
       },
     }),
+  disable_comments: z.coerce.boolean(),
 });
 
 export const eventInsertSchema = createInsertSchema(event, {
@@ -89,6 +91,7 @@ export const eventInsertSchema = createInsertSchema(event, {
     })
     .transform((val) => val.toLocaleString("lt-LT")), // Database does not accept JS Date, transform to string
   is_visible: z.coerce.boolean(),
+  disable_comments: z.coerce.boolean(),
   external_url: z.union([
     z.url({
       error: () => {
@@ -114,6 +117,7 @@ export const eventUpdateSchema = createUpdateSchema(event, {
     })
     .transform((val) => val.toLocaleString("lt-LT")), // Database does not accept JS Date, transform to string
   is_visible: z.coerce.boolean(),
+  disable_comments: z.coerce.boolean(),
   external_url: z.union([
     z.url({
       error: () => {

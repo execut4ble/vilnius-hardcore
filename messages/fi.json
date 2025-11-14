@@ -52,6 +52,7 @@
     "description": "Kuvaus",
     "external_url": "Ulkoinen linkki",
     "publish_event": "Julkaise tapahtuma",
+    "disable_comments": "Poista kommentointi käytöstä",
     "select_image": "Valitse kuva",
     "upload": "Lataa",
     "uploading": "Ladataan...",
@@ -104,5 +105,6 @@
   "login": "Kirjaudu sisään",
   "register": "Rekisteröidy",
   "register_user": "Rekisteröi käyttäjä",
-  "copied": "Kopioitu!"
+  "copied": "Kopioitu!",
+  "comments_disabled": "Kommentit on poistettu käytöstä."
 }

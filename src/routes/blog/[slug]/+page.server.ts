@@ -25,6 +25,7 @@ export const load = (async ({
       image: table.post.image,
       authorName: table.post.authorName,
       authorUsername: table.user.username,
+      disable_comments: table.post.disable_comments,
     })
     .from(table.post)
     .where(eq(table.post.slug, params.slug))

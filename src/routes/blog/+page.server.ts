@@ -6,7 +6,9 @@ import { eq, desc } from "drizzle-orm";
 import { postActions } from "$lib/formActions/postActions";
 import type { PostsArray } from "$lib/types";
 
-export const load = (async ({ url }): Promise<{ posts: PostsArray; meta: { totalPosts: number }[] }> => {
+export const load = (async ({
+  url,
+}): Promise<{ posts: PostsArray; meta: { totalPosts: number }[] }> => {
   const limit = Number(url.searchParams.get("limit")) || 5;
   const posts = await db
     .select({
@@ -19,6 +21,7 @@ export const load = (async ({ url }): Promise<{ posts: PostsArray; meta: { total
       authorName: table.post.authorName,
       authorUsername: table.user.username,
       comments: sql<number>`COUNT(comment.id)`.as("comments"),
+      disable_comments: table.post.disable_comments,
     })
     .from(table.post)
     .leftJoin(table.user, eq(table.user.id, table.post.author))
