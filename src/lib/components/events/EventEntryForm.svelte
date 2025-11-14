@@ -109,6 +109,15 @@
     />
     {m["form.publish_event"]()}</label
   >
+  <label for="disable_comments"
+    ><input
+      type="checkbox"
+      id="disable_comments"
+      name="disable_comments"
+      checked={event.disable_comments}
+    />
+    {m["form.disable_comments"]()}</label
+  >
   <br />
   <button type="submit" class="post action"
     ><Fa icon={faSave} /> {m.save()}</button

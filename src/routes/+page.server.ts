@@ -36,6 +36,7 @@ export const load = (async (
       authorName: table.post.authorName,
       authorUsername: table.user.username,
       comments: sql<number>`COUNT(comment.id)`.as("comments"),
+      disable_comments: table.post.disable_comments,
     })
     .from(table.post)
     .leftJoin(table.user, eq(table.user.id, table.post.author))

@@ -12,6 +12,12 @@ const queryPostId = async (slug: string): Promise<number | undefined> => {
   const queryResult: table.Post | undefined = await db.query.post.findFirst({
     where: eq(table.post.slug, slug),
   });
+  if (queryResult?.disable_comments) {
+    return -403;
+  }
+  if (queryResult === undefined) {
+    return -1;
+  }
   return queryResult?.id;
 };
 
@@ -19,6 +25,12 @@ const queryEventId = async (slug: string): Promise<number | undefined> => {
   const queryResult: table.Event | undefined = await db.query.event.findFirst({
     where: eq(table.event.slug, slug),
   });
+  if (queryResult?.disable_comments) {
+    return -403;
+  }
+  if (queryResult === undefined) {
+    return -1;
+  }
   return queryResult?.id;
 };
 
@@ -31,11 +43,25 @@ export const commentActions = {
     switch (parentRoute) {
       case "blog": {
         postId = await queryPostId(params.slug);
+        if (postId === -403) {
+          return fail(403, { errors: { submit: ["Comments are disabled"] } });
+        } else if (postId === -1) {
+          return fail(404, {
+            errors: { submit: ["Post not found. Refresh the page."] },
+          });
+        }
         formData.append("postId", postId?.toString() as string);
         break;
       }
       case "events": {
         eventId = await queryEventId(params.slug);
+        if (eventId === -403) {
+          return fail(403, { errors: { submit: ["Comments are disabled"] } });
+        } else if (eventId === -1) {
+          return fail(404, {
+            errors: { submit: ["Event not found. Refresh the page."] },
+          });
+        }
         formData.append("eventId", eventId?.toString() as string);
         break;
       }
