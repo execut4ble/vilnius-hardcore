@@ -174,7 +174,9 @@
     div.form-row {
       flex-direction: column-reverse;
     }
+  }
 
+  @media screen and (max-width: 780px) {
     ul.feed-items {
       display: flex;
       flex-direction: column;
@@ -191,7 +193,7 @@
     height: fit-content;
   }
 
-  @media screen and (min-width: 575px) {
+  @media screen and (min-width: 780px) {
     div.feed-links {
       position: relative;
     }
