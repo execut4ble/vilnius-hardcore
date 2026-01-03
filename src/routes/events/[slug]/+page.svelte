@@ -24,25 +24,27 @@
 </svelte:head>
 
 <Event {...event} {form} detailed={true} />
-<hr class="long" />
-<strong><h2 id="comments">{m.comment_plural()}</h2></strong>
+{#if page.data.globalCommentsEnabled}
+  <hr class="long" />
+  <strong><h2 id="comments">{m.comment_plural()}</h2></strong>
 
-{#key event.id}
-  <div id="comments-list">
-    {#each comments as comment (comment.id)}
-      <Comment {...comment} />
+  {#key event.id}
+    <div id="comments-list">
+      {#each comments as comment (comment.id)}
+        <Comment {...comment} />
+      {:else}
+        {#if !event.disable_comments}
+          <div class="text-block" transition:slide>{m.no_comments()}</div>
+        {/if}
+      {/each}
+    </div>
+    {#if event.disable_comments}
+      <div class="text-block" transition:slide>{m.comments_disabled()}</div>
     {:else}
-      {#if !event.disable_comments}
-        <div class="text-block" transition:slide>{m.no_comments()}</div>
-      {/if}
-    {/each}
-  </div>
-  {#if event.disable_comments}
-    <div class="text-block" transition:slide>{m.comments_disabled()}</div>
-  {:else}
-    <AddCommentForm {form} />
-  {/if}
-{/key}
+      <AddCommentForm {form} />
+    {/if}
+  {/key}
+{/if}
 
 <style>
   h2 {

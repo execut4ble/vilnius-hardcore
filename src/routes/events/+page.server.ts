@@ -5,6 +5,9 @@ import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eventActions } from "$lib/formActions/eventActions";
 import { eq } from "drizzle-orm";
+import { DISABLE_COMMENTS } from "$env/static/private";
+
+const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
 
 export const load = (async ({
   locals,
@@ -34,6 +37,23 @@ export const load = (async ({
                   GROUP  BY event_id) c
               ON e.id = c.event_id
   ORDER  BY e.date;`);
+
+  const eventsCommentsDisabled: EventsArray = await db.execute(sql`
+    SELECT e.*
+    FROM   (SELECT *
+        FROM   event
+        WHERE  date >= CURRENT_DATE -- All upcoming events including today
+        ${visibilityClause}
+        UNION ALL
+        SELECT *
+        FROM   (SELECT *
+                FROM   event
+                WHERE  date < CURRENT_DATE -- Past events before today
+                ${visibilityClause}
+                ORDER  BY date DESC
+                LIMIT  ${limit}) past_events) e
+  ORDER  BY e.date;`);
+
   const meta = await db
     .select({ totalEvents: count() })
     .from(table.event)
@@ -46,7 +66,11 @@ export const load = (async ({
       .replace(" ", "T");
   }
 
-  return { events, meta };
+  if (commentsEnabled) {
+    return { events, meta };
+  } else {
+    return { events: eventsCommentsDisabled, meta };
+  }
 }) satisfies PageServerLoad;
 
 export const actions = eventActions satisfies Actions;

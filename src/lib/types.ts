@@ -13,7 +13,10 @@ export type CommentsArray = Array<Comment>;
 
 export type BannedIpsArray = Array<BannedIp>;
 
-export type Post = Omit<PostObject, "author">;
+export type Post = Omit<PostObject, "disable_comments" | "author"> &
+  // Make "author" and "disable_comments" optional to handle some cases
+  // where "author" is missing/anonymous or "disable_comments" is not required in query
+  Partial<Pick<PostObject, "disable_comments" | "author">>;
 
 export type PostsArray = Array<Post>;
 
@@ -35,11 +38,6 @@ export type PostComponent = Post & {
 } & {
   preview?: boolean;
 } & { form?: BlogActionData };
-
-export type LayoutData = {
-  user: UserInfoData;
-  recentComments: RecentCommentsData;
-};
 
 export type UserInfoData = {
   id: string;

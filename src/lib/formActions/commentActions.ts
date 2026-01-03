@@ -7,6 +7,9 @@ import {
   commentInsertSchema,
 } from "$lib/server/db/validations";
 import { z } from "zod";
+import { DISABLE_COMMENTS } from "$env/static/private";
+
+const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
 
 const queryPostId = async (slug: string): Promise<number | undefined> => {
   const queryResult: table.Post | undefined = await db.query.post.findFirst({
@@ -43,7 +46,7 @@ export const commentActions = {
     switch (parentRoute) {
       case "blog": {
         postId = await queryPostId(params.slug);
-        if (postId === -403) {
+        if (postId === -403 || !commentsEnabled) {
           return fail(403, { errors: { submit: ["Comments are disabled"] } });
         } else if (postId === -1) {
           return fail(404, {
@@ -55,7 +58,7 @@ export const commentActions = {
       }
       case "events": {
         eventId = await queryEventId(params.slug);
-        if (eventId === -403) {
+        if (eventId === -403 || !commentsEnabled) {
           return fail(403, { errors: { submit: ["Comments are disabled"] } });
         } else if (eventId === -1) {
           return fail(404, {

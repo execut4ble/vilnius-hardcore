@@ -81,7 +81,9 @@
           "lt-LT",
         )}
       </span>
-      <CommentCount taxonomy="blog" {slug} commentCount={post.comments} />
+      {#if page.data.globalCommentsEnabled}
+        <CommentCount taxonomy="blog" {slug} commentCount={post.comments} />
+      {/if}
     </div>
     <div class={preview ? "content preview" : "content"}>
       <Markdown md={body} {plugins} />

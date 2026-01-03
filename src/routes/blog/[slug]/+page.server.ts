@@ -7,13 +7,16 @@ import { postActions } from "$lib/formActions/postActions";
 import { commentActions } from "$lib/formActions/commentActions";
 import type { PostsArray } from "$lib/types";
 import { loadPostComments } from "$lib/server/db/queries/comments";
+import { DISABLE_COMMENTS } from "$env/static/private";
+
+const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
 
 export const load = (async ({
   locals,
   params,
 }): Promise<{
   post: PostsArray;
-  comments: Array<Omit<table.Comment, "postId" | "eventId">>;
+  comments?: Array<Omit<table.Comment, "postId" | "eventId">>;
 }> => {
   const post = await db
     .select({
@@ -35,8 +38,12 @@ export const load = (async ({
     error(404, "Not Found");
   }
 
-  const comments = await loadPostComments(locals, params);
-  return { post, comments };
+  if (commentsEnabled) {
+    const comments = await loadPostComments(locals, params);
+    return { post, comments };
+  } else {
+    return { post };
+  }
 }) satisfies PageServerLoad;
 
 export const actions = {

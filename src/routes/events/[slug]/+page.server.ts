@@ -7,13 +7,16 @@ import { error } from "@sveltejs/kit";
 import { eventActions } from "$lib/formActions/eventActions";
 import { commentActions } from "$lib/formActions/commentActions";
 import { loadEventComments } from "$lib/server/db/queries/comments";
+import { DISABLE_COMMENTS } from "$env/static/private";
+
+const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
 
 export const load = (async ({
   params,
   locals,
 }): Promise<{
   event: EventsArray;
-  comments: Array<Omit<table.Comment, "eventId" | "postId">>;
+  comments?: Array<Omit<table.Comment, "eventId" | "postId">>;
 }> => {
   const event: EventsArray = await db
     .select()
@@ -31,8 +34,12 @@ export const load = (async ({
       .replace(" ", "T");
   }
 
-  const comments = await loadEventComments(locals, params);
-  return { event, comments };
+  if (commentsEnabled) {
+    const comments = await loadEventComments(locals, params);
+    return { event, comments };
+  } else {
+    return { event };
+  }
 }) satisfies PageServerLoad;
 
 export const actions = {
