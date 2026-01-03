@@ -79,6 +79,8 @@
   <MetaTags title="Events" />
 </svelte:head>
 
+<h1>{m["navigation.events"]()}</h1>
+
 <div class="feed-links">
   <ul class="feed-items">
     <li>
@@ -94,7 +96,6 @@
   </ul>
 </div>
 
-<h1>{m["navigation.events"]()}</h1>
 {#if data.user}
   {#if !entryMode}
     <button
@@ -173,6 +174,15 @@
     div.form-row {
       flex-direction: column-reverse;
     }
+
+    ul.feed-items {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      align-items: center;
+      margin-top: 0;
+      padding-left: 0;
+    }
   }
 
   div img.preview {
@@ -181,19 +191,23 @@
     height: fit-content;
   }
 
-  div.feed-links {
-    position: relative;
-  }
+  @media screen and (min-width: 575px) {
+    div.feed-links {
+      position: relative;
+    }
 
-  ul.feed-items {
-    position: absolute;
-    width: fit-content;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
-    list-style: none;
-    padding-left: 0;
-    align-items: flex-end;
+    ul.feed-items {
+      position: absolute;
+      width: fit-content;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25em;
+      list-style: none;
+      padding-left: 0;
+      align-items: flex-end;
+      margin-top: 0;
+      top: -4rem;
+    }
   }
 </style>
