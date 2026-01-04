@@ -19,7 +19,11 @@
     <div class="site-description">
       <span>{description}</span><span class="cursor">&nbsp;</span>
     </div>
-    <enhanced:img src={Logo} alt={description} /></a
+    <enhanced:img
+      src={Logo}
+      alt={description}
+      sizes="(min-width:500px) 500px"
+    /></a
   >
 </header>
 

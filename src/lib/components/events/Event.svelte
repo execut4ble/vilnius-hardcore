@@ -130,12 +130,14 @@
                 minute: "2-digit",
               })}
             </span>
-            {#if !detailed}
-              <CommentCount
-                taxonomy="events"
-                {slug}
-                commentCount={event.comments}
-              />
+            {#if page.data.globalCommentsEnabled}
+              {#if !detailed}
+                <CommentCount
+                  taxonomy="events"
+                  {slug}
+                  commentCount={event.comments}
+                />
+              {/if}
             {/if}
           </div>
           <hr class="dim" />

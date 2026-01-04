@@ -18,6 +18,7 @@
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
   let recentComments: RecentCommentsData = $derived(data.recentComments);
+  let commentsEnabled: Boolean = $derived(data.globalCommentsEnabled);
   let backgroundImage = $derived(page.data.event?.[0]?.image ?? null);
 </script>
 
@@ -53,7 +54,9 @@
           {/if}
           <Menu />
         </div>
-        <RecentComments {recentComments} />
+        {#if commentsEnabled}
+          <RecentComments {recentComments} />
+        {/if}
         <ThemeToggle />
       </sidebar>
     </row>

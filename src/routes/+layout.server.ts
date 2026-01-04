@@ -2,14 +2,18 @@ import { db } from "$lib/server/db";
 import { sql } from "drizzle-orm";
 import type { LayoutServerLoad } from "./$types";
 import type { RecentComment, RecentCommentsData } from "$lib/types";
+import { env } from "$env/dynamic/private";
+
+const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
 
 const queryRecentComments = async ({ locals }) => {
-  const visibilityClause = locals.user
-    ? sql``
-    : sql`AND (c.event_id IS NULL OR e.is_visible = TRUE)`;
+  if (commentsEnabled) {
+    const visibilityClause = locals.user
+      ? sql``
+      : sql`AND (c.event_id IS NULL OR e.is_visible = TRUE)`;
 
-  try {
-    const result = await db.execute(sql`
+    try {
+      const result = await db.execute(sql`
       SELECT 
         c.id AS id,
         c.author AS author,
@@ -26,9 +30,12 @@ const queryRecentComments = async ({ locals }) => {
       ORDER BY c.date DESC
       LIMIT 5;`);
 
-    return result.map((r) => r as RecentComment);
-  } catch (e) {
-    console.error(e);
+      return result.map((r) => r as RecentComment);
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  } else {
     return [];
   }
 };
@@ -43,5 +50,9 @@ export const load: LayoutServerLoad = async ({ locals }) => {
     recentComments[i].date = new Date(recentComments[i].date).toISOString();
   }
 
-  return { user: locals.user, recentComments };
+  return {
+    user: locals.user,
+    recentComments,
+    globalCommentsEnabled: env.DISABLE_COMMENTS === "true" ? false : true,
+  };
 };
