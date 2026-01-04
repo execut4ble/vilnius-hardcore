@@ -7,9 +7,9 @@ import {
   commentInsertSchema,
 } from "$lib/server/db/validations";
 import { z } from "zod";
-import { DISABLE_COMMENTS } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
-const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
+const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
 
 const queryPostId = async (slug: string): Promise<number | undefined> => {
   const queryResult: table.Post | undefined = await db.query.post.findFirst({

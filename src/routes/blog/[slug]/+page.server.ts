@@ -7,9 +7,9 @@ import { postActions } from "$lib/formActions/postActions";
 import { commentActions } from "$lib/formActions/commentActions";
 import type { PostsArray } from "$lib/types";
 import { loadPostComments } from "$lib/server/db/queries/comments";
-import { DISABLE_COMMENTS } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
-const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
+const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
 
 export const load = (async ({
   locals,

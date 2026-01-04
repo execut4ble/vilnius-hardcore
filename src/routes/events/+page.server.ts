@@ -5,9 +5,9 @@ import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
 import { eventActions } from "$lib/formActions/eventActions";
 import { eq } from "drizzle-orm";
-import { DISABLE_COMMENTS } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
-const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
+const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
 
 export const load = (async ({
   locals,

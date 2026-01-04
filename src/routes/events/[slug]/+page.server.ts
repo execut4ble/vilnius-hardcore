@@ -7,9 +7,9 @@ import { error } from "@sveltejs/kit";
 import { eventActions } from "$lib/formActions/eventActions";
 import { commentActions } from "$lib/formActions/commentActions";
 import { loadEventComments } from "$lib/server/db/queries/comments";
-import { DISABLE_COMMENTS } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
-const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
+const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
 
 export const load = (async ({
   params,

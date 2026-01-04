@@ -5,9 +5,9 @@ import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { postActions } from "$lib/formActions/postActions";
 import type { PostsArray } from "$lib/types";
-import { DISABLE_COMMENTS } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
-const commentsEnabled = DISABLE_COMMENTS === "false" ? true : false;
+const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
 
 export const load = (async ({
   url,
