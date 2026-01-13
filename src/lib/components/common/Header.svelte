@@ -1,6 +1,6 @@
 <script lang="ts">
   import { resolve } from "$app/paths";
-  import Logo from "$lib/images/logo.gif?enhanced";
+  import Logo from "$lib/images/logo.gif";
   const description: string = $state(
     "Ska funk rasta punk scene, Vilnius, Lithuania",
   );
@@ -19,15 +19,10 @@
     <div class="site-description">
       <span>{description}</span><span class="cursor">&nbsp;</span>
     </div>
-    <enhanced:img
-      src={Logo}
-      alt={description}
-      sizes="(min-width:500px) 500px"
-    /></a
+    <img src={Logo} alt={description} /></a
   >
 </header>
 
-<!-- svelte-ignore css_unused_selector -->
 <style>
   :global(html.dark) figlet,
   :global(html.dark) header .site-description {
