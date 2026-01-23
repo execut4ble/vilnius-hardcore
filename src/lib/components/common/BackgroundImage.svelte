@@ -6,7 +6,7 @@
 
 {#key backgroundImage}
   <div
-    class="background-image"
+    class={backgroundImage ? "background-image" : "background-image blank"}
     style={backgroundImage
       ? `background-image: url('../images/${backgroundImage}')`
       : undefined}
@@ -38,5 +38,13 @@
       rgba(255, 255, 255, 0),
       var(--color-bg)
     );
+  }
+
+  div.background-image.blank {
+    filter: none;
+  }
+
+  div.background-image.blank:after {
+    background: none;
   }
 </style>

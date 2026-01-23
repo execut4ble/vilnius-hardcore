@@ -8,6 +8,7 @@
 
 <header>
   <a href={resolve("/")} aria-label="Vilnius Hardcore">
+    <img src={Logo} alt={description} />
     <figlet
       ><pre>    .__                     .___                            .__   __   
     |  |__ _____ _______  __| _/____  ___________   ____    |  |_/  |_ 
@@ -19,8 +20,7 @@
     <div class="site-description">
       <span>{description}</span><span class="cursor">&nbsp;</span>
     </div>
-    <img src={Logo} alt={description} /></a
-  >
+  </a>
 </header>
 
 <style>
@@ -34,7 +34,7 @@
   }
 
   :global(html) figlet,
-  :global(html) header .site-description {
+  :global(html):not(.dark) span.cursor {
     display: none;
   }
 
@@ -75,6 +75,11 @@
     text-transform: uppercase;
   }
 
+  :global(html):not(.dark) .site-description {
+    color: #f2f3f1;
+    position: absolute;
+  }
+
   .cursor {
     display: inline-block;
     background: var(--color-bg);
@@ -111,16 +116,31 @@
     }
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 780px) {
     header img {
       width: 100%;
       height: auto;
     }
   }
 
-  @media screen and (max-width: 450px) {
-    header .site-description {
-      font-size: 3vw;
+  @media screen and (min-width: 781px) {
+    :global(html):not(.dark) header .site-description {
+      padding-top: 13.37rem;
+      padding-left: 3.5em;
+    }
+  }
+
+  @media screen and (max-width: 780px) {
+    :global(html):not(.dark) header .site-description {
+      padding-top: 27.5%;
+      font-size: 2vw;
+      padding-left: 3.5em;
+    }
+  }
+
+  @media screen and (max-width: 780px) {
+    :global(html.dark) header .site-description {
+      font-size: 2vw;
     }
   }
 </style>
