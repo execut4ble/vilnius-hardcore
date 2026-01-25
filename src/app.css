@@ -4,7 +4,7 @@
 :root {
   --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
   --font-mono: "Fira Mono", "Courier Prime", monospace;
-  --color-bg: #070709;
+  --color-bg: #040204;
   --column-width: 42rem;
   --column-margin-top: 4rem;
   font-family: var(--font-body);
