@@ -106,5 +106,6 @@
   "hello": "Labas",
   "register_user": "Užregistruoti naują vartotoją",
   "copied": "Nukopijuota!",
-  "comments_disabled": "Komentarai išjungti."
+  "comments_disabled": "Komentarai išjungti.",
+  "today": "šiandien"
 }

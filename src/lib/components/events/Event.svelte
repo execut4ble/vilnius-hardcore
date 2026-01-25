@@ -108,6 +108,9 @@
               <a href={resolve("/events/[slug]", { slug: slug as string })}
                 ><strong>{event.title ? event.title : ""}</strong></a
               >{/if}
+            {#if year === new Date().getFullYear() && new Date(event.date).getMonth() === new Date().getMonth() && day === new Date().getDate()}
+              <span class="today">{m.today().toUpperCase()}</span>
+            {/if}
           </h2>
           {#if page.url.pathname !== "/" && page.data.user}
             <div class="actions">
@@ -266,5 +269,12 @@
   span.external-url {
     color: var(--color-text-3);
     font-style: italic;
+  }
+
+  span.today {
+    background: var(--color-text-2);
+    color: var(--link-hover-color);
+    text-decoration: none;
+    font-size: 11pt;
   }
 </style>

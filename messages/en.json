@@ -106,5 +106,6 @@
   "sign_out": "Sign out",
   "register_user": "Register a new user",
   "copied": "Copied!",
-  "comments_disabled": "Comments disabled."
+  "comments_disabled": "Comments disabled.",
+  "today": "today"
 }

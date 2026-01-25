@@ -106,5 +106,6 @@
   "register": "Rekisteröidy",
   "register_user": "Rekisteröi käyttäjä",
   "copied": "Kopioitu!",
-  "comments_disabled": "Kommentit on poistettu käytöstä."
+  "comments_disabled": "Kommentit on poistettu käytöstä.",
+  "today": "tänään"
 }
