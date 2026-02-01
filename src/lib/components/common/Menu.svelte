@@ -2,6 +2,17 @@
   import { resolve } from "$app/paths";
   import { page } from "$app/state";
   import { m } from "$lib/paraglide/messages.js";
+  import { getLocale } from "$lib/paraglide/runtime";
+  import sadtrombone from "$lib/sound/sadtrombone.ogg";
+
+  const sadTromboneText: string = "🪊 surullinen pasuuna";
+
+  let audio: HTMLAudioElement;
+
+  function playAudio() {
+    audio.currentTime = 0;
+    audio.play();
+  }
 </script>
 
 <div class="menu">
@@ -33,6 +44,13 @@
       <li aria-current={page.url.pathname === "/contacts" ? "page" : undefined}>
         <a href={resolve("/contacts")}>{m["navigation.contacts"]()}</a>
       </li>
+      {#if getLocale() === "fi"}
+        <li>
+          <!-- svelte-ignore a11y_invalid_attribute -->
+          <a href="#" onclick={playAudio}>{sadTromboneText.toUpperCase()}</a>
+        </li>
+        <audio bind:this={audio} src={sadtrombone}></audio>
+      {/if}
     </ul>
   </nav>
 </div>
