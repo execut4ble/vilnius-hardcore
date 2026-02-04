@@ -3,7 +3,7 @@ import { db } from "$lib/server/db";
 import { count, sql } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { eq, desc } from "drizzle-orm";
-import { postActions } from "$lib/formActions/postActions";
+import { postActions } from "$lib/server/actions/post.actions";
 import type { PostsArray } from "$lib/types";
 import { env } from "$env/dynamic/private";
 

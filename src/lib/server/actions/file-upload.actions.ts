@@ -4,7 +4,7 @@ import { Readable } from "node:stream";
 import type { ReadableStream } from "node:stream/web";
 import fs from "node:fs";
 import { pipeline } from "node:stream/promises";
-import { db } from "../server/db";
+import { db } from "../db";
 import * as table from "$lib/server/db/schema";
 import { and, eq, ne } from "drizzle-orm";
 

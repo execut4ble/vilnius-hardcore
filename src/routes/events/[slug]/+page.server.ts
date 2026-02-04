@@ -4,8 +4,8 @@ import { db } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 import * as table from "$lib/server/db/schema";
 import { error } from "@sveltejs/kit";
-import { eventActions } from "$lib/formActions/eventActions";
-import { commentActions } from "$lib/formActions/commentActions";
+import { eventActions } from "$lib/server/actions/event.actions";
+import { commentActions } from "$lib/server/actions/comment.actions";
 import { loadEventComments } from "$lib/server/db/queries/comments";
 import { env } from "$env/dynamic/private";
 
