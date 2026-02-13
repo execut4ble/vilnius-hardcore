@@ -30,6 +30,13 @@
       <li>
         <a href="https://mp3.hardcore.lt/1120/">{m["navigation.xi20live"]()}</a>
       </li>
+      <li
+        aria-current={page.url.pathname === "/xi20-guidelines"
+          ? "page"
+          : undefined}
+      >
+        <a href={resolve("/xi20-guidelines")}>{m["navigation.xi20guide"]()}</a>
+      </li>
       <li>
         <a href="https://music.ver.lt">{m["navigation.music"]()}</a>
       </li>
