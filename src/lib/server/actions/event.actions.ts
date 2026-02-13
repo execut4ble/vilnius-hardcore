@@ -6,7 +6,7 @@ import {
   eventInsertSchema,
   eventUpdateSchema,
 } from "$lib/server/db/validations";
-import { uploadImageAction } from "./fileUpload";
+import { uploadImageAction } from "./file-upload.actions";
 import { z } from "zod";
 
 export const eventActions = {

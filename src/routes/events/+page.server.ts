@@ -3,7 +3,7 @@ import { count, sql } from "drizzle-orm";
 import type { PageServerLoad, Actions } from "./$types";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
-import { eventActions } from "$lib/formActions/eventActions";
+import { eventActions } from "$lib/server/actions/event.actions";
 import { eq } from "drizzle-orm";
 import { env } from "$env/dynamic/private";
 

@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import type { RequestHandler } from "./$types";
-import { FILES_DIR } from "$lib/formActions/fileUpload";
+import { FILES_DIR } from "$lib/server/actions/file-upload.actions";
 
 export const GET: RequestHandler = ({ params }) => {
   const filePath = path.normalize(path.join(FILES_DIR, params.image));
