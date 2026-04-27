@@ -12,7 +12,7 @@ services:
       POSTGRES_DB: local
       POSTGRES_EXTENSIONS: unaccent
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql
 
 volumes:
   pgdata:
