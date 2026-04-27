@@ -8,7 +8,7 @@ import { db } from "../db";
 import * as table from "$lib/server/db/schema";
 import { and, eq, ne } from "drizzle-orm";
 
-export const FILES_DIR = "./static/public/uploads";
+export const FILES_DIR = "./uploads";
 
 export const uploadImageAction = async ({ locals, request }) => {
   const data: FormData = await request.formData();
