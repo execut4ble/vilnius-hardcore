@@ -19,6 +19,7 @@ const loadComments = async (
       ...(locals.user && {
         isIpBanned: isNotNull(table.bannedIp.ipAddress),
       }),
+      authorIsCrew: table.comment.authorIsCrew,
     })
     .from(table.comment)
     .innerJoin(parentTable, eq(parentId, parentTable.id))

@@ -57,7 +57,8 @@
     "select_image": "Select an image",
     "upload": "Upload",
     "uploading": "Uploading...",
-    "clear_image": "Clear image"
+    "clear_image": "Clear image",
+    "post_as_crew": "Comment as a crew member"
   },
   "draft": "DRAFT / NOT VISIBLE",
   "submit": "post",

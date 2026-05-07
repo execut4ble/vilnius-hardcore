@@ -29,6 +29,7 @@ export const commentInsertSchema = createInsertSchema(comment, {
       }),
   eventId: z.coerce.number().optional(),
   postId: z.coerce.number().optional(),
+  authorIsCrew: z.coerce.boolean(),
 })
   .extend({
     acab: z.literal("1312", {

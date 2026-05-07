@@ -63,6 +63,7 @@ export const comment = pgTable("comment", {
   date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
   content: text("content").notNull(),
   ipAddress: text("ip_address"),
+  authorIsCrew: boolean("is_crew").default(false).notNull(),
 });
 
 export const bannedIp = pgTable("banned_ip", {

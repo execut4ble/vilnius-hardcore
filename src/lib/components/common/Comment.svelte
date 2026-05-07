@@ -2,17 +2,24 @@
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import type { CommentComponent } from "$lib/types";
-  import { faBan, faGavel, faTrash } from "@fortawesome/free-solid-svg-icons";
+  import {
+    faBan,
+    faGavel,
+    faTrash,
+    faUserShield,
+  } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
 
   let { ...comment }: CommentComponent = $props();
+
   let date: Date = $derived(new SvelteDate(comment.date));
   let confirmDelete: boolean = $state(false);
   let confirmBlock: boolean = $state(false);
   let isIpBanned: boolean | undefined = $derived(comment.isIpBanned);
+  let authorIsCrew: boolean | undefined = $derived(comment.authorIsCrew);
 
   function banUser() {
     return async ({ update, result }) => {
@@ -29,6 +36,9 @@
   <div class="comment-heading">
     {#if page.data.user && isIpBanned}
       <Fa icon={faBan} color="#bf0405" title="User is IP banned" />
+    {/if}
+    {#if authorIsCrew}
+      <Fa icon={faUserShield} color={"var(--color-text-2)"} title="Crew" />
     {/if}
     <span
       title={page.data.user

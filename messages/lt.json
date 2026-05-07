@@ -57,7 +57,8 @@
     "select_image": "Pasirinkti nuotrauką",
     "upload": "Įkelti",
     "uploading": "Įkeliama...",
-    "clear_image": "Panaikinti"
+    "clear_image": "Panaikinti",
+    "post_as_crew": "Rodyti chebrytės ženklelį"
   },
   "draft": "nepaskelbta / viešai nematoma",
   "submit": "būpt",
