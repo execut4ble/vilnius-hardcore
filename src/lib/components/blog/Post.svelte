@@ -3,15 +3,14 @@
   import { page } from "$app/state";
   import { RemoveItemForm, CommentCount, PostEntryForm } from "$lib/components";
   import type { PostComponent } from "$lib/types";
-  import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
   import remarkYoutubePlugin from "remark-youtube";
   import Markdown from "svelte-exmarkdown";
-  import Fa from "svelte-fa";
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
+  import { SquarePen } from "@lucide/svelte";
 
   let { preview = false, form, ...post }: PostComponent = $props();
 
@@ -69,7 +68,7 @@
     {#if page.url.pathname !== "/" && page.data.user}
       <div class="actions">
         <button id="edit" class="post action" onclick={() => (isEditing = true)}
-          ><Fa icon={faPenToSquare} /> {m.edit()}</button
+          ><SquarePen /> {m.edit()}</button
         >
         <RemoveItemForm {slug} action="?/remove_post" />
       </div>

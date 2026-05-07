@@ -18,7 +18,7 @@
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
   let recentComments: RecentCommentsData = $derived(data.recentComments);
-  let commentsEnabled: Boolean = $derived(data.globalCommentsEnabled);
+  let commentsEnabled: boolean = $derived(data.globalCommentsEnabled);
   let backgroundImage = $derived(page.data.event?.[0]?.image ?? null);
 </script>
 

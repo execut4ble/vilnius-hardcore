@@ -1,10 +1,4 @@
 <script lang="ts">
-  import Fa from "svelte-fa";
-  import {
-    faPenToSquare,
-    faEyeSlash,
-    faLink,
-  } from "@fortawesome/free-solid-svg-icons";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import type { EventComponent } from "$lib/types";
@@ -20,6 +14,7 @@
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import { resolve } from "$app/paths";
   import { m } from "$lib/paraglide/messages";
+  import { EyeOff, Link2, SquarePen } from "@lucide/svelte";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
 
@@ -96,7 +91,7 @@
       <div class="event-heading">
         {#if !isVisible}
           <div class="font-size-small dim draft">
-            <Fa icon={faEyeSlash} />
+            <EyeOff />
             {m.draft()}
           </div>
         {/if}
@@ -118,7 +113,7 @@
                 id="edit"
                 class="post action"
                 onclick={() => (isEditing = true)}
-                ><Fa icon={faPenToSquare} /> {m.edit()}</button
+                ><SquarePen /> {m.edit()}</button
               >
               <RemoveItemForm {slug} action="?/remove_event" />
             </div>
@@ -153,7 +148,7 @@
             {#if externalUrl}
               <span class="external-url">
                 <p>
-                  <span class="icon"><Fa icon={faLink} /></span>
+                  <span class="icon"><Link2 /></span>
                   <a href={externalUrl} target="_blank"
                     ><strong>{new SvelteURL(externalUrl).hostname}</strong></a
                   >

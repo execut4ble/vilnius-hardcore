@@ -2,16 +2,10 @@
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import type { CommentComponent } from "$lib/types";
-  import {
-    faBan,
-    faGavel,
-    faTrash,
-    faUserShield,
-  } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
+  import { Ban, Cat, Gavel, Trash2 } from "@lucide/svelte";
 
   let { ...comment }: CommentComponent = $props();
 
@@ -35,10 +29,14 @@
 <div class="comment" transition:slide>
   <div class="comment-heading">
     {#if page.data.user && isIpBanned}
-      <Fa icon={faBan} color="#bf0405" title="User is IP banned" />
+      <span title="User is banned">
+        <Ban color="#bf0405" aria-label="Banned user icon" />
+      </span>
     {/if}
     {#if authorIsCrew}
-      <Fa icon={faUserShield} color={"var(--color-text-2)"} title="Crew" />
+      <span title="Crew">
+        <Cat color="var(--color-text-2)" aria-label="Crew icon" />
+      </span>
     {/if}
     <span
       title={page.data.user
@@ -55,7 +53,7 @@
           class="post action"
           onclick={() => (confirmDelete = true)}
         >
-          <Fa icon={faTrash} /></button
+          <Trash2 /></button
         >
         {#if confirmDelete}
           <strong>{m.delete()}?</strong>
@@ -75,7 +73,7 @@
             class="post action"
             onclick={() => (confirmBlock = true)}
           >
-            <Fa icon={faGavel} /></button
+            <Gavel /></button
           >
           {#if confirmBlock}
             <strong>{m.block_ip()} {comment.ipAddress}?</strong>

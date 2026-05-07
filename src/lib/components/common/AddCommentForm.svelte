@@ -1,10 +1,9 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import Fa from "svelte-fa";
   import FieldError from "./FieldError.svelte";
-  import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
   import { m } from "$lib/paraglide/messages.js";
   import { page } from "$app/state";
+  import { SendHorizontal } from "@lucide/svelte";
 
   let { form } = $props();
 
@@ -58,7 +57,7 @@
   {/if}
   <br />
   <button type="submit" class="post action"
-    ><Fa icon={faCommentDots} /> {m.submit()}</button
+    ><SendHorizontal /> {m.submit()}</button
   >
   <br /><br />
   <FieldError errors={form?.errors?.submit} />

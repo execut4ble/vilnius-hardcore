@@ -1,9 +1,8 @@
 <script>
-  import { faPaintRoller, faTerminal } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
   import { appearance } from "@friendofsvelte/toggle";
   import { scale } from "svelte/transition";
   import { TrackAppearance } from "$lib/components";
+  import { SprayCan, SquareTerminal } from "@lucide/svelte";
 </script>
 
 <TrackAppearance />
@@ -14,9 +13,9 @@
     onclick={() => (appearance.dark = !appearance.dark)}
   >
     {#if appearance.dark}
-      <Fa icon={faPaintRoller} />
+      <SprayCan />
     {:else}
-      <Fa icon={faTerminal} />
+      <SquareTerminal />
     {/if}
   </button>
 {/if}

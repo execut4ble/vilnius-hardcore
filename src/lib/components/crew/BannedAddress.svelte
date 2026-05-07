@@ -1,10 +1,9 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { faTrash } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
+  import { Trash2 } from "@lucide/svelte";
 
   let { ...ban } = $props();
   let date: SvelteDate = $derived(new SvelteDate(ban.date));
@@ -21,7 +20,7 @@
       class="post action"
       onclick={() => (confirmDelete = true)}
     >
-      <Fa icon={faTrash} /></button
+      <Trash2 /></button
     >
     {#if confirmDelete}
       <strong>{m.delete()}?</strong>

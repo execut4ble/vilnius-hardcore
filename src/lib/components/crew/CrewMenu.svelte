@@ -1,33 +1,26 @@
 <script lang="ts">
-  import {
-    faBan,
-    faGear,
-    faUserGroup,
-  } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
   import { m } from "$lib/paraglide/messages.js";
   import { resolve } from "$app/paths";
   import { page } from "$app/state";
+  import { MegaphoneOff, UserPen, Users } from "@lucide/svelte";
 </script>
 
 <div id="crew-nav">
   <nav>
     <ul class="navlist-items">
       <li aria-current={page.url.pathname === "/crew" ? "page" : undefined}>
-        <a href={resolve("/crew")}><Fa icon={faGear}></Fa> {m.account()}</a>
+        <a href={resolve("/crew")}><UserPen /> {m.account()}</a>
       </li>
       <li
         aria-current={page.url.pathname === "/crew/users" ? "page" : undefined}
       >
-        <a href={resolve("/crew/users")}
-          ><Fa icon={faUserGroup}></Fa> {m.users()}</a
-        >
+        <a href={resolve("/crew/users")}><Users /> {m.users()}</a>
       </li>
       <li
         aria-current={page.url.pathname === "/crew/jail" ? "page" : undefined}
       >
         <a href={resolve("/crew/jail")}
-          ><Fa icon={faBan}></Fa> {m.blocked_ips_heading_short()}</a
+          ><MegaphoneOff /> {m.blocked_ips_heading_short()}</a
         >
       </li>
     </ul>

@@ -2,13 +2,6 @@
   import type { PageProps } from "./$types";
   import type { Event as EventObject } from "$lib/server/db/schema";
   import {
-    faAdd,
-    faCalendarAlt,
-    faChevronDown,
-    faRss,
-  } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
-  import {
     CopyTextButton,
     Event,
     EventEntryForm,
@@ -21,6 +14,12 @@
   import { blur, slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
+  import {
+    ArrowDownFromLine,
+    Calendar1,
+    CalendarPlus,
+    Rss,
+  } from "@lucide/svelte";
 
   let { data, form }: PageProps = $props();
   let events: Array<EventObject> = $derived(data.events);
@@ -86,12 +85,12 @@
     <li>
       <CopyTextButton
         textToCopy={iCalUrl}
-        buttonIcon={faCalendarAlt}
+        ButtonIcon={Calendar1}
         buttonText="iCal"
       />
     </li>
     <li>
-      <CopyTextButton textToCopy={rssUrl} buttonIcon={faRss} buttonText="RSS" />
+      <CopyTextButton textToCopy={rssUrl} ButtonIcon={Rss} buttonText="RSS" />
     </li>
   </ul>
 </div>
@@ -101,8 +100,7 @@
     <button
       type="button"
       class="post action new-event"
-      onclick={() => (entryMode = true)}
-      ><Fa icon={faAdd} /> {m.add_new()}</button
+      onclick={() => (entryMode = true)}><CalendarPlus /> {m.add_new()}</button
     >
   {:else}
     <div transition:slide class="event-entry-form">
@@ -157,7 +155,7 @@
 
 {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
   <button class="post action" onclick={loadMore}
-    ><Fa icon={faChevronDown}></Fa> {m.show_more()}</button
+    ><ArrowDownFromLine /> {m.show_more()}</button
   >
 {/if}
 

@@ -2,9 +2,8 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { faTrash } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
   import { m } from "$lib/paraglide/messages.js";
+  import { Trash2 } from "@lucide/svelte";
 
   let { slug, action } = $props();
   let confirmDelete: boolean = $state(false);
@@ -40,7 +39,7 @@
     class="post action"
     onclick={() => (confirmDelete = true)}
   >
-    <Fa icon={faTrash} /> {m.delete()}</button
+    <Trash2 /> {m.delete()}</button
   >
   {#if confirmDelete}
     <span class="confirm-dialog">
