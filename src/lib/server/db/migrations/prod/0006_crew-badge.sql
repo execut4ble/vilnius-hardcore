@@ -1,0 +1,1 @@
+ALTER TABLE "comment" ADD COLUMN "is_crew" boolean DEFAULT false NOT NULL;

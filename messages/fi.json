@@ -57,7 +57,8 @@
     "select_image": "Valitse kuva",
     "upload": "Lataa",
     "uploading": "Ladataan...",
-    "clear_image": "Tyhjennä kuva"
+    "clear_image": "Tyhjennä kuva",
+    "post_as_crew": "Julkaise miehistön jäsenenä"
   },
   "draft": "LUONNOS / EI NÄKYVISSÄ",
   "submit": "lähetä",

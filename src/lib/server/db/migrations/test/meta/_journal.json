@@ -57,6 +57,13 @@
       "when": 1771004397544,
       "tag": "0007_disable-comments",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1778439544715,
+      "tag": "0008_crew-badge",
+      "breakpoints": true
     }
   ]
 }

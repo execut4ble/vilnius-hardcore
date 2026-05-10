@@ -1,13 +1,12 @@
 <script lang="ts">
   import { Post, ItemCount, PostEntryForm, MetaTags } from "$lib/components";
-  import { faAdd, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
   import { page } from "$app/state";
   import { goto, preloadData } from "$app/navigation";
   import type { PageProps } from "./$types";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteURL } from "svelte/reactivity";
+  import { ArrowDownFromLine, FilePlusCorner } from "@lucide/svelte";
 
   let { data, form }: PageProps = $props();
   let posts = $derived(data.posts);
@@ -57,7 +56,7 @@
       type="button"
       class="post action new-post"
       onclick={() => (entryMode = true)}
-      ><Fa icon={faAdd} /> {m.add_new()}</button
+      ><FilePlusCorner /> {m.add_new()}</button
     >
   {:else}
     <div transition:slide>
@@ -87,7 +86,7 @@
 
 {#if displayedPosts !== null && displayedPosts < (totalPosts !== null ? totalPosts : 0)}
   <button class="post action" onclick={loadMore} onmouseenter={preloadNextPage}
-    ><Fa icon={faChevronDown}></Fa> {m.show_more()}</button
+    ><ArrowDownFromLine /> {m.show_more()}</button
   >
 {/if}
 

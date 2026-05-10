@@ -38,11 +38,14 @@ const queryEventId = async (slug: string): Promise<number | undefined> => {
 };
 
 export const commentActions = {
-  add_comment: async ({ request, params, route, getClientAddress }) => {
+  add_comment: async ({ request, locals, params, route, getClientAddress }) => {
     const parentRoute = route.id.split("/")[1];
+    const formData: FormData = await request.formData();
+
+    // Resolve the parent entity (blog post or event) and append its ID to the form data
     let postId: number | undefined;
     let eventId: number | undefined;
-    const formData: FormData = await request.formData();
+
     switch (parentRoute) {
       case "blog": {
         postId = await queryPostId(params.slug);
@@ -69,30 +72,45 @@ export const commentActions = {
         break;
       }
     }
-    const ipAddress: string = getClientAddress();
 
+    if (!locals.session && formData.get("authorIsCrew") === "on") {
+      return fail(401);
+    }
+
+    // Append acab flag to the form data if user is logged in
+    if (locals.session) formData.append("acab", "1312");
+
+    // Append the client's IP address and parse the form data into a flat object
+    const ipAddress = getClientAddress();
     formData.append("ipAddress", ipAddress);
-    const data: object = Object.fromEntries(formData.entries());
+    const data = Object.fromEntries(formData.entries());
+
+    if (!locals.session && data.authorIsCrew === "on") {
+      return fail(401);
+    }
+
     try {
       const comment = commentInsertSchema.parse(data);
-      const lookupResult = await db
+
+      // Reject the comment if the IP is banned
+      const [bannedEntry] = await db
         .select()
         .from(table.bannedIp)
-        .where(eq(table.bannedIp.ipAddress, ipAddress as string));
-      const isIpBanned = lookupResult.at(0);
-      if (isIpBanned) {
+        .where(eq(table.bannedIp.ipAddress, ipAddress));
+
+      if (bannedEntry) {
         return fail(403, { errors: { submit: ["Something went wrong"] } });
-      } else {
-        await db.insert(table.comment).values(comment);
       }
+
+      // Insert the comment into the database
+      await db.insert(table.comment).values(comment);
     } catch (err) {
       if (err instanceof z.ZodError) {
         const { fieldErrors: errors } = z.flattenError(err);
         return fail(400, { errors });
-      } else {
-        console.error(err);
-        return error(500, "Something went wrong");
       }
+      console.error(err);
+      return error(500, "Something went wrong");
     }
   },
 

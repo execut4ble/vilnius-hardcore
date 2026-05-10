@@ -1,13 +1,12 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { FieldError } from "$lib/components";
-  import { faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
-  import Fa from "svelte-fa";
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { DateInput } from "date-picker-svelte";
   import { SvelteDate } from "svelte/reactivity";
   import { page } from "$app/state";
+  import { CircleX, Save } from "@lucide/svelte";
 
   let {
     form,
@@ -122,9 +121,7 @@
     >
   {/if}
   <br />
-  <button type="submit" class="post action"
-    ><Fa icon={faSave} /> {m.save()}</button
-  >
+  <button type="submit" class="post action"><Save /> {m.save()}</button>
   <button
     type="button"
     class="post action"
@@ -137,7 +134,7 @@
       } else {
         confirmCancel = true;
       }
-    }}><Fa icon={faXmark} /> {m.cancel()}</button
+    }}><CircleX /> {m.cancel()}</button
   >
   {#if confirmCancel}<br /><br />
     <div transition:slide>
