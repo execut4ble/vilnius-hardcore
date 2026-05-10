@@ -14,18 +14,18 @@ export class EventPage {
   constructor(page: Page) {
     this.page = page;
     this.formComment = page.locator("form#add-comment");
-    this.inputCommentAuthor = page.locator("form#add-comment > input#author");
-    this.inputCommentText = page.locator("form#add-comment > textarea#content");
-    this.inputCommentChallenge = page.locator("form#add-comment > input#acab");
+    this.inputCommentAuthor = page.locator("form#add-comment input#author");
+    this.inputCommentText = page.locator("form#add-comment textarea#content");
+    this.inputCommentChallenge = page.locator("form#add-comment input#acab");
     this.btnSubmitComment = page.locator(
-      "form#add-comment > button[type='submit']",
+      "form#add-comment button[type='submit']",
     );
-    this.ctrComment = page.locator("div#comments-list > div.comment");
+    this.ctrComment = page.locator("div#comments-list div.comment");
     this.ctrCommentContent = page.locator(
-      "div#comments-list > div.comment > .comment-content",
+      "div#comments-list div.comment .comment-content",
     );
     this.labelChallengeError = page.locator(
-      "form#add-comment > input#acab + div.field-error",
+      "form#add-comment input#acab + div.field-error",
     );
   }
 
