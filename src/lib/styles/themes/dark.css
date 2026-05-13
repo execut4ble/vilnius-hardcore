@@ -1,7 +1,6 @@
 /* 
-   Dark theme token overrides.
-   Apply by adding class="dark" to <html>.
-   Only redefines tokens that differ from the default (light) theme.
+   Dark theme overrides.
+   Only redefines rules that differ from the default theme.
  */
 
 html.dark {
