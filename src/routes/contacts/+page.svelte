@@ -8,7 +8,7 @@
   <MetaTags title={m["navigation.contacts"]()} />
 </svelte:head>
 
-<div class="box">
+<div class="box" data-name={m["navigation.contacts"]()}>
   <h1>{m["navigation.contacts"]()}</h1>
 
   {#if getLocale() === "lt"}

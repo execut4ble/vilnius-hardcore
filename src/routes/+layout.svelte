@@ -48,7 +48,7 @@
             <button onclick={() => setLocale(locale)}>{locale}</button>
           {/each}
         </div>
-        <div id="navigation">
+        <div id="navigation" data-name="Navigation">
           {#if user}
             <UserInfo {user} />
           {/if}

@@ -17,6 +17,7 @@
   method="POST"
   action="?/add_comment"
   autocomplete="off"
+  data-name={m.add_comment()}
   use:enhance
 >
   <label for="author">{m["form.name"]()}</label>

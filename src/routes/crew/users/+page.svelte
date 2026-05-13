@@ -13,42 +13,44 @@
   <MetaTags title="Users" />
 </svelte:head>
 
-<h2>{m.users()}</h2>
-{#if users.length > 0}
-  <div>{m.list_of_users()}</div>
-{/if}
+<div data-name={m.users()}>
+  <h2>{m.users()}</h2>
+  {#if users.length > 0}
+    <div>{m.list_of_users()}</div>
+  {/if}
 
-<ul>
-  {#each users as user (user.id)}
-    <li>{user.username}</li>
-  {/each}
-</ul>
+  <ul>
+    {#each users as user (user.id)}
+      <li>{user.username}</li>
+    {/each}
+  </ul>
 
-{#if displayRegisterForm}
-  <hr class="long" />
-  <h2>{m.register_user()}</h2>
-  <form method="post" action="?/register" use:enhance>
-    <label for="username">{m.username()}</label>
-    <input name="username" />
-    <label for="password">{m.password()}</label>
-    <input type="password" name="password" />
-    <br />
-    <button>{m.submit_form()}</button>
-    <button type="button" onclick={() => (displayRegisterForm = false)}
-      >{m.cancel()}</button
-    >
-  </form>
-  {#if form?.message}
-    <div class="field-error">
-      <strong>
-        {form?.message ?? ""}
-      </strong>
+  {#if displayRegisterForm}
+    <hr class="long" />
+    <h2>{m.register_user()}</h2>
+    <form method="post" action="?/register" use:enhance>
+      <label for="username">{m.username()}</label>
+      <input name="username" />
+      <label for="password">{m.password()}</label>
+      <input type="password" name="password" />
+      <br />
+      <button>{m.submit_form()}</button>
+      <button type="button" onclick={() => (displayRegisterForm = false)}
+        >{m.cancel()}</button
+      >
+    </form>
+    {#if form?.message}
+      <div class="field-error">
+        <strong>
+          {form?.message ?? ""}
+        </strong>
+      </div>
+    {/if}
+  {:else}
+    <div>
+      <button type="button" onclick={() => (displayRegisterForm = true)}
+        >{m.register_user()}</button
+      >
     </div>
   {/if}
-{:else}
-  <div>
-    <button type="button" onclick={() => (displayRegisterForm = true)}
-      >{m.register_user()}</button
-    >
-  </div>
-{/if}
+</div>

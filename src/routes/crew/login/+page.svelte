@@ -13,7 +13,7 @@
   <MetaTags title="Login" />
 </svelte:head>
 
-<div class="box">
+<div data-name="Crew">
   <h1>Crew?</h1>
   {#if canRegister}
     {m.register_user_first_time()}

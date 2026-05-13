@@ -103,7 +103,8 @@ html.greensteam div.site-description {
   padding-top: 12.37rem !important;
 }
 
-html.greensteam event img {
+html.greensteam event img,
+html.greensteam div#user-info {
   border-top: solid 1px var(--color-border-dark);
   border-bottom: solid 1px var(--color-border-light);
   border-left: solid 1px var(--color-border-dark);
@@ -435,20 +436,10 @@ html.greensteam ::-webkit-scrollbar-button:horizontal:decrement {
 /* Navbar */
 
 html.greensteam nav {
-  border-top: solid 1px var(--color-border-light);
-  border-bottom: solid 1px var(--color-border-dark);
-  border-left: solid 1px var(--color-border-light);
-  border-right: solid 1px var(--color-border-dark);
-  padding: 0;
   list-style: none;
   background: var(--color-surface-raised);
-  margin-bottom: 20px;
-  padding: 20px;
 }
 html.greensteam nav li {
-  display: inline-block;
-  position: relative;
-  line-height: 21px;
   text-align: left;
   cursor: pointer;
 }
@@ -494,14 +485,8 @@ html.greensteam sidebar {
   border: 0;
 }
 
-html.greensteam event,
-html.greensteam div#recent,
-html.greensteam div#recent-comments,
-html.greensteam div#comments-list,
-html.greensteam form#add-comment,
-html.greensteam post:not(#recent post),
-html.greensteam form#add-post:not(post form#add-post),
-html.greensteam form#add-event:not(event form#add-event),
+html.greensteam div#navigation,
+html.greensteam [data-name]:not(#recent post),
 html.greensteam .box {
   background-color: var(--color-surface-raised);
   border-top: solid 1px var(--color-border-light);
@@ -517,19 +502,62 @@ html.greensteam event {
   display: block;
 }
 
+html.greensteam div[data-name] h1,
+html.greensteam section:has(post[data-name]) h1,
+html.greensteam section:has(form[data-name]) h3,
+html.greensteam h2#comments,
+html.greensteam div[data-name] h2:not(post h2),
+html.greensteam div[data-name] h3 {
+  display: none;
+}
+
+html.greensteam event h2 strong {
+  display: none;
+}
+
+html.greensteam post h2 strong {
+  position: relative;
+  color: transparent;
+}
+
+html.greensteam h2 a:hover {
+  text-decoration: none;
+}
+
+html.greensteam h2 a:hover strong {
+  background-color: none;
+  background: none;
+  color: none;
+  text-decoration: none;
+}
+
+html.greensteam post h2 strong::before {
+  color: white !important;
+  content: "View details";
+  text-indent: 0;
+  white-space: nowrap;
+  padding: 0px 4px;
+  font-size: 11pt;
+  background-color: var(--color-surface-raised);
+  width: fit-content;
+  cursor: pointer;
+  position: absolute;
+  left: 0em;
+  top: -0.33em;
+  border-top: solid 1px var(--color-border-light) !important;
+  border-bottom: solid 1px var(--color-border-dark) !important;
+  border-left: solid 1px var(--color-border-light) !important;
+  border-right: solid 1px var(--color-border-dark) !important;
+  font-weight: normal;
+  text-align: left;
+}
+
 html.greensteam post:not(#recent post) {
   display: block;
 }
 
 html.greensteam .titlebar,
-html.greensteam event::before,
-html.greensteam div#recent::before,
-html.greensteam div#recent-comments::before,
-html.greensteam div#comments-list::before,
-html.greensteam form#add-comment::before,
-html.greensteam post:not(#recent post)::before,
-html.greensteam form#add-post:not(post form#add-post)::before,
-html.greensteam form#add-event:not(event form#add-event)::before,
+html.greensteam [data-name]:not(#recent post)::before,
 html.greensteam .box:not(.headless)::before {
   display: block;
   position: relative;
@@ -549,25 +577,12 @@ html.greensteam .box:not(.headless)::before {
 }
 
 html.greensteam event::before,
-html.greensteam div#recent::before,
-html.greensteam div#recent-comments::before,
-html.greensteam div#comments-list::before,
-html.greensteam form#add-comment::before,
-html.greensteam post:not(#recent post)::before,
-html.greensteam form#add-post:not(post form#add-post)::before,
-html.greensteam form#add-event:not(event form#add-event)::before,
+html.greensteam [data-name]:not(#recent post)::before,
 html.greensteam .box:not(.headless)::before {
-  content: attr(name);
+  content: attr(data-name);
 }
 
-html.greensteam event::after,
-html.greensteam div#recent::after,
-html.greensteam div#recent-comments::after,
-html.greensteam div#comments-list::after,
-html.greensteam form#add-comment::after,
-html.greensteam post:not(#recent post)::after,
-html.greensteam form#add-post:not(post form#add-post)::after,
-html.greensteam form#add-event:not(event form#add-event)::after,
+html.greensteam [data-name]:not(#recent post)::after,
 html.greensteam .box:not(.no-resize)::after {
   width: 12px;
   height: 12px;
@@ -589,6 +604,7 @@ html.greensteam .box-row .box {
 }
 
 html.greensteam .box::before,
+html.greensteam [data-name]::before,
 html.greensteam h1,
 html.greensteam h2:not(.title),
 html.greensteam .titlebar,
@@ -625,17 +641,21 @@ html.greensteam .border-inverted {
 }
 
 html.greensteam .inset,
+html.greensteam nav,
 html.greensteam div.content,
 html.greensteam div.event-description,
 html.greensteam .box.inset {
   margin-top: 1em;
-  margin-right: 1em;
   padding: 1em;
   background-color: var(--color-bg);
   border-top: solid 1px var(--color-border-dark);
   border-bottom: solid 1px var(--color-border-light);
   border-left: solid 1px var(--color-border-dark);
   border-right: solid 1px var(--color-border-light);
+}
+
+html.greensteam div.event-description {
+  margin-right: 1em;
 }
 
 html.greensteam div.content p:first-child {

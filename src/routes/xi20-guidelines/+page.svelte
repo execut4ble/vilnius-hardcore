@@ -5,16 +5,21 @@
   import contentLt from "./xi20-guidelines-lt.md?raw";
   import contentEn from "./xi20-guidelines-en.md?raw";
   import contentFi from "./xi20-guidelines-fi.md?raw";
+
+  const title = $derived(
+    getLocale() === "lt"
+      ? "Vienuolika sakinių apie tūsą XI20 arba kaip nebūti dalbajobu"
+      : getLocale() === "fi"
+        ? "Yksitoista lausetta bilettämisestä XI20:ssä eli miten olla olematta idiootti"
+        : "Eleven sentences on partying at XI20 or how not to be a dumbfuck",
+  );
 </script>
 
 <svelte:head>
-  <MetaTags
-    title="XI20 Guidelines"
-    description="Eleven sentences on partying at XI20 or how not to be a dumbfuck"
-  />
+  <MetaTags {title} description={title} />
 </svelte:head>
 
-<div class="box">
+<div class="box" data-name={title}>
   {#if getLocale() === "lt"}
     <h1>VIENUOLIKA SAKINIŲ APIE TŪSĄ XI20 ARBA KAIP NEBŪTI DALBAJOBU</h1>
     <Markdown md={contentLt} />

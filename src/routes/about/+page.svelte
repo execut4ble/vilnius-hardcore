@@ -7,7 +7,7 @@
   <MetaTags title="About" description="Lithuania underground scene" />
 </svelte:head>
 
-<div class="box">
+<div class="box" data-name="Lithuania underground scene">
   <h1>Lithuania underground scene</h1>
 
   {#if getLocale() === "lt"}

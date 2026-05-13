@@ -29,7 +29,7 @@
     <strong>{m.recent_news()}</strong>
   </h2>
 
-  <div id="recent">
+  <div id="recent" data-name={post.title}>
     <Post {...post} preview={true} />
 
     <div class={isOverflowing ? "text-block" : "text-block opaque"}>
