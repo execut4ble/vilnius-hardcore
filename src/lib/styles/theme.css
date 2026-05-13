@@ -1,8 +1,6 @@
-/*  theme.css 
+/* 
    Visual styles only: color, background, border, shadow, font-family,
    border-radius, text-decoration, opacity, transition.
-   Zero hardcoded values — everything references a token from tokens.css.
-   This file should read identically regardless of which theme is active.
 */
 
 /* Base */

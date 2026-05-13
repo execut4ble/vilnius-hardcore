@@ -1,13 +1,10 @@
-/* ─── app.css ────────────────────────────────────────────────────────────────
-   Entry point. Import order matters:
-   1. tokens  — variables must exist before anything references them
-   2. themes  — overrides must come after token defaults
-   3. layout  — structure (references tokens for sizing vars)
-   4. theme   — visuals (references tokens for all color/font values)
-
-   To add a new theme, create src/lib/styles/themes/yourtheme.css
-   and add an @import here. Apply it with <html class="yourtheme">.
-─────────────────────────────────────────────────────────────────────────────── */
+/* 
+   Import order matters:
+   1. tokens  - variables must exist before anything references them
+   2. themes  - overrides must come after token defaults
+   3. layout  - structure (references tokens for sizing vars)
+   4. theme   - visuals (references tokens for all color/font values)
+*/
 
 @import "$lib/styles/tokens.css";
 

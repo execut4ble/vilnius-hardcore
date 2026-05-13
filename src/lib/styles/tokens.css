@@ -1,12 +1,6 @@
 @import "@fontsource/courier-prime";
 @import "@fontsource/fira-mono";
 
-/* 
-   Single source of truth for all design tokens.
-   Light theme values are the default.
-   Each theme file (themes/*.css) overrides only what changes.
-*/
-
 :root {
   /* Typography */
   --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
@@ -22,7 +16,7 @@
   --color-text-2: #af1a1a;
   --color-text-3: #315563;
 
-  /* Semantic tokens, components reference these, not base colors */
+  /* Semantic tokens used by components */
   --link-color: var(--color-text);
   --link-hover-color: var(--color-text);
   --form-border-color: var(--color-text-2);

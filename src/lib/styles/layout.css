@@ -1,7 +1,5 @@
 /* 
    Structural rules only: display, spacing, sizing, positioning.
-   No color values. No font-family. No box-shadow.
-   All visual properties live in theme.css.
 */
 
 /* Base */
@@ -91,7 +89,7 @@ input {
   font-family: inherit;
 }
 
-form input:not([type="checkbox"]):not([type="radio"]),
+form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 form textarea {
   display: block;
   margin-top: 0.83em;
