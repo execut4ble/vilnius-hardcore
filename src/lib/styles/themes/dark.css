@@ -1,0 +1,14 @@
+/* 
+   Dark theme overrides.
+   Only redefines rules that differ from the default theme.
+ */
+
+html.dark {
+  --color-text: #090;
+  --color-text-2: #0f0;
+  --color-text-3: #050;
+  --link-color: var(--color-text-2);
+  --link-hover-color: var(--color-bg);
+  --form-border-color: var(--color-text-2);
+  --form-text-color: var(--color-text-2);
+}

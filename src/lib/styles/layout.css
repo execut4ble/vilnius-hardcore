@@ -1,0 +1,216 @@
+/* 
+   Structural rules only: display, spacing, sizing, positioning.
+*/
+
+/* Base */
+
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Typography */
+
+h1,
+h2,
+p {
+  font-weight: 400;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0 0 0.5em 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-top: 0;
+}
+
+h2.title {
+  margin-bottom: 0.25em;
+}
+
+h3 {
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+strong {
+  font-weight: 700;
+}
+
+@media (min-width: 780px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+}
+
+/* Links */
+
+p a {
+  text-underline-offset: 3px;
+}
+
+/* Buttons */
+
+button {
+  font-size: inherit;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Forms */
+
+label {
+  display: block;
+  margin-top: 1em;
+}
+
+form {
+  margin-bottom: 2em;
+}
+
+div.actions form {
+  margin-bottom: 0;
+}
+
+input {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+form input:not([type="checkbox"]):not([type="radio"]),
+form textarea {
+  display: block;
+  margin-top: 0.83em;
+  margin-bottom: 0.5em;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 12px 10px;
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+}
+
+form textarea {
+  max-width: 25em;
+  min-width: 12.5em;
+  width: 40vw;
+  height: 10rem;
+}
+
+/* Misc Elements */
+
+hr {
+  margin-left: 0;
+  width: 15rem;
+}
+
+hr.long {
+  width: 100%;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+pre {
+  font-size: 16px;
+  padding: 0.5em;
+  overflow-x: auto;
+  border-radius: 3px;
+}
+
+ul {
+  padding-left: 1.5em;
+}
+
+ul.item-list {
+  padding-left: 0;
+}
+
+ul.item-list li {
+  list-style: none;
+  margin-bottom: 2em;
+}
+
+iframe {
+  max-width: 100%;
+}
+
+/* Rich Content */
+
+post div.content img,
+event div.event-description img {
+  max-width: 100%;
+  max-height: 65vh;
+  margin-bottom: 1em;
+}
+
+event div.event-description p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Utility */
+
+.inline {
+  display: inline;
+}
+
+.opaque {
+  opacity: 0;
+  cursor: default;
+}
+
+.font-size-small {
+  font-size: 0.8em;
+  font-weight: 200;
+}
+
+.lucide {
+  vertical-align: text-bottom;
+  max-width: 1.25em;
+  max-height: 1.25em;
+  align-self: center;
+}
+
+div.actions {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+div.meta-info {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5em;
+}
+
+div.center-block {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+}
+
+div.text-block {
+  margin-bottom: 1em;
+}
+
+p.align-right {
+  text-align: right;
+}

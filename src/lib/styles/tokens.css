@@ -1,0 +1,39 @@
+@import "@fontsource/courier-prime";
+@import "@fontsource/fira-mono";
+
+:root {
+  /* Typography */
+  --font-body: "Fira Mono", "Courier New", "Courier Prime", monospace;
+  --font-mono: "Fira Mono", "Courier Prime", monospace;
+
+  /* Layout */
+  --column-width: 42rem;
+  --column-margin-top: 4rem;
+
+  /* Base colors */
+  --color-bg: #040204;
+  --color-text: #ffff80;
+  --color-text-2: #af1a1a;
+  --color-text-3: #315563;
+
+  /* Semantic tokens used by components */
+  --link-color: var(--color-text);
+  --link-hover-color: var(--color-text);
+  --form-border-color: var(--color-text-2);
+  --form-text-color: var(--color-text);
+  --form-bg-color: #1c1c1c;
+  --form-border-subtle: rgba(255, 255, 255, 0.075);
+  --border-subtle: rgba(255, 255, 255, 0.075);
+  --pre-bg: rgba(20, 20, 20, 0.45);
+  --pre-shadow: rgba(20, 20, 20, 0.25);
+
+  /* Third-party date picker */
+  --date-picker-foreground: var(--form-text-color);
+  --date-picker-background: var(--form-bg-color);
+  --date-picker-highlight-border: var(--form-border-color);
+  --date-picker-border-color: var(--form-border-subtle);
+  --date-picker-highlight-shadow: none;
+  --date-picker-selected-color: var(--link-hover-color);
+  --date-picker-selected-background: var(--color-text-2);
+  --date-input-width: fit-content;
+}
