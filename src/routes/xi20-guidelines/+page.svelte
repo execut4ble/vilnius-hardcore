@@ -14,20 +14,22 @@
   />
 </svelte:head>
 
-{#if getLocale() === "lt"}
-  <h1>VIENUOLIKA SAKINIŲ APIE TŪSĄ XI20 ARBA KAIP NEBŪTI DALBAJOBU</h1>
-  <Markdown md={contentLt} />
-{/if}
+<div class="box">
+  {#if getLocale() === "lt"}
+    <h1>VIENUOLIKA SAKINIŲ APIE TŪSĄ XI20 ARBA KAIP NEBŪTI DALBAJOBU</h1>
+    <Markdown md={contentLt} />
+  {/if}
 
-{#if getLocale() === "en"}
-  <h1>ELEVEN SENTENCES ON PARTYING AT XI20 OR HOW NOT TO BE A DUMBFUCK</h1>
-  <Markdown md={contentEn} />
-{/if}
+  {#if getLocale() === "en"}
+    <h1>ELEVEN SENTENCES ON PARTYING AT XI20 OR HOW NOT TO BE A DUMBFUCK</h1>
+    <Markdown md={contentEn} />
+  {/if}
 
-{#if getLocale() === "fi"}
-  <h1>
-    YKSITOISTA LAUSETTA BILETTÄMISESTÄ XI20:SSÄ ELI MITEN OLLA OLEMATTAA
-    IDIOOTTI
-  </h1>
-  <Markdown md={contentFi} />
-{/if}
+  {#if getLocale() === "fi"}
+    <h1>
+      YKSITOISTA LAUSETTA BILETTÄMISESTÄ XI20:SSÄ ELI MITEN OLLA OLEMATTAA
+      IDIOOTTI
+    </h1>
+    <Markdown md={contentFi} />
+  {/if}
+</div>

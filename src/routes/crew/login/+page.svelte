@@ -13,20 +13,22 @@
   <MetaTags title="Login" />
 </svelte:head>
 
-<h1>Crew?</h1>
-{#if canRegister}
-  {m.register_user_first_time()}
-{/if}
-<form method="post" action="?/login" use:enhance>
-  <label for="username">{m.username()}</label>
-  <input name="username" />
-  <label for="password">{m.password()}</label>
-  <input type="password" name="password" />
-  <br />
+<div class="box">
+  <h1>Crew?</h1>
   {#if canRegister}
-    <button formaction="?/register">{m.register()}</button>
-  {:else}
-    <button>{m.login()}</button>
+    {m.register_user_first_time()}
   {/if}
-</form>
-<p class="field-error">{form?.message ?? ""}</p>
+  <form method="post" action="?/login" use:enhance>
+    <label for="username">{m.username()}</label>
+    <input name="username" />
+    <label for="password">{m.password()}</label>
+    <input type="password" name="password" />
+    <br />
+    {#if canRegister}
+      <button formaction="?/register">{m.register()}</button>
+    {:else}
+      <button>{m.login()}</button>
+    {/if}
+  </form>
+  <p class="field-error">{form?.message ?? ""}</p>
+</div>

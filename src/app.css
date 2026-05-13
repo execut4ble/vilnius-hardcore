@@ -13,6 +13,7 @@
 
 /* Themes */
 @import "$lib/styles/themes/dark.css";
+@import "$lib/styles/themes/greensteam.css";
 
 @import "$lib/styles/layout.css";
 @import "$lib/styles/theme.css";

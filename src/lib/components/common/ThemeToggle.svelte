@@ -1,21 +1,34 @@
-<script>
-  import { appearance } from "@friendofsvelte/toggle";
+<script lang="ts">
   import { scale } from "svelte/transition";
   import { TrackAppearance } from "$lib/components";
-  import { SprayCan, SquareTerminal } from "@lucide/svelte";
+  import { theme } from "$lib/stores/theme";
+
+  import { SprayCan, SquareTerminal, Gamepad2 } from "@lucide/svelte";
+
+  function cycleTheme() {
+    if ($theme === "light") {
+      theme.set("dark");
+    } else if ($theme === "dark") {
+      theme.set("greensteam");
+    } else {
+      theme.set("light");
+    }
+  }
 </script>
 
 <TrackAppearance />
-{#if appearance.dark !== null}
-  <button
-    class:isHackerMode={appearance.dark}
-    in:scale
-    onclick={() => (appearance.dark = !appearance.dark)}
-  >
-    {#if appearance.dark}
-      <SprayCan />
-    {:else}
-      <SquareTerminal />
-    {/if}
-  </button>
-{/if}
+
+<button
+  class:isHackerMode={$theme === "dark"}
+  class:isGreenSteam={$theme === "greensteam"}
+  in:scale
+  onclick={cycleTheme}
+>
+  {#if $theme === "dark"}
+    <Gamepad2 />
+  {:else if $theme === "greensteam"}
+    <SprayCan />
+  {:else if $theme === "light"}
+    <SquareTerminal />
+  {/if}
+</button>
