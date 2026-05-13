@@ -89,7 +89,7 @@ input {
   font-family: inherit;
 }
 
-form input:not([type="checkbox"]):not([type="radio"]),
+form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 form textarea {
   display: block;
   margin-top: 0.83em;
