@@ -65,25 +65,7 @@
 </div>
 
 <style>
-  :global(html) {
-    --color-text: #ffff80;
-    --color-text-2: #af1a1a;
-    --color-text-3: #315563;
-    --link-color: var(--color-text);
-    --link-hover-color: var(--color-text);
-    --form-border-color: var(--color-text-2);
-    --form-text-color: var(--color-text);
-  }
-
-  :global(html.dark) {
-    --color-text: #090;
-    --color-text-2: #0f0;
-    --color-text-3: #050;
-    --link-color: var(--color-text-2);
-    --link-hover-color: var(--color-bg);
-    --form-border-color: var(--color-text-2);
-    --form-text-color: var(--color-text-2);
-  }
+  /* App shell*/
 
   .app {
     display: flex;
@@ -92,34 +74,45 @@
   }
 
   main {
-    padding: 1rem;
     width: 100%;
     max-width: 70rem;
     box-sizing: border-box;
+    padding: 1rem;
     margin: 2rem auto;
     font-size: 14px;
     line-height: 16px;
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Custom Layout Elements */
+
+  row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    backdrop-filter: blur(10px) brightness(50%);
+  }
+
   section {
     display: flex;
-    width: 100%;
     flex-direction: column;
     align-content: center;
-    padding: 1.5em 3em 1.5em 3em;
+    width: 100%;
     min-width: 500px;
+    padding: 1.5em 3em;
   }
 
   sidebar {
     display: flex;
     flex-direction: column;
-    gap: 2em;
     align-items: center;
+    gap: 2em;
     width: 17em;
-    padding: 2em 1em 2em 1em;
+    padding: 2em 1em;
     flex-shrink: 0.1;
-    border-left: 1px solid rgba(255, 255, 255, 0.075);
+    border-left: 1px solid var(--border-subtle);
   }
 
   sidebar #navigation {
@@ -128,14 +121,11 @@
     gap: 2em;
   }
 
-  row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.075);
-    border-radius: 10px;
-    backdrop-filter: blur(10px) brightness(50%);
+  mobile {
+    display: none;
   }
+
+  /* Responsive */
 
   @media screen and (max-width: 850px) {
     section {
@@ -149,21 +139,7 @@
     }
   }
 
-  @media screen and (min-width: 780px) {
-    mobile {
-      display: none;
-    }
-  }
-
   @media screen and (max-width: 780px) {
-    section {
-      display: flex;
-      padding-left: 1em;
-      min-width: auto;
-      padding-bottom: 3em;
-      align-self: center;
-    }
-
     main {
       margin-top: 1em;
     }
@@ -172,13 +148,11 @@
       flex-direction: column;
     }
 
-    mobile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2em;
-      margin-bottom: 2em;
-      margin-top: 2em;
+    section {
+      padding-left: 1em;
+      padding-bottom: 3em;
+      min-width: auto;
+      align-self: center;
     }
 
     sidebar {
@@ -187,41 +161,18 @@
       border: none;
     }
 
-    sidebar #navigation {
-      display: none;
-    }
-
+    sidebar #navigation,
     sidebar #locale {
       display: none;
     }
-  }
 
-  :global(body) {
-    --date-picker-foreground: var(--form-text-color);
-    --date-picker-background: #1c1c1c;
-    --date-picker-highlight-border: var(--form-border-color);
-    --date-picker-border-color: rgba(255, 255, 255, 0.075);
-    --date-picker-highlight-shadow: none;
-    --date-picker-selected-color: var(--link-hover-color);
-    --date-picker-selected-background: var(--color-text-2);
-    --date-input-width: fit-content;
-  }
-
-  :global(.date-time-field input) {
-    width: 16rem;
-    margin-top: 0.83em !important;
-    margin-bottom: 0.5em !important;
-    font-weight: 400 !important;
-    font-size: 1rem !important;
-    padding: 12px 10px !important;
-    border: 1px solid rgba(255, 255, 255, 0.075) !important;
-  }
-
-  :global(.date-time-field input:focus) {
-    border-color: var(--form-border-color) !important;
-  }
-
-  :global(.date-time-field select) {
-    background-color: var(--date-picker-background) !important;
+    mobile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2em;
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
   }
 </style>

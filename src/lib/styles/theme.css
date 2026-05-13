@@ -1,0 +1,150 @@
+/*  theme.css 
+   Visual styles only: color, background, border, shadow, font-family,
+   border-radius, text-decoration, opacity, transition.
+   Zero hardcoded values — everything references a token from tokens.css.
+   This file should read identically regardless of which theme is active.
+*/
+
+/* Base */
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* Typography */
+
+strong {
+  color: var(--color-text-2);
+}
+
+/* Links */
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:has(> strong) {
+  color: var(--color-text-2);
+}
+
+a:hover:not(:has(img)) {
+  background: var(--color-text-2);
+  color: var(--link-hover-color);
+}
+
+a:hover strong {
+  background: var(--color-text-2);
+  color: var(--link-hover-color);
+}
+
+p a {
+  text-decoration: underline;
+}
+
+/* Buttons */
+
+button {
+  color: var(--color-text-2);
+  background-color: transparent;
+}
+
+button:hover {
+  background: var(--color-text-2);
+  color: var(--color-bg);
+}
+
+/* Forms */
+
+input {
+  color: var(--color-text);
+  accent-color: var(--color-text-2);
+}
+
+form input:not([type="checkbox"]):not([type="radio"]),
+form textarea {
+  background-color: var(--form-bg-color);
+  border-color: var(--form-border-subtle);
+  color: var(--form-text-color);
+}
+
+form input:not([type="checkbox"]):not([type="radio"]):focus,
+form textarea:focus {
+  border-color: var(--form-border-color);
+}
+
+::selection {
+  color: var(--link-hover-color);
+  background: var(--color-text-2);
+}
+
+/* Misc Elements */
+
+hr {
+  border-color: var(--color-text-2);
+  color: var(--color-text-2);
+}
+
+hr.long {
+  border-color: var(--border-subtle);
+  color: var(--border-subtle);
+}
+
+pre {
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+  background-color: var(--pre-bg);
+  box-shadow: 2px 2px 6px var(--pre-shadow);
+}
+
+ul {
+  list-style: square;
+}
+
+/* Rich Content */
+
+post div.content img,
+event div.event-description img {
+  border-radius: 10px;
+}
+
+/* Utility */
+
+.dim {
+  color: var(--color-text-3);
+}
+
+/* Post Actions */
+
+.post.action {
+  color: var(--color-text);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.post.action:hover {
+  color: var(--color-text-2);
+}
+
+/* Third-party Date Picker */
+
+.date-time-field input {
+  width: 16rem;
+  margin-top: 0.83em !important;
+  margin-bottom: 0.83em !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
+  padding: 12px 10px !important;
+  border: 1px solid var(--form-border-subtle) !important;
+}
+
+.date-time-field input:focus {
+  border-color: var(--form-border-color) !important;
+}
+
+.date-time-field select {
+  background-color: var(--date-picker-background) !important;
+}
