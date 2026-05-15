@@ -10,8 +10,8 @@ html.greensteam {
 
   --color-bg: #3e4637;
   --color-text: #d8ded3;
-  --color-text-2: #c4b550; /* headings, nav links */
-  --color-text-3: #899281; /* muted / .dim */
+  --color-text-2: #c4b550;
+  --color-text-3: #899281;
 
   --link-color: #aaaaaa;
   --link-hover-color: #d8ded3;
@@ -113,6 +113,13 @@ html.greensteam div#user-info {
   width: -webkit-fill-available;
 }
 
+html.greensteam fieldset {
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+}
+
 /* Buttons */
 
 html.greensteam button,
@@ -128,7 +135,6 @@ html.greensteam div.text-block a {
   color: white !important;
   background-color: var(--color-surface-raised);
   height: 25px;
-  /* min-width: 75px; */
   cursor: pointer;
   border-top: solid 1px var(--color-border-light) !important;
   border-bottom: solid 1px var(--color-border-dark) !important;
@@ -241,7 +247,7 @@ html.greensteam textarea {
   border-bottom: solid 1px var(--color-border-light) !important;
   border-left: solid 1px var(--color-border-dark) !important;
   border-right: solid 1px var(--color-border-light) !important;
-  border-radius: unset;
+  border-radius: unset !important;
   color: inherit;
   background: var(--form-bg-color);
   font-size: 11pt !important;
@@ -488,6 +494,7 @@ html.greensteam sidebar {
 html.greensteam div#navigation,
 html.greensteam [data-name]:not(#recent post),
 html.greensteam .box {
+  position: relative;
   background-color: var(--color-surface-raised);
   border-top: solid 1px var(--color-border-light);
   border-bottom: solid 1px var(--color-border-dark);
@@ -504,6 +511,8 @@ html.greensteam event {
 
 html.greensteam div[data-name] h1,
 html.greensteam section:has(post[data-name]) h1,
+html.greensteam section:has(event[data-name]) h1,
+html.greensteam section:not(:has(li event)) event[data-name] h2,
 html.greensteam section:has(form[data-name]) h3,
 html.greensteam h2#comments,
 html.greensteam div[data-name] h2:not(post h2),
@@ -511,45 +520,14 @@ html.greensteam div[data-name] h3 {
   display: none;
 }
 
-html.greensteam event h2 strong {
-  display: none;
-}
-
-html.greensteam post h2 strong {
-  position: relative;
-  color: transparent;
-}
-
 html.greensteam h2 a:hover {
   text-decoration: none;
 }
 
 html.greensteam h2 a:hover strong {
-  background-color: none;
   background: none;
   color: none;
   text-decoration: none;
-}
-
-html.greensteam post h2 strong::before {
-  color: white !important;
-  content: "View details";
-  text-indent: 0;
-  white-space: nowrap;
-  padding: 0px 4px;
-  font-size: 11pt;
-  background-color: var(--color-surface-raised);
-  width: fit-content;
-  cursor: pointer;
-  position: absolute;
-  left: 0em;
-  top: -0.33em;
-  border-top: solid 1px var(--color-border-light) !important;
-  border-bottom: solid 1px var(--color-border-dark) !important;
-  border-left: solid 1px var(--color-border-light) !important;
-  border-right: solid 1px var(--color-border-dark) !important;
-  font-weight: normal;
-  text-align: left;
 }
 
 html.greensteam post:not(#recent post) {
@@ -582,6 +560,21 @@ html.greensteam .box:not(.headless)::before {
   content: attr(data-name);
 }
 
+/* Titlebar text + label typography */
+html.greensteam .box::before,
+html.greensteam [data-name]::before,
+html.greensteam h1,
+html.greensteam h2:not(.title),
+html.greensteam .titlebar,
+html.greensteam legend {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+}
+
+/* Resize handle */
 html.greensteam [data-name]:not(#recent post)::after,
 html.greensteam .box:not(.no-resize)::after {
   width: 12px;
@@ -603,25 +596,73 @@ html.greensteam .box-row .box {
   align-self: flex-start;
 }
 
-html.greensteam .box::before,
-html.greensteam [data-name]::before,
-html.greensteam h1,
-html.greensteam h2:not(.title),
-html.greensteam .titlebar,
-html.greensteam legend {
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 12px;
-  color: white;
-  font-weight: bold;
-}
-
 html.greensteam .box-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
   max-width: 780px;
+}
+
+/* Hide ::before text — the absolutely-positioned h2.title link replaces it */
+html.greensteam post[data-name]:not(#recent post)::before,
+html.greensteam div#recent::before,
+html.greensteam event[data-name]::before {
+  color: transparent;
+}
+
+/* Restore when no link is present in the titlebar */
+html.greensteam post[data-name]:not(#recent post):not(:has(h2.title))::before,
+html.greensteam event[data-name]:not(:has(h2.title a))::before {
+  color: white;
+}
+
+/* Shared layout for all three titlebar link contexts */
+html.greensteam post:not(#recent post) h2.title,
+html.greensteam div#recent post h2.title,
+html.greensteam event h2.title {
+  position: absolute;
+  top: 10px;
+  left: 34px;
+  right: 50px;
+  height: 18px;
+  line-height: 18px;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 1;
+}
+
+html.greensteam post:not(#recent post) h2.title a,
+html.greensteam div#recent post h2.title a,
+html.greensteam event h2.title a {
+  display: block;
+  height: 18px;
+  line-height: 18px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+html.greensteam post:not(#recent post) h2.title a:hover,
+html.greensteam div#recent post h2.title a:hover,
+html.greensteam event h2.title a:hover {
+  background: none;
+  color: var(--color-text-2);
+  text-decoration: none;
+}
+
+/* Override the general h2 strong decoration for .title, show as plain text */
+html.greensteam post h2.title strong,
+html.greensteam event h2.title strong {
+  display: inline !important;
+  color: inherit !important;
+  font-weight: inherit;
+  position: static;
 }
 
 /* Border Utilities */

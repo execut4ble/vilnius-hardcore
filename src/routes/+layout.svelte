@@ -14,6 +14,7 @@
   import type { RecentCommentsData, UserInfoData } from "$lib/types";
   import { locales, setLocale } from "$lib/paraglide/runtime";
   import { page } from "$app/state";
+  import { m } from "$lib/paraglide/messages";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
@@ -28,7 +29,7 @@
   <Header />
   <main>
     <row>
-      <mobile>
+      <mobile data-name={m["navigation.navigation"]()}>
         <div id="locale">
           {#each locales as locale (locale)}
             <button onclick={() => setLocale(locale)}>{locale}</button>
@@ -48,7 +49,7 @@
             <button onclick={() => setLocale(locale)}>{locale}</button>
           {/each}
         </div>
-        <div id="navigation" data-name="Navigation">
+        <div id="navigation" data-name={m["navigation.navigation"]()}>
           {#if user}
             <UserInfo {user} />
           {/if}

@@ -1,6 +1,7 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "navigation": {
+    "navigation": "Navigointi",
     "home": "Etusivu",
     "about": "Toiminta / Info",
     "events": "Tapahtumat",

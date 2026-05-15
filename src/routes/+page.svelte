@@ -11,7 +11,7 @@
   let post = $derived(data.recentPost[0]);
   let isOverflowing = $state(false);
 
-  const isTextClamped = (elm) => elm.scrollHeight > elm.clientHeight;
+  const isTextClamped = (elm) => elm?.scrollHeight > elm?.clientHeight;
 
   onMount(() => {
     const element = document.querySelector(".content.preview");
