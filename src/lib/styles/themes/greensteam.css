@@ -1,5 +1,5 @@
 /* 
-   Green Steam theme — a recreation of the early Steam UI aesthetic.
+   Green Steam theme - a recreation of the early Steam UI aesthetic.
    Original: https://github.com/leonill007/vgui.css
 */
 
@@ -37,7 +37,6 @@ html.greensteam {
 html.greensteam body {
   font-family: var(--font-body);
   font-size: 14px;
-  image-rendering: pixelated;
 }
 
 html.greensteam ::selection {
@@ -60,7 +59,6 @@ html.greensteam p {
   color: var(--color-text);
 }
 
-/* Links: hover is underline only, no background swap */
 html.greensteam a {
   color: var(--link-color);
   text-decoration: none;
@@ -180,8 +178,10 @@ html.greensteam div.text-block a:focus {
 }
 
 html.greensteam button.new-event,
-html.greensteam button.new-post {
+html.greensteam button.new-post,
+html.greensteam ul + button.post.action {
   width: fit-content;
+  align-self: center;
 }
 
 html.greensteam ul.feed-items {
@@ -277,7 +277,7 @@ html.greensteam ::-webkit-calendar-picker-indicator {
   filter: brightness(0) invert() brightness(70%);
 }
 
-/* Range Slider  */
+/* Range Slider */
 
 html.greensteam input[type="range"] {
   appearance: none;
@@ -740,7 +740,6 @@ html.greensteam .inset .rounded code {
 
 html.greensteam mobile {
   width: fit-content;
-  /* display: flex; */
   align-self: center;
 }
 
@@ -749,6 +748,12 @@ html.greensteam mobile {
     padding-top: 25.33% !important;
     font-size: 1.8vw !important;
     padding-left: 3.5em !important;
+  }
+
+  html.greensteam .titlebar,
+  html.greensteam [data-name]:not(#recent post)::before,
+  html.greensteam .box:not(.headless)::before {
+    white-space: pre-line;
   }
 }
 
