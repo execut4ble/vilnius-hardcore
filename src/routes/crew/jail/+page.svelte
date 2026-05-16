@@ -13,18 +13,20 @@
   <MetaTags title="Blocked IPs" />
 </svelte:head>
 
-<h2>{m.blocked_ips_heading()}</h2>
+<div data-name={m.blocked_ips_heading()}>
+  <h2>{m.blocked_ips_heading()}</h2>
 
-{#if banlist.length > 0}
-  <div>{m.blocked_ips_description()}</div>
-{:else}
-  <div>{m.blocked_ips_no_entries()}</div>
-{/if}
+  {#if banlist.length > 0}
+    <div>{m.blocked_ips_description()}</div>
+  {:else}
+    <div>{m.blocked_ips_no_entries()}</div>
+  {/if}
 
-<ul>
-  {#each banlist as ban (ban.id)}
-    <li>
-      <BannedAddress {...ban} />
-    </li>
-  {/each}
-</ul>
+  <ul>
+    {#each banlist as ban (ban.id)}
+      <li>
+        <BannedAddress {...ban} />
+      </li>
+    {/each}
+  </ul>
+</div>

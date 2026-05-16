@@ -1,0 +1,759 @@
+/* 
+   Green Steam theme — a recreation of the early Steam UI aesthetic.
+   Original: https://github.com/leonill007/vgui.css
+*/
+
+/* Token Overrides */
+
+html.greensteam {
+  --font-body: "Trebuchet MS", "Verdana", sans-serif;
+
+  --color-bg: #3e4637;
+  --color-text: #d8ded3;
+  --color-text-2: #c4b550;
+  --color-text-3: #899281;
+
+  --link-color: #aaaaaa;
+  --link-hover-color: #d8ded3;
+
+  --form-bg-color: #3e4637;
+  --form-border-color: #899281;
+  --form-border-subtle: #292d23;
+  --border-subtle: rgba(255, 255, 255, 0.075);
+
+  --pre-bg: #3e4637;
+  --pre-shadow: none;
+
+  /* Bevel system */
+  --color-border-light: #899281; /* top / left of raised elements */
+  --color-border-dark: #292d23; /* bottom / right of raised elements */
+  --color-surface-raised: #4c5844;
+
+  --color-selection: #96892d;
+}
+
+/* Base Element Overrides */
+
+html.greensteam body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  image-rendering: pixelated;
+}
+
+html.greensteam ::selection {
+  background-color: var(--color-selection);
+}
+
+html.greensteam h1,
+html.greensteam h2 {
+  color: var(--color-text-2);
+}
+
+html.greensteam h1 {
+  font-size: 18px;
+}
+html.greensteam h2 {
+  font-size: 16px;
+}
+
+html.greensteam p {
+  color: var(--color-text);
+}
+
+/* Links: hover is underline only, no background swap */
+html.greensteam a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+html.greensteam a:hover {
+  background: none;
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+html.greensteam hr {
+  border: none;
+  height: 1px;
+  background-color: var(--color-bg);
+}
+
+html.greensteam code {
+  background: var(--color-bg);
+  padding: 0 3px;
+}
+
+html.greensteam pre {
+  background-color: var(--pre-bg);
+  box-shadow: none;
+  font-family: monospace;
+}
+
+html.greensteam img {
+  object-fit: contain;
+  border: solid 2px #7b8484;
+  border-radius: 0 !important;
+}
+
+html.greensteam header img {
+  padding-top: 0;
+  filter: none;
+}
+
+html.greensteam div.site-description {
+  padding-top: 12.37rem !important;
+}
+
+html.greensteam event img,
+html.greensteam div#user-info {
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+  padding: 8px 12px;
+  width: -webkit-fill-available;
+}
+
+html.greensteam fieldset {
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+}
+
+/* Buttons */
+
+html.greensteam button,
+html.greensteam input[type="button"],
+html.greensteam input[type="reset"],
+html.greensteam input[type="submit"],
+html.greensteam input[type="color"],
+html.greensteam ::-webkit-file-upload-button,
+html.greensteam ::file-selector-button,
+html.greensteam .greensteam-button,
+html.greenstream button.post.action,
+html.greensteam div.text-block a {
+  color: white !important;
+  background-color: var(--color-surface-raised);
+  height: 25px;
+  cursor: pointer;
+  border-top: solid 1px var(--color-border-light) !important;
+  border-bottom: solid 1px var(--color-border-dark) !important;
+  border-left: solid 1px var(--color-border-light) !important;
+  border-right: solid 1px var(--color-border-dark) !important;
+  font-weight: normal;
+  text-align: left;
+  -webkit-font-smoothing: none;
+}
+
+html.greensteam button:hover,
+html.greensteam div.text-block a:hover {
+  background: var(--color-surface-raised);
+  color: white;
+  text-decoration: none;
+}
+
+html.greensteam button:active,
+html.greenstream button.post.action:active,
+html.greensteam input[type="button"]:active,
+html.greensteam input[type="reset"]:active,
+html.greensteam input[type="submit"]:active,
+html.greensteam input[type="color"]:active,
+html.greensteam ::-webkit-file-upload-button:active,
+html.greensteam ::file-selector-button:active,
+html.greensteam .greensteam-button:active,
+html.greensteam div.text-block a:active {
+  border-top: solid 1px var(--color-border-dark) !important;
+  border-bottom: solid 1px var(--color-border-light) !important;
+  border-left: solid 1px var(--color-border-dark) !important;
+  border-right: solid 1px var(--color-border-light) !important;
+}
+
+html.greensteam button:focus,
+html.greensteam input[type="button"]:focus,
+html.greensteam input[type="reset"]:focus,
+html.greensteam input[type="submit"]:focus,
+html.greensteam ::file-selector-button:focus,
+html.greensteam .greensteam-button:focus,
+html.greensteam div.text-block a:focus {
+  outline: 1px dashed var(--color-border-dark);
+  outline-offset: -4px;
+}
+
+html.greensteam button.new-event,
+html.greensteam button.new-post {
+  width: fit-content;
+}
+
+html.greensteam ul.feed-items {
+  flex-direction: row;
+  position: unset;
+}
+
+html.greensteam ul.feed-items button {
+  border-radius: 0;
+}
+
+/* Form Inputs */
+
+html.greensteam input[type="checkbox"] {
+  vertical-align: middle;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+}
+html.greensteam input[type="checkbox"]:focus {
+  outline: 1px dotted black;
+  outline-offset: -2px;
+}
+html.greensteam input[type="checkbox"]:checked {
+  background-image: url("/styles/greensteam/checkmark.png");
+}
+
+html.greensteam input[type="radio"] {
+  vertical-align: text-bottom;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background-image: url("/styles/greensteam/radio_off.png");
+}
+html.greensteam input[type="radio"]:focus {
+  outline: 1px dotted black;
+}
+html.greensteam input[type="radio"]:checked {
+  background-image: url("/styles/greensteam/radio_on.png");
+}
+
+html.greensteam input[type="text"],
+html.greensteam input[type="tel"],
+html.greensteam input[type="search"],
+html.greensteam input[type="password"],
+html.greensteam input[type="email"],
+html.greensteam input[type="url"],
+html.greensteam input[type="number"],
+html.greensteam input[type="date"],
+html.greensteam input[type="datetime-local"],
+html.greensteam input[type="month"],
+html.greensteam input[type="week"],
+html.greensteam input[type="time"],
+html.greensteam input[list],
+html.greensteam input,
+html.greensteam select,
+html.greensteam textarea {
+  border-top: solid 1px var(--color-border-dark) !important;
+  border-bottom: solid 1px var(--color-border-light) !important;
+  border-left: solid 1px var(--color-border-dark) !important;
+  border-right: solid 1px var(--color-border-light) !important;
+  border-radius: unset !important;
+  color: inherit;
+  background: var(--form-bg-color);
+  font-size: 11pt !important;
+}
+
+html.greensteam input[type="text"]:focus,
+html.greensteam input[type="tel"]:focus,
+html.greensteam input[type="search"]:focus,
+html.greensteam input[type="password"]:focus,
+html.greensteam input[type="email"]:focus,
+html.greensteam input[type="url"]:focus,
+html.greensteam input[type="number"]:focus,
+html.greensteam input[type="date"]:focus,
+html.greensteam input[type="datetime-local"]:focus,
+html.greensteam input[type="month"]:focus,
+html.greensteam input[type="week"]:focus,
+html.greensteam input[type="time"]:focus,
+html.greensteam input[list]:focus,
+html.greensteam input:focus,
+html.greensteam select:focus,
+html.greensteam textarea:focus {
+  outline: 1px dotted black;
+  outline-offset: -3px;
+}
+
+html.greensteam ::-webkit-calendar-picker-indicator {
+  filter: brightness(0) invert() brightness(70%);
+}
+
+/* Range Slider  */
+
+html.greensteam input[type="range"] {
+  appearance: none;
+  min-width: 200px;
+  color: #b8c4ad;
+  background: none;
+  position: relative;
+}
+
+html.greensteam input[type="range"]::before,
+html.greensteam input[type="range"]::after {
+  display: inline;
+  position: absolute;
+  font-size: 10px;
+  top: 10px;
+  font-family: monospace;
+}
+html.greensteam input[type="range"]::before {
+  left: 0;
+  content: attr(min);
+}
+html.greensteam input[type="range"]::after {
+  right: 0;
+  content: attr(max);
+}
+
+html.greensteam input[type="range"]::-webkit-slider-runnable-track,
+html.greensteam input[type="range"]::-moz-range-track,
+html.greensteam input[type="range"]::-moz-range-progress {
+  background: black;
+  height: 4px;
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+  margin: 6px 0;
+}
+
+html.greensteam input[type="range"]::-webkit-slider-thumb,
+html.greensteam input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  background: var(--color-surface-raised);
+  border-top: solid 1px var(--color-border-light);
+  border-bottom: solid 1px var(--color-border-dark);
+  border-left: solid 1px var(--color-border-light);
+  border-right: solid 1px var(--color-border-dark);
+  width: 8px;
+  height: 16px;
+  position: relative;
+  top: -7px;
+  border-radius: 0;
+}
+
+html.greensteam input[type="range"]:focus {
+  outline: 1px dotted black;
+  outline-offset: 2px;
+}
+
+html.greensteam input[type="range"].ticks {
+  background: url("/styles/greensteam/sliderticks.png") repeat-x;
+  background-position: bottom left 2px;
+  background-size: 19px 5px;
+}
+html.greensteam input[type="range"].ticks::before,
+html.greensteam input[type="range"].ticks::after {
+  top: 16px;
+}
+
+/* Progress Bar */
+
+html.greensteam progress {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 90%;
+  margin: 18px auto 12px;
+  height: 26px;
+  box-sizing: border-box;
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+  background: var(--form-bg-color);
+}
+html.greensteam progress::-webkit-progress-bar {
+  background: var(--form-bg-color);
+  padding: 4px;
+}
+html.greensteam progress::-webkit-progress-value {
+  height: 16px;
+  background: repeating-linear-gradient(
+    to right,
+    #96892d,
+    #96892d 8px,
+    var(--form-bg-color) 1px,
+    var(--form-bg-color) 12px
+  );
+}
+html.greensteam progress::-moz-progress-bar {
+  height: 16px;
+  background: repeating-linear-gradient(
+    to right,
+    #96892d,
+    #96892d 8px,
+    var(--form-bg-color) 1px,
+    var(--form-bg-color) 12px
+  );
+  margin-top: 4px;
+  margin-left: 4px;
+}
+
+/* Scrollbar */
+
+html.greensteam ::-webkit-scrollbar,
+html.greensteam ::-webkit-scrollbar-corner {
+  width: 18px;
+  background-color: #5a6a50;
+}
+html.greensteam ::-webkit-scrollbar-thumb {
+  background-color: var(--color-surface-raised);
+  border-top: solid 1px var(--color-border-light);
+  border-bottom: solid 1px var(--color-border-dark);
+  border-left: solid 1px var(--color-border-light);
+  border-right: solid 1px var(--color-border-dark);
+}
+html.greensteam ::-webkit-scrollbar-button {
+  width: 18px;
+  height: 18px;
+  border-top: solid 1px var(--color-border-light);
+  border-bottom: solid 1px var(--color-border-dark);
+  border-left: solid 1px var(--color-border-light);
+  border-right: solid 1px var(--color-border-dark);
+  background: var(--color-surface-raised);
+}
+html.greensteam ::-webkit-scrollbar-button:active {
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+}
+html.greensteam ::-webkit-scrollbar-button:vertical:increment {
+  background:
+    url("/styles/greensteam/scroll_down.png") no-repeat center,
+    var(--color-surface-raised);
+}
+html.greensteam ::-webkit-scrollbar-button:vertical:decrement {
+  background:
+    url("/styles/greensteam/scroll_up.png") no-repeat center,
+    var(--color-surface-raised);
+}
+html.greensteam ::-webkit-scrollbar-button:horizontal:increment {
+  background:
+    url("/styles/greensteam/scroll_right.png") no-repeat center,
+    var(--color-surface-raised);
+}
+html.greensteam ::-webkit-scrollbar-button:horizontal:decrement {
+  background:
+    url("/styles/greensteam/scroll_left.png") no-repeat center,
+    var(--color-surface-raised);
+}
+
+/* Navbar */
+
+html.greensteam nav {
+  list-style: none;
+  background: var(--color-surface-raised);
+}
+html.greensteam nav li {
+  text-align: left;
+  cursor: pointer;
+}
+html.greensteam nav li a {
+  display: block;
+  padding: 8px 15px;
+  color: var(--color-text-2);
+  text-decoration: none;
+}
+html.greensteam nav li a:hover {
+  color: #e3e41f;
+  background: #5a6a50;
+  text-decoration: none;
+}
+html.greensteam nav li:hover ul.dropdown {
+  display: block;
+}
+html.greensteam nav li ul.dropdown {
+  display: none;
+  list-style: none;
+  border-bottom: solid 1px var(--color-border-dark);
+  border-left: solid 1px var(--color-border-light);
+  border-right: solid 1px var(--color-border-dark);
+  padding: 0;
+  min-width: 150px;
+  background: var(--color-surface-raised);
+  position: absolute;
+  top: 23px;
+  z-index: 1;
+}
+html.greensteam nav li ul.dropdown li {
+  display: block;
+}
+
+/* Window & Box Components */
+
+html.greensteam row {
+  backdrop-filter: none;
+  border: 0;
+}
+
+html.greensteam sidebar {
+  border: 0;
+}
+
+html.greensteam div#navigation,
+html.greensteam [data-name]:not(#recent post),
+html.greensteam .box {
+  position: relative;
+  background-color: var(--color-surface-raised);
+  border-top: solid 1px var(--color-border-light);
+  border-bottom: solid 1px var(--color-border-dark);
+  border-left: solid 1px var(--color-border-light);
+  border-right: solid 1px var(--color-border-dark);
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0 0 20px;
+}
+
+html.greensteam event {
+  display: block;
+}
+
+html.greensteam div[data-name] h1,
+html.greensteam section:has(post[data-name]) h1,
+html.greensteam section:has(event[data-name]) h1,
+html.greensteam section:not(:has(li event)) event[data-name] h2,
+html.greensteam section:has(form[data-name]) h3,
+html.greensteam h2#comments,
+html.greensteam
+  div#comments-list:not(:has(div.text-block)):not(:has(div.comment)),
+html.greensteam div[data-name] h2:not(post h2),
+html.greensteam div[data-name] h3 {
+  display: none;
+}
+
+html.greensteam h2 a:hover {
+  text-decoration: none;
+}
+
+html.greensteam h2 a:hover strong {
+  background: none;
+  color: none;
+  text-decoration: none;
+}
+
+html.greensteam post:not(#recent post) {
+  display: block;
+}
+
+html.greensteam .titlebar,
+html.greensteam [data-name]:not(#recent post)::before,
+html.greensteam .box:not(.headless)::before {
+  display: block;
+  position: relative;
+  margin-bottom: 1em;
+  width: 100%;
+  height: 18px;
+  line-height: 18px;
+  text-indent: 24px;
+  background-image:
+    url("/styles/greensteam/steamico.png"),
+    url("/styles/greensteam/minimize.png"), url("/styles/greensteam/close.png");
+  background-repeat: no-repeat;
+  background-position:
+    top left,
+    top right 20px,
+    top right;
+  box-sizing: border-box;
+  padding-right: 44px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+html.greensteam div.event-heading .draft {
+  color: white;
+}
+
+html.greensteam event h2.title span.today {
+  display: inline;
+  color: white;
+  position: absolute;
+  top: 7em;
+  left: -16px;
+}
+
+html.greensteam event::before,
+html.greensteam [data-name]:not(#recent post)::before,
+html.greensteam .box:not(.headless)::before {
+  content: attr(data-name);
+}
+
+/* Titlebar text + label typography */
+html.greensteam .box::before,
+html.greensteam [data-name]::before,
+html.greensteam h1,
+html.greensteam h2:not(.title),
+html.greensteam .titlebar,
+html.greensteam legend {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+}
+
+/* Resize handle */
+html.greensteam [data-name]:not(#recent post)::after,
+html.greensteam .box:not(.no-resize)::after {
+  width: 12px;
+  height: 12px;
+  display: block;
+  margin: 0 0 0 auto;
+  position: relative;
+  bottom: -7px;
+  right: -7px;
+  cursor: nwse-resize;
+  content: "";
+  background-image: url("/styles/greensteam/resize.png");
+}
+
+html.greensteam .box.half,
+html.greensteam .box-row .box {
+  max-width: 380px;
+  width: 100%;
+  align-self: flex-start;
+}
+
+html.greensteam .box-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  max-width: 780px;
+}
+
+/* Hide ::before text — the absolutely-positioned h2.title link replaces it */
+html.greensteam post[data-name]:not(#recent post)::before,
+html.greensteam div#recent::before,
+html.greensteam event[data-name]::before {
+  color: transparent;
+}
+
+/* Restore when no link is present in the titlebar */
+html.greensteam post[data-name]:not(#recent post):not(:has(h2.title))::before,
+html.greensteam event[data-name]:not(:has(h2.title a))::before {
+  color: white;
+}
+
+/* Shared layout for all three titlebar link contexts */
+html.greensteam post:not(#recent post) h2.title,
+html.greensteam div#recent post h2.title,
+html.greensteam event h2.title {
+  position: absolute;
+  top: 10px;
+  left: 34px;
+  right: 50px;
+  height: 18px;
+  line-height: 18px;
+  margin: 0;
+  overflow: visible;
+  z-index: 1;
+}
+
+html.greensteam post:not(#recent post) h2.title a,
+html.greensteam div#recent post h2.title a,
+html.greensteam event h2.title a {
+  display: block;
+  height: 18px;
+  line-height: 18px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+html.greensteam post:not(#recent post) h2.title a:hover,
+html.greensteam div#recent post h2.title a:hover,
+html.greensteam event h2.title a:hover {
+  background: none;
+  color: var(--color-text-2);
+  text-decoration: none;
+}
+
+/* Override the general h2 strong decoration for .title, show as plain text */
+html.greensteam post h2.title strong,
+html.greensteam event h2.title strong {
+  display: inline !important;
+  color: inherit !important;
+  font-weight: inherit;
+  position: static;
+}
+
+/* Border Utilities */
+
+html.greensteam .border {
+  border-top: solid 1px var(--color-border-light);
+  border-bottom: solid 1px var(--color-border-dark);
+  border-left: solid 1px var(--color-border-light);
+  border-right: solid 1px var(--color-border-dark);
+}
+
+html.greensteam .border-inverted {
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+}
+
+html.greensteam .inset,
+html.greensteam nav,
+html.greensteam div.content,
+html.greensteam div.event-description,
+html.greensteam .box.inset {
+  margin-top: 1em;
+  padding: 1em;
+  background-color: var(--color-bg);
+  border-top: solid 1px var(--color-border-dark);
+  border-bottom: solid 1px var(--color-border-light);
+  border-left: solid 1px var(--color-border-dark);
+  border-right: solid 1px var(--color-border-light);
+}
+
+html.greensteam div.event-description {
+  margin-right: 1em;
+}
+
+html.greensteam div.content p:first-child {
+  margin-top: 0;
+}
+
+html.greensteam .inset code,
+html.greensteam .box.inset code {
+  background-color: var(--color-surface-raised);
+}
+
+html.greensteam .rounded,
+html.greensteam .box.rounded {
+  border: none;
+  border-radius: 10px;
+}
+
+html.greensteam .inset .rounded {
+  background-color: #4a5942;
+}
+html.greensteam .inset .rounded code {
+  background-color: var(--color-bg);
+}
+
+html.greensteam mobile {
+  width: fit-content;
+  /* display: flex; */
+  align-self: center;
+}
+
+@media screen and (max-width: 780px) {
+  html.greensteam:not(.dark) header .site-description {
+    padding-top: 25.33% !important;
+    font-size: 1.8vw !important;
+    padding-left: 3.5em !important;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  html.greensteam event h2.title span.today {
+    left: -2em !important;
+  }
+}

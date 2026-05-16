@@ -59,7 +59,7 @@
       ><FilePlusCorner /> {m.add_new()}</button
     >
   {:else}
-    <div transition:slide>
+    <div transition:slide data-name={m.add_new_post()}>
       <h2><strong>{m.add_new_post()}</strong></h2>
       <div>
         <PostEntryForm

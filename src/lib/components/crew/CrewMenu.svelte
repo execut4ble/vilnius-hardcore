@@ -5,7 +5,7 @@
   import { MegaphoneOff, UserPen, Users } from "@lucide/svelte";
 </script>
 
-<div id="crew-nav">
+<div id="crew-nav" data-name="Menu">
   <nav>
     <ul class="navlist-items">
       <li aria-current={page.url.pathname === "/crew" ? "page" : undefined}>

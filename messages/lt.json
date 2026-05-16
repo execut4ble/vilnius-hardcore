@@ -1,6 +1,7 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "navigation": {
+    "navigation": "Meniu",
     "home": "Pagrindinis",
     "about": "Veikla / Info",
     "events": "Renginiai",

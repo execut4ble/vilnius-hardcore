@@ -9,7 +9,7 @@
   import { resolve } from "$app/paths";
 </script>
 
-<div id="recent-comments">
+<div id="recent-comments" data-name={m.recent_comments()}>
   <h3><strong>{m.recent_comments()}</strong></h3>
   <ul>
     {#each recentComments as comment (comment.id)}

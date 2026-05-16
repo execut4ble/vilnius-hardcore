@@ -103,7 +103,11 @@
       onclick={() => (entryMode = true)}><CalendarPlus /> {m.add_new()}</button
     >
   {:else}
-    <div transition:slide class="event-entry-form">
+    <div
+      transition:slide
+      class="event-entry-form"
+      data-name={m.add_new_event()}
+    >
       <h2><strong>{m.add_new_event()}</strong></h2>
       <div class="form-row">
         <EventEntryForm

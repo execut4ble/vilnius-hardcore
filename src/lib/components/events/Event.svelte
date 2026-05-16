@@ -67,7 +67,7 @@
   }
 </script>
 
-<event>
+<event data-name={event.title}>
   {#if detailed && imageFilename}
     <img
       class="detailed"

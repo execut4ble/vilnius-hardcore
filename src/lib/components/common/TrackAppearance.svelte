@@ -1,30 +1,29 @@
 <script lang="ts">
-  import { appearance } from "@friendofsvelte/toggle";
   import { onMount } from "svelte";
+  import { theme, type ThemeMode } from "$lib/stores/theme";
 
-  const init = () => {
-    if (document.documentElement.classList.contains("dark")) {
-      appearance.dark = true;
-    } else if (document.documentElement.classList.contains("light")) {
-      appearance.dark = false;
-    }
+  function applyTheme(mode: ThemeMode) {
+    const root = document.documentElement;
 
-    if (appearance.dark === null) {
-      appearance.dark = false;
+    root.classList.remove("light", "dark", "greensteam");
+    root.classList.add(mode);
+
+    document.cookie = `appearanceMode=${mode}; path=/; max-age=31536000; SameSite=Lax`;
+  }
+
+  onMount(() => {
+    const root = document.documentElement;
+
+    if (root.classList.contains("greensteam")) {
+      theme.set("greensteam");
+    } else if (root.classList.contains("dark")) {
+      theme.set("dark");
+    } else {
+      theme.set("light");
     }
-  };
-  const track = () => {
-    if (appearance.dark != null) {
-      document.cookie = `appearanceMode=${appearance.dark ? "dark" : "light"}; path=/; max-age=31536000; SameSite=Lax`;
-      if (appearance.dark) {
-        document.documentElement.classList.add("dark");
-        document.documentElement.classList.remove("light");
-      } else {
-        document.documentElement.classList.remove("dark");
-        document.documentElement.classList.add("light");
-      }
-    }
-  };
-  $effect(track);
-  onMount(init);
+  });
+
+  $effect(() => {
+    applyTheme($theme);
+  });
 </script>

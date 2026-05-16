@@ -4,12 +4,13 @@
    2. themes  - overrides must come after token defaults
    3. layout  - structure (references tokens for sizing vars)
    4. theme   - visuals (references tokens for all color/font values)
- */
+*/
 
 @import "$lib/styles/tokens.css";
 
 /* Themes */
 @import "$lib/styles/themes/dark.css";
+@import "$lib/styles/themes/greensteam.css";
 
 @import "$lib/styles/layout.css";
 @import "$lib/styles/theme.css";

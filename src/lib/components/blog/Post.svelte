@@ -56,7 +56,7 @@
   ];
 </script>
 
-<post>
+<post data-name={title}>
   {#if !isEditing}
     {#if page.params.slug !== slug}
       <h2 class="title">

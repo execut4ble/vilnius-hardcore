@@ -22,7 +22,7 @@
   <strong><h2 id="comments">{m.comment_plural()}</h2></strong>
 
   {#key post.id}
-    <div id="comments-list">
+    <div id="comments-list" data-name={m.comment_plural()}>
       {#each comments as comment (comment.id)}
         <Comment {...comment} />
       {:else}

@@ -11,7 +11,7 @@
   let post = $derived(data.recentPost[0]);
   let isOverflowing = $state(false);
 
-  const isTextClamped = (elm) => elm.scrollHeight > elm.clientHeight;
+  const isTextClamped = (elm) => elm?.scrollHeight > elm?.clientHeight;
 
   onMount(() => {
     const element = document.querySelector(".content.preview");
@@ -29,7 +29,7 @@
     <strong>{m.recent_news()}</strong>
   </h2>
 
-  <div id="recent">
+  <div id="recent" data-name={post.title}>
     <Post {...post} preview={true} />
 
     <div class={isOverflowing ? "text-block" : "text-block opaque"}>
