@@ -515,6 +515,8 @@ html.greensteam section:has(event[data-name]) h1,
 html.greensteam section:not(:has(li event)) event[data-name] h2,
 html.greensteam section:has(form[data-name]) h3,
 html.greensteam h2#comments,
+html.greensteam
+  div#comments-list:not(:has(div.text-block)):not(:has(div.comment)),
 html.greensteam div[data-name] h2:not(post h2),
 html.greensteam div[data-name] h3 {
   display: none;
@@ -552,6 +554,23 @@ html.greensteam .box:not(.headless)::before {
     top left,
     top right 20px,
     top right;
+  box-sizing: border-box;
+  padding-right: 44px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+html.greensteam div.event-heading .draft {
+  color: white;
+}
+
+html.greensteam event h2.title span.today {
+  display: inline;
+  color: white;
+  position: absolute;
+  top: 7em;
+  left: -16px;
 }
 
 html.greensteam event::before,
@@ -628,9 +647,7 @@ html.greensteam event h2.title {
   height: 18px;
   line-height: 18px;
   margin: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow: visible;
   z-index: 1;
 }
 
@@ -719,4 +736,24 @@ html.greensteam .inset .rounded {
 }
 html.greensteam .inset .rounded code {
   background-color: var(--color-bg);
+}
+
+html.greensteam mobile {
+  width: fit-content;
+  /* display: flex; */
+  align-self: center;
+}
+
+@media screen and (max-width: 780px) {
+  html.greensteam:not(.dark) header .site-description {
+    padding-top: 25.33% !important;
+    font-size: 1.8vw !important;
+    padding-left: 3.5em !important;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  html.greensteam event h2.title span.today {
+    left: -2em !important;
+  }
 }
