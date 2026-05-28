@@ -37,4 +37,4 @@ npm run dev
 
 ## Deploying
 
-See [install instructions](https://github.com/execut4ble/vilnius-hardcore/wiki/Installation)
+See [deployment instructions](https://github.com/execut4ble/vilnius-hardcore/wiki/Deployment)
