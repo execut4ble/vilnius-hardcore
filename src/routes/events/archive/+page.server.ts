@@ -1,11 +1,11 @@
 import type { EventsArray } from "$lib/types";
-import { and, count, eq, gte, sql } from "drizzle-orm";
-import type { PageServerLoad, Actions } from "./$types";
+import { count, eq, lt, and, sql } from "drizzle-orm";
+import type { Actions, PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
-import { eventActions } from "$lib/server/actions/event.actions";
 import { env } from "$env/dynamic/private";
-import { loadUpcomingEvents } from "$lib/server/db/queries/events";
+import { loadArchivedEvents } from "$lib/server/db/queries/events";
+import { eventActions } from "$lib/server/actions/event.actions";
 
 const commentsEnabled = env.DISABLE_COMMENTS !== "true";
 
@@ -15,7 +15,7 @@ export const load = (async ({
 }): Promise<{ events: EventsArray; meta: { totalEvents: number }[] }> => {
   const limit = Number(url.searchParams.get("limit")) || 5;
 
-  const events = await loadUpcomingEvents(locals, limit, commentsEnabled);
+  const events = await loadArchivedEvents(locals, limit, commentsEnabled);
 
   const visibilityCondition = locals.user
     ? undefined
@@ -24,7 +24,7 @@ export const load = (async ({
   const meta = await db
     .select({ totalEvents: count() })
     .from(table.event)
-    .where(and(gte(table.event.date, sql`CURRENT_DATE`), visibilityCondition));
+    .where(and(lt(table.event.date, sql`CURRENT_DATE`), visibilityCondition));
 
   // Convert dates to ISO-8601 format
   for (const i in events) {
