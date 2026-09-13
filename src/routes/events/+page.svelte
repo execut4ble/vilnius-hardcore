@@ -15,11 +15,13 @@
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import {
+    ArchiveIcon,
     ArrowDownFromLine,
     Calendar1,
     CalendarPlus,
     Rss,
   } from "@lucide/svelte";
+  import { resolve } from "$app/paths";
 
   let { data, form }: PageProps = $props();
   let events: Array<EventObject> = $derived(data.events);
@@ -33,16 +35,6 @@
         (a, b) =>
           new SvelteDate(a.date).getTime() - new SvelteDate(b.date).getTime(),
       ),
-  );
-
-  let pastEvents: Array<EventObject> = $derived(
-    events
-      .filter((event) => new SvelteDate(event.date) < today)
-      .sort(
-        (a, b) =>
-          new SvelteDate(a.date).getTime() - new SvelteDate(b.date).getTime(),
-      )
-      .reverse(),
   );
 
   let entryMode: boolean = $state(false);
@@ -68,17 +60,17 @@
 
   async function loadMore() {
     const newUrl = new SvelteURL(page.url);
-    const newPage = (Number(pastEvents.length) + 5).toString();
+    const newPage = (Number(upcomingEvents.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
     goto(newUrl, { noScroll: true });
   }
 </script>
 
 <svelte:head>
-  <MetaTags title="Events" />
+  <MetaTags title={m.upcoming_events()} />
 </svelte:head>
 
-<h1>{m["navigation.events"]()}</h1>
+<h1>{m.upcoming_events()}</h1>
 
 <div class="feed-links">
   <ul class="feed-items">
@@ -135,7 +127,6 @@
     </div>
   {/if}
 {/if}
-<h2><strong>{m.upcoming_events()}</strong></h2>
 <ul class="item-list">
   {#each upcomingEvents as event (event.id)}
     <li transition:slide>
@@ -146,17 +137,6 @@
   {/each}
 </ul>
 
-<h2><strong>{m.past_events()}</strong></h2>
-<ul class="item-list">
-  {#each pastEvents as event (event.id)}
-    <li transition:slide>
-      <Event {...event} {form} />
-    </li>
-  {:else}
-    <span transition:slide>{m.no_past_events()}</span>
-  {/each}
-</ul>
-
 {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
   <button class="post action" onclick={loadMore}
     ><ArrowDownFromLine /> {m.show_more()}</button
@@ -164,6 +144,12 @@
 {/if}
 
 <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
+
+<div class="center-block">
+  <a href={resolve("/events/archive")}
+    ><ArchiveIcon /> {m["navigation.events_archive"]()}</a
+  >
+</div>
 
 <style>
   div.form-row {

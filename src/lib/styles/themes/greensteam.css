@@ -511,7 +511,6 @@ html.greensteam event {
 
 html.greensteam div[data-name] h1,
 html.greensteam section:has(post[data-name]) h1,
-html.greensteam section:has(event[data-name]) h1,
 html.greensteam section:not(:has(li event)) event[data-name] h2,
 html.greensteam section:has(form[data-name]) h3,
 html.greensteam h2#comments,
