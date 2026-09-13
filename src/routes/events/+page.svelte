@@ -15,6 +15,7 @@
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import {
+    ArchiveIcon,
     ArrowDownFromLine,
     Calendar1,
     CalendarPlus,
@@ -145,7 +146,9 @@
 <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
 
 <div class="center-block">
-  <a href={resolve("/events/archive")}>{m["navigation.events_archive"]()}</a>
+  <a href={resolve("/events/archive")}
+    ><ArchiveIcon /> {m["navigation.events_archive"]()}</a
+  >
 </div>
 
 <style>

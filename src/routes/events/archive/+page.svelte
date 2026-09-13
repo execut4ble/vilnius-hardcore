@@ -16,7 +16,7 @@
   let today: Date = new SvelteDate();
   today.setHours(0, 0, 0, 0); // Normalize to midnight
 
-  let pastEvents: Array<EventObject> = $derived(events.reverse());
+  let pastEvents: Array<EventObject> = $derived(events);
 
   let displayedEvents: number | null = $derived(events.length);
   let totalEvents: number | null = $derived(data.meta[0].totalEvents);
@@ -35,9 +35,11 @@
 
 <h1>{m.past_events()}</h1>
 
-<a href={resolve("/events")}>
-  <h2><strong><ChevronLeft /> {m.upcoming_events()}</strong></h2>
-</a>
+<h2>
+  <a href={resolve("/events")}
+    ><strong><ChevronLeft /> {m.upcoming_events()}</strong></a
+  >
+</h2>
 
 <ul class="item-list">
   {#each pastEvents as event (event.id)}
