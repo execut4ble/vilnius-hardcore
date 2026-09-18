@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import type { LayoutServerLoad } from "./$types";
 import type { RecentComment, RecentCommentsData } from "$lib/types";
 import { env } from "$env/dynamic/private";
+import { GET as fetchRecordings } from "./api/recordings/+server";
 
 const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
 
@@ -50,9 +51,13 @@ export const load: LayoutServerLoad = async ({ locals }) => {
     recentComments[i].date = new Date(recentComments[i].date).toISOString();
   }
 
+  const loadRecordings = (await fetchRecordings()).json() as any;
+  const recordings = await loadRecordings;
+
   return {
     user: locals.user,
     recentComments,
+    recordings,
     globalCommentsEnabled: env.DISABLE_COMMENTS === "true" ? false : true,
   };
 };
