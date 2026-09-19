@@ -17,7 +17,7 @@ const POLL_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
 const { log, logError } = createLogger("recordings-fetcher");
 
-export interface RecordingsCache {
+interface RecordingsCache {
   date: string | null;
   recordings: Recording[];
   fetchedAt: number;
@@ -90,7 +90,7 @@ async function fetchLatestRecordings(): Promise<Recording[]> {
   return latest;
 }
 
-export async function getCachedRecordings(): Promise<RecordingsCache | null> {
+async function getCachedRecordings(): Promise<RecordingsCache | null> {
   return getCached<RecordingsCache>(CACHE_KEY);
 }
 
@@ -119,7 +119,7 @@ export async function getLatestRecordingsData(): Promise<LatestRecordingsData> {
   };
 }
 
-export async function refreshCache({
+async function refreshCache({
   force = false,
 }: { force?: boolean } = {}): Promise<void> {
   await refreshCached<RecordingsCache>({
