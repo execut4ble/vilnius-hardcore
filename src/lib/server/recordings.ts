@@ -4,6 +4,7 @@ import {
   refreshCached,
   startPolling as startPollingGeneric,
 } from "$lib/server/redis";
+import type { LatestRecordingsData, Recording } from "$lib/types";
 
 const SOURCE_URL = "https://mp3.hardcore.lt/1120/";
 
@@ -15,14 +16,6 @@ const LOCK_KEY = "recordings:poll-lock";
 const POLL_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
 const { log, logError } = createLogger("recordings-fetcher");
-
-export interface Recording {
-  date: string;
-  fileName: string;
-  title: string;
-  fileSize: string;
-  url: string;
-}
 
 export interface RecordingsCache {
   date: string | null;
@@ -99,6 +92,31 @@ async function fetchLatestRecordings(): Promise<Recording[]> {
 
 export async function getCachedRecordings(): Promise<RecordingsCache | null> {
   return getCached<RecordingsCache>(CACHE_KEY);
+}
+
+export async function getLatestRecordingsData(): Promise<LatestRecordingsData> {
+  let cached = await getCachedRecordings();
+
+  // Force cache refresh if nothing is cached yet
+  if (!cached) {
+    await refreshCache({ force: true });
+    cached = await getCachedRecordings();
+  }
+
+  // No data available yet
+  if (!cached) {
+    return { error: "No data available yet", date: new Date(), recordings: [] };
+  }
+
+  const dateStr = cached.date ?? "00000000";
+  const year = parseInt(dateStr.slice(0, 4), 10);
+  const month = parseInt(dateStr.slice(4, 6), 10) - 1; // JS months are 0-indexed
+  const day = parseInt(dateStr.slice(6, 8), 10);
+
+  return {
+    date: new Date(year, month, day),
+    recordings: cached.recordings,
+  };
 }
 
 export async function refreshCache({

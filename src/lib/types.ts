@@ -57,10 +57,10 @@ export type RecentComment = {
 export type RecentCommentsData = Array<RecentComment>;
 
 export type Recording = {
-  id: number;
+  date: string;
+  fileName: string;
   title: string;
-  date: Date | string;
-  fileSize?: number;
+  fileSize: string;
   url: string;
 };
 
