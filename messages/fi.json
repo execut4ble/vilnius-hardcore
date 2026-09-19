@@ -81,7 +81,8 @@
     "date_empty": "Tapahtuman päivämäärä ei voi olla tyhjä",
     "body_empty": "Kirjoituksen sisältö ei voi olla tyhjä",
     "date_invalid": "Virheellinen päivämäärä",
-    "url_invalid": "Virheellinen linkki"
+    "url_invalid": "Virheellinen linkki",
+    "loading_error": "Virhe ladattaessa tietoja. Yritä myöhemmin uudelleen."
   },
   "commented_on": "kirjoitti",
   "blocked_ips_heading": "Estetyt IP",
@@ -111,5 +112,6 @@
   "register_user": "Rekisteröi käyttäjä",
   "copied": "Kopioitu!",
   "comments_disabled": "Kommentit on poistettu käytöstä.",
-  "today": "tänään"
+  "today": "tänään",
+  "latest_recordings": "Viimeisimmät keikkatallenteet"
 }

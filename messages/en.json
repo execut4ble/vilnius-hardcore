@@ -81,7 +81,8 @@
     "date_empty": "Event date can't be empty",
     "body_empty": "Post body can't be empty",
     "date_invalid": "Invalid date",
-    "url_invalid": "Invalid URL"
+    "url_invalid": "Invalid URL",
+    "loading_error": "Error loading data. Please try again later."
   },
   "commented_on": "on",
   "blocked_ips_heading": "Blocked IP addresses",
@@ -111,5 +112,6 @@
   "register_user": "Register a new user",
   "copied": "Copied!",
   "comments_disabled": "Comments disabled.",
-  "today": "today"
+  "today": "today",
+  "latest_recordings": "Latest gig recordings"
 }

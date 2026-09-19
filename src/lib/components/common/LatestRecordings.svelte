@@ -6,12 +6,13 @@
   import { slide } from "svelte/transition";
   import { SvelteDate } from "svelte/reactivity";
   import { getLocale } from "$lib/paraglide/runtime";
+  import { m } from "$lib/paraglide/messages";
 </script>
 
-<div id="latest-recordings" data-name="Latest gig recordings">
-  <h3><strong>Latest gig recordings</strong></h3>
+<div id="latest-recordings" data-name={m.latest_recordings()}>
+  <h3><strong>{m.latest_recordings()}</strong></h3>
   {#if recordings.error}
-    An error occurred while fetching the latest recordings
+    {m["error.loading_error"]()}
   {:else}
     {new SvelteDate(recordings.date).toLocaleDateString(getLocale(), {
       day: "2-digit",
@@ -23,7 +24,9 @@
     {#each recentRecordings as record (record.title)}
       <li class="recording" transition:slide>
         <div class="recording-content">
-          <a href={record.url}>{record.title}</a>
+          <a href={record.url} target="_blank">
+            {record.title}
+          </a>
         </div>
         <span class="font-size-small">{record.fileSize} </span>
       </li>

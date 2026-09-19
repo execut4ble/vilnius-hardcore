@@ -14,7 +14,7 @@ const LOCK_KEY = "recordings:poll-lock";
 // How often the background poller re-fetches the upstream page.
 const POLL_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
-const { log, logError } = createLogger("recordings");
+const { log, logError } = createLogger("recordings-fetcher");
 
 export interface Recording {
   date: string;
