@@ -1,24 +1,12 @@
 import Redis from "ioredis";
 import "dotenv/config";
 
-/**
- * Reusable Redis helpers: a shared client, a small logger, and generic
- * cache / distributed-lock / polling primitives. Domain-specific code (e.g.
- * parsing the recordings page) lives in its own module and uses these.
- */
-
-// How long a distributed lock lives before auto-expiring, in case a process
-// dies mid-operation and never releases it.
 const LOCK_TTL_MS = 60 * 1000; // 1 minute
 
 export const redis = new Redis(
   process.env.REDIS_URL ?? "redis://127.0.0.1:6379",
 );
 
-/**
- * Creates a prefixed logger. The prefix is included on every line for easy
- * filtering, e.g. `createLogger("recordings")`.
- */
 export function createLogger(prefix: string): {
   log: (message: string) => void;
   logError: (message: string, err: unknown) => void;
@@ -34,17 +22,11 @@ export function createLogger(prefix: string): {
 const logger = createLogger("redis");
 redis.on("error", (err) => logger.logError("redis error", err));
 
-/**
- * Reads a JSON-encoded cache entry from Redis, or null if absent.
- */
 export async function getCached<T>(key: string): Promise<T | null> {
   const raw = await redis.get(key);
   return raw ? (JSON.parse(raw) as T) : null;
 }
 
-/**
- * Writes a JSON-encoded cache entry to Redis.
- */
 export async function setCached<T>(key: string, value: T): Promise<void> {
   await redis.set(key, JSON.stringify(value));
 }
