@@ -1,4 +1,5 @@
 import Redis from "ioredis";
+import { randomUUID } from "node:crypto";
 import "dotenv/config";
 
 const LOCK_TTL_MS = 60 * 1000; // 1 minute
@@ -27,8 +28,17 @@ export async function getCached<T>(key: string): Promise<T | null> {
   return raw ? (JSON.parse(raw) as T) : null;
 }
 
-export async function setCached<T>(key: string, value: T): Promise<void> {
-  await redis.set(key, JSON.stringify(value));
+export async function setCached<T>(
+  key: string,
+  value: T,
+  ttlMs?: number,
+): Promise<void> {
+  const payload = JSON.stringify(value);
+  if (ttlMs && ttlMs > 0) {
+    await redis.set(key, payload, "PX", ttlMs);
+  } else {
+    await redis.set(key, payload);
+  }
 }
 
 /**
@@ -39,6 +49,8 @@ export async function setCached<T>(key: string, value: T): Promise<void> {
  * - If `staleBeforeMs` is set, the cached value is reused when its `fetchedAt`
  *   timestamp is younger than it.
  * - `fetch` returns the value to store when the cache is stale or forced.
+ * - `cacheTtlMs` sets an expiration on the stored value so that stale data
+ *   cannot persist forever if the poller dies.
  * - `onSkip(reason)` is called when a fetch is skipped (cache hit or another
  *   worker holds the lock), letting the caller log with its own prefix.
  */
@@ -46,14 +58,16 @@ export async function refreshCached<T>({
   cacheKey,
   lockKey,
   staleBeforeMs = 0,
+  cacheTtlMs,
   force = false,
   fetch,
   onSkip = () => {},
-  onFetchFailed = (err: unknown) => {},
+  onFetchFailed = () => {},
 }: {
   cacheKey: string;
   lockKey: string;
   staleBeforeMs?: number;
+  cacheTtlMs?: number;
   force?: boolean;
   fetch: () => Promise<T>;
   onSkip?: (reason: string, info?: unknown) => void;
@@ -73,7 +87,11 @@ export async function refreshCached<T>({
     }
   }
 
-  const gotLock = await redis.set(lockKey, "1", "PX", LOCK_TTL_MS, "NX");
+  // Acquire the lock with a unique token so that only the original holder can
+  // release it. If a fetch outlives LOCK_TTL_MS, another worker may take the
+  // lock; the comparison below prevents this worker from deleting it.
+  const token = randomUUID();
+  const gotLock = await redis.set(lockKey, token, "PX", LOCK_TTL_MS, "NX");
   if (!gotLock) {
     onSkip("skipping fetch - another worker is already refreshing");
     return;
@@ -81,12 +99,16 @@ export async function refreshCached<T>({
 
   try {
     const value = await fetch();
-    await setCached(cacheKey, value);
+    await setCached(cacheKey, value, cacheTtlMs);
   } catch (err) {
     onFetchFailed(err);
     logger.logError("refresh failed", err);
   } finally {
-    await redis.del(lockKey);
+    // Only delete the lock if we still own it (compare-and-delete).
+    const current = await redis.get(lockKey);
+    if (current === token) {
+      await redis.del(lockKey);
+    }
   }
 }
 

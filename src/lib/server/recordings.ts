@@ -15,6 +15,10 @@ const LOCK_KEY = "recordings:poll-lock";
 // How often the background poller re-fetches the upstream page.
 const POLL_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
+// How long a cached entry stays valid so stale data cannot persist forever if
+// the poller process dies.
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
 const { log, logError } = createLogger("recordings-fetcher");
 
 interface RecordingsCache {
@@ -95,17 +99,34 @@ async function getCachedRecordings(): Promise<RecordingsCache | null> {
 }
 
 export async function getLatestRecordingsData(): Promise<LatestRecordingsData> {
-  let cached = await getCachedRecordings();
+  let cached: RecordingsCache | null;
 
-  // Force cache refresh if nothing is cached yet
-  if (!cached) {
-    await refreshCache({ force: true });
+  try {
     cached = await getCachedRecordings();
-  }
 
-  // No data available yet
-  if (!cached) {
-    return { error: "No data available yet", date: new Date(), recordings: [] };
+    // Force cache refresh if nothing is cached yet
+    if (!cached) {
+      await refreshCache({ force: true });
+      cached = await getCachedRecordings();
+    }
+
+    // No data available yet
+    if (!cached) {
+      return {
+        error: "No data available yet",
+        date: new Date(),
+        recordings: [],
+      };
+    }
+  } catch (err) {
+    // Redis (or the upstream fetch) is unavailable. Degrade gracefully so this
+    // never breaks the layout load for every page on the site.
+    logError("failed to load recordings", err);
+    return {
+      error: "Error loading data. Please try again later.",
+      date: new Date(),
+      recordings: [],
+    };
   }
 
   const dateStr = cached.date ?? "00000000";
@@ -113,8 +134,10 @@ export async function getLatestRecordingsData(): Promise<LatestRecordingsData> {
   const month = parseInt(dateStr.slice(4, 6), 10) - 1; // JS months are 0-indexed
   const day = parseInt(dateStr.slice(6, 8), 10);
 
+  // Build at noon local time so the date-only value is not subject to an
+  // off-by-one day flip from server vs. user timezone boundaries.
   return {
-    date: new Date(year, month, day),
+    date: new Date(year, month, day, 12),
     recordings: cached.recordings,
   };
 }
@@ -126,6 +149,7 @@ async function refreshCache({
     cacheKey: CACHE_KEY,
     lockKey: LOCK_KEY,
     staleBeforeMs: POLL_INTERVAL_MS,
+    cacheTtlMs: CACHE_TTL_MS,
     force,
     onSkip: (reason) => log(reason),
     onFetchFailed: (err) => logError("refresh failed", err),
@@ -140,10 +164,20 @@ async function refreshCache({
   });
 }
 
+// Guard against duplicate intervals being created when the module is
+// re-imported in dev/HMR.
+let pollTimer: NodeJS.Timeout | null = null;
+
 export function startPolling(): NodeJS.Timeout {
-  return startPollingGeneric(
+  if (pollTimer) {
+    return pollTimer;
+  }
+
+  pollTimer = startPollingGeneric(
     () => refreshCache(),
     POLL_INTERVAL_MS,
     (err) => logError("refresh failed", err),
   );
+
+  return pollTimer;
 }

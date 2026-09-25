@@ -21,14 +21,15 @@
     })}
   {/if}
   <ul>
-    {#each recentRecordings as record (record.title)}
+    {#each recentRecordings as record (record.date + record.title)}
       <li class="recording" transition:slide>
         <div class="recording-content">
-          <a href={record.url} target="_blank">
+          <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+          <a href={record.url} target="_blank" rel="noopener noreferrer">
             {record.title}
           </a>
         </div>
-        <span class="font-size-small">{record.fileSize} </span>
+        <span class="font-size-small">{record.fileSize}</span>
       </li>
     {/each}
   </ul>
