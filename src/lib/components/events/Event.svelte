@@ -149,6 +149,7 @@
               <span class="external-url">
                 <p>
                   <span class="icon"><Link2 /></span>
+                  <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
                   <a href={externalUrl} target="_blank"
                     ><strong>{new SvelteURL(externalUrl).hostname}</strong></a
                   >

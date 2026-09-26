@@ -25,6 +25,7 @@
     const newUrl = new SvelteURL(page.url);
     const newPage = (Number(pastEvents.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
+    // eslint-disable-next-line svelte/no-navigation-without-resolve
     goto(newUrl, { noScroll: true });
   }
 </script>

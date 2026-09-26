@@ -7,6 +7,8 @@
   import { getLocale } from "$lib/paraglide/runtime";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
+
+  /* eslint-disable svelte/no-navigation-without-resolve */
 </script>
 
 <div id="recent-comments" data-name={m.recent_comments()}>
