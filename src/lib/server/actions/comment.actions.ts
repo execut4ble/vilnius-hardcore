@@ -42,7 +42,7 @@ export const commentActions = {
     const parentRoute = route.id.split("/")[1];
     const formData: FormData = await request.formData();
 
-    // Resolve the parent entity (blog post or event) and append its ID to the form data
+    // Resolve the parent entity (blog post or event) from the route
     let postId: number | undefined;
     let eventId: number | undefined;
 
@@ -56,7 +56,6 @@ export const commentActions = {
             errors: { submit: ["Post not found. Refresh the page."] },
           });
         }
-        formData.append("postId", postId?.toString() as string);
         break;
       }
       case "events": {
@@ -68,9 +67,15 @@ export const commentActions = {
             errors: { submit: ["Event not found. Refresh the page."] },
           });
         }
-        formData.append("eventId", eventId?.toString() as string);
         break;
       }
+    }
+
+    // Reject comments without a valid parent entity
+    if (postId === undefined && eventId === undefined) {
+      return fail(404, {
+        errors: { submit: ["Not found. Refresh the page."] },
+      });
     }
 
     if (!locals.session && formData.get("authorIsCrew") === "on") {
@@ -80,17 +85,11 @@ export const commentActions = {
     // Append acab flag to the form data if user is logged in
     if (locals.session) formData.append("acab", "1312");
 
-    // Append the client's IP address and parse the form data into a flat object
     const ipAddress = getClientAddress();
-    formData.append("ipAddress", ipAddress);
     const data = Object.fromEntries(formData.entries());
 
-    if (!locals.session && data.authorIsCrew === "on") {
-      return fail(401);
-    }
-
     try {
-      const comment = commentInsertSchema.parse(data);
+      const parsedComment = commentInsertSchema.parse(data);
 
       // Reject the comment if the IP is banned
       const [bannedEntry] = await db
@@ -102,8 +101,18 @@ export const commentActions = {
         return fail(403, { errors: { submit: ["Something went wrong"] } });
       }
 
-      // Insert the comment into the database
-      await db.insert(table.comment).values(comment);
+      // Insert the comment.
+      // Only author and content come from the form;
+      // every other column is derived server-side
+      await db.insert(table.comment).values({
+        author: parsedComment.author,
+        content: parsedComment.content,
+        postId,
+        eventId,
+        date: new Date(),
+        ipAddress,
+        authorIsCrew: !!locals.session && formData.get("authorIsCrew") === "on",
+      });
     } catch (err) {
       if (err instanceof z.ZodError) {
         const { fieldErrors: errors } = z.flattenError(err);
