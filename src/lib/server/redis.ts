@@ -36,6 +36,28 @@ export function createLogger(prefix: string): {
 const logger = createLogger("redis");
 redis.on("error", (err) => logger.logError("redis error", err));
 
+let readyPromise: Promise<void> | undefined;
+
+// How long a page load may wait for the initial connection before failing
+// fast (a Redis that is down at startup must not hang every request).
+const READY_TIMEOUT_MS = 2000;
+
+function whenReady(timeoutMs?: number): Promise<void> {
+  if (redis.status === "ready") return Promise.resolve();
+  readyPromise ??= new Promise<void>((resolve) => redis.once("ready", resolve));
+  if (timeoutMs === undefined) return readyPromise;
+
+  return Promise.race([
+    readyPromise,
+    new Promise<never>((_, reject) =>
+      setTimeout(
+        () => reject(new Error(`Redis not ready within ${timeoutMs}ms`)),
+        timeoutMs,
+      ).unref?.(),
+    ),
+  ]);
+}
+
 // Atomic compare-and-delete for the refresh lock: a plain GET followed by
 // DEL could delete a lock that another worker acquired after ours expired.
 const RELEASE_LOCK_SCRIPT = `
@@ -56,6 +78,10 @@ async function releaseLock(key: string, token: string): Promise<void> {
 }
 
 export async function getCached<T>(key: string): Promise<T | null> {
+  // Wait for the initial handshake (bounded, so a startup without Redis fails
+  // fast); after the first "ready" this is a no-op and outages still reject
+  // immediately.
+  await whenReady(READY_TIMEOUT_MS);
   const raw = await redis.get(key);
   return raw ? (JSON.parse(raw) as T) : null;
 }
@@ -108,6 +134,10 @@ export async function refreshCached<T>({
   onSkip?: (reason: string, info?: unknown) => void;
   onFetchFailed?: (err: unknown) => void;
 }): Promise<void> {
+  // Background work: wait (unbounded) for the initial connection rather than
+  // failing the first tick of every server start.
+  await whenReady();
+
   if (!force && staleBeforeMs > 0) {
     const cached = await getCached<T>(cacheKey);
     if (cached) {
