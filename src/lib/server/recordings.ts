@@ -19,12 +19,40 @@ const POLL_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 // the poller process dies.
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
+// Bound the upstream fetch so a hanging host can never stall a refresh for
+// minutes (undici otherwise allows up to ~5min before giving up).
+const FETCH_TIMEOUT_MS = 10 * 1000; // 10 seconds
+
 const { log, logError } = createLogger("recordings-fetcher");
 
 interface RecordingsCache {
-  date: string | null;
   recordings: Recording[];
   fetchedAt: number;
+}
+
+/**
+ * Parses a YYYYMMDD string into a Date at noon local time (noon so a
+ * date-only value is not subject to an off-by-one day flip from server vs.
+ * user timezone boundaries), or null if it is not a valid calendar date.
+ */
+function parseRecordDate(dateStr: string): Date | null {
+  if (!/^\d{8}$/.test(dateStr)) return null;
+
+  const year = Number(dateStr.slice(0, 4));
+  const month = Number(dateStr.slice(4, 6)); // 1-12
+  const day = Number(dateStr.slice(6, 8));
+  if (month < 1 || month > 12 || day < 1) return null;
+
+  const date = new Date(year, month - 1, day, 12);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date;
 }
 
 /**
@@ -45,6 +73,7 @@ function parseRecordings(html: string, baseUrl: string): Recording[] {
     if (!nameMatch) continue; // not a "DATE Title.ogg"-shaped entry
 
     const [, date, title] = nameMatch;
+    if (!parseRecordDate(date)) continue; // not a valid YYYYMMDD date
 
     entries.push({
       date,
@@ -66,6 +95,7 @@ async function fetchLatestRecordings(): Promise<Recording[]> {
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; recordings-fetcher/1.0)",
     },
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 
   if (!res.ok) {
@@ -103,24 +133,9 @@ export async function getLatestRecordingsData(): Promise<LatestRecordingsData> {
 
   try {
     cached = await getCachedRecordings();
-
-    // Force cache refresh if nothing is cached yet
-    if (!cached) {
-      await refreshCache({ force: true });
-      cached = await getCachedRecordings();
-    }
-
-    // No data available yet
-    if (!cached) {
-      return {
-        error: "No data available yet",
-        date: new Date(),
-        recordings: [],
-      };
-    }
   } catch (err) {
-    // Redis (or the upstream fetch) is unavailable. Degrade gracefully so this
-    // never breaks the layout load for every page on the site.
+    // Redis is unavailable. Degrade gracefully so this never breaks the
+    // layout load for every page on the site.
     logError("failed to load recordings", err);
     return {
       error: "Error loading data. Please try again later.",
@@ -129,34 +144,53 @@ export async function getLatestRecordingsData(): Promise<LatestRecordingsData> {
     };
   }
 
-  const dateStr = cached.date ?? "00000000";
-  const year = parseInt(dateStr.slice(0, 4), 10);
-  const month = parseInt(dateStr.slice(4, 6), 10) - 1; // JS months are 0-indexed
-  const day = parseInt(dateStr.slice(6, 8), 10);
+  if (!cached) {
+    // No data available yet
+    refreshCache().catch((err) => logError("refresh failed", err));
+    return {
+      error: "No data available yet",
+      date: new Date(),
+      recordings: [],
+    };
+  }
 
-  // Build at noon local time so the date-only value is not subject to an
-  // off-by-one day flip from server vs. user timezone boundaries.
+  if (cached.recordings.length === 0) {
+    // The upstream page was reachable but listed nothing
+    return {
+      error: "No data available yet",
+      date: new Date(),
+      recordings: [],
+    };
+  }
+
+  const date = parseRecordDate(cached.recordings[0].date);
+  if (!date) {
+    // guard against a stale or corrupted cache entry.
+    logError("invalid recording date in cache", cached.recordings[0].date);
+    return {
+      error: "Error loading data. Please try again later.",
+      date: new Date(),
+      recordings: [],
+    };
+  }
+
   return {
-    date: new Date(year, month, day, 12),
+    date,
     recordings: cached.recordings,
   };
 }
 
-async function refreshCache({
-  force = false,
-}: { force?: boolean } = {}): Promise<void> {
+async function refreshCache(): Promise<void> {
   await refreshCached<RecordingsCache>({
     cacheKey: CACHE_KEY,
     lockKey: LOCK_KEY,
     staleBeforeMs: POLL_INTERVAL_MS,
     cacheTtlMs: CACHE_TTL_MS,
-    force,
     onSkip: (reason) => log(reason),
     onFetchFailed: (err) => logError("refresh failed", err),
     fetch: async () => {
       const recordings = await fetchLatestRecordings();
       return {
-        date: recordings[0]?.date ?? null,
         recordings,
         fetchedAt: Date.now(),
       };
@@ -164,20 +198,27 @@ async function refreshCache({
   });
 }
 
-// Guard against duplicate intervals being created when the module is
-// re-imported in dev/HMR.
-let pollTimer: NodeJS.Timeout | null = null;
+// The timer is tracked on globalThis rather than in module state because the
+// module is re-evaluated on dev/HMR: a module-level variable would reset on
+// reload, leaking the previous interval and registering a duplicate poller.
+// Replacing the previous timer on re-import also keeps the running poller on
+// the current module's code.
+type GlobalWithPollTimer = typeof globalThis & {
+  __recordingsPollTimer?: NodeJS.Timeout;
+};
 
 export function startPolling(): NodeJS.Timeout {
-  if (pollTimer) {
-    return pollTimer;
+  const g = globalThis as GlobalWithPollTimer;
+
+  if (g.__recordingsPollTimer) {
+    clearInterval(g.__recordingsPollTimer);
   }
 
-  pollTimer = startPollingGeneric(
+  g.__recordingsPollTimer = startPollingGeneric(
     () => refreshCache(),
     POLL_INTERVAL_MS,
     (err) => logError("refresh failed", err),
   );
 
-  return pollTimer;
+  return g.__recordingsPollTimer;
 }
