@@ -14,10 +14,10 @@ export const postActions = {
     const data: object = Object.fromEntries(formData.entries());
     const slug: FormDataEntryValue | null = formData.get("slug");
     try {
-      const post = postUpdateSchema.parse(data);
+      const parsed = postUpdateSchema.parse(data);
       const response = await db
         .update(table.post)
-        .set(post)
+        .set(parsed)
         .where(eq(table.post.slug, slug as string))
         .returning();
       return response;
@@ -36,12 +36,15 @@ export const postActions = {
       return fail(401);
     }
     const formData: FormData = await request.formData();
-    const userId = locals.user?.id;
-    formData.append("author", userId as string);
     const data: object = Object.fromEntries(formData.entries());
     try {
-      const post = postInsertSchema.parse(data);
-      await db.insert(table.post).values(post);
+      const parsed = postInsertSchema.parse(data);
+      await db.insert(table.post).values({
+        title: parsed.title,
+        body: parsed.body,
+        disable_comments: parsed.disable_comments,
+        author: locals.user?.id,
+      });
     } catch (err) {
       if (err instanceof z.ZodError) {
         const { fieldErrors: errors } = z.flattenError(err);

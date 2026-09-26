@@ -11,6 +11,7 @@
   function removeItem() {
     return async ({ update, result }) => {
       if (page.params.slug === slug) {
+        // eslint-disable-next-line svelte/no-navigation-without-resolve
         goto(page?.route?.id?.split("/[")[0] as string, {
           noScroll: true,
           invalidateAll: true,

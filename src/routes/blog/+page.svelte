@@ -39,6 +39,7 @@
   }
 
   async function loadMore() {
+    // eslint-disable-next-line svelte/no-navigation-without-resolve
     goto(getNextPageURL().toString(), { noScroll: true }).then(() => {
       preloadNextPage();
     });

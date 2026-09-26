@@ -1,4 +1,4 @@
-import { redirect, type Actions } from "@sveltejs/kit";
+import { fail, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { db } from "$lib/server/db";
 import * as table from "$lib/server/db/schema";
@@ -23,6 +23,10 @@ export const load = (async ({ locals }) => {
 
 export const actions: Actions = {
   remove_ip: async (event) => {
+    if (!event.locals.session) {
+      return fail(401);
+    }
+
     const formData = await event.request.formData();
     const banId: FormDataEntryValue | null = formData.get("id");
     await db
