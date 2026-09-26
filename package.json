@@ -57,7 +57,7 @@
     "drizzle-orm": "^0.45.3",
     "drizzle-zod": "^0.8.3",
     "file-type": "^21.3.4",
-    "ical-generator": "^11.1.1",
+    "ical-generator": "^10.2.0",
     "postgres": "^3.4.9",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
