@@ -6,9 +6,11 @@ export class EventPage {
   readonly inputCommentAuthor: Locator;
   readonly inputCommentText: Locator;
   readonly inputCommentChallenge: Locator;
+  readonly chkBoxCommentAsCrew: Locator;
   readonly btnSubmitComment: Locator;
   readonly ctrComment: Locator;
   readonly ctrCommentContent: Locator;
+  readonly ctrCommentCrewBadge: Locator;
   readonly labelChallengeError: Locator;
 
   constructor(page: Page) {
@@ -17,6 +19,9 @@ export class EventPage {
     this.inputCommentAuthor = page.locator("form#add-comment input#author");
     this.inputCommentText = page.locator("form#add-comment textarea#content");
     this.inputCommentChallenge = page.locator("form#add-comment input#acab");
+    this.chkBoxCommentAsCrew = page.locator(
+      "form#add-comment input#authorIsCrew",
+    );
     this.btnSubmitComment = page.locator(
       "form#add-comment button[type='submit']",
     );
@@ -24,26 +29,58 @@ export class EventPage {
     this.ctrCommentContent = page.locator(
       "div#comments-list div.comment .comment-content",
     );
+    this.ctrCommentCrewBadge = page.locator(
+      "div#comments-list div.comment span[title='Crew']",
+    );
     this.labelChallengeError = page.locator(
       "form#add-comment input#acab + div.field-error",
     );
   }
 
+  // Author and challenge are skipped when undefined: crew members have
+  // a readonly author (the username) and no ACAB field in the form
   async fillCommentAndSubmit(
-    author: string,
+    author: string | undefined,
     content: string,
-    challenge: string,
+    challenge?: string,
   ) {
     await expect(this.formComment).toBeVisible();
-    await this.inputCommentAuthor.fill(author);
+    if (author !== undefined) {
+      await this.inputCommentAuthor.fill(author);
+    }
     await this.inputCommentText.fill(content);
-    await this.inputCommentChallenge.fill(challenge);
+    if (challenge !== undefined) {
+      await this.inputCommentChallenge.fill(challenge);
+    }
     await this.btnSubmitComment.click();
   }
 
-  async postCommentAndVerifyContent(author: string, content: string) {
+  async postCommentAndVerifyContent(
+    author: string | undefined,
+    content: string,
+    challenge?: string,
+  ) {
     const originalCommentCount: number = await this.ctrComment.count();
-    await this.fillCommentAndSubmit(author, content, "1312");
+    await this.fillCommentAndSubmit(author, content, challenge);
+    await expect(this.ctrComment).toHaveCount(originalCommentCount + 1);
+    await expect(this.ctrCommentContent.last()).toHaveText(content);
+  }
+
+  async verifyCrewCommentForm() {
+    await expect(this.formComment).toBeVisible();
+    await expect(this.inputCommentChallenge).not.toBeVisible();
+    await expect(this.chkBoxCommentAsCrew).toBeVisible();
+    await expect(this.chkBoxCommentAsCrew).toBeChecked();
+    await expect(this.inputCommentAuthor).not.toBeEditable();
+  }
+
+  async postAnonymousComment(author: string, content: string) {
+    await expect(this.formComment).toBeVisible();
+    await expect(this.inputCommentChallenge).not.toBeVisible();
+    await this.chkBoxCommentAsCrew.uncheck();
+    await expect(this.inputCommentAuthor).toBeEditable();
+    const originalCommentCount: number = await this.ctrComment.count();
+    await this.fillCommentAndSubmit(author, content);
     await expect(this.ctrComment).toHaveCount(originalCommentCount + 1);
     await expect(this.ctrCommentContent.last()).toHaveText(content);
   }
