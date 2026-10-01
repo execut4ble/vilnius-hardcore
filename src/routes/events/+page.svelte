@@ -144,7 +144,9 @@
   >
 {/if}
 
-<ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
+{#if totalEvents !== null && totalEvents > 0}
+  <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
+{/if}
 
 <div class="center-block">
   <a href={resolve("/events/archive")}
