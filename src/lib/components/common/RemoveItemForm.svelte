@@ -3,7 +3,7 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import { m } from "$lib/paraglide/messages.js";
-  import { Trash2 } from "@lucide/svelte";
+  import { Trash } from "@lucide/svelte";
 
   let { slug, action } = $props();
   let confirmDelete: boolean = $state(false);
@@ -40,7 +40,7 @@
     class="post action"
     onclick={() => (confirmDelete = true)}
   >
-    <Trash2 /> {m.delete()}</button
+    <Trash /> {m.delete()}</button
   >
   {#if confirmDelete}
     <span class="confirm-dialog">

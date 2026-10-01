@@ -5,7 +5,7 @@
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
-  import { Ban, Cat, Gavel, Trash2 } from "@lucide/svelte";
+  import { Ban, Cat, Gavel, Trash } from "@lucide/svelte";
 
   let { ...comment }: CommentComponent = $props();
 
@@ -53,7 +53,7 @@
           class="post action"
           onclick={() => (confirmDelete = true)}
         >
-          <Trash2 /></button
+          <Trash /></button
         >
         {#if confirmDelete}
           <strong>{m.delete()}?</strong>

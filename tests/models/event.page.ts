@@ -37,8 +37,7 @@ export class EventPage {
     );
   }
 
-  // Author and challenge are skipped when undefined: crew members have
-  // a readonly author (the username) and no ACAB field in the form
+  // Use undefined when posting anonymously
   async fillCommentAndSubmit(
     author: string | undefined,
     content: string,
@@ -60,10 +59,12 @@ export class EventPage {
     content: string,
     challenge?: string,
   ) {
-    const originalCommentCount: number = await this.ctrComment.count();
     await this.fillCommentAndSubmit(author, content, challenge);
-    await expect(this.ctrComment).toHaveCount(originalCommentCount + 1);
-    await expect(this.ctrCommentContent.last()).toHaveText(content);
+    const comment = this.ctrComment.filter({ hasText: content });
+    await expect(
+      comment,
+      "The comment with content " + content + " should be visible",
+    ).toHaveCount(1);
   }
 
   async verifyCrewCommentForm() {
@@ -74,14 +75,33 @@ export class EventPage {
     await expect(this.inputCommentAuthor).not.toBeEditable();
   }
 
+  async deleteComment(content: string) {
+    const comment = this.ctrComment.filter({ hasText: content });
+    await expect(
+      comment,
+      `The comment ${content} should be on the page`,
+    ).toBeVisible();
+    const form = comment.first().locator("form[action='?/remove_comment']");
+    await expect(
+      form,
+      "A delete form should render on the comment for logged in users",
+    ).toBeVisible();
+    await form.locator("button[type='button']").first().click();
+    await expect(form.locator("button[type='submit']")).toBeVisible();
+    await form.locator("button[type='submit']").click();
+    await expect(comment, "The comment should be deleted").toHaveCount(0);
+  }
+
   async postAnonymousComment(author: string, content: string) {
     await expect(this.formComment).toBeVisible();
     await expect(this.inputCommentChallenge).not.toBeVisible();
     await this.chkBoxCommentAsCrew.uncheck();
     await expect(this.inputCommentAuthor).toBeEditable();
-    const originalCommentCount: number = await this.ctrComment.count();
     await this.fillCommentAndSubmit(author, content);
-    await expect(this.ctrComment).toHaveCount(originalCommentCount + 1);
-    await expect(this.ctrCommentContent.last()).toHaveText(content);
+    const comment = this.ctrComment.filter({ hasText: content });
+    await expect(
+      comment,
+      "The comment with content " + content + " should be visible",
+    ).toHaveCount(1);
   }
 }

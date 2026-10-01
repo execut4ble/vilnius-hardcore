@@ -86,8 +86,11 @@
 </ul>
 
 {#if displayedPosts !== null && displayedPosts < (totalPosts !== null ? totalPosts : 0)}
-  <button class="post action" onclick={loadMore} onmouseenter={preloadNextPage}
-    ><ArrowDownFromLine /> {m.show_more()}</button
+  <button
+    id="load-more"
+    class="post action"
+    onclick={loadMore}
+    onmouseenter={preloadNextPage}><ArrowDownFromLine /> {m.show_more()}</button
   >
 {/if}
 

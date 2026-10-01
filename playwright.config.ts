@@ -1,6 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
+  fullyParallel: true,
   webServer: {
     command: "npm run build && npm run preview",
     port: 4173,
@@ -13,4 +14,9 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? "github" : "list",
+  use: {
+    screenshot: "only-on-failure",
+    trace: "retain-on-failure", // or "on-first-retry" if you use retries
+    video: "retain-on-failure", // optional
+  },
 });

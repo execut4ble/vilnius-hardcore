@@ -139,7 +139,7 @@
 </ul>
 
 {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
-  <button class="post action" onclick={loadMore}
+  <button id="load-more" class="post action" onclick={loadMore}
     ><ArrowDownFromLine /> {m.show_more()}</button
   >
 {/if}

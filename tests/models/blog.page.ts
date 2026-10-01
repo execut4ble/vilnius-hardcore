@@ -10,6 +10,7 @@ export class BlogPage {
   readonly btnSavePost: Locator;
   readonly btnEditPost: Locator;
   readonly labelItemCount: Locator;
+  readonly btnShowMore: Locator;
   readonly btnDeletePost: Locator;
   readonly labelConfirmDelete: Locator;
   readonly btnConfirmDelete: Locator;
@@ -35,6 +36,7 @@ export class BlogPage {
       "span.confirm-dialog > button[type='button']",
     );
     this.labelItemCount = page.locator("div#item-total");
+    this.btnShowMore = page.locator("button#load-more");
   }
 
   async getItemCount(): Promise<number> {
@@ -45,49 +47,115 @@ export class BlogPage {
     );
   }
 
-  async openFirstPost() {
-    await this.linkPost.first().click();
-    const postUrl = await this.linkPost.first().getAttribute("href");
+  postItem(title: string): Locator {
+    return this.page.locator("ul.item-list post").filter({ hasText: title });
+  }
+
+  private async revealPost(
+    title: string,
+    giveUpOnceAllShown = false,
+  ): Promise<boolean> {
+    const item = this.postItem(title);
+    const allItems = this.page.locator("ul.item-list post");
+    const deadline = Date.now() + (giveUpOnceAllShown ? 3_000 : 15_000);
+    while (Date.now() < deadline) {
+      if ((await item.count()) > 0) {
+        return true;
+      }
+      if (await this.btnShowMore.isVisible()) {
+        await this.btnShowMore.click({ timeout: 1_000 }).catch(() => {});
+      } else if (giveUpOnceAllShown && (await allItems.count()) > 0) {
+        return false;
+      }
+      await this.page.waitForTimeout(200);
+    }
+    return false;
+  }
+
+  async showPostByTitle(title: string) {
+    expect(
+      await this.revealPost(title),
+      `post "${title}" was not found in the list`,
+    ).toBe(true);
+  }
+
+  async openPostByTitle(title: string) {
+    await this.showPostByTitle(title);
+    const link = this.linkPost.filter({ hasText: title });
+    const postUrl = await link.first().getAttribute("href");
+    await link.first().click();
     await expect(this.page).toHaveURL(postUrl as string);
+  }
+
+  async openEditFormByTitle(title: string) {
+    await this.showPostByTitle(title);
+    await this.postItem(title).locator("button#edit").click();
+    await expect(this.formPostEntry).toBeVisible();
+  }
+
+  async deletePostByTitle(title: string) {
+    if (!(await this.revealPost(title, true))) {
+      return;
+    }
+    await this.clickDeleteAndConfirm(title);
+  }
+
+  private async waitForAnimationsToFinish() {
+    await this.page.evaluate(() =>
+      Promise.all(
+        document
+          .getAnimations()
+          .filter((a) => a.effect?.getComputedTiming().endTime !== Infinity)
+          .map((a) => a.finished.catch(() => {})),
+      ),
+    );
   }
 
   async createNewPost(title: string, content: string) {
     await this.btnAddNewPost.click();
     await expect(this.formPostEntry).toBeVisible();
+    await this.waitForAnimationsToFinish();
     await this.inputPostTitle.fill(title);
     await this.inputPostContent.fill(content);
+
+    const created = this.page.waitForResponse(
+      (r) =>
+        r.request().method() === "POST" && r.url().includes("?/create_post"),
+    );
     await this.btnSavePost.click();
+    expect((await created).ok()).toBeTruthy();
   }
 
   async createPostAndVerifyContent(title: string, content: string) {
-    const postCount = await this.getItemCount();
     await this.createNewPost(title, content);
     await expect(this.formPostEntry).not.toBeVisible();
-    expect(await this.getItemCount()).toEqual(postCount + 1);
+    await this.showPostByTitle(title);
     await expect(this.page.getByRole("heading", { name: title })).toBeVisible();
     await expect(this.page.getByText(content)).toBeVisible();
   }
 
-  async clickDeleteAndDecline() {
-    await expect(this.linkPost.first()).toBeVisible();
-    const postTitle: string | null = await this.linkPost.first().textContent();
-    await this.btnDeletePost.first().click();
-    await expect(this.labelConfirmDelete).toBeVisible();
-    await this.btnDeclineDelete.click();
-    await expect(this.labelConfirmDelete).not.toBeVisible();
-    await expect(
-      this.page.getByRole("heading", { name: postTitle as string }),
-    ).toBeVisible();
+  async clickDeleteAndDecline(title: string) {
+    await this.showPostByTitle(title);
+    const item = this.postItem(title);
+    await expect(item).toBeVisible();
+    await item.locator("button#delete").click();
+    const confirmDialog = item.locator("span.confirm-dialog");
+    await expect(confirmDialog).toBeVisible();
+    await confirmDialog.locator("button[type='button']").click();
+    await expect(confirmDialog).not.toBeVisible();
+    await expect(this.page.getByRole("heading", { name: title })).toBeVisible();
   }
 
-  async clickDeleteAndConfirm() {
-    await expect(this.linkPost.first()).toBeVisible();
-    const postTitle: string | null = await this.linkPost.first().textContent();
-    await this.btnDeletePost.first().click();
-    await expect(this.labelConfirmDelete).toBeVisible();
-    await this.btnConfirmDelete.click();
+  async clickDeleteAndConfirm(title: string) {
+    await this.showPostByTitle(title);
+    const item = this.postItem(title);
+    await expect(item).toBeVisible();
+    await item.locator("button#delete").click();
+    const confirmDialog = item.locator("span.confirm-dialog");
+    await expect(confirmDialog).toBeVisible();
+    await confirmDialog.locator("button[type='submit']").click();
     await expect(
-      this.page.getByRole("heading", { name: postTitle as string }),
+      this.page.getByRole("heading", { name: title }),
     ).not.toBeVisible();
   }
 }

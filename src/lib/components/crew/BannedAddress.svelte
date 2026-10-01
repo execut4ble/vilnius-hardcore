@@ -3,7 +3,7 @@
   import { slide } from "svelte/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
-  import { Trash2 } from "@lucide/svelte";
+  import { Trash } from "@lucide/svelte";
 
   let { ...ban } = $props();
   let date: SvelteDate = $derived(new SvelteDate(ban.date));
@@ -20,7 +20,7 @@
       class="post action"
       onclick={() => (confirmDelete = true)}
     >
-      <Trash2 /></button
+      <Trash /></button
     >
     {#if confirmDelete}
       <strong>{m.delete()}?</strong>
