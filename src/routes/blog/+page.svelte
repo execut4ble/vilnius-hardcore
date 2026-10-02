@@ -3,7 +3,7 @@
   import { page } from "$app/state";
   import { goto, preloadData } from "$app/navigation";
   import type { PageProps } from "./$types";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteURL } from "svelte/reactivity";
   import { ArrowDownFromLine, FilePlusCorner } from "@lucide/svelte";
@@ -86,8 +86,11 @@
 </ul>
 
 {#if displayedPosts !== null && displayedPosts < (totalPosts !== null ? totalPosts : 0)}
-  <button class="post action" onclick={loadMore} onmouseenter={preloadNextPage}
-    ><ArrowDownFromLine /> {m.show_more()}</button
+  <button
+    id="load-more"
+    class="post action"
+    onclick={loadMore}
+    onmouseenter={preloadNextPage}><ArrowDownFromLine /> {m.show_more()}</button
   >
 {/if}
 

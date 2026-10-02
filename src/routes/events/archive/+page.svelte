@@ -5,7 +5,7 @@
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import ItemCount from "$lib/components/common/ItemCount.svelte";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import { ArrowDownFromLine, ChevronLeft } from "@lucide/svelte";
@@ -53,7 +53,7 @@
 </ul>
 
 {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
-  <button class="post action" onclick={loadMore}
+  <button id="load-more" class="post action" onclick={loadMore}
     ><ArrowDownFromLine /> {m.show_more()}</button
   >
 {/if}

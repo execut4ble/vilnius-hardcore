@@ -6,6 +6,7 @@ export class PostPage {
   readonly inputCommentAuthor: Locator;
   readonly inputCommentText: Locator;
   readonly inputCommentChallenge: Locator;
+  readonly chkBoxCommentAsCrew: Locator;
   readonly btnSubmitComment: Locator;
   readonly ctrComment: Locator;
   readonly ctrCommentContent: Locator;
@@ -17,6 +18,9 @@ export class PostPage {
     this.inputCommentAuthor = page.locator("form#add-comment input#author");
     this.inputCommentText = page.locator("form#add-comment textarea#content");
     this.inputCommentChallenge = page.locator("form#add-comment input#acab");
+    this.chkBoxCommentAsCrew = page.locator(
+      "form#add-comment input#authorIsCrew",
+    );
     this.btnSubmitComment = page.locator(
       "form#add-comment button[type='submit']",
     );
@@ -42,9 +46,23 @@ export class PostPage {
   }
 
   async postCommentAndVerifyContent(author: string, content: string) {
-    const originalCommentCount: number = await this.ctrComment.count();
     await this.fillCommentAndSubmit(author, content, "1312");
-    await expect(this.ctrComment).toHaveCount(originalCommentCount + 1);
-    await expect(this.ctrCommentContent.last()).toHaveText(content);
+    const comment = this.ctrComment.filter({ hasText: content });
+    await expect(comment, "The comment should be deleted").toHaveCount(1);
+  }
+
+  async postAnonymousComment(author: string, content: string) {
+    await expect(this.formComment).toBeVisible();
+    await expect(this.inputCommentChallenge).not.toBeVisible();
+    await this.chkBoxCommentAsCrew.uncheck();
+    await expect(this.inputCommentAuthor).toBeEditable();
+    await this.inputCommentAuthor.fill(author);
+    await this.inputCommentText.fill(content);
+    await this.btnSubmitComment.click();
+    const comment = this.ctrComment.filter({ hasText: content });
+    await expect(
+      comment,
+      `The comment ${content} should be visible`,
+    ).toHaveCount(1);
   }
 }
