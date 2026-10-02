@@ -18,5 +18,6 @@ export default defineConfig({
     screenshot: "only-on-failure",
     trace: "retain-on-failure", // or "on-first-retry" if you use retries
     video: "retain-on-failure", // optional
+    reducedMotion: "reduce",
   },
 });

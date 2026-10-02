@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
   import { Trash } from "@lucide/svelte";

@@ -11,7 +11,8 @@
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import ItemCount from "$lib/components/common/ItemCount.svelte";
-  import { blur, slide } from "svelte/transition";
+  import { blur } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import {

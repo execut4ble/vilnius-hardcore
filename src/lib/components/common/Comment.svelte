@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
   import type { CommentComponent } from "$lib/types";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
   import { Ban, Cat, Gavel, Trash } from "@lucide/svelte";
