@@ -15,9 +15,6 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? "github" : "list",
   use: {
-    screenshot: "only-on-failure",
-    trace: "retain-on-failure", // or "on-first-retry" if you use retries
-    video: "retain-on-failure", // optional
     reducedMotion: "reduce",
   },
 });

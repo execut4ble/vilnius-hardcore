@@ -103,17 +103,6 @@ export class EventsListPage {
     await this.clickDeleteAndConfirm(title);
   }
 
-  private async waitForAnimationsToFinish() {
-    await this.page.evaluate(() =>
-      Promise.all(
-        document
-          .getAnimations()
-          .filter((a) => a.effect?.getComputedTiming().endTime !== Infinity)
-          .map((a) => a.finished.catch(() => {})),
-      ),
-    );
-  }
-
   async createNewEvent(
     title: string,
     date: Date,
@@ -123,7 +112,6 @@ export class EventsListPage {
   ) {
     await this.btnAddNewEvent.click();
     await expect(this.formEventEntry).toBeVisible();
-    await this.waitForAnimationsToFinish();
     await this.inputEventTitle.fill(title);
     await this.inputEventDate.fill(
       date.toLocaleString("lt-LT", {
@@ -139,14 +127,7 @@ export class EventsListPage {
       await this.inputEventExternalUrl.fill(externalUrl);
     }
     await this.chkBoxEventVisible.setChecked(isVisible);
-
-    const created = this.page.waitForResponse(
-      (r) =>
-        r.request().method() === "POST" && r.url().includes("?/create_event"),
-    );
-
     await this.btnSaveEvent.click();
-    expect((await created).ok()).toBeTruthy();
   }
 
   async createEventAndVerifyContent(

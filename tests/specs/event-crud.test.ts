@@ -19,7 +19,7 @@ test.describe("Event CRUD flow", () => {
     createdEventTitle = title;
     await page.goto("/events");
     await eventsPage.createEventAndVerifyContent(
-      createdEventTitle,
+      title,
       new Date(),
       crypto.randomUUID(),
       true,

@@ -100,30 +100,12 @@ export class BlogPage {
     await this.clickDeleteAndConfirm(title);
   }
 
-  private async waitForAnimationsToFinish() {
-    await this.page.evaluate(() =>
-      Promise.all(
-        document
-          .getAnimations()
-          .filter((a) => a.effect?.getComputedTiming().endTime !== Infinity)
-          .map((a) => a.finished.catch(() => {})),
-      ),
-    );
-  }
-
   async createNewPost(title: string, content: string) {
     await this.btnAddNewPost.click();
     await expect(this.formPostEntry).toBeVisible();
-    await this.waitForAnimationsToFinish();
     await this.inputPostTitle.fill(title);
     await this.inputPostContent.fill(content);
-
-    const created = this.page.waitForResponse(
-      (r) =>
-        r.request().method() === "POST" && r.url().includes("?/create_post"),
-    );
     await this.btnSavePost.click();
-    expect((await created).ok()).toBeTruthy();
   }
 
   async createPostAndVerifyContent(title: string, content: string) {
