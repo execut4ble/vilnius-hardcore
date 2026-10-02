@@ -58,4 +58,6 @@
   >
 {/if}
 
-<ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
+{#if totalEvents !== null && totalEvents > 0}
+  <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
+{/if}
