@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { applyAction, deserialize } from "$app/forms";
+  import { applyAction, deserialize, type ActionResult } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
-  import type { ActionResult } from "@sveltejs/kit";
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
 
   let {
     selectedImage = $bindable(),
@@ -19,13 +18,12 @@
   ) {
     event.preventDefault();
     is_image_uploading = true;
-    const formData = new FormData(event.currentTarget);
 
+    const formData = new FormData(event.currentTarget);
     const response = await fetch(event.currentTarget.action, {
       method: "POST",
       body: formData,
     });
-
     let result: ActionResult;
     if (response.status === 413) {
       result = {

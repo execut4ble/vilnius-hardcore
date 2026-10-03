@@ -1,8 +1,11 @@
-import { db } from "$lib/server/db";
-import * as table from "$lib/server/db/schema";
+import { db } from "#lib/server/db/index.js";
+import * as table from "#lib/server/db/schema.js";
 import { eq } from "drizzle-orm";
 import { error, fail } from "@sveltejs/kit";
-import { postInsertSchema, postUpdateSchema } from "$lib/server/db/validations";
+import {
+  postInsertSchema,
+  postUpdateSchema,
+} from "#lib/server/db/validations.js";
 import { z } from "zod";
 
 export const postActions = {

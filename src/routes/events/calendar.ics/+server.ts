@@ -1,9 +1,9 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { and, eq, gte, sql } from "drizzle-orm";
-import * as table from "$lib/server/db/schema";
+import * as table from "#lib/server/db/schema.js";
 import { type RequestHandler } from "@sveltejs/kit";
 import ical, { ICalCalendarMethod } from "ical-generator";
-import { markdownToText } from "$lib/utils/markdown";
+import { markdownToText } from "#lib/utils/markdown.js";
 
 export const GET: RequestHandler = async () => {
   const events = await db

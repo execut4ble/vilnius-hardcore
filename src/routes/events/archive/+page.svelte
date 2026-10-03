@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import type { Event as EventObject } from "$lib/server/db/schema";
-  import { Event, MetaTags } from "$lib/components";
+  import type { Event as EventObject } from "#lib/server/db/schema.js";
+  import { Event, MetaTags } from "#lib/components.js";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
-  import ItemCount from "$lib/components/common/ItemCount.svelte";
-  import { slide } from "$lib/transition";
-  import { m } from "$lib/paraglide/messages.js";
+  import ItemCount from "#lib/components/common/ItemCount.svelte";
+  import { slide } from "#lib/transition.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import { ArrowDownFromLine, ChevronLeft } from "@lucide/svelte";
   import { resolve } from "$app/paths";
@@ -35,18 +35,15 @@
 </svelte:head>
 
 <h1>{m.past_events()}</h1>
-
 <h2>
-  <a href={resolve("/events")}
-    ><strong><ChevronLeft /> {m.upcoming_events()}</strong></a
+  <a href={resolve("events")}
+    ><strong><ChevronLeft />{m.upcoming_events()}</strong></a
   >
 </h2>
 
 <ul class="item-list">
   {#each pastEvents as event (event.id)}
-    <li transition:slide>
-      <Event {...event} {form} />
-    </li>
+    <li transition:slide><Event {...event} {form} /></li>
   {:else}
     <span transition:slide>{m.no_past_events()}</span>
   {/each}

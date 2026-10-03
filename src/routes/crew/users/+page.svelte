@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { MetaTags } from "$lib/components";
+  import { MetaTags } from "#lib/components.js";
   import type { PageProps } from "./$types";
-  import { m } from "$lib/paraglide/messages";
+  import { m } from "#lib/paraglide/messages.js";
   import { enhance } from "$app/forms";
 
   let { data, form }: PageProps = $props();

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { MetaTags } from "$lib/components";
-  import type { BannedIpsArray } from "$lib/types";
+  import { MetaTags } from "#lib/components.js";
+  import type { BannedIpsArray } from "#lib/types.js";
   import type { PageProps } from "./$types";
-  import { m } from "$lib/paraglide/messages";
-  import { BannedAddress } from "$lib/components";
+  import { m } from "#lib/paraglide/messages.js";
+  import { BannedAddress } from "#lib/components.js";
 
   let { data }: PageProps = $props();
   let banlist: BannedIpsArray = $derived(data.banlist as BannedIpsArray);

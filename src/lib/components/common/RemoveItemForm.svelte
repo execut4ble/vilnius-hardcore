@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { Trash } from "@lucide/svelte";
 
   let { slug, action } = $props();

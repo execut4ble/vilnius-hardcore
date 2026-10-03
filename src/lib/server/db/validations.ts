@@ -1,7 +1,7 @@
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import validator from "validator";
 import { bannedIp, comment, event, post } from "./schema";
-import { m } from "$lib/paraglide/messages.js";
+import { m } from "#lib/paraglide/messages.js";
 import { z } from "zod";
 
 export const commentInsertSchema = createInsertSchema(comment, {

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { FieldError } from "$lib/components";
-  import { slide } from "$lib/transition";
-  import { m } from "$lib/paraglide/messages.js";
+  import { FieldError } from "#lib/components.js";
+  import { slide } from "#lib/transition.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { DateInput } from "date-picker-svelte";
   import { SvelteDate } from "svelte/reactivity";
   import { page } from "$app/state";

@@ -5,9 +5,9 @@ import type { ReadableStream } from "node:stream/web";
 import fs from "node:fs";
 import { pipeline } from "node:stream/promises";
 import { db } from "../db";
-import * as table from "$lib/server/db/schema";
+import * as table from "#lib/server/db/schema.js";
 import { and, eq, ne } from "drizzle-orm";
-import { ImageFileValidator } from "$lib/server/validation/image-file.validator";
+import { ImageFileValidator } from "#lib/server/validation/image-file.validator.js";
 
 export const FILES_DIR = "./uploads";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { resolve } from "$app/paths";
   import { page } from "$app/state";
   import { MegaphoneOff, UserPen, Users } from "@lucide/svelte";
@@ -9,18 +9,20 @@
   <nav>
     <ul class="navlist-items">
       <li aria-current={page.url.pathname === "/crew" ? "page" : undefined}>
-        <a href={resolve("/crew")}><UserPen /> {m.account()}</a>
+        <a href={resolve("crew")}><UserPen />{m.account()}</a>
       </li>
+
       <li
         aria-current={page.url.pathname === "/crew/users" ? "page" : undefined}
       >
-        <a href={resolve("/crew/users")}><Users /> {m.users()}</a>
+        <a href={resolve("crew/users")}><Users />{m.users()}</a>
       </li>
+
       <li
         aria-current={page.url.pathname === "/crew/jail" ? "page" : undefined}
       >
-        <a href={resolve("/crew/jail")}
-          ><MegaphoneOff /> {m.blocked_ips_heading_short()}</a
+        <a href={resolve("crew/jail")}
+          ><MegaphoneOff />{m.blocked_ips_heading_short()}</a
         >
       </li>
     </ul>

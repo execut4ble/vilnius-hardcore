@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { RecentCommentsData } from "$lib/types";
+  import type { RecentCommentsData } from "#lib/types.js";
   let { recentComments }: { recentComments: RecentCommentsData } = $props();
   import { relativeTime } from "svelte-relative-time";
-  import { slide } from "$lib/transition";
-  import { m } from "$lib/paraglide/messages.js";
-  import { getLocale } from "$lib/paraglide/runtime";
+  import { slide } from "#lib/transition.js";
+  import { m } from "#lib/paraglide/messages.js";
+  import { getLocale } from "#lib/paraglide/runtime.js";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
 

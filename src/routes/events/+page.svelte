@@ -1,19 +1,19 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import type { Event as EventObject } from "$lib/server/db/schema";
+  import type { Event as EventObject } from "#lib/server/db/schema.js";
   import {
     CopyTextButton,
     Event,
     EventEntryForm,
     ImageUploadForm,
     MetaTags,
-  } from "$lib/components";
+  } from "#lib/components.js";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
-  import ItemCount from "$lib/components/common/ItemCount.svelte";
+  import ItemCount from "#lib/components/common/ItemCount.svelte";
   import { blur } from "svelte/transition";
-  import { slide } from "$lib/transition";
-  import { m } from "$lib/paraglide/messages.js";
+  import { slide } from "#lib/transition.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import {
     ArchiveIcon,
@@ -94,7 +94,7 @@
     <button
       type="button"
       class="post action new-event"
-      onclick={() => (entryMode = true)}><CalendarPlus /> {m.add_new()}</button
+      onclick={() => (entryMode = true)}><CalendarPlus />{m.add_new()}</button
     >
   {:else}
     <div
@@ -131,9 +131,7 @@
 {/if}
 <ul class="item-list">
   {#each upcomingEvents as event (event.id)}
-    <li transition:slide>
-      <Event {...event} {form} />
-    </li>
+    <li transition:slide><Event {...event} {form} /></li>
   {:else}
     <span transition:slide> {m["no_events.check_later"]()}</span>
   {/each}
@@ -150,8 +148,8 @@
 {/if}
 
 <div class="center-block">
-  <a href={resolve("/events/archive")}
-    ><ArchiveIcon /> {m["navigation.events_archive"]()}</a
+  <a href={resolve("events/archive")}
+    ><ArchiveIcon />{m["navigation.events_archive"]()}</a
   >
 </div>
 

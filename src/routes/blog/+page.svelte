@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { Post, ItemCount, PostEntryForm, MetaTags } from "$lib/components";
+  import { Post, ItemCount, PostEntryForm, MetaTags } from "#lib/components.js";
   import { page } from "$app/state";
   import { goto, preloadData } from "$app/navigation";
   import type { PageProps } from "./$types";
-  import { slide } from "$lib/transition";
-  import { m } from "$lib/paraglide/messages.js";
+  import { slide } from "#lib/transition.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { SvelteURL } from "svelte/reactivity";
   import { ArrowDownFromLine, FilePlusCorner } from "@lucide/svelte";
 
