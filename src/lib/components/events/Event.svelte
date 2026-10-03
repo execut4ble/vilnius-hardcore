@@ -43,8 +43,8 @@
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(resolve("/events/[slug]", { slug: result.data[0].slug }), {
-            noScroll: true,
-            invalidateAll: true,
+            reset: false,
+            refreshAll: true,
           });
           isEditing = false;
         } else {

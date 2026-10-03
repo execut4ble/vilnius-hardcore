@@ -13,8 +13,8 @@
       if (page.params.slug === slug) {
         // eslint-disable-next-line svelte/no-navigation-without-resolve
         goto(page?.route?.id?.split("/[")[0] as string, {
-          noScroll: true,
-          invalidateAll: true,
+          reset: false,
+          refreshAll: true,
         });
       } else {
         await update();

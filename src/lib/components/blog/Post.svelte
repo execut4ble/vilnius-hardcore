@@ -34,8 +34,8 @@
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(resolve("/blog/[slug]", { slug: result.data[0].slug }), {
-            noScroll: true,
-            invalidateAll: true,
+            reset: false,
+            refreshAll: true,
           });
           isEditing = false;
         } else {
