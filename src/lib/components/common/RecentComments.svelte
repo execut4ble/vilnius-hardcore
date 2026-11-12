@@ -2,11 +2,13 @@
   import type { RecentCommentsData } from "$lib/types";
   let { recentComments }: { recentComments: RecentCommentsData } = $props();
   import { relativeTime } from "svelte-relative-time";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { getLocale } from "$lib/paraglide/runtime";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
+
+  /* eslint-disable svelte/no-navigation-without-resolve */
 </script>
 
 <div id="recent-comments" data-name={m.recent_comments()}>

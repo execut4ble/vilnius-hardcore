@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
 
   let { errors } = $props();
 </script>

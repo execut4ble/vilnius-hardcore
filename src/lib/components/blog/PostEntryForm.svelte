@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { FieldError } from "$lib/components";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { page } from "$app/state";
   import { CircleX, Save } from "@lucide/svelte";
@@ -40,16 +40,14 @@
       name="body"
       spellcheck="false"
       value={post.body}
-      required
-    ></textarea>
+      required></textarea>
   {:else}
     <textarea
       id="description"
       name="body"
       spellcheck="false"
       bind:value={newPostBody}
-      required
-    ></textarea>
+      required></textarea>
   {/if}
   <FieldError errors={form?.errors?.body} />
   {#if page.data.globalCommentsEnabled}

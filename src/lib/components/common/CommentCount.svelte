@@ -6,6 +6,7 @@
 
 {#if commentCount && commentCount > 0}
   <span class="comment-count">
+    <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
     <a href="/{taxonomy}/{slug}#comments"
       >{commentCount}
       {#if getLocale() === "lt"}

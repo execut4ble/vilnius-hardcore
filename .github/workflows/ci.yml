@@ -1,4 +1,4 @@
-name: Playwright e2e tests
+name: CI
 
 on:
   push:
@@ -10,7 +10,48 @@ on:
   pull_request:
 
 jobs:
-  test:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+  check:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://user:pass@localhost:5432/db
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile Paraglide messages
+        run: npx paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide
+
+      - name: Run svelte-check
+        run: npm run check
+
+  e2e-tests:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.63.0-noble

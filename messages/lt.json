@@ -31,8 +31,8 @@
   "no_posts": "Nėra įrašų.",
   "show_more": "rodyti daugiau",
   "no_events": {
-    "check_later": "Šiuo metu nėra suplanuota jokių renginių! Užsukite vėliau!",
-    "checkout": "Arba peržiūrėkite mūsų",
+    "check_later": "Šiuo metu nėra suplanuota jokių renginių! Patikrinkite vėliau!",
+    "checkout": "Arba peržiūrėkite",
     "past_events": "įvykusius renginius"
   },
   "posted_by": "Paskelbė",

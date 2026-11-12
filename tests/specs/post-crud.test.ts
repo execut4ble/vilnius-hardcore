@@ -1,43 +1,38 @@
 import { test, expect } from "../fixtures";
-import "dotenv/config";
-
-const username = process.env.TEST_USER;
-const password = process.env.TEST_USER_PASS;
 
 test.describe("Post CRUD flow", () => {
-  test.beforeEach(async ({ loginPage, page }) => {
-    await page.goto("/crew");
-    await loginPage.login(username, password);
-    await expect(page).toHaveURL("crew");
+  test.use({ asCrew: true });
+
+  let createdPostTitle: string | undefined;
+
+  test.afterEach(async ({ page, blogPage }) => {
+    if (createdPostTitle) {
+      await page.goto("/blog");
+      await blogPage.deletePostByTitle(createdPostTitle);
+      createdPostTitle = undefined;
+    }
+  });
+
+  test("Create a new post", async ({ page, blogPage }) => {
+    const title: string = `e2e-post-${crypto.randomUUID()}`;
+    createdPostTitle = title;
     await page.goto("/blog");
+    await blogPage.createPostAndVerifyContent(title, crypto.randomUUID());
   });
 
-  test("Create a new post", async ({ blogPage }) => {
-    await blogPage.createPostAndVerifyContent(
-      crypto.randomUUID(),
-      crypto.randomUUID(),
-    );
+  test("Edit a post", async ({ page, blogPage, testPost }) => {
+    const editDescriptionValue: string = crypto.randomUUID();
+    await page.goto("/blog");
+    await blogPage.openEditFormByTitle(testPost.title);
+    await blogPage.inputPostContent.fill(editDescriptionValue);
+    await blogPage.btnSavePost.click();
+    await blogPage.showPostByTitle(testPost.title);
+    await expect(page.getByText(editDescriptionValue)).toBeVisible();
   });
 
-  test("Edit a post", async ({ page, blogPage }) => {
-    if ((await blogPage.linkPost.count()) === 0) {
-      test.skip();
-    } else {
-      const editDescriptionValue: string = crypto.randomUUID();
-      await blogPage.btnEditPost.first().click();
-      await expect(blogPage.formPostEntry).toBeVisible();
-      await blogPage.inputPostContent.fill(editDescriptionValue);
-      await blogPage.btnSavePost.click();
-      await expect(page.getByText(editDescriptionValue)).toBeVisible();
-    }
-  });
-
-  test("Delete an post", async ({ blogPage }) => {
-    if ((await blogPage.linkPost.count()) === 0) {
-      test.skip();
-    } else {
-      await blogPage.clickDeleteAndDecline();
-      await blogPage.clickDeleteAndConfirm();
-    }
+  test("Delete a post", async ({ page, blogPage, testPost }) => {
+    await page.goto("/blog");
+    await blogPage.clickDeleteAndDecline(testPost.title);
+    await blogPage.clickDeleteAndConfirm(testPost.title);
   });
 });

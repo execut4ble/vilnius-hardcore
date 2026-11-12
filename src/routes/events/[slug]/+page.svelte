@@ -3,7 +3,7 @@
   import type { CommentsArray } from "$lib/types";
   import type { Event as EventObject } from "$lib/server/db/schema";
   import { Event, Comment, AddCommentForm, MetaTags } from "$lib/components";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { page } from "$app/state";
   import { m } from "$lib/paraglide/messages";
   import { markdownToText } from "$lib/utils/markdown";

@@ -27,10 +27,15 @@ export const commentInsertSchema = createInsertSchema(comment, {
           return m["error.comment_empty"]();
         },
       }),
-  eventId: z.coerce.number().optional(),
-  postId: z.coerce.number().optional(),
-  authorIsCrew: z.coerce.boolean().default(false),
+  // Only the fields the form is allowed to write are kept in the schema
+  // (author + content, plus acab tripwire). Every other column
+  // (id, date, eventId, postId, ipAddress, authorIsCrew) is set
+  // server-side in add_comment
 })
+  .pick({
+    author: true,
+    content: true,
+  })
   .extend({
     acab: z.literal("1312", {
       error: (issue) => {
@@ -39,10 +44,6 @@ export const commentInsertSchema = createInsertSchema(comment, {
         }
       },
     }),
-  })
-  .refine((data) => data.eventId || data.postId, {
-    error: "eventId or postId was not specified",
-    path: ["submit"],
   });
 
 export const postInsertSchema = createInsertSchema(post, {
@@ -59,13 +60,17 @@ export const postInsertSchema = createInsertSchema(post, {
       },
     }),
   disable_comments: z.coerce.boolean().default(false),
+}).pick({
+  title: true,
+  body: true,
+  disable_comments: true,
 });
 
 export const postUpdateSchema = createUpdateSchema(post, {
   title: (schema) =>
     schema.trim().refine((value) => !validator.isEmpty(value), {
       error: () => {
-        return m["error.body_empty"]();
+        return m["error.title_empty"]();
       },
     }),
   body: (schema) =>
@@ -75,6 +80,10 @@ export const postUpdateSchema = createUpdateSchema(post, {
       },
     }),
   disable_comments: z.coerce.boolean().default(false),
+}).pick({
+  title: true,
+  body: true,
+  disable_comments: true,
 });
 
 export const eventInsertSchema = createInsertSchema(event, {
@@ -101,6 +110,14 @@ export const eventInsertSchema = createInsertSchema(event, {
     }),
     z.literal(""),
   ]),
+}).pick({
+  title: true,
+  date: true,
+  description: true,
+  image: true,
+  is_visible: true,
+  external_url: true,
+  disable_comments: true,
 });
 
 export const eventUpdateSchema = createUpdateSchema(event, {
@@ -127,6 +144,16 @@ export const eventUpdateSchema = createUpdateSchema(event, {
     }),
     z.literal(""),
   ]),
+}).pick({
+  title: true,
+  date: true,
+  description: true,
+  image: true,
+  is_visible: true,
+  external_url: true,
+  disable_comments: true,
 });
 
-export const banInsertSchema = createInsertSchema(bannedIp);
+export const banInsertSchema = createInsertSchema(bannedIp).pick({
+  ipAddress: true,
+});

@@ -11,7 +11,8 @@
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import ItemCount from "$lib/components/common/ItemCount.svelte";
-  import { blur, slide } from "svelte/transition";
+  import { blur } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import {
@@ -62,6 +63,7 @@
     const newUrl = new SvelteURL(page.url);
     const newPage = (Number(upcomingEvents.length) + 5).toString();
     newUrl.searchParams.set("limit", newPage);
+    // eslint-disable-next-line svelte/no-navigation-without-resolve
     goto(newUrl, { noScroll: true });
   }
 </script>
@@ -138,12 +140,14 @@
 </ul>
 
 {#if displayedEvents < (totalEvents !== null ? totalEvents : 0)}
-  <button class="post action" onclick={loadMore}
+  <button id="load-more" class="post action" onclick={loadMore}
     ><ArrowDownFromLine /> {m.show_more()}</button
   >
 {/if}
 
-<ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
+{#if totalEvents !== null && totalEvents > 0}
+  <ItemCount displayedItems={displayedEvents} totalItems={totalEvents} />
+{/if}
 
 <div class="center-block">
   <a href={resolve("/events/archive")}

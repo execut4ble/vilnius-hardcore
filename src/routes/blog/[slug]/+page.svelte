@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
   import { Post, Comment, AddCommentForm, MetaTags } from "$lib/components";
-  import { slide } from "svelte/transition";
+  import { slide } from "$lib/transition";
   import type { CommentsArray, Post as PostObject } from "$lib/types";
   import { m } from "$lib/paraglide/messages.js";
   import { page } from "$app/state";

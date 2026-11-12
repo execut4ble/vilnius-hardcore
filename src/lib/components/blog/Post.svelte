@@ -7,6 +7,7 @@
   import Markdown from "svelte-exmarkdown";
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
+  import rehypeSanitize from "rehype-sanitize";
   import { m } from "$lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
@@ -52,7 +53,10 @@
   }
 
   const plugins: Plugin[] = [
-    { remarkPlugin: [remarkYoutubePlugin], rehypePlugin: [rehypeRaw] },
+    {
+      remarkPlugin: [remarkYoutubePlugin],
+      rehypePlugin: [rehypeRaw, rehypeSanitize],
+    },
   ];
 </script>
 
