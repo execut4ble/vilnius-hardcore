@@ -34,28 +34,40 @@ export function createLogger(prefix: string): {
 }
 
 const logger = createLogger("redis");
-redis.on("error", (err) => logger.logError("redis error", err));
+
+// ioredis emits `error` on every failed reconnect attempt, so logging each one
+// would flood the console for the whole duration of an outage. Instead, report
+// only when the up/down state actually flips: once when the connection is lost
+// (with the reason) and once when it is (re)established. The handler is a no-op
+// when the state is unchanged, so it is safe to attach to every one of these
+// events.
+let reportedUp: boolean | undefined;
+function reportConnectionState(err?: unknown) {
+  const isUp = redis.status === "ready";
+  if (isUp === reportedUp) return;
+  const first = reportedUp === undefined;
+  reportedUp = isUp;
+  if (isUp) {
+    logger.log(first ? "redis connected" : "redis reconnected");
+  } else {
+    logger.logError(
+      first ? "redis unavailable" : "redis connection lost",
+      err ?? `status: ${redis.status}`,
+    );
+  }
+}
+// `error` must be handled to avoid an unhandled-error crash; it and the other
+// connection events all funnel into reportConnectionState.
+redis.on("error", reportConnectionState);
+redis.on("ready", reportConnectionState);
+redis.on("close", reportConnectionState);
 
 let readyPromise: Promise<void> | undefined;
 
-// How long a page load may wait for the initial connection before failing
-// fast (a Redis that is down at startup must not hang every request).
-const READY_TIMEOUT_MS = 2000;
-
-function whenReady(timeoutMs?: number): Promise<void> {
+function whenReady(): Promise<void> {
   if (redis.status === "ready") return Promise.resolve();
   readyPromise ??= new Promise<void>((resolve) => redis.once("ready", resolve));
-  if (timeoutMs === undefined) return readyPromise;
-
-  return Promise.race([
-    readyPromise,
-    new Promise<never>((_, reject) =>
-      setTimeout(
-        () => reject(new Error(`Redis not ready within ${timeoutMs}ms`)),
-        timeoutMs,
-      ).unref?.(),
-    ),
-  ]);
+  return readyPromise;
 }
 
 // Atomic compare-and-delete for the refresh lock: a plain GET followed by
@@ -78,10 +90,15 @@ async function releaseLock(key: string, token: string): Promise<void> {
 }
 
 export async function getCached<T>(key: string): Promise<T | null> {
-  // Wait for the initial handshake (bounded, so a startup without Redis fails
-  // fast); after the first "ready" this is a no-op and outages still reject
-  // immediately.
-  await whenReady(READY_TIMEOUT_MS);
+  // Fail fast if the connection isn't ready. `redis.status` is maintained live
+  // by ioredis (it flips on connect / close / reconnect), so this is a
+  // synchronous check: a page read never blocks on Redis. The caller's catch
+  // block serves the degraded path, and recovery is handled out-of-band
+  // (ioredis reconnects + the poller re-fetches), so the next request after the
+  // connection is back reads normally.
+  if (redis.status !== "ready") {
+    throw new Error("Redis connection is not ready");
+  }
   const raw = await redis.get(key);
   return raw ? (JSON.parse(raw) as T) : null;
 }

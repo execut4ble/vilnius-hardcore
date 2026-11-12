@@ -2,6 +2,7 @@ import {
   createLogger,
   getCached,
   refreshCached,
+  redis,
   startPolling as startPollingGeneric,
 } from "$lib/server/redis";
 import type { LatestRecordingsData, Recording } from "$lib/types";
@@ -133,10 +134,10 @@ export async function getLatestRecordingsData(): Promise<LatestRecordingsData> {
 
   try {
     cached = await getCachedRecordings();
-  } catch (err) {
-    // Redis is unavailable. Degrade gracefully so this never breaks the
-    // layout load for every page on the site.
-    logError("failed to load recordings", err);
+  } catch {
+    // Redis is unavailable. Degrade gracefully so this never breaks the layout
+    // load for every page on the site. The connection state (and the reason)
+    // is logged once by the redis module, so we do not re-log it per request.
     return {
       error: "Error loading data. Please try again later.",
       date: new Date(),
@@ -198,13 +199,14 @@ async function refreshCache(): Promise<void> {
   });
 }
 
-// The timer is tracked on globalThis rather than in module state because the
-// module is re-evaluated on dev/HMR: a module-level variable would reset on
-// reload, leaking the previous interval and registering a duplicate poller.
-// Replacing the previous timer on re-import also keeps the running poller on
-// the current module's code.
+// The poll timer and the "ready" handler are tracked on globalThis rather than
+// in module state because the module is re-evaluated on dev/HMR: a module-level
+// variable would reset on reload, leaking the previous interval/listener and
+// registering a duplicate poller/refresh. Replacing the previous entries on
+// re-import also keeps the running machinery on the current module's code.
 type GlobalWithPollTimer = typeof globalThis & {
   __recordingsPollTimer?: NodeJS.Timeout;
+  __recordingsReadyHandler?: () => void;
 };
 
 export function startPolling(): NodeJS.Timeout {
@@ -213,6 +215,18 @@ export function startPolling(): NodeJS.Timeout {
   if (g.__recordingsPollTimer) {
     clearInterval(g.__recordingsPollTimer);
   }
+
+  // Re-fetch fresh data the moment the connection comes back (e.g. after an
+  // outage) rather than waiting for the next scheduled tick. Swap out any
+  // handler left over from a previous module evaluation (dev/HMR) first.
+  if (g.__recordingsReadyHandler) {
+    redis.off("ready", g.__recordingsReadyHandler);
+  }
+  const onReady = () => {
+    refreshCache().catch((err) => logError("refresh failed", err));
+  };
+  redis.on("ready", onReady);
+  g.__recordingsReadyHandler = onReady;
 
   g.__recordingsPollTimer = startPollingGeneric(
     () => refreshCache(),
