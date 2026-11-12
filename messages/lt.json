@@ -81,7 +81,8 @@
     "date_empty": "Renginio data negali būti tuščia",
     "body_empty": "Turinys negali būti tuščias",
     "date_invalid": "Neteisinga data",
-    "url_invalid": "Neteisinga nuoroda"
+    "url_invalid": "Neteisinga nuoroda",
+    "loading_error": "Klaida įkeliant duomenis. Pabandykite vėliau."
   },
   "commented_on": "apie",
   "blocked_ips_heading": "Užblokuoti IP adresai",
@@ -111,5 +112,6 @@
   "register_user": "Užregistruoti naują vartotoją",
   "copied": "Nukopijuota!",
   "comments_disabled": "Komentarai išjungti.",
-  "today": "šiandien"
+  "today": "šiandien",
+  "latest_recordings": "Naujausi koncertų įrašai"
 }
