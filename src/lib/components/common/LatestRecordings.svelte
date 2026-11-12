@@ -36,6 +36,10 @@
 </div>
 
 <style>
+  div#latest-recordings {
+    align-self: stretch;
+  }
+
   div#latest-recordings ul {
     display: flex;
     flex-direction: column;
