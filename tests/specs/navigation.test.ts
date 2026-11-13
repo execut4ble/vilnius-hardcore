@@ -12,7 +12,7 @@ const publicPages: Array<{ path: string; heading: "h1" | "h2" }> = [
   { path: "/crew/login", heading: "h1" },
 ];
 
-const crewPages = ["/crew", "/crew/users", "/crew/jail"];
+const crewPages = ["/crew", "/crew/users", "/crew/jail", "/crew/server"];
 
 async function verifyPageLoaded(
   layout: Layout,

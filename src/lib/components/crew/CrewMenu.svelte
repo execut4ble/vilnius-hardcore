@@ -2,7 +2,7 @@
   import { m } from "$lib/paraglide/messages.js";
   import { resolve } from "$app/paths";
   import { page } from "$app/state";
-  import { MegaphoneOff, UserPen, Users } from "@lucide/svelte";
+  import { MegaphoneOff, Server, UserPen, Users } from "@lucide/svelte";
 </script>
 
 <div id="crew-nav" data-name="Menu">
@@ -21,6 +21,13 @@
       >
         <a href={resolve("/crew/jail")}
           ><MegaphoneOff /> {m.blocked_ips_heading_short()}</a
+        >
+      </li>
+      <li
+        aria-current={page.url.pathname === "/crew/server" ? "page" : undefined}
+      >
+        <a href={resolve("/crew/server")}
+          ><Server /> {m["server_env.short_title"]()}</a
         >
       </li>
     </ul>
