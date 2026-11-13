@@ -1,7 +1,7 @@
 <script lang="ts">
   let { taxonomy, slug, commentCount } = $props();
-  import { m } from "$lib/paraglide/messages.js";
-  import { getLocale } from "$lib/paraglide/runtime";
+  import { m } from "#lib/paraglide/messages.js";
+  import { getLocale } from "#lib/paraglide/runtime.js";
 </script>
 
 {#if commentCount && commentCount > 0}

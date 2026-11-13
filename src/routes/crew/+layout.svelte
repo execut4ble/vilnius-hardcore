@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CrewMenu } from "$lib/components";
+  import { CrewMenu } from "#lib/components.js";
   import type { LayoutProps } from "./$types";
   let { data, children }: LayoutProps = $props();
 </script>

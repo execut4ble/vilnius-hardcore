@@ -1,8 +1,8 @@
-import type { EventsArray, PostsArray } from "$lib/types";
+import type { EventsArray, PostsArray } from "#lib/types.js";
 import type { PageServerLoad } from "./$types";
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { sql } from "drizzle-orm";
-import * as table from "$lib/server/db/schema";
+import * as table from "#lib/server/db/schema.js";
 import { eq, desc } from "drizzle-orm";
 
 export const load = (async (

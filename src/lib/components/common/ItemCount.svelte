@@ -1,6 +1,6 @@
 <script lang="ts">
   let { displayedItems, totalItems } = $props();
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
 </script>
 
 <div id="item-total" class="center-block">

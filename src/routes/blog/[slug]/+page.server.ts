@@ -1,15 +1,15 @@
 import type { Actions, PageServerLoad } from "./$types";
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { eq } from "drizzle-orm";
-import * as table from "$lib/server/db/schema";
+import * as table from "#lib/server/db/schema.js";
 import { error } from "@sveltejs/kit";
-import { postActions } from "$lib/server/actions/post.actions";
-import { commentActions } from "$lib/server/actions/comment.actions";
-import type { PostsArray } from "$lib/types";
-import { loadPostComments } from "$lib/server/db/queries/comments";
-import { env } from "$env/dynamic/private";
+import { postActions } from "#lib/server/actions/post.actions.js";
+import { commentActions } from "#lib/server/actions/comment.actions.js";
+import type { PostsArray } from "#lib/types.js";
+import { loadPostComments } from "#lib/server/db/queries/comments.js";
+import { DISABLE_COMMENTS } from "$app/env/private";
 
-const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
+const commentsEnabled = DISABLE_COMMENTS === "true" ? false : true;
 
 export const load = (async ({
   locals,

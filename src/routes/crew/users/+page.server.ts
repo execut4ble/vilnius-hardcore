@@ -1,14 +1,14 @@
 import { fail, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import { db } from "$lib/server/db";
-import * as table from "$lib/server/db/schema";
+import { db } from "#lib/server/db/index.js";
+import * as table from "#lib/server/db/schema.js";
 import { asc, DrizzleQueryError } from "drizzle-orm";
 import z from "zod";
 import {
   generateUserId,
   passwordSchema,
   usernameSchema,
-} from "$lib/server/user";
+} from "#lib/server/user.js";
 import { hash } from "@node-rs/argon2";
 
 export const load = (async ({ locals }) => {

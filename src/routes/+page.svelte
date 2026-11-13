@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import { Event, Post, MetaTags } from "$lib/components";
+  import { Event, Post, MetaTags } from "#lib/components.js";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { resolve } from "$app/paths";
   import { Maximize2 } from "@lucide/svelte";
 
@@ -54,7 +54,7 @@
   <p>{m["no_events.check_later"]()}</p>
   <p>
     {m["no_events.checkout"]()}
-    <a href={resolve("/events/archive")}>{m["no_events.past_events"]()}</a>
+    <a href={resolve("events/archive")}>{m["no_events.past_events"]()}</a>
   </p>
 {/if}
 <ul class="item-list">

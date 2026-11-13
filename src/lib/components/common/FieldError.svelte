@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { slide } from "$lib/transition";
+  import { slide } from "#lib/transition.js";
 
   let { errors } = $props();
 </script>

@@ -4,8 +4,8 @@ import {
   refreshCached,
   redis,
   startPolling as startPollingGeneric,
-} from "$lib/server/redis";
-import type { LatestRecordingsData, Recording } from "$lib/types";
+} from "#lib/server/redis.js";
+import type { LatestRecordingsData, Recording } from "#lib/types.js";
 
 const SOURCE_URL = "https://mp3.hardcore.lt/1120/";
 

@@ -1,15 +1,15 @@
-import { db } from "$lib/server/db";
-import * as table from "$lib/server/db/schema";
+import { db } from "#lib/server/db/index.js";
+import * as table from "#lib/server/db/schema.js";
 import { eq } from "drizzle-orm";
 import { error, fail } from "@sveltejs/kit";
 import {
   banInsertSchema,
   commentInsertSchema,
-} from "$lib/server/db/validations";
+} from "#lib/server/db/validations.js";
 import { z } from "zod";
-import { env } from "$env/dynamic/private";
+import { DISABLE_COMMENTS } from "$app/env/private";
 
-const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
+const commentsEnabled = DISABLE_COMMENTS === "true" ? false : true;
 
 const queryPostId = async (slug: string): Promise<number | undefined> => {
   const queryResult: table.Post | undefined = await db.query.post.findFirst({

@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { Trash } from "@lucide/svelte";
 
   let { slug, action } = $props();
@@ -11,10 +11,9 @@
   function removeItem() {
     return async ({ update, result }) => {
       if (page.params.slug === slug) {
-        // eslint-disable-next-line svelte/no-navigation-without-resolve
         goto(page?.route?.id?.split("/[")[0] as string, {
-          noScroll: true,
-          invalidateAll: true,
+          reset: false,
+          refreshAll: true,
         });
       } else {
         await update();

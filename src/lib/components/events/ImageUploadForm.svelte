@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { applyAction, deserialize } from "$app/forms";
-  import { invalidateAll } from "$app/navigation";
-  import type { ActionResult } from "@sveltejs/kit";
-  import { m } from "$lib/paraglide/messages.js";
+  import { applyAction, deserialize, type ActionResult } from "$app/forms";
+  import { refreshAll } from "$app/navigation";
+  import { m } from "#lib/paraglide/messages.js";
 
   let {
     selectedImage = $bindable(),
@@ -19,19 +18,30 @@
   ) {
     event.preventDefault();
     is_image_uploading = true;
-    const formData = new FormData(event.currentTarget);
 
+    const formData = new FormData(event.currentTarget);
     const response = await fetch(event.currentTarget.action, {
       method: "POST",
       body: formData,
     });
-
     let result: ActionResult;
     if (response.status === 413) {
+      // The response body is not a valid action result, so construct the
+      // failure manually. The action submitted from this page, so the
+      // `location` (action URL without the `?/upload_image` param) is the
+      // current page URL.
+      const actionUrl = new URL(event.currentTarget.action);
+      for (const key of actionUrl.searchParams.keys()) {
+        if (key.startsWith("/")) {
+          actionUrl.searchParams.delete(key);
+          break;
+        }
+      }
       result = {
         type: "failure",
         status: 413,
         data: { message: m["error.file_size_too_big"]() },
+        location: actionUrl.pathname + actionUrl.search,
       };
     } else {
       result = deserialize(await response.text());
@@ -39,7 +49,7 @@
 
     if (result.type === "success") {
       const fileObj: File = Object.fromEntries(formData).file as File;
-      await invalidateAll().then(() => {
+      await refreshAll().then(() => {
         displayImage = fileObj.name;
         is_image_uploading = false;
         uploaded = true;

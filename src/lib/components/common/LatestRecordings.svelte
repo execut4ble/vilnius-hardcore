@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { LatestRecordingsData, Recording } from "$lib/types";
+  import type { LatestRecordingsData, Recording } from "#lib/types.js";
   let { recordings }: { recordings: LatestRecordingsData } = $props();
 
   let recentRecordings: Array<Recording> = $derived(recordings.recordings);
   import { slide } from "svelte/transition";
   import { SvelteDate } from "svelte/reactivity";
-  import { getLocale } from "$lib/paraglide/runtime";
-  import { m } from "$lib/paraglide/messages";
+  import { getLocale } from "#lib/paraglide/runtime.js";
+  import { m } from "#lib/paraglide/messages.js";
 </script>
 
 <div id="latest-recordings" data-name={m.latest_recordings()}>

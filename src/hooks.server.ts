@@ -1,9 +1,12 @@
-import { paraglideMiddleware } from "$lib/paraglide/server";
-import * as auth from "$lib/server/auth.js";
-import type { Handle, HandleServerError } from "@sveltejs/kit";
-import { sequence } from "@sveltejs/kit/hooks";
+import { paraglideMiddleware } from "#lib/paraglide/server.js";
+import * as auth from "#lib/server/auth.js";
+import {
+  sequence,
+  type Handle,
+  type HandleServerError,
+} from "@sveltejs/kit/hooks";
 import { handleAppearance } from "@friendofsvelte/toggle";
-import { startPolling } from "$lib/server/recordings";
+import { startPolling } from "#lib/server/recordings.js";
 
 startPolling();
 
@@ -34,7 +37,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   }
 };
 
-export const handleError: HandleServerError = async ({ error, message }) => {
+export const handleError: HandleServerError = async ({ error }) => {
   console.error(error);
 
   if ((error as { status?: number })?.status === 413) {
@@ -44,14 +47,10 @@ export const handleError: HandleServerError = async ({ error, message }) => {
     }
   }
 
-  // For other errors, return the default message
-  return { message };
 };
 
 const handleParaglide: Handle = ({ event, resolve }) =>
-  paraglideMiddleware(event.request, ({ request, locale }) => {
-    event.request = request;
-
+  paraglideMiddleware(event.request, ({ locale }) => {
     return resolve(event, {
       transformPageChunk: ({ html }) =>
         html.replace("%paraglide.lang%", locale),

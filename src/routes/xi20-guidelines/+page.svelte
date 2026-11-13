@@ -1,6 +1,6 @@
 <script>
-  import { MetaTags } from "$lib/components";
-  import { getLocale } from "$lib/paraglide/runtime";
+  import { MetaTags } from "#lib/components.js";
+  import { getLocale } from "#lib/paraglide/runtime.js";
   import Markdown from "svelte-exmarkdown";
   import contentLt from "./xi20-guidelines-lt.md?raw";
   import contentEn from "./xi20-guidelines-en.md?raw";

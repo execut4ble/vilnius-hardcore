@@ -2,8 +2,8 @@ import path from "path";
 import fs from "fs";
 import type { RequestHandler } from "./$types";
 import { fileTypeFromFile } from "file-type";
-import { FILES_DIR } from "$lib/server/actions/file-upload.actions";
-import { ImageFilenamePolicy } from "$lib/server/validation/image-file.policy";
+import { FILES_DIR } from "#lib/server/actions/file-upload.actions.js";
+import { ImageFilenamePolicy } from "#lib/server/validation/image-file.policy.js";
 
 const filenamePolicy = new ImageFilenamePolicy();
 

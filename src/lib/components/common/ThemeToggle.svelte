@@ -1,7 +1,7 @@
 <script lang="ts">
   import { scale } from "svelte/transition";
-  import { TrackAppearance } from "$lib/components";
-  import { theme } from "$lib/stores/theme";
+  import { TrackAppearance } from "#lib/components.js";
+  import { theme } from "#lib/stores/theme.js";
 
   import { SprayCan, SquareTerminal, Gamepad2 } from "@lucide/svelte";
 

@@ -1,19 +1,19 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import type { EventComponent } from "$lib/types";
+  import type { EventComponent } from "#lib/types.js";
   import Markdown from "svelte-exmarkdown";
   import {
     RemoveItemForm,
     EventEntryForm,
     ImageUploadForm,
     CommentCount,
-  } from "$lib/components";
+  } from "#lib/components.js";
   import { blur } from "svelte/transition";
-  import { getLocale } from "$lib/paraglide/runtime";
+  import { getLocale } from "#lib/paraglide/runtime.js";
   import { SvelteDate, SvelteURL } from "svelte/reactivity";
   import { resolve } from "$app/paths";
-  import { m } from "$lib/paraglide/messages";
+  import { m } from "#lib/paraglide/messages.js";
   import { EyeOff, Link2, SquarePen } from "@lucide/svelte";
 
   let { detailed = false, form, ...event }: EventComponent = $props();
@@ -43,8 +43,8 @@
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(resolve("/events/[slug]", { slug: result.data[0].slug }), {
-            noScroll: true,
-            invalidateAll: true,
+            reset: false,
+            refreshAll: true,
           });
           isEditing = false;
         } else {

@@ -9,17 +9,17 @@
     ThemeToggle,
     BackgroundImage,
     Confetti,
-  } from "$lib/components";
+  } from "#lib/components.js";
   import type { LayoutProps } from "./$types";
   import type {
     RecentCommentsData,
     UserInfoData,
     LatestRecordingsData,
-  } from "$lib/types";
-  import { locales, setLocale } from "$lib/paraglide/runtime";
+  } from "#lib/types.js";
+  import { locales, setLocale } from "#lib/paraglide/runtime.js";
   import { page } from "$app/state";
-  import { m } from "$lib/paraglide/messages";
-  import LatestRecordings from "$lib/components/common/LatestRecordings.svelte";
+  import { m } from "#lib/paraglide/messages.js";
+  import LatestRecordings from "#lib/components/common/LatestRecordings.svelte";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);

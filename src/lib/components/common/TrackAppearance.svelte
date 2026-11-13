@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { theme, type ThemeMode } from "$lib/stores/theme";
+  import { theme, type ThemeMode } from "#lib/stores/theme.js";
 
   function applyTheme(mode: ThemeMode) {
     const root = document.documentElement;
