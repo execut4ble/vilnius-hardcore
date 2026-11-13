@@ -11,14 +11,20 @@
     Confetti,
   } from "#lib/components.js";
   import type { LayoutProps } from "./$types";
-  import type { RecentCommentsData, UserInfoData } from "#lib/types.js";
+  import type {
+    RecentCommentsData,
+    UserInfoData,
+    LatestRecordingsData,
+  } from "#lib/types.js";
   import { locales, setLocale } from "#lib/paraglide/runtime.js";
   import { page } from "$app/state";
   import { m } from "#lib/paraglide/messages.js";
+  import LatestRecordings from "#lib/components/common/LatestRecordings.svelte";
 
   let { data, children }: LayoutProps = $props();
   let user: UserInfoData = $derived(data.user);
   let recentComments: RecentCommentsData = $derived(data.recentComments);
+  let recordings: LatestRecordingsData = $derived(data.recordings);
   let commentsEnabled: boolean = $derived(data.globalCommentsEnabled);
   let backgroundImage = $derived(page.data.event?.[0]?.image ?? null);
 </script>
@@ -58,6 +64,7 @@
         {#if commentsEnabled}
           <RecentComments {recentComments} />
         {/if}
+        <LatestRecordings {recordings} />
         <ThemeToggle />
       </sidebar>
     </row>

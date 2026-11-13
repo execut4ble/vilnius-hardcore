@@ -6,6 +6,9 @@ import {
   type HandleServerError,
 } from "@sveltejs/kit/hooks";
 import { handleAppearance } from "@friendofsvelte/toggle";
+import { startPolling } from "#lib/server/recordings.js";
+
+startPolling();
 
 const handleAuth: Handle = async ({ event, resolve }) => {
   const sessionToken = event.cookies.get(auth.sessionCookieName);

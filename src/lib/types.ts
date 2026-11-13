@@ -55,3 +55,17 @@ export type RecentComment = {
 };
 
 export type RecentCommentsData = Array<RecentComment>;
+
+export type Recording = {
+  date: string;
+  fileName: string;
+  title: string;
+  fileSize: string;
+  url: string;
+};
+
+export type LatestRecordingsData = {
+  error?: string;
+  date: Date;
+  recordings: Array<Recording>;
+};

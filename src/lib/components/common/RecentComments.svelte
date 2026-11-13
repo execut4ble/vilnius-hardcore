@@ -51,6 +51,10 @@
 </div>
 
 <style>
+  div#recent-comments {
+    align-self: stretch;
+  }
+
   div#recent-comments ul {
     display: flex;
     flex-direction: column;
