@@ -21,6 +21,13 @@
   "past_events": "Menneet tapahtumat",
   "no_past_events": "Menneitä tapahtumia ei löytynyt.",
   "no_posts": "Blogikirjoituksia ei löytynyt.",
+  "search": {
+    "title": "Hakutulokset",
+    "placeholder": "Haku...",
+    "submit": "Etsi",
+    "no_query": "Kirjoita jotain hakeaksesi.",
+    "no_results": "Hakulla \"{query}\" ei löytynyt tuloksia."
+  },
   "show_more": "näytä lisää",
   "no_events": {
     "check_later": "Meillä ei ole tulevia tapahtumia juuri nyt! Tarkista myöhemmin uudelleen!",

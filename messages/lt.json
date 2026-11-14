@@ -29,6 +29,13 @@
   "past_events": "Kas buvo!?",
   "no_past_events": "Nėra įvykusių renginių.",
   "no_posts": "Nėra įrašų.",
+  "search": {
+    "title": "Paieškos rezultatai",
+    "placeholder": "Paieška...",
+    "submit": "ieškoti",
+    "no_query": "Įrašyk kažką, kad pradėtum ieškoti.",
+    "no_results": "Paieškai „{query}“ nerasta jokių rezultatų."
+  },
   "show_more": "rodyti daugiau",
   "no_events": {
     "check_later": "Šiuo metu nėra suplanuota jokių renginių! Patikrinkite vėliau!",
