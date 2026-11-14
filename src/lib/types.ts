@@ -39,6 +39,38 @@ export type PostComponent = Post & {
   preview?: boolean;
 } & { form?: BlogActionData };
 
+export type SearchRow = Pick<
+  Event,
+  | "id"
+  | "title"
+  | "slug"
+  | "image"
+  | "is_visible"
+  | "external_url"
+  | "disable_comments"
+> & {
+  type: "event" | "post";
+  date: Date;
+  body: string | null;
+  author_name: string | null;
+  author_username: string | null;
+  comments: number;
+  score: number;
+  // count(*) over () window, the same value on every row
+  total: number;
+};
+
+export type SearchResults = {
+  results: SearchRow[];
+  total: number;
+};
+
+export type SearchEventResult = EventComponent & { type: "event" };
+
+export type SearchPostResult = PostComponent & { type: "post" };
+
+export type SearchResult = SearchEventResult | SearchPostResult;
+
 export type UserInfoData = {
   id: string;
   username: string;

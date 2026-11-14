@@ -21,6 +21,13 @@
   "past_events": "Past events",
   "no_past_events": "No past events found.",
   "no_posts": "No posts found.",
+  "search": {
+    "title": "Search results",
+    "placeholder": "Search...",
+    "submit": "search",
+    "no_query": "Type something to search.",
+    "no_results": "No results found for \"{query}\"."
+  },
   "show_more": "show more",
   "no_events": {
     "check_later": "We have no upcoming events right now! Check back later!",
