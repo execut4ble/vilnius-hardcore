@@ -7,6 +7,7 @@ export class Layout {
   readonly errorPage: Locator;
   readonly menuNav: Locator;
   readonly ctrLocale: Locator;
+  readonly searchForm: Locator;
   readonly tagHtml: Locator;
 
   constructor(page: Page) {
@@ -16,6 +17,7 @@ export class Layout {
     this.errorPage = page.locator("div#error-page");
     this.menuNav = page.locator("sidebar div.menu nav");
     this.ctrLocale = page.locator("sidebar #locale");
+    this.searchForm = page.locator("sidebar form.search-form input");
     this.tagHtml = page.locator("html");
   }
 

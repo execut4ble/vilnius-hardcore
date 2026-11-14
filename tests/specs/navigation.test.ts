@@ -8,6 +8,7 @@ const publicPages: Array<{ path: string; heading: "h1" | "h2" }> = [
   { path: "/events/archive", heading: "h1" },
   { path: "/xi20-guidelines", heading: "h1" },
   { path: "/blog", heading: "h1" },
+  { path: "/search", heading: "h1" },
   { path: "/contacts", heading: "h1" },
   { path: "/crew/login", heading: "h1" },
 ];

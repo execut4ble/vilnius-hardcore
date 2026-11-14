@@ -9,6 +9,7 @@ export { default as Footer } from "$lib/components/common/Footer.svelte";
 export { default as ItemCount } from "$lib/components/common/ItemCount.svelte";
 export { default as Menu } from "$lib/components/common/Menu.svelte";
 export { default as RecentComments } from "$lib/components/common/RecentComments.svelte";
+export { default as SearchForm } from "$lib/components/common/SearchForm.svelte";
 export { default as ThemeToggle } from "$lib/components/common/ThemeToggle.svelte";
 export { default as TrackAppearance } from "$lib/components/common/TrackAppearance.svelte";
 export { default as UserInfo } from "$lib/components/common/UserInfo.svelte";
