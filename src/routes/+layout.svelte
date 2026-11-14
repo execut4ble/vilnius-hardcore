@@ -157,10 +157,12 @@
     }
 
     section {
-      padding-left: 1em;
-      padding-bottom: 3em;
+      box-sizing: border-box;
+      width: 100%;
       min-width: auto;
       align-self: center;
+      padding-left: 1em;
+      padding-bottom: 3em;
     }
 
     sidebar {
