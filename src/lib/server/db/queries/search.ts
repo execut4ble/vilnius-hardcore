@@ -101,7 +101,7 @@ export const searchEventsAndPosts = async (
       external_url: sql<string | null>`null::text`.as("external_url"),
       disable_comments: post.disable_comments,
       author_name: post.authorName,
-      author_username: user.username.as("author_username"),
+      author_username: user.username,
       comments: db.$count(comment, eq(comment.postId, post.id)).as("comments"),
       score: score(post.title, post.body, terms).as("score"),
     })

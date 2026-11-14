@@ -80,4 +80,10 @@ test.describe("Site search", () => {
       page.getByText('No results found for "this-query-matches-nothing-xyz".'),
     ).toBeVisible();
   });
+
+  test("LIKE wildcards in the query match literally", async ({ page }) => {
+    // Unescaped, %% would be a pattern matching every row
+    await page.goto(`/search?query=${encodeURIComponent("%%")}`);
+    await expect(page.getByText('No results found for "%%".')).toBeVisible();
+  });
 });
