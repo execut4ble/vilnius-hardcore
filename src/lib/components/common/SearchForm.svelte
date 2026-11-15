@@ -24,6 +24,7 @@
       bind:value
       placeholder={m["search.placeholder"]()}
       minlength="2"
+      required
     />
   </div>
 </form>

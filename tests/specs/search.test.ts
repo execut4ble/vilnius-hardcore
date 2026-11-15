@@ -15,15 +15,14 @@ test.describe("Site search", () => {
     ).toBeVisible();
   });
 
-  test("empty search form submission lands on /search with a prompt", async ({
+  test("empty search form submission is blocked by the required attribute", async ({
     page,
     layout,
   }) => {
     await page.goto("/events");
     await layout.searchForm.fill("");
     await layout.searchForm.press("Enter");
-    await expect(page).toHaveURL(/\/search$/);
-    await expect(page.getByText("Type something to search.")).toBeVisible();
+    await expect(page).toHaveURL(/\/events$/);
   });
 
   test("finds an event by title and a post by title", async ({
@@ -79,6 +78,25 @@ test.describe("Site search", () => {
     await expect(
       page.getByText('No results found for "this-query-matches-nothing-xyz".'),
     ).toBeVisible();
+  });
+
+  test.describe("Accent-insensitive search", () => {
+    test.use({ testEventDescription: "ąčęėįšųūž" });
+
+    test("finds an event by accented Lithuanian letters", async ({
+      page,
+      testEvent,
+    }) => {
+      await page.goto(`/search?query=${encodeURIComponent("ąčęėįšųūž")}`);
+      await expect(
+        page.getByRole("heading", { name: testEvent.title, exact: false }),
+      ).toBeVisible();
+
+      await page.goto(`/search?query=${encodeURIComponent("aceeisuuz")}`);
+      await expect(
+        page.getByRole("heading", { name: testEvent.title, exact: false }),
+      ).toBeVisible();
+    });
   });
 
   test("LIKE wildcards in the query match literally", async ({ page }) => {

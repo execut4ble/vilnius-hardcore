@@ -36,6 +36,7 @@ type Fixtures = {
 
 type Options = {
   asCrew: boolean;
+  testEventDescription?: string;
 };
 
 // Workers are separate processes and this module is loaded once per worker,
@@ -73,6 +74,7 @@ export const test = base.extend<Fixtures & Options>({
     await use(await getCrewStorageState(browser, baseURL));
   },
   asCrew: [false, { option: true }],
+  testEventDescription: [undefined as string | undefined, { option: true }],
   storageState: async ({ storageState, asCrew, browser, baseURL }, use) => {
     await use(
       asCrew ? await getCrewStorageState(browser, baseURL) : storageState,
@@ -99,7 +101,10 @@ export const test = base.extend<Fixtures & Options>({
   postPage: async ({ page }, use) => {
     await use(new PostPage(page));
   },
-  testEvent: async ({ browser, baseURL, crewStorageState }, use) => {
+  testEvent: async (
+    { browser, baseURL, crewStorageState, testEventDescription },
+    use,
+  ) => {
     const context = await browser.newContext({
       baseURL,
       storageState: crewStorageState,
@@ -108,7 +113,7 @@ export const test = base.extend<Fixtures & Options>({
     const eventsPage = new EventsListPage(page);
     const event: TestEvent = {
       title: `e2e-event-${crypto.randomUUID()}`,
-      description: crypto.randomUUID(),
+      description: testEventDescription ?? crypto.randomUUID(),
     };
     await page.goto("/events");
     await eventsPage.createEventAndVerifyContent(
