@@ -22,9 +22,15 @@ const termsOf = (query: string) =>
 // Escape LIKE wildcards so input like "50%" or "snake_case" matches literally
 const escapeLike = (s: string) => s.replace(/[\\%_]/g, "\\$&");
 
-// Case- and accent-insensitive match
+// Case- and accent-insensitive match. Both sides go through unaccent():
+// the column to strip diacritics from stored text, and the (bound) term so
+// that queries typed with Lithuanian letters like "sėbras" match stored
+// "SĖBRAS". The unaccent dictionary maps all Lithuanian letters (ĄĈĘĖĮŠŲŪŽ).
 const matches = (col: AnyColumn, term: string) =>
-  ilike(sql`unaccent(${col})`, `%${escapeLike(term)}%`);
+  ilike(
+    sql`unaccent(${col})`,
+    sql`'%' || unaccent(${escapeLike(term)}) || '%'`,
+  );
 
 // Every term must match in the title or the body
 const termCondition = (title: AnyColumn, body: AnyColumn, terms: string[]) =>
