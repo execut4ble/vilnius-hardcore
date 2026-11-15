@@ -23,13 +23,17 @@
             <a
               href={resolve("/events/[slug]", {
                 slug: comment.event_slug as string,
-              }) + "#comments"}>{comment.event_name}</a
+              }) +
+                "#comment-" +
+                comment.id}>{comment.event_name}</a
             >
           {:else}
             <a
               href={resolve("/blog/[slug]", {
                 slug: comment.post_slug as string,
-              }) + "#comments"}>{comment.post_title}</a
+              }) +
+                "#comment-" +
+                comment.id}>{comment.post_title}</a
             >
           {/if}
         </div>
