@@ -9,9 +9,9 @@ import {
   sql,
   getTableColumns,
 } from "drizzle-orm";
-import * as table from "$lib/server/db/schema";
-import { db } from "$lib/server/db";
-import type { EventsArray } from "$lib/types";
+import * as table from "#lib/server/db/schema.js";
+import { db } from "#lib/server/db/index.js";
+import type { EventsArray } from "#lib/types.js";
 
 const commentCounts = db
   .select({

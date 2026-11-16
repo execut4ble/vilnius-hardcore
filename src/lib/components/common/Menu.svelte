@@ -1,9 +1,9 @@
 <script lang="ts">
   import { resolve } from "$app/paths";
   import { page } from "$app/state";
-  import { m } from "$lib/paraglide/messages.js";
-  import { getLocale } from "$lib/paraglide/runtime";
-  import sadtrombone from "$lib/sound/sadtrombone.ogg";
+  import { m } from "#lib/paraglide/messages.js";
+  import { getLocale } from "#lib/paraglide/runtime.js";
+  import sadtrombone from "#lib/sound/sadtrombone.ogg";
 
   const sadTromboneText: string = "🪊 surullinen pasuuna";
 
@@ -22,10 +22,10 @@
         <a href={resolve("/")}>{m["navigation.home"]()}</a>
       </li>
       <li aria-current={page.url.pathname === "/about" ? "page" : undefined}>
-        <a href={resolve("/about")}>{m["navigation.about"]()}</a>
+        <a href={resolve("about")}>{m["navigation.about"]()}</a>
       </li>
       <li aria-current={page.url.pathname === "/events" ? "page" : undefined}>
-        <a href={resolve("/events")}>{m["navigation.events"]()}</a>
+        <a href={resolve("events")}>{m["navigation.events"]()}</a>
       </li>
       <li>
         <a href="https://mp3.hardcore.lt/1120/">{m["navigation.xi20live"]()}</a>
@@ -35,13 +35,11 @@
           ? "page"
           : undefined}
       >
-        <a href={resolve("/xi20-guidelines")}>{m["navigation.xi20guide"]()}</a>
+        <a href={resolve("xi20-guidelines")}>{m["navigation.xi20guide"]()}</a>
       </li>
-      <li>
-        <a href="https://music.ver.lt">{m["navigation.music"]()}</a>
-      </li>
+      <li><a href="https://music.ver.lt">{m["navigation.music"]()}</a></li>
       <li aria-current={page.url.pathname === "/blog" ? "page" : undefined}>
-        <a href={resolve("/blog")}>{m["navigation.blog"]()}</a>
+        <a href={resolve("blog")}>{m["navigation.blog"]()}</a>
       </li>
       <li>
         <a href="https://oldschool.hardcore.lt"
@@ -49,7 +47,7 @@
         >
       </li>
       <li aria-current={page.url.pathname === "/contacts" ? "page" : undefined}>
-        <a href={resolve("/contacts")}>{m["navigation.contacts"]()}</a>
+        <a href={resolve("contacts")}>{m["navigation.contacts"]()}</a>
       </li>
       {#if getLocale() === "fi"}
         <li>

@@ -1,15 +1,15 @@
-import type { EventsArray } from "$lib/types";
+import type { EventsArray } from "#lib/types.js";
 import type { PageServerLoad, Actions } from "./$types";
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { eq } from "drizzle-orm";
-import * as table from "$lib/server/db/schema";
+import * as table from "#lib/server/db/schema.js";
 import { error } from "@sveltejs/kit";
-import { eventActions } from "$lib/server/actions/event.actions";
-import { commentActions } from "$lib/server/actions/comment.actions";
-import { loadEventComments } from "$lib/server/db/queries/comments";
-import { env } from "$env/dynamic/private";
+import { eventActions } from "#lib/server/actions/event.actions.js";
+import { commentActions } from "#lib/server/actions/comment.actions.js";
+import { loadEventComments } from "#lib/server/db/queries/comments.js";
+import { DISABLE_COMMENTS } from "$app/env/private";
 
-const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
+const commentsEnabled = DISABLE_COMMENTS === "true" ? false : true;
 
 export const load = (async ({
   params,

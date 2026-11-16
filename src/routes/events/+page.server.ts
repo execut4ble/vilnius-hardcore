@@ -1,13 +1,13 @@
-import type { EventsArray } from "$lib/types";
+import type { EventsArray } from "#lib/types.js";
 import { and, count, eq, gte, sql } from "drizzle-orm";
 import type { PageServerLoad, Actions } from "./$types";
-import { db } from "$lib/server/db";
-import * as table from "$lib/server/db/schema";
-import { eventActions } from "$lib/server/actions/event.actions";
-import { env } from "$env/dynamic/private";
-import { loadUpcomingEvents } from "$lib/server/db/queries/events";
+import { db } from "#lib/server/db/index.js";
+import * as table from "#lib/server/db/schema.js";
+import { eventActions } from "#lib/server/actions/event.actions.js";
+import { DISABLE_COMMENTS } from "$app/env/private";
+import { loadUpcomingEvents } from "#lib/server/db/queries/events.js";
 
-const commentsEnabled = env.DISABLE_COMMENTS !== "true";
+const commentsEnabled = DISABLE_COMMENTS !== "true";
 
 export const load = (async ({
   locals,

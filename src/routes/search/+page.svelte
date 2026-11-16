@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import { Event, Post, ItemCount, MetaTags } from "$lib/components";
-  import { m } from "$lib/paraglide/messages.js";
+  import { Event, Post, ItemCount, MetaTags } from "#lib/components.js";
+  import { m } from "#lib/paraglide/messages.js";
 
   let { data }: PageProps = $props();
 </script>

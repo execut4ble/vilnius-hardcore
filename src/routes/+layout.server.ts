@@ -1,11 +1,11 @@
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { sql } from "drizzle-orm";
 import type { LayoutServerLoad } from "./$types";
-import type { RecentComment, RecentCommentsData } from "$lib/types";
-import { env } from "$env/dynamic/private";
-import { getLatestRecordingsData } from "$lib/server/recordings";
+import type { RecentComment, RecentCommentsData } from "#lib/types.js";
+import { DISABLE_COMMENTS } from "$app/env/private";
+import { getLatestRecordingsData } from "#lib/server/recordings.js";
 
-const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
+const commentsEnabled = DISABLE_COMMENTS === "true" ? false : true;
 
 const queryRecentComments = async ({ locals }) => {
   if (commentsEnabled) {
@@ -57,6 +57,6 @@ export const load: LayoutServerLoad = async ({ locals }) => {
     user: locals.user,
     recentComments,
     recordings,
-    globalCommentsEnabled: env.DISABLE_COMMENTS === "true" ? false : true,
+    globalCommentsEnabled: DISABLE_COMMENTS === "true" ? false : true,
   };
 };

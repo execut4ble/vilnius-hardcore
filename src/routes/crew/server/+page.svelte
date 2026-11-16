@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { MetaTags } from "$lib/components";
-  import { m } from "$lib/paraglide/messages";
+  import { MetaTags } from "#lib/components.js";
+  import { m } from "#lib/paraglide/messages.js";
   import type { PageProps } from "./$types";
 
   let { data }: PageProps = $props();

@@ -1,9 +1,9 @@
 import { verify } from "@node-rs/argon2";
 import { fail, redirect } from "@sveltejs/kit";
 import { count, eq } from "drizzle-orm";
-import * as auth from "$lib/server/auth";
-import { db } from "$lib/server/db";
-import * as table from "$lib/server/db/schema";
+import * as auth from "#lib/server/auth.js";
+import { db } from "#lib/server/db/index.js";
+import * as table from "#lib/server/db/schema.js";
 import type { Actions, PageServerLoad } from "./$types";
 import { hash } from "@node-rs/argon2";
 import {
@@ -12,7 +12,7 @@ import {
   usernameSchema,
   validatePassword,
   validateUsername,
-} from "$lib/server/user";
+} from "#lib/server/user.js";
 import { z } from "zod";
 
 export const load: PageServerLoad = async (event) => {

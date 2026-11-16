@@ -9,9 +9,9 @@ import {
   or,
 } from "drizzle-orm";
 import { unionAll } from "drizzle-orm/pg-core";
-import * as table from "$lib/server/db/schema";
-import { db } from "$lib/server/db";
-import type { SearchRow, SearchResults } from "$lib/types";
+import * as table from "#lib/server/db/schema.js";
+import { db } from "#lib/server/db/index.js";
+import type { SearchRow, SearchResults } from "#lib/types.js";
 
 const MAX_TERMS = 5;
 const MAX_LIMIT = 20;

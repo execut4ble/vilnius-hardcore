@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import { Post, Comment, AddCommentForm, MetaTags } from "$lib/components";
-  import { slide } from "$lib/transition";
-  import type { CommentsArray, Post as PostObject } from "$lib/types";
-  import { m } from "$lib/paraglide/messages.js";
+  import { Post, Comment, AddCommentForm, MetaTags } from "#lib/components.js";
+  import { slide } from "#lib/transition.js";
+  import type { CommentsArray, Post as PostObject } from "#lib/types.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { page } from "$app/state";
 
   let { data, form }: PageProps = $props();

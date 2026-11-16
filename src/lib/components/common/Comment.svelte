@@ -1,9 +1,9 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { page } from "$app/state";
-  import type { CommentComponent } from "$lib/types";
-  import { slide } from "$lib/transition";
-  import { m } from "$lib/paraglide/messages.js";
+  import type { CommentComponent } from "#lib/types.js";
+  import { slide } from "#lib/transition.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
   import { Ban, Cat, Gavel, Trash } from "@lucide/svelte";
 

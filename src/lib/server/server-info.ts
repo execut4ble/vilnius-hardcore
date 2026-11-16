@@ -2,9 +2,9 @@ import { readdir, stat, statfs } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { sql } from "drizzle-orm";
-import { db } from "$lib/server/db";
-import { redis } from "$lib/server/redis";
-import { FILES_DIR } from "$lib/server/actions/file-upload.actions";
+import { db } from "#lib/server/db/index.js";
+import { redis } from "#lib/server/redis.js";
+import { FILES_DIR } from "#lib/server/actions/file-upload.actions.js";
 
 export interface ServerInfo {
   nodeVersion: string;

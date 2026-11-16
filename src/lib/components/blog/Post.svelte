@@ -1,14 +1,18 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { RemoveItemForm, CommentCount, PostEntryForm } from "$lib/components";
-  import type { PostComponent } from "$lib/types";
+  import {
+    RemoveItemForm,
+    CommentCount,
+    PostEntryForm,
+  } from "#lib/components.js";
+  import type { PostComponent } from "#lib/types.js";
   import remarkYoutubePlugin from "remark-youtube";
   import Markdown from "svelte-exmarkdown";
   import type { Plugin } from "svelte-exmarkdown";
   import rehypeRaw from "rehype-raw";
   import rehypeSanitize from "rehype-sanitize";
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
   import { SquarePen } from "@lucide/svelte";
@@ -30,8 +34,8 @@
       if (result.type === "success") {
         if (page.params.slug && result?.data[0]?.slug !== slug) {
           goto(resolve("/blog/[slug]", { slug: result.data[0].slug }), {
-            noScroll: true,
-            invalidateAll: true,
+            reset: false,
+            refreshAll: true,
           });
           isEditing = false;
         } else {

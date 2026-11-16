@@ -1,6 +1,6 @@
 <script lang="ts">
   import { resolve } from "$app/paths";
-  import Logo from "$lib/images/logo.gif";
+  import Logo from "#lib/images/logo.gif";
   const description: string = $state(
     "Ska funk rasta punk scene, Vilnius, Lithuania",
   );

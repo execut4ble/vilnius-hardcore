@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { PageProps } from "./$types";
-  import type { CommentsArray } from "$lib/types";
-  import type { Event as EventObject } from "$lib/server/db/schema";
-  import { Event, Comment, AddCommentForm, MetaTags } from "$lib/components";
-  import { slide } from "$lib/transition";
+  import type { CommentsArray } from "#lib/types.js";
+  import type { Event as EventObject } from "#lib/server/db/schema.js";
+  import { Event, Comment, AddCommentForm, MetaTags } from "#lib/components.js";
+  import { slide } from "#lib/transition.js";
   import { page } from "$app/state";
-  import { m } from "$lib/paraglide/messages";
-  import { markdownToText } from "$lib/utils/markdown";
+  import { m } from "#lib/paraglide/messages.js";
+  import { markdownToText } from "#lib/utils/markdown.js";
 
   let { data, form }: PageProps = $props();
   let event: EventObject = $derived(data.event[0] as EventObject);

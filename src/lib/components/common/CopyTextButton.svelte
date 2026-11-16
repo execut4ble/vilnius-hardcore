@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Tween } from "svelte/motion";
   import { quadOut } from "svelte/easing";
-  import { m } from "$lib/paraglide/messages";
+  import { m } from "#lib/paraglide/messages.js";
 
   let { textToCopy, ButtonIcon, buttonText } = $props();
   let copied = $state(false);

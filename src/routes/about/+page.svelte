@@ -1,6 +1,6 @@
 <script>
-  import { MetaTags } from "$lib/components";
-  import { getLocale } from "$lib/paraglide/runtime";
+  import { MetaTags } from "#lib/components.js";
+  import { getLocale } from "#lib/paraglide/runtime.js";
 </script>
 
 <svelte:head>

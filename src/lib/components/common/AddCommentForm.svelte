@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import FieldError from "./FieldError.svelte";
-  import { m } from "$lib/paraglide/messages.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { page } from "$app/state";
   import { SendHorizontal } from "@lucide/svelte";
 
@@ -38,8 +38,7 @@
     name="content"
     spellcheck="false"
     required
-    maxlength="250"
-  ></textarea>
+    maxlength="250"></textarea>
   <FieldError errors={form?.errors?.content} />
   {#if !page.data.user}
     <label for="acab">{m["form.acab_captcha"]()}</label>

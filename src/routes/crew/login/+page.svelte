@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { MetaTags } from "$lib/components";
-  import { m } from "$lib/paraglide/messages";
+  import { MetaTags } from "#lib/components.js";
+  import { m } from "#lib/paraglide/messages.js";
   import type { ActionData, PageServerData } from "./$types";
 
   let { data, form }: { data: PageServerData; form: ActionData } = $props();

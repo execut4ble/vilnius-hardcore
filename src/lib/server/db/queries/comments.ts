@@ -1,7 +1,7 @@
-import * as table from "$lib/server/db/schema";
+import * as table from "#lib/server/db/schema.js";
 import { asc, eq, isNotNull } from "drizzle-orm";
-import { db } from "$lib/server/db";
-import type { CommentsArray } from "$lib/types";
+import { db } from "#lib/server/db/index.js";
+import type { CommentsArray } from "#lib/types.js";
 
 const loadComments = async (
   locals: App.Locals,

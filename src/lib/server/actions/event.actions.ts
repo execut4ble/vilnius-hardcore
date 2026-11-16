@@ -1,11 +1,11 @@
-import { db } from "$lib/server/db";
-import * as table from "$lib/server/db/schema";
+import { db } from "#lib/server/db/index.js";
+import * as table from "#lib/server/db/schema.js";
 import { eq } from "drizzle-orm";
 import { error, fail } from "@sveltejs/kit";
 import {
   eventInsertSchema,
   eventUpdateSchema,
-} from "$lib/server/db/validations";
+} from "#lib/server/db/validations.js";
 import { uploadImageAction } from "./file-upload.actions";
 import { z } from "zod";
 

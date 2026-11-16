@@ -1,13 +1,13 @@
 import type { Actions, PageServerLoad } from "./$types";
-import { db } from "$lib/server/db";
+import { db } from "#lib/server/db/index.js";
 import { count, sql } from "drizzle-orm";
-import * as table from "$lib/server/db/schema";
+import * as table from "#lib/server/db/schema.js";
 import { eq, desc } from "drizzle-orm";
-import { postActions } from "$lib/server/actions/post.actions";
-import type { PostsArray } from "$lib/types";
-import { env } from "$env/dynamic/private";
+import { postActions } from "#lib/server/actions/post.actions.js";
+import type { PostsArray } from "#lib/types.js";
+import { DISABLE_COMMENTS } from "$app/env/private";
 
-const commentsEnabled = env.DISABLE_COMMENTS === "true" ? false : true;
+const commentsEnabled = DISABLE_COMMENTS === "true" ? false : true;
 
 export const load = (async ({
   url,

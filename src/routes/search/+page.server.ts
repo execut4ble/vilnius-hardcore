@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
-import { searchEventsAndPosts } from "$lib/server/db/queries/search";
-import type { SearchResult } from "$lib/types";
+import { searchEventsAndPosts } from "#lib/server/db/queries/search.js";
+import type { SearchResult } from "#lib/types.js";
 
 const MAX_QUERY_LENGTH = 100;
 const MIN_QUERY_LENGTH = 2;

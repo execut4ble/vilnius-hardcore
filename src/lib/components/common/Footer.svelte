@@ -1,7 +1,7 @@
 <script lang="ts">
   import { resolve } from "$app/paths";
-  import NowItFuckingCuts from "$lib/images/nowitfuckingcuts.gif";
-  import { m } from "$lib/paraglide/messages.js";
+  import NowItFuckingCuts from "#lib/images/nowitfuckingcuts.gif";
+  import { m } from "#lib/paraglide/messages.js";
 </script>
 
 <footer>

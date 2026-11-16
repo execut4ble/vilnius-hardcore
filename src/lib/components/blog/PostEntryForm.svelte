@@ -1,8 +1,8 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { FieldError } from "$lib/components";
-  import { slide } from "$lib/transition";
-  import { m } from "$lib/paraglide/messages.js";
+  import { FieldError } from "#lib/components.js";
+  import { slide } from "#lib/transition.js";
+  import { m } from "#lib/paraglide/messages.js";
   import { page } from "$app/state";
   import { CircleX, Save } from "@lucide/svelte";
 
