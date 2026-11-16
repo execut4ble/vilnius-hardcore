@@ -37,16 +37,17 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   }
 };
 
-export const handleError: HandleServerError = async ({ error }) => {
-  console.error(error);
+export const handleError: HandleServerError = async (input) => {
+  console.error(input.error);
 
-  if ((error as { status?: number })?.status === 413) {
-    const errorMessage = (error as { message?: string })?.message;
-    if (typeof errorMessage === "string") {
-      return { status: 413, message: errorMessage };
-    }
+  // Unknown errors carry no typed status or message, skip them
+  if (input.kind === "unknown") return;
+
+  // Preserve the 413 (payload too large) status and its message so the client
+  // sees the specific reason (e.g. a file that's too large) instead of a generic error.
+  if (input.error.status === 413) {
+    return { status: input.error.status, message: input.error.message };
   }
-
 };
 
 const handleParaglide: Handle = ({ event, resolve }) =>

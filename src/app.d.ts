@@ -10,10 +10,6 @@ declare global {
       session: import("#lib/server/auth").SessionValidationResult["session"];
     }
 
-    interface Error {
-      message: string;
-    }
-
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}
