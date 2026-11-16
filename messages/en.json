@@ -21,6 +21,13 @@
   "past_events": "Past events",
   "no_past_events": "No past events found.",
   "no_posts": "No posts found.",
+  "search": {
+    "title": "Search results",
+    "placeholder": "Search...",
+    "submit": "search",
+    "no_query": "Type something to search.",
+    "no_results": "No results found for \"{query}\"."
+  },
   "show_more": "show more",
   "no_events": {
     "check_later": "We have no upcoming events right now! Check back later!",
@@ -113,5 +120,33 @@
   "copied": "Copied!",
   "comments_disabled": "Comments disabled.",
   "today": "today",
-  "latest_recordings": "Latest gig recordings"
+  "latest_recordings": "Latest gig recordings",
+  "server_env": {
+    "title": "Server environment",
+    "short_title": "Server",
+    "description": "Technical details about the server this site runs on.",
+    "node": "Node.js version",
+    "platform": "Platform",
+    "hostname": "Hostname",
+    "cpu": "CPU",
+    "memory": "Memory",
+    "disk": "Disk space",
+    "media": "Media uploads",
+    "files": "files",
+    "load": "Load average",
+    "uptime_system": "System uptime",
+    "uptime_app": "App uptime",
+    "timezone": "Timezone",
+    "database": "Database",
+    "database_size": "Database size",
+    "redis": "Redis",
+    "redis_memory": "Redis memory",
+    "content": "Content",
+    "posts": "Posts",
+    "comments": "Comments",
+    "commit": "Commit",
+    "free": "free",
+    "total": "total",
+    "not_available": "n/a"
+  }
 }

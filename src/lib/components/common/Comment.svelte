@@ -14,6 +14,9 @@
   let confirmBlock: boolean = $state(false);
   let isIpBanned: boolean | undefined = $derived(comment.isIpBanned);
   let authorIsCrew: boolean | undefined = $derived(comment.authorIsCrew);
+  let highlighted: boolean = $derived(
+    page.url.hash === `#comment-${comment.id}`,
+  );
 
   function banUser() {
     return async ({ update, result }) => {
@@ -26,7 +29,12 @@
   }
 </script>
 
-<div class="comment" transition:slide>
+<div
+  class="comment"
+  class:highlighted
+  id="comment-{comment.id}"
+  transition:slide
+>
   <div class="comment-heading">
     {#if page.data.user && isIpBanned}
       <span title="User is banned">
@@ -97,6 +105,23 @@
 <style>
   div.comment {
     margin-bottom: 2em;
+  }
+
+  div.comment.highlighted {
+    animation: comment-highlight 2.5s ease-out;
+  }
+
+  @keyframes comment-highlight {
+    from {
+      background-color: color-mix(
+        in srgb,
+        var(--color-text-2) 40%,
+        transparent
+      );
+    }
+    to {
+      background-color: transparent;
+    }
   }
 
   div.comment .comment-content {

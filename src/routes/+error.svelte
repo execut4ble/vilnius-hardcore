@@ -20,6 +20,7 @@
     <h2>You're not supposed to be here. Forget about all this.</h2>
 
     <p>
+      <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
       <a href={page.url.pathname}>Try again</a> or
       <a href={resolve("/")}>go home</a>.
     </p>
@@ -29,6 +30,7 @@
     <h2>An internal error occurred.</h2>
 
     <p>
+      <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
       <a href={page.url.pathname}>Try again</a> or
       <a href={resolve("/")}>go home</a>.
     </p>

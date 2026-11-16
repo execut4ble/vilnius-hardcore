@@ -5,6 +5,7 @@
     Footer,
     Menu,
     RecentComments,
+    SearchForm,
     UserInfo,
     ThemeToggle,
     BackgroundImage,
@@ -41,6 +42,7 @@
             <button onclick={() => setLocale(locale)}>{locale}</button>
           {/each}
         </div>
+        <SearchForm />
         {#if user}
           <UserInfo {user} />
         {/if}
@@ -56,6 +58,7 @@
           {/each}
         </div>
         <div id="navigation" data-name={m["navigation.navigation"]()}>
+          <SearchForm />
           {#if user}
             <UserInfo {user} />
           {/if}
@@ -157,10 +160,12 @@
     }
 
     section {
-      padding-left: 1em;
-      padding-bottom: 3em;
+      box-sizing: border-box;
+      width: 100%;
       min-width: auto;
       align-self: center;
+      padding-left: 1em;
+      padding-bottom: 3em;
     }
 
     sidebar {

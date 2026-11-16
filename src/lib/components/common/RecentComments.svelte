@@ -7,6 +7,8 @@
   import { getLocale } from "#lib/paraglide/runtime.js";
   import { SvelteDate } from "svelte/reactivity";
   import { resolve } from "$app/paths";
+
+  /* eslint-disable svelte/no-navigation-without-resolve */
 </script>
 
 <div id="recent-comments" data-name={m.recent_comments()}>
@@ -21,23 +23,27 @@
             <a
               href={resolve("/events/[slug]", {
                 slug: comment.event_slug as string,
-              }) + "#comments"}>{comment.event_name}</a
+              }) +
+                "#comment-" +
+                comment.id}>{comment.event_name}</a
             >
           {:else}
             <a
               href={resolve("/blog/[slug]", {
                 slug: comment.post_slug as string,
-              }) + "#comments"}>{comment.post_title}</a
+              }) +
+                "#comment-" +
+                comment.id}>{comment.post_title}</a
             >
           {/if}
         </div>
         <span
           class="font-size-small"
           title={new SvelteDate(comment.date).toLocaleString("lt-LT")}
-          use:relativeTime={{
+          {@attach relativeTime({
             date: new SvelteDate(comment.date),
             locale: getLocale(),
-          }}
+          })}
         >
           &nbsp;
         </span>
