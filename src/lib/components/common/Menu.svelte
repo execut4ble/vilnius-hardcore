@@ -42,6 +42,9 @@
         <a href={resolve("blog")}>{m["navigation.blog"]()}</a>
       </li>
       <li>
+        <a href="https://phorum.hardcore.lt">{m["navigation.forum"]()}</a>
+      </li>
+      <li>
         <a href="https://oldschool.hardcore.lt"
           >{m["navigation.oldversion"]()}</a
         >
