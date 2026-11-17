@@ -5,6 +5,7 @@
   import type { CommentsArray, Post as PostObject } from "#lib/types.js";
   import { m } from "#lib/paraglide/messages.js";
   import { page } from "$app/state";
+  import { markdownToText, excerpt } from "#lib/utils/markdown.js";
 
   let { data, form }: PageProps = $props();
   let post: PostObject = $derived(data.post[0]);
@@ -12,7 +13,10 @@
 </script>
 
 <svelte:head>
-  <MetaTags title={post ? post.title : "Vilnius Hardcore"} />
+  <MetaTags
+    title={post ? post.title : "Vilnius Hardcore"}
+    description={excerpt(markdownToText(post.body))}
+  />
 </svelte:head>
 
 <h1>{post.title}</h1>
