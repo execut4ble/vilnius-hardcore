@@ -99,9 +99,93 @@ test.describe("Site search", () => {
     });
   });
 
-  test("LIKE wildcards in the query match literally", async ({ page }) => {
-    // Unescaped, %% would be a pattern matching every row
-    await page.goto(`/search?query=${encodeURIComponent("%%")}`);
-    await expect(page.getByText('No results found for "%%".')).toBeVisible();
+  test("special characters in the query are matched literally", async ({
+    page,
+  }) => {
+    // "%%" would match every row if it ever reached an unescaped LIKE, and an
+    // unescaped "([" would throw when compiled into the whole-word RegExp
+    for (const q of ["%%", "(["]) {
+      await page.goto(`/search?query=${encodeURIComponent(q)}`);
+      await expect(
+        page.getByText(`No results found for "${q}".`),
+      ).toBeVisible();
+    }
+  });
+
+  test.describe("Search over rendered text, not markdown/HTML source", () => {
+    // Creating events and asserting ranking needs the crew UI
+    test.use({ asCrew: true });
+
+    test("a token that only appears in the source (hrefs, iframes) does not match", async ({
+      page,
+      eventsPage,
+    }) => {
+      const title = `e2e-srctext-${crypto.randomUUID()}`;
+      await page.goto("/events");
+      await eventsPage.createNewEvent(
+        title,
+        new Date(),
+        "Full set on [YouTube](https://example.com/embed/iframe-token-xyz) and the [band site](https://band.example/href-token-abc).",
+        true,
+      );
+      await expect(eventsPage.formEventEntry).not.toBeVisible();
+
+      // Present only in the markdown source, never in the rendered text
+      for (const token of ["iframe-token-xyz", "href-token-abc"]) {
+        await page.goto(`/search?query=${encodeURIComponent(token)}`);
+        await expect(
+          page.getByRole("heading", { name: title, exact: false }),
+        ).not.toBeVisible();
+      }
+
+      // The rendered link text does match
+      await page.goto(`/search?query=${encodeURIComponent("YouTube")}`);
+      await expect(
+        page.getByRole("heading", { name: title, exact: false }),
+      ).toBeVisible();
+
+      await page.goto("/events");
+      await eventsPage.deleteEventByTitle(title);
+    });
+
+    test("ranks a whole-word match above a substring match", async ({
+      page,
+      eventsPage,
+    }) => {
+      // Unique token: independent of other content and of the result limit
+      const token = `rank${crypto.randomUUID().replaceAll("-", "")}`;
+      const wordTitle = `e2e-word-${crypto.randomUUID()}`;
+      const substringTitle = `e2e-sub-${crypto.randomUUID()}`;
+      await page.goto("/events");
+      // token as a standalone word vs. inside a longer word
+      await eventsPage.createEventAndVerifyContent(
+        wordTitle,
+        new Date(),
+        `the ${token} played hardcore`,
+        true,
+      );
+      await eventsPage.createEventAndVerifyContent(
+        substringTitle,
+        new Date(),
+        `high ${token}width connection`,
+        true,
+      );
+
+      await page.goto(`/search?query=${token}`);
+      const titles = await page
+        .locator("ul.item-list h2.title a")
+        .allTextContents();
+      const wordIndex = titles.findIndex((t) => t.includes(wordTitle));
+      const substringIndex = titles.findIndex((t) =>
+        t.includes(substringTitle),
+      );
+      expect(wordIndex).toBeGreaterThanOrEqual(0);
+      expect(substringIndex).toBeGreaterThanOrEqual(0);
+      expect(wordIndex).toBeLessThan(substringIndex);
+
+      await page.goto("/events");
+      await eventsPage.deleteEventByTitle(wordTitle);
+      await eventsPage.deleteEventByTitle(substringTitle);
+    });
   });
 });
