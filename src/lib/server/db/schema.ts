@@ -5,6 +5,7 @@ import {
   integer,
   timestamp,
   boolean,
+  index,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -53,18 +54,27 @@ export const post = pgTable("post", {
   disable_comments: boolean("disable_comments").default(false).notNull(),
 });
 
-export const comment = pgTable("comment", {
-  id: serial("id").primaryKey(),
-  eventId: integer("event_id").references(() => event.id, {
-    onDelete: "cascade",
-  }),
-  postId: integer("post_id").references(() => post.id, { onDelete: "cascade" }),
-  author: text("author").notNull(),
-  date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
-  content: text("content").notNull(),
-  ipAddress: text("ip_address"),
-  authorIsCrew: boolean("is_crew").default(false).notNull(),
-});
+export const comment = pgTable(
+  "comment",
+  {
+    id: serial("id").primaryKey(),
+    eventId: integer("event_id").references(() => event.id, {
+      onDelete: "cascade",
+    }),
+    postId: integer("post_id").references(() => post.id, {
+      onDelete: "cascade",
+    }),
+    author: text("author").notNull(),
+    date: timestamp("date", { withTimezone: true }).notNull().defaultNow(),
+    content: text("content").notNull(),
+    ipAddress: text("ip_address"),
+    authorIsCrew: boolean("is_crew").default(false).notNull(),
+  },
+  (table) => [
+    index("comment_event_id_idx").on(table.eventId),
+    index("comment_post_id_idx").on(table.postId),
+  ],
+);
 
 export const bannedIp = pgTable("banned_ip", {
   id: serial("id").primaryKey(),

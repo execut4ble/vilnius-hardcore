@@ -64,6 +64,13 @@
       "when": 1778439544715,
       "tag": "0008_crew-badge",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794941940619,
+      "tag": "0009_comment-indexes",
+      "breakpoints": true
     }
   ]
 }

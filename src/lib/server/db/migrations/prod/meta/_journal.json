@@ -50,6 +50,13 @@
       "when": 1778439522342,
       "tag": "0006_crew-badge",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794941918529,
+      "tag": "0007_comment-indexes",
+      "breakpoints": true
     }
   ]
 }
