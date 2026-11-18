@@ -48,20 +48,22 @@
           });
           isEditing = false;
         } else {
-          await update({ reset: false }).then(() => {
+          // navigate: false keeps query params (e.g. /search?query=...) instead of
+          // navigating to result.location, which drops them
+          await update({ reset: false, navigate: false }).then(() => {
             isEditing = false;
           });
         }
       }
 
       if (result.type === "failure") {
-        await update({ reset: false }); // Update to throw form errors
+        await update({ reset: false, navigate: false }); // Update to throw form errors
       }
 
       if (result.type === "error") {
         // Handle errors if necessary
         console.error("Form submission failed:", result.status);
-        await update({ reset: false }); // Update to throw form errors
+        await update({ reset: false, navigate: false }); // Update to throw form errors
       }
     };
   }
