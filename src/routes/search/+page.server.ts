@@ -2,6 +2,8 @@ import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { searchEventsAndPosts } from "#lib/server/db/queries/search.js";
 import type { SearchResult } from "#lib/types.js";
+import { eventActions } from "#lib/server/actions/event.actions.js";
+import { postActions } from "#lib/server/actions/post.actions.js";
 
 const MAX_QUERY_LENGTH = 100;
 const MIN_QUERY_LENGTH = 2;
@@ -59,6 +61,8 @@ export const load = (async ({
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
+  ...eventActions,
+  ...postActions,
   query: async ({ request }) => {
     const formData = await request.formData();
     const query = normalizeQuery((formData.get("query") ?? "").toString());
