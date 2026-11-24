@@ -15,7 +15,8 @@ export const GET: RequestHandler = async ({ request }) => {
         eq(table.event.is_visible, true),
         gte(table.event.date, sql`CURRENT_DATE`),
       ),
-    );
+    )
+    .orderBy(table.event.date);
 
   const feed = new RSS({
     title: "Vilnius Hardcore upcoming events",
